@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file
+		source-language="en"
+		target-language=""
+		datatype="plaintext"
+		original="messages"
+		date="2023-04-24T15:52:42Z"
+	>
+		<header/>
+		<body>
+			<!-- Plugin -->
+
+			<trans-unit id="plugin.partner_list.title">
+				<source>Academic partners list</source>
+			</trans-unit>
+			<trans-unit id="plugin.partner_list.description">
+				<source>Display a sortable and filterable list of academic partners</source>
+			</trans-unit>
+			<trans-unit id="plugin.partner_list.configuration">
+				<source>Configuration</source>
+			</trans-unit>
+
+			<!-- Flexform -->
+
+			<trans-unit id="flexform.categories.label">
+				<source>Default categories</source>
+			</trans-unit>
+			<trans-unit id="flexform.categories.description">
+				<source>Selected categories of the same type (e.g. ‘Degree’) are checked as alternatives (OR). If a category has subcategories (e.g. ‘Master’ with ‘Master of Arts’), these are automatically added to the list of alternatives. In addition, the pages found for each category type must also be able to be found in all other selected category types (AND).</source>
+			</trans-unit>
+			<trans-unit id="flexform.hide_filtering.label">
+				<source>Hide category filtering</source>
+			</trans-unit>
+			<trans-unit id="flexform.hide_filtering.description">
+				<source>If the option is enabled, options for filtering by categories will not be visible in the frontend.</source>
+			</trans-unit>
+			<trans-unit id="flexform.hide_sorting.label">
+				<source>Hide sorting</source>
+			</trans-unit>
+			<trans-unit id="flexform.hide_sorting.description">
+				<source>If the option is enabled, options for sorting will not be visible in the frontend.</source>
+			</trans-unit>
+			<trans-unit id="flexform.sorting.label">
+				<source>Default sorting</source>
+			</trans-unit>
+			<trans-unit id="flexform.sorting.description">
+				<source>Define default sorting in frontend which can be changed by user if sorting options are visible.</source>
+			</trans-unit>
+			<trans-unit id="flexform.sorting.title.asc">
+				<source>Title A-Z</source>
+			</trans-unit>
+			<trans-unit id="flexform.sorting.title.desc">
+				<source>Title Z-A</source>
+			</trans-unit>
+			<trans-unit id="flexform.sorting.update">
+				<source>Last updated (latest first)</source>
+			</trans-unit>
+			<trans-unit id="flexform.sorting.update.asc">
+				<source>Last updated (latest last)</source>
+			</trans-unit>
+			<trans-unit id="flexform.sorting.sorting.asc">
+				<source>Page sorting (result may be unexpected)</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
