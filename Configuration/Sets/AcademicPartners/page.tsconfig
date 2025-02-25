@@ -1,2 +1,3 @@
-@import 'EXT:academic_partners/Configuration/TsConfig/Page/BackendLayouts/*.tsconfig'
+@import 'EXT:academic_partners/Configuration/TsConfig/BackendLayouts/*.tsconfig'
+@import 'EXT:academic_partners/Configuration/TsConfig/Wizards/*.tsconfig'
 @import 'EXT:academic_partners/Configuration/TsConfig/*.tsconfig'
