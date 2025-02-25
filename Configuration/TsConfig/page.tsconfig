@@ -1,0 +1,20 @@
+[typo3.version >= "12"]
+    templates.typo3/cms-backend.academic-partners = fgtclb/academic-partners:Resources/Private/Backend
+[END]
+
+mod.wizards.newContentElement.wizardItems.academic {
+  header = LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:content.ctype.group.label
+  after = special
+  elements {
+    academicpartners_list {
+      iconIdentifier = academic-partners
+      title = LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:plugin.partner_list.title
+      description = LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:plugin.partner_list.description
+      tt_content_defValues {
+        CType = academicpartners_list
+      }
+    }
+  }
+
+  show := addToList(academicpartners_list)
+}
