@@ -8,7 +8,6 @@ use FGTCLB\AcademicPartners\Domain\Repository\PartnerRepository;
 use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\HttpUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 use TYPO3\CMS\Scheduler\Task\AbstractTask;
 
@@ -22,7 +21,7 @@ class GeocodeTask extends AbstractTask
     /**
      * Valid HTTP referer required by Nominatim's usage policy
      */
-    protected string $geocodingReferer = 'https://www.hnee.de/';
+    protected string $geocodingReferer = 'https://www.th-bingen.de/';
 
     public function execute(): bool
     {
@@ -33,16 +32,16 @@ class GeocodeTask extends AbstractTask
             return true;
         }
 
-        $persistenceManager = GeneralUtility::makeInstance(ObjectManager::class)->get(PersistenceManager::class);
+        $persistenceManager = GeneralUtility::makeInstance(PersistenceManager::class);
 
         $now = new \DateTime();
-        $partner->setLastGeocoded($now);
+        $partner->setGeocodeLastRun($now);
 
         $address = [];
-        $address['street'] = trim($partner->getStreet() . ' ' . $partner->getStreetNumber());
-        $address['city'] = $partner->getCity();
-        $address['postalcode'] = $partner->getZip();
-        $address['country'] = $partner->getCountry();
+        $address['street'] = implode(' ', [$partner->getAddressStreet(), $partner->getAddressStreetNumber()]);
+        $address['city'] = $partner->getAddressCity();
+        $address['postalcode'] = $partner->getAddressZip();
+        $address['country'] = $partner->getAddressCountry();
         $addressQuery = HttpUtility::buildQueryString($address, '&', true);
 
         if ($addressQuery === '') {
@@ -82,8 +81,8 @@ class GeocodeTask extends AbstractTask
         $geodata = json_decode($content, true);
 
         if (is_array($geodata[0]) && !empty($geodata[0])) {
-            $partner->setLatitude((float)($geodata[0]['lat']));
-            $partner->setLongitude((float)($geodata[0]['lon']));
+            $partner->setGeocodeLatitude((float)($geodata[0]['lat']));
+            $partner->setGeocodeLongitude((float)($geodata[0]['lon']));
             $partner->setGeocodeStatus('successful');
         } else {
             $partner->setGeocodeStatus('failed');
