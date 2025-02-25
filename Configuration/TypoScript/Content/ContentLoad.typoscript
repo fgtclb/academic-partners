@@ -1,0 +1,6 @@
+styles.content {
+  getContent < styles.content.get
+  getContent {
+    select.where = {#colPos}=0
+  }
+}

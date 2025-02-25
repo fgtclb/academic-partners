@@ -1,20 +1,26 @@
+@import 'EXT:academic_partners/Configuration/TypoScript/Content/'
+@import 'EXT:academic_partners/Configuration/TypoScript/Page/'
+
 plugin.tx_academicpartners {
-    view {
-        templateRootPaths {
-            0 = EXT:academic_partners/Resources/Private/Templates/
-            1 = {$plugin.tx_academicpartners.view.templateRootPath}
-        }
-        partialRootPaths {
-            0 = EXT:academic_partners/Resources/Private/Partials/
-            1 = {$plugin.tx_academicpartners.view.partialRootPath}
-        }
-        layoutRootPaths {
-            0 = EXT:academic_partners/Resources/Private/Layouts/
-            1 = {$plugin.tx_academicpartners.view.layoutRootPath}
-        }
+  features {
+    // Deprecated since version 12.4
+    skipDefaultArguments = 1
+  }
+
+  view {
+    templateRootPaths {
+      0 = EXT:academic_partners/Resources/Private/Templates/
+      1 = {$plugin.tx_academicpartners.view.templateRootPath}
     }
 
-    persistence {
-        storagePid =
+    partialRootPaths {
+      0 = EXT:academic_partners/Resources/Private/Partials/
+      1 = {$plugin.tx_academicpartners.view.partialRootPath}
     }
+
+    layoutRootPaths {
+      0 = EXT:academic_partners/Resources/Private/Layouts/
+      1 = {$plugin.tx_academicpartners.view.layoutRootPath}
+    }
+  }
 }

@@ -244,7 +244,7 @@ defined('TYPO3') or die;
         implode(',', [
             '--div--;' . $ll('pages.div.partner_information'),
             '--palette--;;address',
-            '--palette--;;geocode'
+            '--palette--;;geocode',
         ]),
         (string)$doktype,
         'after:title'
