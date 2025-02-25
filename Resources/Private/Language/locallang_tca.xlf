@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" product-name="academic_partners">
+		<header/>
+		<body>
+			<trans-unit id="tx_academicpartners_domain_model_partner.ctrl.label">
+				<source>Partner</source>
+			</trans-unit>
+
+			<trans-unit id="tx_academicpartners_domain_model_partner.columns.additional.label">
+				<source>Additional</source>
+			</trans-unit>
+			<trans-unit id="tx_academicpartners_domain_model_partner.columns.city.label">
+				<source>City</source>
+			</trans-unit>
+			<trans-unit id="tx_academicpartners_domain_model_partner.columns.country.label">
+				<source>Country</source>
+			</trans-unit>
+			<trans-unit id="tx_academicpartners_domain_model_partner.columns.description.label">
+				<source>Description</source>
+			</trans-unit>
+			<trans-unit id="tx_academicpartners_domain_model_partner.columns.image.label">
+				<source>Image</source>
+			</trans-unit>
+			<trans-unit id="tx_academicpartners_domain_model_partner.columns.geocode_message.label">
+				<source>Geocode Message</source>
+			</trans-unit>
+			<trans-unit id="tx_academicpartners_domain_model_partner.columns.geocode_status.label">
+				<source>Geocode Status</source>
+			</trans-unit>
+			<trans-unit id="tx_academicpartners_domain_model_partner.columns.geocode_status.I.open.label">
+				<source>open</source>
+			</trans-unit>
+			<trans-unit id="tx_academicpartners_domain_model_partner.columns.geocode_status.I.successful.label">
+				<source>successful</source>
+			</trans-unit>
+			<trans-unit id="tx_academicpartners_domain_model_partner.columns.geocode_status.I.failed.label">
+				<source>failed</source>
+			</trans-unit>
+			<trans-unit id="tx_academicpartners_domain_model_partner.columns.geocode_status.I.manually.label">
+				<source>manually</source>
+			</trans-unit>
+			<trans-unit id="tx_academicpartners_domain_model_partner.columns.last_geocoded.label">
+				<source>Geocoded on</source>
+			</trans-unit>
+			<trans-unit id="tx_academicpartners_domain_model_partner.columns.latitude.label">
+				<source>Latitude</source>
+			</trans-unit>
+			<trans-unit id="tx_academicpartners_domain_model_partner.columns.link.label">
+				<source>Link to Detail Page or Website</source>
+			</trans-unit>
+			<trans-unit id="tx_academicpartners_domain_model_partner.columns.longitude.label">
+				<source>Longitude</source>
+			</trans-unit>
+			<trans-unit id="tx_academicpartners_domain_model_partner.columns.name.label">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_academicpartners_domain_model_partner.columns.abbreviation.label">
+				<source>Abbreviation</source>
+			</trans-unit>
+			<trans-unit id="tx_academicpartners_domain_model_partner.columns.map_show.label">
+				<source>Show on map</source>
+			</trans-unit>
+			<trans-unit id="tx_academicpartners_domain_model_partner.columns.street.label">
+				<source>Street</source>
+			</trans-unit>
+			<trans-unit id="tx_academicpartners_domain_model_partner.columns.street_number.label">
+				<source>Street Number</source>
+			</trans-unit>
+			<trans-unit id="tx_academicpartners_domain_model_partner.columns.zip.label">
+				<source>Zip</source>
+			</trans-unit>
+
+			<trans-unit id="tx_academicpartners_domain_model_partner.palettes.general.label">
+				<source>General</source>
+			</trans-unit>
+			<trans-unit id="tx_academicpartners_domain_model_partner.palettes.address.label">
+				<source>Address</source>
+			</trans-unit>
+			<trans-unit id="tx_academicpartners_domain_model_partner.palettes.geodata.label">
+				<source>Geodata</source>
+			</trans-unit>
+
+			<trans-unit id="tx_academicpartners_domain_model_partner.tabs.address.label">
+				<source>Address</source>
+			</trans-unit>
+
+			<trans-unit id="sys_category.type.collaboration_type">
+				<source>Collaboration Type</source>
+			</trans-unit>
+			<trans-unit id="sys_category.type.partner_type">
+				<source>Partner Type</source>
+			</trans-unit>
+			<trans-unit id="sys_category.type.region">
+				<source>Region</source>
+			</trans-unit>
+			<trans-unit id="sys_category.type.sdg">
+				<source>SDG</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

@@ -1,0 +1,32 @@
+{
+    "name": "fgtclb/academic-partners",
+    "description": "Extension for showing academic partners in list and map view",
+    "type": "typo3-cms-extension",
+    "license": [
+        "proprietary"
+    ],
+    "author": [
+        {
+            "name": "Web-Vision",
+            "email": "hello@web-vision.de"
+        }
+    ],
+    "require": {
+        "typo3/cms-core": "^11.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "FGTCLB\\AcademicPartners\\": "Classes/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "FGTCLB\\AcademicPartners\\Tests\\": "Tests/"
+        }
+    },
+    "extra": {
+        "typo3/cms": {
+            "extension-key": "academic_partners"
+        }
+    }
+}

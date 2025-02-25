@@ -1,0 +1,36 @@
+<html
+    lang="en"
+    xmlns:f="http://typo3.org/ns/TYPO3Fluid/Fluid/ViewHelpers"
+    xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
+    data-namespace-typo3-fluid="true"
+>
+    <f:asset.css identifier="partnerC1" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <f:asset.script identifier="partnerS1" src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" />
+
+    <f:asset.css identifier="partnerC3" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+    <f:asset.script identifier="partnerS3" src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js" />
+
+    <f:asset.css identifier="partnerC2" href="EXT:academic_partners/Resources/Public/Css/map.css" />
+    <f:asset.script identifier="partnerS2" src="EXT:academic_partners/Resources/Public/JavaScript/map.js" />
+
+    <div id="map" class="academicpartners__map"></div>
+    <ul id="partners" class="partners">
+        <f:for each="{partners}" as="partner">
+            <li
+                id="partner-{partner.uid}"
+                class="partner"
+                data-distance=""
+                data-marker=""
+                data-description="{partner.description}"
+                data-name="{partner.name}"
+                data-lat="{partner.latitude}"
+                data-lng="{partner.longitude}"
+            >
+                {partner.name}
+                ({partner.street} {partner.streetNumber},
+                {partner.zip} {partner.city},
+                <f:if  condition="{partner.countryLocalizedNameLabel}">{f:translate(key: '{partner.countryLocalizedNameLabel}')}</f:if>)
+            </li>
+        </f:for>
+    </ul>
+</html>

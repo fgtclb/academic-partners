@@ -1,0 +1,17 @@
+types:
+  - identifier: region
+    title: 'LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:sys_category.academic_partners.competence_field'
+    group: partners
+    icon: 'EXT:academic_partners/Resources/Public/Icons/CategoryTypes/CompetenceField.svg'
+  - identifier: partner_type
+    title: 'LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:sys_category.academic_partners.cooperation'
+    group: partners
+    icon: 'EXT:academic_partners/Resources/Public/Icons/CategoryTypes/Cooperation.svg'
+  - identifier: collaboration_type
+    title: 'LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:sys_category.academic_partners.funding_partner'
+    group: partners
+    icon: 'EXT:academic_partners/Resources/Public/Icons/CategoryTypes/FundingPartner.svg'
+  - identifier: sdg
+    title: 'LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:sys_category.academic_partners.department'
+    group: partners
+    icon: 'EXT:academic_partners/Resources/Public/Icons/CategoryTypes/Department.svg'
