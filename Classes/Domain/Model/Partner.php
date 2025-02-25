@@ -11,6 +11,7 @@ use FGTCLB\CategoryTypes\Domain\Repository\CategoryRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Domain\Model\FileReference;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 class Partner extends AbstractEntity
 {
@@ -20,9 +21,7 @@ class Partner extends AbstractEntity
 
     protected string $abstract = '';
 
-    protected ?FileReference $image = null;
-
-    protected string $link = '';
+    protected string $description = '';
 
     protected string $addressStreet = '';
 
@@ -46,7 +45,7 @@ class Partner extends AbstractEntity
 
     protected string $geocodeMessage = '';
 
-    protected boolean $showOnMap = true;
+    protected bool $showOnMap = true;
 
     protected ?CategoryCollection $attributes = null;
 
@@ -79,19 +78,9 @@ class Partner extends AbstractEntity
         return $this->title;
     }
 
-    public function getAbbreviation(): string
-    {
-        return $this->abbreviation;
-    }
-
     public function getDescription(): string
     {
         return $this->description;
-    }
-
-    public function getLink(): string
-    {
-        return $this->link;
     }
 
     public function getAddressStreet(): string
@@ -183,7 +172,7 @@ class Partner extends AbstractEntity
         $this->geocodeMessage = $geocodeMessage;
     }
 
-    public function getShowOnMap(): boolean
+    public function getShowOnMap(): bool
     {
         return $this->showOnMap;
     }
