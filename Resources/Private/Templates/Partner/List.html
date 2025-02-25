@@ -22,14 +22,16 @@
                 data-distance=""
                 data-marker=""
                 data-description="{partner.description}"
-                data-name="{partner.name}"
-                data-lat="{partner.latitude}"
-                data-lng="{partner.longitude}"
+                data-name="{partner.title}"
+                data-lat="{partner.geocodeLatitude}"
+                data-lng="{partner.geocodeLongitude}"
             >
-                {partner.name}
-                ({partner.street} {partner.streetNumber},
-                {partner.zip} {partner.city},
-                <f:if  condition="{partner.countryLocalizedNameLabel}">{f:translate(key: '{partner.countryLocalizedNameLabel}')}</f:if>)
+                <f:link.page pageUid="{partner.uid}">
+                    {partner.title}
+                </f:link.page> 
+                ({partner.addressStreet} {partner.addressStreetNumber},
+                {partner.addressZip} {partner.addressCity},
+                <f:if  condition="{partner.addressCountryLocalizedNameLabel}">{f:translate(key: '{partner.addressCountryLocalizedNameLabel}')}</f:if>)
             </li>
         </f:for>
     </ul>
