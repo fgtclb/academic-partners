@@ -6,6 +6,7 @@ use FGTCLB\AcademicPartners\Controller\PartnerController;
 use FGTCLB\AcademicPartners\Task\GeocodeTask;
 
 (static function (): void {
+                $academicPartnerDoktype
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
         'AcademicPartners',
         'List',
