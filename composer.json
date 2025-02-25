@@ -1,32 +1,69 @@
 {
-    "name": "fgtclb/academic-partners",
-    "description": "Extension for showing academic partners in list and map view",
-    "type": "typo3-cms-extension",
-    "license": [
-        "proprietary"
-    ],
-    "author": [
-        {
-            "name": "Web-Vision",
-            "email": "hello@web-vision.de"
-        }
-    ],
-    "require": {
-        "typo3/cms-core": "^11.5"
-    },
-    "autoload": {
-        "psr-4": {
-            "FGTCLB\\AcademicPartners\\": "Classes/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "FGTCLB\\AcademicPartners\\Tests\\": "Tests/"
-        }
-    },
-    "extra": {
-        "typo3/cms": {
-            "extension-key": "academic_partners"
-        }
-    }
+	"name": "fgtclb/academic-partners",
+	"type": "typo3-cms-extension",
+	"description": "Extension for showing academic partners in list and map view",
+	"minimum-stability": "stable",
+	"license": "GPL-2.0-or-later",
+	"version": "1.0.0",
+	"author": [
+		{
+			"name": "Jan-Philipp Halle",
+			"email": "p.halle@web-vision.de"
+		}
+	],
+	"config": {
+		"vendor-dir": ".Build/vendor",
+		"bin-dir": ".Build/bin",
+		"optimize-autoloader": true,
+		"sort-packages": true,
+		"allow-plugins": {
+			"typo3/class-alias-loader": true,
+			"typo3/cms-composer-installers": true
+		}
+	},
+	"extra": {
+		"typo3/cms": {
+			"cms-package-dir": "{$vendor-dir}/typo3/cms",
+			"extension-key": "academic_partners",
+			"ignore-as-root": false,
+			"web-dir": ".Build/public",
+			"app-dir": ".Build"
+		}
+	},
+	"require": {
+		"php": "^7.4 || ^8.0 || ^8.1 || ^8.2 || ^8.3",
+		"fgtclb/category-types": "*",
+		"fgtclb/page-backend-layout": "*",
+		"typo3/cms-backend": "^11.5 || ^12.4 || ^13.4",
+		"typo3/cms-core": "^11.5 || ^12.4 || ^13.4",
+		"typo3/cms-extbase": "^11.5 || ^12.4 || ^13.4",
+		"typo3/cms-fluid": "^11.5 || ^12.4 || ^13.4"
+	},
+	"require-dev": {
+		"fakerphp/faker": "^1.23",
+		"friendsofphp/php-cs-fixer": "^3.14",
+		"helhum/typo3-console": "^7.1.6 || ^8.0.2",
+		"helmich/typo3-typoscript-lint": "^3.1.0",
+		"phpstan/phpstan": "^1.10",
+		"phpunit/phpunit": "^10.1",
+		"saschaegerer/phpstan-typo3": "^1.8",
+		"typo3/cms-extensionmanager": "^11.5 || ^12.4 || ^13.4",
+		"typo3/cms-fluid-styled-content": "^11.5 || ^12.4 || ^13.4",
+		"typo3/cms-frontend": "^11.5 || ^12.4 || ^13.4",
+		"typo3/cms-info": "^11.5 || ^12.4 || ^13.4",
+		"typo3/cms-lowlevel": "^11.5 || ^12.4 || ^13.4",
+		"typo3/cms-tstemplate": "^11.5 || ^12.4 || ^13.4",
+		"typo3/coding-standards": "^0.7.1",
+		"typo3/testing-framework": "^7.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"FGTCLB\\AcademicPartners\\": "Classes/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"FGTCLB\\AcademicPartners\\Tests\\": "Tests/"
+		}
+	}
 }
