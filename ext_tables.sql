@@ -1,7 +1,6 @@
-CREATE TABLE pages
+CREATE TABLE pages (
 	partner_name varchar(255) DEFAULT '' NOT NULL,
 	partner_abbreviation varchar(255) DEFAULT '' NOT NULL,
-	link varchar(255) DEFAULT '' NOT NULL,
 	address_street varchar(255) DEFAULT '' NOT NULL,
 	address_street_number varchar(8) DEFAULT '' NOT NULL,
 	address_zip varchar(20) DEFAULT '' NOT NULL,
