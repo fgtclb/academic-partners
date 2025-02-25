@@ -1,17 +1,17 @@
 types:
   - identifier: region
-    title: 'LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:sys_category.academic_partners.competence_field'
+    title: 'LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:sys_category.academic_partners.region'
     group: partners
-    icon: 'EXT:academic_partners/Resources/Public/Icons/CategoryTypes/CompetenceField.svg'
+    icon: 'EXT:academic_partners/Resources/Public/Icons/CategoryTypes/Region.svg'
   - identifier: partner_type
-    title: 'LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:sys_category.academic_partners.cooperation'
+    title: 'LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:sys_category.academic_partners.partner_type'
     group: partners
-    icon: 'EXT:academic_partners/Resources/Public/Icons/CategoryTypes/Cooperation.svg'
+    icon: 'EXT:academic_partners/Resources/Public/Icons/CategoryTypes/PartnerType.svg'
   - identifier: collaboration_type
-    title: 'LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:sys_category.academic_partners.funding_partner'
+    title: 'LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:sys_category.academic_partners.collaboration_type'
     group: partners
-    icon: 'EXT:academic_partners/Resources/Public/Icons/CategoryTypes/FundingPartner.svg'
+    icon: 'EXT:academic_partners/Resources/Public/Icons/CategoryTypes/CollaborationType.svg'
   - identifier: sdg
-    title: 'LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:sys_category.academic_partners.department'
+    title: 'LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:sys_category.academic_partners.sdg'
     group: partners
-    icon: 'EXT:academic_partners/Resources/Public/Icons/CategoryTypes/Department.svg'
+    icon: 'EXT:academic_partners/Resources/Public/Icons/CategoryTypes/Sdg.svg'
