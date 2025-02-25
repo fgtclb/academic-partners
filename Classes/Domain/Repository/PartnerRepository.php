@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace FGTCLB\AcademicPartners\Domain\Repository;
 
+use FGTCLB\AcademicPartners\Domain\Model\Dto\PartnerDemand;
 use FGTCLB\AcademicPartners\Domain\Model\Partner;
+use FGTCLB\AcademicPartners\Enumeration\PageTypes;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Generic\QueryResult;
 use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 use TYPO3\CMS\Extbase\Persistence\Repository;
@@ -13,7 +16,7 @@ class PartnerRepository extends Repository
 {
     public function initializeObject(): void
     {
-        $querySettings = $this->objectManager->get(Typo3QuerySettings::class);
+        $querySettings = GeneralUtility::makeInstance(Typo3QuerySettings::class);
         $querySettings->setRespectStoragePage(false);
         $this->setDefaultQuerySettings($querySettings);
     }
@@ -28,7 +31,7 @@ class PartnerRepository extends Repository
         $query->getQuerySettings()->setRespectStoragePage(false);
 
         $constraints = [];
-        $constraints[] = $query->equals('doktype', PageTypes::ACADEMIC_PARTNER);
+        $constraints[] = $query->equals('doktype', PageTypes::ACADEMIC_PARTNERS);
 
         if (!empty($demand->getPages())) {
             $constraints[] = $query->in('pid', $demand->getPages());
