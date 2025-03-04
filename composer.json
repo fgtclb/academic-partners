@@ -4,7 +4,6 @@
 	"description": "Extension for showing academic partners in list and map view",
 	"minimum-stability": "stable",
 	"license": "GPL-2.0-or-later",
-	"version": "1.0.0",
 	"author": [
 		{
 			"name": "Jan-Philipp Halle",
@@ -22,6 +21,9 @@
 		}
 	},
 	"extra": {
+		"branch-alias": {
+			"dev-main": "1.x.x-dev"
+		},
 		"typo3/cms": {
 			"cms-package-dir": "{$vendor-dir}/typo3/cms",
 			"extension-key": "academic_partners",
@@ -32,12 +34,12 @@
 	},
 	"require": {
 		"php": "^7.4 || ^8.0 || ^8.1 || ^8.2 || ^8.3",
-		"fgtclb/category-types": "*",
-		"fgtclb/page-backend-layout": "*",
-		"typo3/cms-backend": "^11.5 || ^12.4 || ^13.4",
-		"typo3/cms-core": "^11.5 || ^12.4 || ^13.4",
-		"typo3/cms-extbase": "^11.5 || ^12.4 || ^13.4",
-		"typo3/cms-fluid": "^11.5 || ^12.4 || ^13.4"
+		"fgtclb/category-types": "^1.0 || 1.*.*@dev",
+		"fgtclb/page-backend-layout": "^1.0 || 1.*.*@dev",
+		"typo3/cms-backend": "^11.5 || ^12.4",
+		"typo3/cms-core": "^11.5 || ^12.4",
+		"typo3/cms-extbase": "^11.5 || ^12.4",
+		"typo3/cms-fluid": "^11.5 || ^12.4"
 	},
 	"require-dev": {
 		"fakerphp/faker": "^1.23",
@@ -47,12 +49,12 @@
 		"phpstan/phpstan": "^1.10",
 		"phpunit/phpunit": "^10.1",
 		"saschaegerer/phpstan-typo3": "^1.8",
-		"typo3/cms-extensionmanager": "^11.5 || ^12.4 || ^13.4",
-		"typo3/cms-fluid-styled-content": "^11.5 || ^12.4 || ^13.4",
-		"typo3/cms-frontend": "^11.5 || ^12.4 || ^13.4",
-		"typo3/cms-info": "^11.5 || ^12.4 || ^13.4",
-		"typo3/cms-lowlevel": "^11.5 || ^12.4 || ^13.4",
-		"typo3/cms-tstemplate": "^11.5 || ^12.4 || ^13.4",
+		"typo3/cms-extensionmanager": "^11.5 || ^12.4",
+		"typo3/cms-fluid-styled-content": "^11.5 || ^12.4",
+		"typo3/cms-frontend": "^11.5 || ^12.4",
+		"typo3/cms-info": "^11.5 || ^12.4",
+		"typo3/cms-lowlevel": "^11.5 || ^12.4",
+		"typo3/cms-tstemplate": "^11.5 || ^12.4",
 		"typo3/coding-standards": "^0.7.1",
 		"typo3/testing-framework": "^7.0"
 	},
