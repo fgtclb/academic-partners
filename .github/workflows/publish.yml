@@ -33,8 +33,7 @@ jobs:
         id: get-comment
         run: |
           readonly local releaseCommentPrependBody="$( git tag -l ${{ env.version }} --format '%(contents)' )"
-
-          if [[ -n "${releaseCommentPrependBody// }" ]]; then
+          if (( $(grep -c . <<<"${releaseCommentPrependBody// }") > 1 )); then
             {
               echo 'releaseCommentPrependBody<<EOF'
               echo "$releaseCommentPrependBody"
@@ -43,8 +42,7 @@ jobs:
           fi
           {
             echo 'terReleaseNotes<<EOF'
-            echo "[RELEASE] ${{ env.version }}"
-            echo "Notes: https://github.com/fgtclb/academic-persons/releases/tag/${{ env.version }}"
+            echo "https://github.com/fgtclb/academic-persons/releases/tag/${{ env.version }}"
             echo EOF
           } >> "$GITHUB_ENV"
 
