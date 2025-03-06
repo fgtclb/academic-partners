@@ -36,7 +36,7 @@ Prerequisites:
 ```shell
 echo '>> Prepare release pull-request' ; \
   RELEASE_BRANCH='main' ; \
-  RELEASE_VERSION='0.1.4' ; \
+  RELEASE_VERSION='1.1.0' ; \
   git checkout main && \
   git fetch --all && \
   git pull --rebase && \
@@ -47,9 +47,9 @@ echo '>> Prepare release pull-request' ; \
   ./.Build/bin/tailor set-version ${RELEASE_VERSION} && \
   composer remove --dev "typo3/tailor" && \
   git add . && \
-  git commit -m "[TASK] Prepare release ${RELEASE_VERSION}" && \
+  git commit -m "[RELEASE] ${RELEASE_VERSION}" && \
   git push --set-upstream origin prepare-release-${RELEASE_VERSION} && \
-  gh pr create --fill-verbose --base ${RELEASE_BRANCH} --title "[TASK] Prepare release for ${RELEASE_VERSION} on ${RELEASE_BRANCH}" && \
+  gh pr create --fill-verbose --base ${RELEASE_BRANCH} --title "[RELEASE] ${RELEASE_VERSION}" && \
   git checkout main && \
   git branch -D prepare-release-${RELEASE_VERSION}
 ```
@@ -60,11 +60,11 @@ Check pull-request and the pipeline run.
 
 > Set `RELEASE_PR_NUMBER` with the pull-request number of the preparation pull-request.
 > Set `RELEASE_BRANCH` to branch release should happen, for example: 'main' (same as in previous step).
-> Set `RELEASE_VERSION` to release version working on, for example: `0.1.4` (same as in previous step).
+> Set `RELEASE_VERSION` to release version working on, for example: `1.1.0` (same as in previous step).
 
 ```shell
 RELEASE_BRANCH='main' ; \
-RELEASE_VERSION='0.1.4' ; \
+RELEASE_VERSION='1.1.0' ; \
 RELEASE_PR_NUMBER='123' ; \
   git checkout main && \
   git fetch --all && \
