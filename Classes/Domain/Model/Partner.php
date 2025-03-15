@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FGTCLB\AcademicPartners\Domain\Model;
 
-use DateTime;
 use FGTCLB\AcademicPartners\Country\CountryProvider;
 use FGTCLB\CategoryTypes\Collection\CategoryCollection;
 use FGTCLB\CategoryTypes\Domain\Repository\CategoryRepository;
@@ -39,7 +38,7 @@ class Partner extends AbstractEntity
 
     protected float $geocodeLatitude = 0;
 
-    protected ?DateTime $geocodeLastRun = null;
+    protected ?\DateTime $geocodeLastRun = null;
 
     protected string $geocodeStatus = 'open';
 
@@ -142,12 +141,12 @@ class Partner extends AbstractEntity
         $this->geocodeLatitude = $latitude;
     }
 
-    public function setGeocodeLastRun(DateTime $geocodeLastRun): void
+    public function setGeocodeLastRun(\DateTime $geocodeLastRun): void
     {
         $this->geocodeLastRun = $geocodeLastRun;
     }
 
-    public function getGeocodeLastRun(): ?DateTime
+    public function getGeocodeLastRun(): ?\DateTime
     {
         return $this->geocodeLastRun;
     }

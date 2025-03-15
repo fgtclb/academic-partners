@@ -26,8 +26,7 @@ final class CountryFilter
     public function __construct(
         protected array $excludeCountries = [],
         protected array $onlyCountries = []
-    ) {
-    }
+    ) {}
 
     /**
      * @return array<string>

@@ -19,8 +19,7 @@ class PartnerController extends ActionController
         protected PartnerRepository $partnerRepository,
         protected CategoryRepository $categoryRepository,
         protected DemandFactory $partnerDemandFactory
-    ) {
-    }
+    ) {}
 
     /**
      * @param array<string, mixed>|null $demand

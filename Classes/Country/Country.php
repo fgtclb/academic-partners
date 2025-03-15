@@ -28,8 +28,7 @@ class Country
         protected string $numeric,
         protected string $flag,
         protected ?string $officialName
-    ) {
-    }
+    ) {}
 
     public function getName(): string
     {
