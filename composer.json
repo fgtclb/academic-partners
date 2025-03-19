@@ -69,6 +69,7 @@
         "fgtclb/category-types": "<1.0.0 || >=2.0.0"
     },
     "suggest": {
-        "fgtclb/page-backend-layout": "Provides backend category preview"
+        "fgtclb/page-backend-layout": "Provides backend category preview",
+        "typo3/cms-scheduler": "Install EXT:scheduler for the automatic geocoding"
     }
 }

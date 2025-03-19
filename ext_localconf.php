@@ -41,9 +41,11 @@ use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
         ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT,
     );
 
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks'][GeocodeTask::class] = [
-        'extension' => 'academic_partners',
-        'title' => 'Academic Partners: Geocode',
-        'description' => 'Fetches geocoding information for academic partners',
-    ];
+    if (ExtensionManagementUtility::isLoaded('scheduler')) {
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks'][GeocodeTask::class] = [
+            'extension' => 'academic_partners',
+            'title' => 'Academic Partners: Geocode',
+            'description' => 'Fetches geocoding information for academic partners',
+        ];
+    }
 })();
