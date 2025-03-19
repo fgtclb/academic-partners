@@ -21,16 +21,15 @@
         }
     },
     "extra": {
-        "branch-alias": {
-            "dev-main": "1.x.x-dev",
-            "dev-compatibility": "2.x.x-dev"
-        },
         "typo3/cms": {
             "cms-package-dir": "{$vendor-dir}/typo3/cms",
             "extension-key": "academic_partners",
             "ignore-as-root": false,
             "web-dir": ".Build/public",
             "app-dir": ".Build"
+        },
+        "branch-alias": {
+            "dev-main": "1.2.x-dev"
         }
     },
     "require": {
