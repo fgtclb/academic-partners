@@ -56,5 +56,17 @@
     "suggest": {
         "fgtclb/page-backend-layout": "Provides backend category preview",
         "typo3/cms-scheduler": "Install EXT:scheduler for the automatic geocoding"
-    }
+    },
+    "authors": [
+        {
+            "name": "FGTCLB GmbH",
+            "email": "hello@fgtclb.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/fgtclb/academic-extensions/issues",
+        "source": "https://github.com/fgtclb/academic-extensions",
+        "email": "hello@fgtclb.com"
+    },
+    "homepage": "https://www.fgtclb.com/"
 }
