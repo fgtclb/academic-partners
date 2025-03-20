@@ -12,10 +12,10 @@ $EM_CONF[$_EXTKEY] = [
             'backend' => '12.4.0-13.4.99',
             'extbase' => '12.4.0-13.4.99',
             'fluid' => '12.4.0-13.4.99',
-            'category_types' => '1.0.0-1.9.99',
+            'category_types' => '1.1.5',
         ],
         'suggest' => [
-            'page_backend_layout' => '1.0.0-1.9.99',
+            'page_backend_layout' => '1.0.0-2.9.99',
         ],
     ],
     'autoload' => [
