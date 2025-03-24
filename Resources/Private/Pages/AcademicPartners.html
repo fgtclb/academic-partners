@@ -6,7 +6,7 @@
     <f:section name="Main">
         <hr />
         <f:comment><!-- The page title --></f:comment>
-        <h1>[PROGRAM TITLE] {page.pageRecord.title}</h1>
+        <h1>[PARTNER TITLE] {page.pageRecord.title}</h1>
         <hr />
         <h1>[IMAGES]</h1>
         <f:comment><!-- Provide images referenced in the media field by standard files data processor --></f:comment>
@@ -42,27 +42,48 @@
             />
         </aside>
         <hr />
-        <f:comment><!-- Information from text fields added by the academic programs extension --></f:comment>
+        <f:comment><!-- Information from text fields added by the academic partners extension --></f:comment>
         <h1>[INFO FROM PAGE PROPERTIES]</h1>
         <hr />
         <div class="row">
             <div class="col-12 col-md-6 col-xxl-3">
-                <h2>Credit Points</h2>
-                {program.creditPoints}
+                <h2>Street</h2>
+                {partner.addressStreet}
 
             </div>
             <div class="col-12 col-md-6 col-xxl-3">
-                <h2>Job Profile</h2>
-                {program.jobProfile -> f:format.raw()}
+                <h2>Street Number</h2>
+                {partner.addressStreetNumber}
 
             </div>
             <div class="col-12 col-md-6 col-xxl-3">
-                <h2>Performance Scope</h2>
-                {program.performanceScope -> f:format.raw()}
+                <h2>ZIP / City</h2>
+                {partner.addressZip} {partner.addressCity}
             </div>
             <div class="col-12 col-md-6 col-xxl-3">
-                <h2>Prerequisites</h2>
-                {program.prerequisites -> f:format.raw()}
+                <h2>Country</h2>
+                {f:translate(key: '{partner.addressCountryLocalizedNameLabel}')}
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-12 col-md-6 col-xxl-3">
+                <h2>Longitude</h2>
+                {partner.geocodeLongitude}
+
+            </div>
+            <div class="col-12 col-md-6 col-xxl-3">
+                <h2>Latitude</h2>
+                {partner.geocodeLatitude}
+
+            </div>
+            <div class="col-12 col-md-6 col-xxl-3">
+                <h2>Geocoded On</h2>
+                {partner.geocodeLastRun -> f:format.date(format: 'd.m.Y H:i')}
+            </div>
+            <div class="col-12 col-md-6 col-xxl-3">
+                <h2>Geocode Status</h2>
+                {partner.geocodeStatus}
             </div>
         </div>
         <hr />

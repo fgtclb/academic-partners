@@ -4,48 +4,33 @@ declare(strict_types=1);
 
 namespace FGTCLB\AcademicPartners\Domain\Model;
 
-use FGTCLB\AcademicPartners\Country\CountryProvider;
 use FGTCLB\CategoryTypes\Collection\CategoryCollection;
+use FGTCLB\CategoryTypes\Collection\GetCategoryCollectionInterface;
 use FGTCLB\CategoryTypes\Domain\Repository\CategoryRepository;
+use TYPO3\CMS\Core\Country\CountryProvider;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Domain\Model\FileReference;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
-class Partner extends AbstractEntity
+class Partner extends AbstractEntity implements GetCategoryCollectionInterface
 {
-    protected int $doktype;
-
+    protected int $doktype = 0;
     protected string $title = '';
-
     protected string $abstract = '';
-
     protected string $description = '';
-
     protected string $addressStreet = '';
-
     protected string $addressStreetNumber = '';
-
     protected string $addressAdditional = '';
-
     protected string $addressZip = '';
-
     protected string $addressCity = '';
-
     protected string $addressCountry = '';
-
     protected float $geocodeLongitude = 0;
-
     protected float $geocodeLatitude = 0;
-
     protected ?\DateTime $geocodeLastRun = null;
-
     protected string $geocodeStatus = 'open';
-
     protected string $geocodeMessage = '';
-
     protected bool $showOnMap = true;
-
     protected ?CategoryCollection $attributes = null;
 
     /** @var ObjectStorage<FileReference> */
@@ -176,10 +161,10 @@ class Partner extends AbstractEntity
         return $this->showOnMap;
     }
 
-    public function getAttributes(): ?CategoryCollection
+    public function getAttributes(): CategoryCollection
     {
-        $categoryRepository = GeneralUtility::makeInstance(CategoryRepository::class);
-        return $categoryRepository->findByGroupAndPageId('programs', $this->getUid());
+        return $this->attributes ??= GeneralUtility::makeInstance(CategoryRepository::class)
+            ->findByGroupAndPageId('partners', $this->getUid());
     }
 
     /**
@@ -188,5 +173,10 @@ class Partner extends AbstractEntity
     public function getMedia(): ObjectStorage
     {
         return $this->media;
+    }
+
+    public function getCategoryCollection(): CategoryCollection
+    {
+        return $this->getAttributes();
     }
 }

@@ -8,6 +8,7 @@ use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 defined('TYPO3') or die;
 
 (static function (): void {
+    $typo3MajorVersion = (new \TYPO3\CMS\Core\Information\Typo3Version())->getMajorVersion();
     ExtensionManagementUtility::addTcaSelectItemGroup(
         'tt_content',
         'CType',
@@ -34,7 +35,7 @@ defined('TYPO3') or die;
 
     ExtensionManagementUtility::addPiFlexFormValue(
         '*',
-        'FILE:EXT:academic_partners/Configuration/FlexForms/ListSettings.xml',
+        sprintf('FILE:EXT:academic_partners/Configuration/FlexForms/Core%s/ListSettings.xml', $typo3MajorVersion),
         'academicpartners_list',
     );
 })();

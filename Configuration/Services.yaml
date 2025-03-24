@@ -1,0 +1,20 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  FGTCLB\AcademicPartners\:
+    resource: '../Classes/*'
+    exclude: '../Classes/Domain/Model/*.php'
+
+  FGTCLB\AcademicPartners\Domain\Repository\PartnerRepository:
+    public: true
+
+  FGTCLB\AcademicPartners\DataProcessing\PartnerProcessor:
+    tags:
+      - {
+          name: 'data.processor',
+          identifier: 'partner-data',
+          label: 'Partner Processor'
+        }

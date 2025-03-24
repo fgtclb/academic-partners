@@ -1,0 +1,3 @@
+
+# Allow backend users to drag and drop the new page type:
+options.pageTree.doktypesToShowInNewPageDragArea := addToList(40)

@@ -2,11 +2,6 @@
 @import 'EXT:academic_partners/Configuration/TypoScript/Page/'
 
 plugin.tx_academicpartners {
-  features {
-    // Deprecated since version 12.4
-    skipDefaultArguments = 1
-  }
-
   view {
     templateRootPaths {
       0 = EXT:academic_partners/Resources/Private/Templates/

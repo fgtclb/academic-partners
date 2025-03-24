@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace FGTCLB\AcademicPartners\Backend\FormEngine;
 
-use FGTCLB\AcademicPartners\Country\CountryProvider;
+use TYPO3\CMS\Core\Country\CountryProvider;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 

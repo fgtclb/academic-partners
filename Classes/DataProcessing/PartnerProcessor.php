@@ -2,8 +2,7 @@
 
 namespace FGTCLB\AcademicPartners\DataProcessing;
 
-use FGTCLB\AcademicPartners\Factory\PartnerDataFactory;
-use TYPO3\CMS\Core\Information\Typo3Version;
+use FGTCLB\AcademicPartners\Factory\PartnerFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
@@ -11,7 +10,7 @@ use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
 /**
  * Processor class for partner page types
  */
-class PartnerDataProcessor implements DataProcessorInterface
+class PartnerProcessor implements DataProcessorInterface
 {
     /**
      * Make partner data accessable in Fluid
@@ -28,17 +27,8 @@ class PartnerDataProcessor implements DataProcessorInterface
         array $processorConfiguration,
         array $processedData
     ) {
-        $versionInformation = GeneralUtility::makeInstance(Typo3Version::class);
-        $partnerDataFactory = GeneralUtility::makeInstance(PartnerDataFactory::class);
-
-        // TODO: Check which version exactly changed this...
-        if (version_compare($versionInformation->getVersion(), '12.0.0', '>=')) {
-            $pageData = $processedData['page']->getPageRecord();
-        } else {
-            $pageData = $processedData['data'];
-        }
-        $processedData['partner'] = $partnerDataFactory->get($pageData);
-
+        $partnerFactory = GeneralUtility::makeInstance(PartnerFactory::class);
+        $processedData['partner'] = $partnerFactory->get($processedData['page']->getPageRecord());
         return $processedData;
     }
 }
