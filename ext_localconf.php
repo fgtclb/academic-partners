@@ -15,12 +15,12 @@ use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
     // Starting with TYPO3 v13.0 Configuration/user.tsconfig in an Extension is automatically loaded during build time
     // @see https://docs.typo3.org/c/typo3/cms-core/main/en-us/Changelog/13.0/Deprecation-101807-ExtensionManagementUtilityaddUserTSConfig.html
     if ($versionInformation->getMajorVersion() < 13) {
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig('
+        ExtensionManagementUtility::addUserTSConfig('
             @import \'EXT:academic_partners/Configuration/user.tsconfig\'
         ');
     }
 
-    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+    ExtensionUtility::configurePlugin(
         'AcademicPartners',
         'List',
         [

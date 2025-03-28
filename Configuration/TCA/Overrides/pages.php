@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use FGTCLB\AcademicPartners\Backend\FormEngine\CountryItems;
 use FGTCLB\AcademicPartners\Enumeration\PageTypes;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
@@ -120,7 +121,7 @@ defined('TYPO3') or die;
                         'value' => '',
                     ],
                 ],
-                'itemsProcFunc' => FGTCLB\AcademicPartners\Backend\FormEngine\CountryItems::class . '->itemsProcFunc',
+                'itemsProcFunc' => CountryItems::class . '->itemsProcFunc',
             ],
         ],
         'address_additional' => [
