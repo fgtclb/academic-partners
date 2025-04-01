@@ -25,8 +25,8 @@ class PartnerController extends ActionController
      */
     public function listAction(?array $demand = null): ResponseInterface
     {
-        /** @var array<string, mixed> */
-        $contentElementData = $this->getContentObject()?->data ?? [];
+        /** @var array<string, mixed> $contentElementData */
+        $contentElementData = $this->getCurrentContentObjectRenderer()?->data ?? [];
         $demandObject = $this->partnerDemandFactory->createDemandObject(
             $demand,
             $this->settings,
@@ -46,7 +46,7 @@ class PartnerController extends ActionController
         return $this->htmlResponse();
     }
 
-    private function getContentObject(): ?ContentObjectRenderer
+    private function getCurrentContentObjectRenderer(): ?ContentObjectRenderer
     {
         return $this->request->getAttribute('currentContentObject');
     }
