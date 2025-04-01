@@ -3,12 +3,12 @@
 defined('TYPO3') || die();
 
 use FGTCLB\AcademicPartners\Enumeration\PageTypes;
+use TYPO3\CMS\Core\DataHandling\PageDoktypeRegistry;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 (static function (): void {
-    $projectDokType = PageTypes::ACADEMIC_PARTNERS;
-
-    $GLOBALS['PAGES_TYPES'][$projectDokType] = [
-        'type' => 'web',
-        'allowedTables' => '*',
-    ];
+    GeneralUtility::makeInstance(PageDoktypeRegistry::class)
+        ->add(PageTypes::ACADEMIC_PARTNERS, [
+            'allowedTables' => '*',
+        ]);
 })();
