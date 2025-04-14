@@ -10,6 +10,7 @@ defined('TYPO3') or die;
 
 (static function (): void {
     $typo3MajorVersion = (new Typo3Version())->getMajorVersion();
+
     ExtensionManagementUtility::addTcaSelectItemGroup(
         'tt_content',
         'CType',
@@ -27,9 +28,14 @@ defined('TYPO3') or die;
         ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT,
         'academic_partners'
     );
+
     ExtensionManagementUtility::addToAllTCAtypes(
         'tt_content',
-        '--div--;LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:plugin.partner_list.configuration,pi_flexform,',
+        implode(',', [
+            '--div--;LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:plugin.partner_list.configuration',
+            'pi_flexform',
+            'pages',
+        ]),
         'academicpartners_list',
         'after:subheader',
     );
