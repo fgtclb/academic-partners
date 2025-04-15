@@ -16,7 +16,7 @@ defined('TYPO3') or die;
         'pages',
         'doktype',
         'academic',
-        'LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:pages.doktype.groups.academic',
+        'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:pages.doktype.groups.academic',
         'after:default'
     );
 
@@ -25,7 +25,7 @@ defined('TYPO3') or die;
         'pages',
         'doktype',
         [
-            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:pages.doktype.items.academic_partner',
+            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:pages.doktype.items.academic_partner',
             'value' => PageTypes::ACADEMIC_PARTNERS,
             'icon' => 'academic-partners',
             'group' => 'academic',
@@ -52,7 +52,7 @@ defined('TYPO3') or die;
     // Define academic partners specific columns
     $additionalTCAcolumns = [
         'abbreviation' => [
-            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:columns.abbreviation.label',
+            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:columns.abbreviation.label',
             'config' => [
                 'type' => 'input',
                 'max' => 255,
@@ -61,14 +61,14 @@ defined('TYPO3') or die;
             ],
         ],
         'description' => [
-            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:columns.description.label',
+            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:columns.description.label',
             'config' => [
                 'type' => 'text',
                 'rows' => 5,
             ],
         ],
         'link' => [
-            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:columns.link.label',
+            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:columns.link.label',
             'exclude' => true,
             'config' => [
                 'type' => 'link',
@@ -79,7 +79,7 @@ defined('TYPO3') or die;
             ],
         ],
         'address_street' => [
-            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:columns.address_street.label',
+            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:columns.address_street.label',
             'config' => [
                 'type' => 'input',
                 'max' => 255,
@@ -87,7 +87,7 @@ defined('TYPO3') or die;
             ],
         ],
         'address_street_number' => [
-            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:columns.address_street_number.label',
+            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:columns.address_street_number.label',
             'config' => [
                 'type' => 'input',
                 'max' => 8,
@@ -95,7 +95,7 @@ defined('TYPO3') or die;
             ],
         ],
         'address_zip' => [
-            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:columns.address_zip.label',
+            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:columns.address_zip.label',
             'config' => [
                 'type' => 'input',
                 'max' => 16,
@@ -103,7 +103,7 @@ defined('TYPO3') or die;
             ],
         ],
         'address_city' => [
-            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:columns.address_city.label',
+            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:columns.address_city.label',
             'config' => [
                 'type' => 'input',
                 'max' => 255,
@@ -111,13 +111,13 @@ defined('TYPO3') or die;
             ],
         ],
         'address_country' => [
-            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:columns.address_country.label',
+            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:columns.address_country.label',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
                     [
-                        'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:columns.address_country.I.default.label',
+                        'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:columns.address_country.I.default.label',
                         'value' => '',
                     ],
                 ],
@@ -125,7 +125,7 @@ defined('TYPO3') or die;
             ],
         ],
         'address_additional' => [
-            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:columns.address_additional.label',
+            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:columns.address_additional.label',
             'config' => [
                 'type' => 'text',
                 'cols' => 60,
@@ -133,7 +133,7 @@ defined('TYPO3') or die;
             ],
         ],
         'geocode_longitude' => [
-            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:columns.geocode_longitude.label',
+            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:columns.geocode_longitude.label',
             'config' => [
                 'type' => 'input',
                 'max' => 20,
@@ -141,7 +141,7 @@ defined('TYPO3') or die;
             ],
         ],
         'geocode_latitude' => [
-            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:columns.geocode_latitude.label',
+            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:columns.geocode_latitude.label',
             'config' => [
                 'type' => 'input',
                 'max' => 20,
@@ -149,32 +149,32 @@ defined('TYPO3') or die;
             ],
         ],
         'geocode_last_run' => [
-            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:columns.geocode_last_run.label',
+            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:columns.geocode_last_run.label',
             'config' => [
                 'type' => 'datetime',
                 'format' => 'datetime',
             ],
         ],
         'geocode_status' => [
-            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:columns.geocode_status.label',
+            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:columns.geocode_status.label',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
                     [
-                        'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:columns.geocode_status.I.open.label',
+                        'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:columns.geocode_status.I.open.label',
                         'value' => 'open',
                     ],
                     [
-                        'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:columns.geocode_status.I.successful.label',
+                        'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:columns.geocode_status.I.successful.label',
                         'value' => 'successful',
                     ],
                     [
-                        'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:columns.geocode_status.I.failed.label',
+                        'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:columns.geocode_status.I.failed.label',
                         'value' => 'failed',
                     ],
                     [
-                        'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:columns.geocode_status.I.manually.label',
+                        'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:columns.geocode_status.I.manually.label',
                         'value' => 'manually',
                     ],
                 ],
@@ -182,7 +182,7 @@ defined('TYPO3') or die;
             ],
         ],
         'geocode_message' => [
-            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:columns.geocode_message.label',
+            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:columns.geocode_message.label',
             'config' => [
                 'type' => 'input',
                 'max' => 255,
@@ -190,7 +190,7 @@ defined('TYPO3') or die;
             ],
         ],
         'show_on_map' => [
-            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:columns.show_on_map.label',
+            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:columns.show_on_map.label',
             'config' => [
                 'type' => 'check',
                 'default' => true,
@@ -202,7 +202,7 @@ defined('TYPO3') or die;
         $GLOBALS['TCA']['pages']['palettes'],
         [
             'address' => [
-                'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:palettes.address.label',
+                'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:palettes.address.label',
                 'showitem' => implode(',', [
                     'address_street',
                     'address_street_number',
@@ -216,7 +216,7 @@ defined('TYPO3') or die;
                 ]),
             ],
             'geocode' => [
-                'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:palettes.geocode.label',
+                'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:palettes.geocode.label',
                 'showitem' => implode(',', [
                     'geocode_longitude',
                     'geocode_latitude',
@@ -239,7 +239,7 @@ defined('TYPO3') or die;
     ExtensionManagementUtility::addToAllTCAtypes(
         'pages',
         implode(',', [
-            '--div--;LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:pages.div.partner_information',
+            '--div--;LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:pages.div.partner_information',
             '--palette--;;address',
             '--palette--;;geocode',
         ]),

@@ -2,6 +2,7 @@
 <xliff version="1.0">
     <file
         source-language="en"
+        target-language="de"
         datatype="plaintext"
         original="messages"
         date="2023-04-24T15:52:42Z"
@@ -12,24 +13,29 @@
 
             <trans-unit id="backend_layout.academic_partners">
                 <source>[Academic] Partners</source>
+                <target>[Academic] Partner</target>
             </trans-unit>
 
             <!-- Doktype -->
 
             <trans-unit id="pages.doktype.groups.academic">
                 <source>[Academic] Extensions</source>
+                <target>[Academic] Erweiterungen</target>
             </trans-unit>
             <trans-unit id="pages.doktype.items.academic_partner">
                 <source>[Academic] Partners</source>
+                <target>[Academic] Partner</target>
             </trans-unit>
 
             <!-- Labels	for pages -->
 
             <trans-unit id="pages.academic_partners">
                 <source>[Academic] Partner Page</source>
+                <target>[Academic] Partnerseite</target>
             </trans-unit>
             <trans-unit id="pages.div.partner_information">
                 <source>Partner</source>
+                <target>Partner</target>
             </trans-unit>
 
 
@@ -37,141 +43,183 @@
 
             <trans-unit id="content.ctype.group.label">
                 <source>[Academic] Extensions</source>
+                <target>[Academic] Erweiterungen</target>
             </trans-unit>
             <trans-unit id="plugin.partner_list.title">
                 <source>[Academic] Partners list</source>
+                <target>[Academic] Partnerliste</target>
             </trans-unit>
             <trans-unit id="plugin.partner_list.description">
                 <source>Display a sortable and filterable list of partners.</source>
+                <target>Zeigt eine sortierbare und filterbare Liste von Partnern an.</target>
             </trans-unit>
             <trans-unit id="plugin.partner_list.configuration">
                 <source>Configuration</source>
+                <target>Konfiguration</target>
             </trans-unit>
             <trans-unit id="plugin.partner_map.title">
                 <source>[Academic] Partners map</source>
+                <target>[Academic] Partnerkarte</target>
             </trans-unit>
             <trans-unit id="plugin.partner_map.description">
                 <source>Display a sortable and filterable list of partners with map</source>
+                <target>Zeigt eine sortierbare und filterbare Liste von Partnern mit Karte an.</target>
             </trans-unit>
             <trans-unit id="plugin.partner_map.configuration">
                 <source>Configuration</source>
+                <target>Konfiguration</target>
             </trans-unit>
 
             <!-- Flexform -->
 
             <trans-unit id="flexform.categories.label">
                 <source>Default categories</source>
+                <target>Standardkategorien</target>
             </trans-unit>
             <trans-unit id="flexform.categories.description">
                 <source>Selected categories of the same type (e.g. ‘Degree’) are checked as alternatives (OR). If a category has subcategories (e.g. ‘Master’ with ‘Master of Arts’), these are automatically added to the list of alternatives. In addition, the pages found for each category type must also be able to be found in all other selected category types (AND).</source>
+                <target>Die ausgewählten Kategorien des gleichen Typs (z.B. „Abschluss“) werden als Alternativen (ODER) markiert. Wenn eine Kategorie Unterkategorien hat (z.B. „Master“ mit „Master of Arts“), werden diese automatisch zur Liste der Alternativen hinzugefügt. Darüber hinaus müssen die Seiten, die für jeden Kategorietyp gefunden wurden, auch in allen anderen ausgewählten Kategorietypen gefunden werden können (UND).</target>
             </trans-unit>
             <trans-unit id="flexform.hide_filtering.label">
                 <source>Hide category filtering</source>
+                <target>Kategorienfilter ausblenden</target>
             </trans-unit>
             <trans-unit id="flexform.hide_filtering.description">
                 <source>If the option is enabled, options for filtering by categories will not be visible in the frontend.</source>
+                <target>Wenn die Option aktiviert ist, werden die Optionen zum Filtern nach Kategorien im Frontend nicht angezeigt.</target>
             </trans-unit>
             <trans-unit id="flexform.hide_sorting.label">
                 <source>Hide sorting</source>
+                <target>Sortierung ausblenden</target>
             </trans-unit>
             <trans-unit id="flexform.hide_sorting.description">
                 <source>If the option is enabled, options for sorting will not be visible in the frontend.</source>
+                <target>Wenn die Option aktiviert ist, werden die Optionen zum Sortieren im Frontend nicht angezeigt.</target>
             </trans-unit>
             <trans-unit id="flexform.sorting.label">
                 <source>Default sorting</source>
+                <target>Standard-Sortierung</target>
             </trans-unit>
             <trans-unit id="flexform.sorting.description">
                 <source>Default sorting in frontend (can be changed by user if sorting options are visible in the frontend).</source>
+                <target>Standardsortierung im Frontend (kann durch den Beutzer geändert werden, wenn die Sortierung im Frontend aktiviert ist.</target>
             </trans-unit>
             <trans-unit id="flexform.sorting.title.asc">
                 <source>Title A-Z</source>
+                <target>Titel A-Z</target>
             </trans-unit>
             <trans-unit id="flexform.sorting.title.desc">
                 <source>Title Z-A</source>
+                <target>Titel Z-A</target>
             </trans-unit>
             <trans-unit id="flexform.sorting.update">
                 <source>Last updated (latest first)</source>
+                <target>Zuletzt aktualisiert (neueste zuerst)</target>
             </trans-unit>
             <trans-unit id="flexform.sorting.update.asc">
                 <source>Last updated (latest last)</source>
             </trans-unit>
             <trans-unit id="flexform.sorting.sorting.asc">
                 <source>Page sorting (result may be unexpected)</source>
+                <target>Seitensortierung (Ergebnisse sind möglicherweise unerwartet)</target>
             </trans-unit>
 
             <!-- TCA tabs and  palettes -->
 
             <trans-unit id="pages.div.partner_information">
                 <source>Partner</source>
+                <target>Partner</target>
             </trans-unit>
             <trans-unit id="palettes.address.label">
                 <source>Address</source>
+                <target>Adresse</target>
             </trans-unit>
             <trans-unit id="palettes.geocode.label">
                 <source>Geodata</source>
+                <target>Geodata</target>
             </trans-unit>
 
             <!-- TCA Columns -->
 
             <trans-unit id="columns.address_additional.label">
                 <source>Additional</source>
+                <target>Adresszusatz</target>
             </trans-unit>
             <trans-unit id="columns.address_city.label">
                 <source>City</source>
+                <target>Stadt</target>
             </trans-unit>
             <trans-unit id="columns.address_country.label">
                 <source>Country</source>
+                <target>Land</target>
             </trans-unit>
             <trans-unit id="columns.address_street.label">
                 <source>Street</source>
+                <target>Straße</target>
             </trans-unit>
             <trans-unit id="columns.address_street_number.label">
                 <source>Street Number</source>
+                <target>Hausnummer</target>
             </trans-unit>
             <trans-unit id="columns.address_zip.label">
                 <source>Zip</source>
+                <target>Postleitzahl</target>
             </trans-unit>
             <trans-unit id="columns.description.label">
                 <source>Description</source>
+                <target>Beschreibung</target>
             </trans-unit>
             <trans-unit id="columns.geocode_last_run.label">
                 <source>Geocoded on</source>
+                <target>Geocoded am</target>
             </trans-unit>
             <trans-unit id="columns.geocode_latitude.label">
                 <source>Latitude</source>
+                <target>Breitengrad</target>
             </trans-unit>
             <trans-unit id="columns.geocode_longitude.label">
                 <source>Longitude</source>
+                <target>Längengrad</target>
             </trans-unit>
             <trans-unit id="columns.geocode_message.label">
                 <source>Geocode Message</source>
+                <target>Geocode-Nachricht</target>
             </trans-unit>
             <trans-unit id="columns.geocode_status.label">
                 <source>Geocode Status</source>
+                <target>Geocode-Status</target>
             </trans-unit>
             <trans-unit id="columns.geocode_status.I.open.label">
                 <source>open</source>
+                <target>offen</target>
             </trans-unit>
             <trans-unit id="columns.geocode_status.I.successful.label">
                 <source>successful</source>
+                <target>erfolgreich</target>
             </trans-unit>
             <trans-unit id="columns.geocode_status.I.failed.label">
                 <source>failed</source>
+                <target>fehlgeschlagen</target>
             </trans-unit>
             <trans-unit id="columns.geocode_status.I.manually.label">
                 <source>manually</source>
+                <target>manuell</target>
             </trans-unit>
             <trans-unit id="columns.link.label">
                 <source>Link to Website</source>
+                <target>Link zur Webseite</target>
             </trans-unit>
             <trans-unit id="columns.name.label">
                 <source>Name</source>
+                <target>Name</target>
             </trans-unit>
             <trans-unit id="columns.abbreviation.label">
                 <source>Abbreviation</source>
+                <target>Abkürzung</target>
             </trans-unit>
             <trans-unit id="columns.show_on_map.label">
                 <source>Show on map</source>
+                <target>Auf Karte zeigen</target>
             </trans-unit>
         </body>
     </file>

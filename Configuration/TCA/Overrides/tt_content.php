@@ -18,6 +18,7 @@ defined('TYPO3') or die;
         'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlfcontent.ctype.group.label',
     );
 
+    // Plugin: academicpartners_list
     ExtensionManagementUtility::addPlugin(
         [
             'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:plugin.partner_list.title',
@@ -28,7 +29,30 @@ defined('TYPO3') or die;
         ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT,
         'academic_partners'
     );
+    ExtensionManagementUtility::addPiFlexFormValue(
+        '*',
+        sprintf('FILE:EXT:academic_partners/Configuration/FlexForms/Core%s/ListSettings.xml', $typo3MajorVersion),
+        'academicpartners_list',
+    );
 
+    // Plugin: academicpartners_map
+    ExtensionManagementUtility::addPlugin(
+        [
+            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:plugin.partner_map.title',
+            'value' => 'academicpartners_map',
+            'icon' => 'EXT:academic_partners/Resources/Public/Icons/Extension.svg',
+            'group' => 'academic',
+        ],
+        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT,
+        'academic_partners'
+    );
+    ExtensionManagementUtility::addPiFlexFormValue(
+        '*',
+        sprintf('FILE:EXT:academic_partners/Configuration/FlexForms/Core%s/ListSettings.xml', $typo3MajorVersion),
+        'academicpartners_map',
+    );
+
+    // Add all plugins as CType select item
     ExtensionManagementUtility::addToAllTCAtypes(
         'tt_content',
         implode(',', [
@@ -36,13 +60,10 @@ defined('TYPO3') or die;
             'pi_flexform',
             'pages',
         ]),
-        'academicpartners_list',
+        implode(',', [
+            'academicpartners_list',
+            'academicpartners_map',
+        ]),
         'after:subheader',
-    );
-
-    ExtensionManagementUtility::addPiFlexFormValue(
-        '*',
-        sprintf('FILE:EXT:academic_partners/Configuration/FlexForms/Core%s/ListSettings.xml', $typo3MajorVersion),
-        'academicpartners_list',
     );
 })();

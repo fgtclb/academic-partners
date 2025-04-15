@@ -32,6 +32,18 @@ use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
         ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT,
     );
 
+    ExtensionUtility::configurePlugin(
+        'AcademicPartners',
+        'Map',
+        [
+            PartnerController::class => 'map',
+        ],
+        [
+            PartnerController::class => 'map',
+        ],
+        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT,
+    );
+
     if (ExtensionManagementUtility::isLoaded('scheduler')) {
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks'][GeocodeTask::class] = [
             'extension' => 'academic_partners',

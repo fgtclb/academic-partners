@@ -2,6 +2,7 @@
 <xliff version="1.0">
     <file
         source-language="en"
+        target-language="de"
         atatype="plaintext"
         original="messages"
         date="2023-03-15T11:39:25Z"
@@ -13,66 +14,83 @@
 
             <trans-unit id="sys_category.academic_partners.collaboration_type">
                 <source>Collaboration Type</source>
+                <target>Kooperationsart</target>
             </trans-unit>
             <trans-unit id="sys_category.academic_partners.partner_type">
                 <source>Partner Type</source>
+                <target>Partnerart</target>
             </trans-unit>
             <trans-unit id="sys_category.academic_partners.region">
                 <source>Region</source>
+                <target>Region</target>
             </trans-unit>
             <trans-unit id="sys_category.academic_partners.sdg">
                 <source>SDG</source>
+                <target>SDG</target>
             </trans-unit>
             
             <!-- Sorting direction options -->
 
             <trans-unit id="sorting.sortingDirection.label">
                 <source>Sorting direction</source>
+                <target>Sortierreihenfolge</target>
             </trans-unit>
             <trans-unit id="sorting.direction.asc">
                 <source>ascending</source>
+                <target>aufsteigend</target>
             </trans-unit>
             <trans-unit id="sorting.direction.desc">
                 <source>descending</source>
+                <target>absteigend</target>
             </trans-unit>
 
             <!-- Sorting field options -->
 
             <trans-unit id="sorting.sortingField.label">
                 <source>Sorting field</source>
+                <target>Sortierfeld</target>
             </trans-unit>
             <trans-unit id="sorting.field.title">
                 <source>Title</source>
+                <target>Titel</target>
             </trans-unit>
             <trans-unit id="sorting.field.lastUpdated">
                 <source>Last updated</source>
+                <target>Zuletzt aktualisiert</target>
             </trans-unit>
             <trans-unit id="sorting.field.sorting">
                 <source>Sorting</source>
+                <target>Sortierung</target>
             </trans-unit>
 
             <!-- Combined sorting options -->
 
             <trans-unit id="sorting.title.asc">
                 <source>Title A-Z</source>
+                <target>Titel A-Z</target>
             </trans-unit>
             <trans-unit id="sorting.title.desc">
                 <source>Title Z-A</source>
+                <target>Titel Z-A</target>
             </trans-unit>
             <trans-unit id="sorting.lastUpdated.asc">
                 <source>Last updated (latest last)</source>
+                <target>Zuletzt aktualisiert (zuletzt zuletzt)</target>
             </trans-unit>
             <trans-unit id="sorting.lastUpdated.desc">
                 <source>Last updated (latest first)</source>
+                <target>Zuletzt aktualisiert (zuletzt zuerst)</target>
             </trans-unit>
             <trans-unit id="sorting.sorting.asc">
                 <source>Page sorting (Result may be unexpected)</source>
+                <target>Seitensortierung (Ergebnisse sind möglicherweise unerwartet)</target>
             </trans-unit>
 
             <!-- List -->
 
             <trans-unit id="list.noPartnersFound">
                 <source>No partners found.</source>
+                <target>Keine Partner gefunden.</target>
             </trans-unit>
         </body>
     </file>

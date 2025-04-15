@@ -10,7 +10,15 @@ mod.wizards.newContentElement.wizardItems.academic {
         CType = academicpartners_list
       }
     }
+    academicpartners_map {
+      iconIdentifier = academic-partners
+      title = LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:plugin.partner_map.title
+      description = LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:plugin.partner_map.description
+      tt_content_defValues {
+        CType = academicpartners_map
+      }
+    }
   }
 
-  show := addToList(academicpartners_list)
+  show := addToList(academicpartners_list,academicpartners_map)
 }

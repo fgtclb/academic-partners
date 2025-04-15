@@ -1,0 +1,35 @@
+<html
+    lang="en"
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    xmlns:ace="http://typo3.org/ns/FGTCLB/CategoryTypes/ViewHelpers"
+    data-namespace-typo3-fluid="true"
+>
+    <f:for
+        each="{categories.allCategoriesByType}"
+        as="category"
+        key="categoryKey"
+    >
+        <f:if condition="{category}">
+            <label for="{categoryKey}">
+                {f:translate(
+                    key: 'sys_category.academic_partners.{categoryKey}',
+                    extensionName: 'academic_partners'
+                )}
+            </label>
+            <ace:form.filterSelect
+                id="{categoryKey}"
+                property="filterCollection.{categoryKey}"
+                value="{demand.filterCollection.filterCategories.{categoryKey}}"
+                options="{categories.{categoryKey}}"
+                optionValueField="uid"
+                optionLabelField="title"
+                prependOptionLabel="{f:translate(
+                    key: 'sys_category.academic_partners.allOptions',
+                    extensionName: 'academic_partners'
+                )}"
+                prependOptionValue=""
+                additionalAttributes="{'onchange': 'this.form.submit()'}"
+            />
+        </f:if>
+    </f:for>
+</html>

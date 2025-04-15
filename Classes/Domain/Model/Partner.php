@@ -16,21 +16,37 @@ use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 class Partner extends AbstractEntity implements GetCategoryCollectionInterface
 {
     protected int $doktype = 0;
+
     protected string $title = '';
+
     protected string $abstract = '';
+
     protected string $description = '';
+
     protected string $addressStreet = '';
+
     protected string $addressStreetNumber = '';
+
     protected string $addressAdditional = '';
+
     protected string $addressZip = '';
+
     protected string $addressCity = '';
+
     protected string $addressCountry = '';
+
     protected float $geocodeLongitude = 0;
+
     protected float $geocodeLatitude = 0;
+
     protected ?\DateTime $geocodeLastRun = null;
+
     protected string $geocodeStatus = 'open';
+
     protected string $geocodeMessage = '';
+
     protected bool $showOnMap = true;
+
     protected ?CategoryCollection $attributes = null;
 
     /** @var ObjectStorage<FileReference> */

@@ -1,38 +1,43 @@
 <html
     lang="en"
-    xmlns:f="http://typo3.org/ns/TYPO3Fluid/Fluid/ViewHelpers"
-    xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
     data-namespace-typo3-fluid="true"
 >
-    <f:asset.css identifier="partnerC1" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <f:asset.script identifier="partnerS1" src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" />
-
-    <f:asset.css identifier="partnerC3" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
-    <f:asset.script identifier="partnerS3" src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js" />
-
-    <f:asset.css identifier="partnerC2" href="EXT:academic_partners/Resources/Public/Css/map.css" />
-    <f:asset.script identifier="partnerS2" src="EXT:academic_partners/Resources/Public/JavaScript/map.js" />
-
-    <div id="map" class="academicpartners__map"></div>
-    <ul id="partners" class="partners">
-        <f:for each="{partners}" as="partner">
-            <li
-                id="partner-{partner.uid}"
-                class="partner"
-                data-distance=""
-                data-marker=""
-                data-description="{partner.description}"
-                data-name="{partner.title}"
-                data-lat="{partner.geocodeLatitude}"
-                data-lng="{partner.geocodeLongitude}"
-            >
-                <f:link.page pageUid="{partner.uid}">
-                    {partner.title}
-                </f:link.page> 
-                ({partner.addressStreet} {partner.addressStreetNumber},
-                {partner.addressZip} {partner.addressCity},
-                <f:if  condition="{partner.addressCountryLocalizedNameLabel}">{f:translate(key: '{partner.addressCountryLocalizedNameLabel}')}</f:if>)
-            </li>
-        </f:for>
-    </ul>
+    <f:layout name="Default" />
+    <f:section name="Header">
+        <header>
+            <h1>{data.title}</h1>
+        </header>
+    </f:section>
+    <f:section name="Main">
+        <f:if condition="{settings.hideSorting}==false || {settings.hideFilter}==false">
+            <div class="partner-filter">
+                <f:form
+                    action="list"
+                    id="partner-filter"
+                    name="demand"
+                    object="{demand}"
+                >
+                    <div class="row">
+                        <f:if condition="{settings.hideSorting}==false">
+                            <f:render
+                                partial="partner/DemandSorting"
+                                arguments="{_all}"
+                            />
+                        </f:if>
+                        <f:if condition="{settings.hideFilter}==false">
+                            <f:render
+                                partial="partner/DemandCategories"
+                                arguments="{_all}"
+                            />
+                        </f:if>
+                    </div>
+                </f:form>
+            </div>
+        </f:if>
+        <f:render
+            partial="partner/Items"
+            arguments="{_all}"
+        />
+    </f:section>
 </html>

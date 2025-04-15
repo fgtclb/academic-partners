@@ -46,6 +46,33 @@ class PartnerController extends ActionController
         return $this->htmlResponse();
     }
 
+    /**
+     * @param array<string, mixed>|null $demand
+     * @return ResponseInterface
+     */
+    public function mapAction(?array $demand = null): ResponseInterface
+    {
+        /** @var array<string, mixed> $contentElementData */
+        $contentElementData = $this->getCurrentContentObjectRenderer()?->data ?? [];
+        $demandObject = $this->partnerDemandFactory->createDemandObject(
+            $demand,
+            $this->settings,
+            $contentElementData
+        );
+
+        $partners = $this->partnerRepository->findByDemand($demandObject);
+        $categories = $this->categoryRepository->findAllApplicable('partners', ...array_values($partners->toArray()));
+
+        $this->view->assignMultiple([
+            'partners' => $partners,
+            'data' => $contentElementData,
+            'demand' => $demandObject,
+            'categories' => $categories,
+        ]);
+
+        return $this->htmlResponse();
+    }
+
     private function getCurrentContentObjectRenderer(): ?ContentObjectRenderer
     {
         return $this->request->getAttribute('currentContentObject');

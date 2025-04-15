@@ -2,7 +2,7 @@ mod {
   web_layout {
     BackendLayouts {
       AcademicPartners {
-        title = LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:backend_layout.academic_partners
+        title = LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:backend_layout.academic_partners
         icon = EXT:academic_partners/Resources/Public/Icons/BackendLayout.png
         config {
           backend_layout {
@@ -12,7 +12,7 @@ mod {
               1 {
                 columns {
                   1 {
-                    name = LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:pages.contents
+                    name = LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:pages.contents
                     identifier = main
                     colPos = 0
                   }
