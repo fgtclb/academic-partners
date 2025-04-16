@@ -24,3 +24,11 @@
     }
   }
 [END]
+
+page {
+  10 {
+    dataProcessing {
+      1744798333 = FGTCLB\AcademicPartners\DataProcessing\PartnershipProcessor
+    }
+  }
+}

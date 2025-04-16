@@ -51,10 +51,22 @@
                 <source>[Academic] Partners map</source>
             </trans-unit>
             <trans-unit id="plugin.partner_map.description">
-                <source>Display a sortable and filterable list of partners with map</source>
+                <source>Display a sortable and filterable list of partners with map.</source>
             </trans-unit>
             <trans-unit id="plugin.partner_map.configuration">
                 <source>Configuration</source>
+            </trans-unit>
+            <trans-unit id="plugin.partner_partnershipslist.title">
+                <source>[Academic] Partnerships list</source>
+            </trans-unit>
+            <trans-unit id="plugin.partner_partnershipslist.description">
+                <source>Display a list of partners assigned to this page.</source>
+            </trans-unit>
+            <trans-unit id="plugin.partner_partnershipsteaser.title">
+                <source>[Academic] Partnerships teaser</source>
+            </trans-unit>
+            <trans-unit id="plugin.partner_partnershipsteaser.description">
+                <source>Display teasers for partners assigned to this page.</source>
             </trans-unit>
 
             <!-- Flexform -->
@@ -99,7 +111,7 @@
                 <source>Page sorting (result may be unexpected)</source>
             </trans-unit>
 
-            <!-- TCA tabs and  palettes -->
+            <!-- Pages table: TCA tabs and palettes -->
 
             <trans-unit id="pages.div.partner_information">
                 <source>Partner</source>
@@ -111,7 +123,7 @@
                 <source>Geodata</source>
             </trans-unit>
 
-            <!-- TCA Columns -->
+            <!-- Pages table: TCA columns -->
 
             <trans-unit id="columns.address_additional.label">
                 <source>Additional</source>
@@ -172,6 +184,45 @@
             </trans-unit>
             <trans-unit id="columns.show_on_map.label">
                 <source>Show on map</source>
+            </trans-unit>
+            <trans-unit id="columns.tx_academicpartners_partnerships.label">
+                <source>Partnerships</source>
+            </trans-unit>
+
+            <!-- Partnership table: TCA columns -->
+
+            <trans-unit id="tx_academicpartners_domain_model_partnership">
+                <source>Partnership</source>
+            </trans-unit>
+            <trans-unit id="tx_academicpersons_domain_model_contract.tx_academicpartners_domain_model_partnership.button">
+                <source>Create new Linked page</source>
+            </trans-unit>
+            <trans-unit id="tx_academicpartners_domain_model_partnership.page">
+                <source>Page</source>
+            </trans-unit>
+            <trans-unit id="tx_academicpartners_domain_model_partnership.partner">
+                <source>Partner</source>
+            </trans-unit>
+            <trans-unit id="tx_academicpartners_domain_model_partnership.role">
+                <source>Role</source>
+            </trans-unit>
+
+            <!-- Role table: TCA columns -->
+
+            <trans-unit id="tx_academicpartners_domain_model_role">
+                <source>Role</source>
+            </trans-unit>
+            <trans-unit id="tx_academicpartners_domain_model_role.name">
+                <source>Name</source>
+            </trans-unit>
+            <trans-unit id="tx_academicpartners_domain_model_role.description">
+                <source>Description</source>
+            </trans-unit>
+            <trans-unit id="tx_academicpartners_domain_model_role.doktypes">
+                <source>Page types</source>
+            </trans-unit>
+            <trans-unit id="tx_academicpartners_domain_model_role.partnerships">
+                <source>Contacts</source>
             </trans-unit>
         </body>
     </file>

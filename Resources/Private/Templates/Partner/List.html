@@ -21,13 +21,13 @@
                     <div class="row">
                         <f:if condition="{settings.hideSorting}==false">
                             <f:render
-                                partial="partner/DemandSorting"
+                                partial="Partner/DemandSorting"
                                 arguments="{_all}"
                             />
                         </f:if>
                         <f:if condition="{settings.hideFilter}==false">
                             <f:render
-                                partial="partner/DemandCategories"
+                                partial="Partner/DemandCategories"
                                 arguments="{_all}"
                             />
                         </f:if>
@@ -36,7 +36,7 @@
             </div>
         </f:if>
         <f:render
-            partial="partner/Items"
+            partial="Partner/Items"
             arguments="{_all}"
         />
     </f:section>

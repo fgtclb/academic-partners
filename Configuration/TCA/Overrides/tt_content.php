@@ -52,7 +52,7 @@ defined('TYPO3') or die;
         'academicpartners_map',
     );
 
-    // Add all plugins as CType select item
+    // Add configuration tab for list and map plugins
     ExtensionManagementUtility::addToAllTCAtypes(
         'tt_content',
         implode(',', [
@@ -65,5 +65,29 @@ defined('TYPO3') or die;
             'academicpartners_map',
         ]),
         'after:subheader',
+    );
+
+    // Plugin: academicpartners_partnershipslist
+    ExtensionManagementUtility::addPlugin(
+        [
+            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:plugin.partner_partnershipslist.title',
+            'value' => 'academicpartners_partnershipslist',
+            'icon' => 'EXT:academic_partners/Resources/Public/Icons/Extension.svg',
+            'group' => 'academic',
+        ],
+        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT,
+        'academic_partners'
+    );
+
+    // Plugin: academicpartners_partnershipsteaser
+    ExtensionManagementUtility::addPlugin(
+        [
+            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:plugin.partner_partnershipsteaser.title',
+            'value' => 'academicpartners_partnershipsteaser',
+            'icon' => 'EXT:academic_partners/Resources/Public/Icons/Extension.svg',
+            'group' => 'academic',
+        ],
+        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT,
+        'academic_partners'
     );
 })();

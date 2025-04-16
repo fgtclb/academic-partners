@@ -17,6 +17,9 @@ return [
             'media' => [
                 'fieldName' => 'media',
             ],
+            'partnerships' => [
+                'fieldName' => 'tx_academicpartners_partnerships',
+            ],
         ],
     ],
 ];

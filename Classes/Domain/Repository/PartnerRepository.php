@@ -12,6 +12,9 @@ use TYPO3\CMS\Extbase\Persistence\Generic\QueryResult;
 use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
+/**
+ * @extends Repository<Partner>
+ */
 class PartnerRepository extends Repository
 {
     public function initializeObject(): void
@@ -19,6 +22,18 @@ class PartnerRepository extends Repository
         $querySettings = GeneralUtility::makeInstance(Typo3QuerySettings::class);
         $querySettings->setRespectStoragePage(false);
         $this->setDefaultQuerySettings($querySettings);
+    }
+
+    /**
+     * @return QueryResult<Partner>
+     */
+    public function findAll(): ?QueryResult
+    {
+        $query = $this->createQuery();
+        $query->matching(
+            $query->equals('doktype', PageTypes::ACADEMIC_PARTNERS)
+        );
+        return $query->execute();
     }
 
     /**
@@ -68,6 +83,9 @@ class PartnerRepository extends Repository
         return $query->execute()->getFirst();
     }
 
+    /**
+     * @return QueryResult<Partner>
+     */
     public function findGeoLocated(): QueryResult
     {
         $query = $this->createQuery();

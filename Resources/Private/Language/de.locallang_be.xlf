@@ -69,6 +69,22 @@
                 <source>Configuration</source>
                 <target>Konfiguration</target>
             </trans-unit>
+            <trans-unit id="plugin.partner_partnershipslist.title">
+                <source>[Academic] Partnerships list</source>
+                <target>[Academic] Partnerschaften als Liste</target>
+            </trans-unit>
+            <trans-unit id="plugin.partner_partnershipslist.description">
+                <source>Display a list of partners assigned to this page.</source>
+                <target>Zeigt eine Liste von Partner an, die mit dieser Seite verbunden sind.</target>
+            </trans-unit>
+            <trans-unit id="plugin.partner_partnershipsteaser.title">
+                <source>[Academic] Partnerships teaser</source>
+                <target>[Academic] Partnerschaften als Teaser</target>
+            </trans-unit>
+            <trans-unit id="plugin.partner_partnershipsteaser.description">
+                <source>Display teasers for partners assigned to this page.</source>
+                <target>Zeigt Teaser für Partner an, die mit dieser Seite verbunden sind.</target>
+            </trans-unit>
 
             <!-- Flexform -->
 

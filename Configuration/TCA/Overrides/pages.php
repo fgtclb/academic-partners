@@ -196,6 +196,44 @@ defined('TYPO3') or die;
                 'default' => true,
             ],
         ],
+        'tx_academicpartners_partnerships' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_db.xlf:pages.tx_academicpartners_partnerships',
+            'l10n_mode' => 'exclude',
+            'config' => [
+                'type' => 'inline',
+                'appearance' => [
+                    'collapseAll' => true,
+                    'expandSingle' => false,
+                    'showNewRecordLink' => true,
+                    'newRecordLinkAddTitle' => true,
+                    'levelLinksPosition' => 'top',
+                    'useCombination' => false,
+                    'suppressCombinationWarning' => false,
+                    'useSortable' => true,
+                    'showPossibleLocalizationRecords' => false,
+                    'showAllLocalizationLink' => false,
+                    'showSynchronizationLink' => false,
+                    'enabledControls' => [
+                        'info' => true,
+                        'new' =>  true,
+                        'dragdrop' => true,
+                        'sort' => false,
+                        'hide' => true,
+                        'delete' => true,
+                        'localize' => true,
+                    ],
+                    'showPossibleRecordsSelector' => false,
+                    'elementBrowserEnabled' => false,
+                ],
+                'behavior' => [
+                    'enableCascadingDelete' => true,
+                ],
+                'foreign_field' =>  'page',
+                'foreign_sortby' => 'sorting',
+                'foreign_table' => 'tx_academicpartners_domain_model_partnership',
+            ],
+        ],
     ];
 
     ArrayUtility::mergeRecursiveWithOverrule(
@@ -236,10 +274,22 @@ defined('TYPO3') or die;
         $additionalTCAcolumns
     );
 
+    // Add the partnerships tab and column to all page types
     ExtensionManagementUtility::addToAllTCAtypes(
         'pages',
         implode(',', [
-            '--div--;LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:pages.div.partner_information',
+            '--div--;LLL:EXT:academic_partners/Resources/Private/Language/locallang_db.xlf:pages.tx_academicpartners_partnerships',
+            'tx_academicpartners_partnerships',
+        ]),
+        '',
+        'after:title'
+    );
+
+    // Add all other columns only to academic partners page type
+    ExtensionManagementUtility::addToAllTCAtypes(
+        'pages',
+        implode(',', [
+            '--div--;LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:pages.div.partner_information',
             '--palette--;;address',
             '--palette--;;geocode',
         ]),
