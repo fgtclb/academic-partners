@@ -131,17 +131,32 @@
             <trans-unit id="columns.address_city.label">
                 <source>City</source>
             </trans-unit>
+            <trans-unit id="columns.address_city.description">
+                <source>A valid city name is required for geocoding.</source>
+            </trans-unit>
             <trans-unit id="columns.address_country.label">
                 <source>Country</source>
+            </trans-unit>
+            <trans-unit id="columns.address_country.description">
+                <source>A valid country is required for geocoding.</source>
             </trans-unit>
             <trans-unit id="columns.address_street.label">
                 <source>Street</source>
             </trans-unit>
+            <trans-unit id="columns.address_street.description">
+                <source>A valid street name is required for geocoding.</source>
+            </trans-unit>
             <trans-unit id="columns.address_street_number.label">
                 <source>Street Number</source>
             </trans-unit>
+            <trans-unit id="columns.address_street_number.description">
+                <source>A valid street number is required for geocoding.</source>
+            </trans-unit>
             <trans-unit id="columns.address_zip.label">
                 <source>Zip</source>
+            </trans-unit>
+            <trans-unit id="columns.address_zip.description">
+                <source>A valid zip code is required for geocoding.</source>
             </trans-unit>
             <trans-unit id="columns.description.label">
                 <source>Description</source>

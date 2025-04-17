@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use FGTCLB\AcademicPartners\Controller\PartnerController;
-use FGTCLB\AcademicPartners\Task\GeocodeTask;
 use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -63,12 +62,4 @@ use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
         [],
         ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT,
     );
-
-    if (ExtensionManagementUtility::isLoaded('scheduler')) {
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks'][GeocodeTask::class] = [
-            'extension' => 'academic_partners',
-            'title' => 'Academic Partners: Geocode',
-            'description' => 'Fetches geocoding information for academic partners',
-        ];
-    }
 })();

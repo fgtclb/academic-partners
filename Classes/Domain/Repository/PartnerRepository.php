@@ -76,10 +76,17 @@ class PartnerRepository extends Repository
     public function findNextForGeolocation(): ?Partner
     {
         $query = $this->createQuery();
+
+        $constraints = [];
+        $constraints[] = $query->equals('doktype', PageTypes::ACADEMIC_PARTNERS);
+        $constraints[] = $query->equals('geocodeStatus', 'open');
+
         $query->matching(
-            $query->equals('geocodeStatus', 'open')
+            $query->logicalAnd(...array_values($constraints))
         );
+
         $query->setLimit(1);
+
         return $query->execute()->getFirst();
     }
 
@@ -89,9 +96,15 @@ class PartnerRepository extends Repository
     public function findGeoLocated(): QueryResult
     {
         $query = $this->createQuery();
+
+        $constraints = [];
+        $constraints[] = $query->equals('doktype', PageTypes::ACADEMIC_PARTNERS);
+        $constraints[] = $query->in('geocodeStatus', ['successful', 'manually']);
+
         $query->matching(
-            $query->in('geocodeStatus', ['successful', 'manually'])
+            $query->logicalAnd(...array_values($constraints))
         );
+
         return $query->execute();
     }
 }
