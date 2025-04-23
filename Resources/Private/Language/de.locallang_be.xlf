@@ -257,6 +257,56 @@
                 <source>Show on map</source>
                 <target>Auf Karte zeigen</target>
             </trans-unit>
+			<trans-unit id="columns.tx_academicpartners_partnerships.label">
+                <source>Partnerships</source>
+				<target>Partnerschaften</target>
+            </trans-unit>
+
+            <!-- Partnership table: TCA columns -->
+
+            <trans-unit id="tx_academicpartners_domain_model_partnership">
+                <source>Partnership</source>
+				<target>Partnerschaft</target>
+            </trans-unit>
+            <trans-unit id="tx_academicpersons_domain_model_contract.tx_academicpartners_domain_model_partnership.button">
+                <source>Create new linked page</source>
+				<target>Neue verlinkte Seite anlegen</target>
+            </trans-unit>
+            <trans-unit id="tx_academicpartners_domain_model_partnership.page">
+                <source>Page</source>
+				<target>Seite</target>
+            </trans-unit>
+            <trans-unit id="tx_academicpartners_domain_model_partnership.partner">
+                <source>Partner</source>
+				<target>Partner</target>
+            </trans-unit>
+            <trans-unit id="tx_academicpartners_domain_model_partnership.role">
+                <source>Role</source>
+				<target>Rolle</target>
+            </trans-unit>
+
+            <!-- Role table: TCA columns -->
+
+            <trans-unit id="tx_academicpartners_domain_model_role">
+                <source>Role</source>
+				<target>Rolle</target>
+            </trans-unit>
+            <trans-unit id="tx_academicpartners_domain_model_role.name">
+                <source>Name</source>
+				<target>Name</target>
+            </trans-unit>
+            <trans-unit id="tx_academicpartners_domain_model_role.description">
+                <source>Description</source>
+				<target>Beschreibung</target>
+            </trans-unit>
+            <trans-unit id="tx_academicpartners_domain_model_role.doktypes">
+                <source>Page types</source>
+				<target>Seitentypen</target>
+            </trans-unit>
+            <trans-unit id="tx_academicpartners_domain_model_role.partnerships">
+                <source>Contacts</source>
+				<target>Kontakte</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

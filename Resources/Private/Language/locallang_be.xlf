@@ -210,7 +210,7 @@
                 <source>Partnership</source>
             </trans-unit>
             <trans-unit id="tx_academicpersons_domain_model_contract.tx_academicpartners_domain_model_partnership.button">
-                <source>Create new Linked page</source>
+                <source>Create new linked page</source>
             </trans-unit>
             <trans-unit id="tx_academicpartners_domain_model_partnership.page">
                 <source>Page</source>
