@@ -198,7 +198,7 @@ defined('TYPO3') or die;
         ],
         'tx_academicpartners_partnerships' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_db.xlf:pages.tx_academicpartners_partnerships',
+            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:columns.tx_academicpartners_partnerships.label',
             'l10n_mode' => 'exclude',
             'config' => [
                 'type' => 'inline',
@@ -278,7 +278,7 @@ defined('TYPO3') or die;
     ExtensionManagementUtility::addToAllTCAtypes(
         'pages',
         implode(',', [
-            '--div--;LLL:EXT:academic_partners/Resources/Private/Language/locallang_db.xlf:pages.tx_academicpartners_partnerships',
+            '--div--;LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:tx_academicpartners_domain_model_partnership',
             'tx_academicpartners_partnerships',
         ]),
         '',
@@ -289,7 +289,7 @@ defined('TYPO3') or die;
     ExtensionManagementUtility::addToAllTCAtypes(
         'pages',
         implode(',', [
-            '--div--;LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:pages.div.partner_information',
+            '--div--;LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:pages.div.partner_information',
             '--palette--;;address',
             '--palette--;;geocode',
         ]),

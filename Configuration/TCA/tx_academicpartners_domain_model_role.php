@@ -6,7 +6,7 @@ if (!defined('TYPO3')) {
 
 return [
     'ctrl' => [
-        'title' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_db.xlf:tx_academicpartners_domain_model_role',
+        'title' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:tx_academicpartners_domain_model_role',
         'label' => 'name',
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
@@ -92,7 +92,7 @@ return [
         ],
         'name' => [
             'exclude' => false,
-            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_db.xlf:tx_academicpartners_domain_model_role.name',
+            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:tx_academicpartners_domain_model_role.name',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
@@ -102,7 +102,7 @@ return [
         ],
         'description' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_db.xlf:tx_academicpartners_domain_model_role.description',
+            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:tx_academicpartners_domain_model_role.description',
             'config' => [
                 'type' => 'text',
                 'cols' => 30,
@@ -112,7 +112,7 @@ return [
         'partnerships' => [
             'exclude' => true,
             'l10n_mode' => 'exclude',
-            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_db.xlf:tx_academicpartners_domain_model_role.partnerships',
+            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:tx_academicpartners_domain_model_role.partnerships',
             'config' => [
                 'type' => 'inline',
                 'foreign_table' => 'tx_academicpartners_domain_model_partnership',

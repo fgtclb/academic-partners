@@ -9,7 +9,7 @@ if (!defined('TYPO3')) {
 
 return [
     'ctrl' => [
-        'title' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_db.xlf:tx_academicpartners_domain_model_partnership',
+        'title' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:tx_academicpartners_domain_model_partnership',
         'label' => 'uid',
         'label_userFunc' => PartnershipLabels::class . '->getTitle',
         'hideTable' => false,
@@ -58,7 +58,7 @@ return [
         ],
         'page' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_db.xlf:tx_academicpartners_domain_model_partnership.page',
+            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:tx_academicpartners_domain_model_partnership.page',
             'config' => [
                 'type' => 'group',
                 'allowed' => 'pages',
@@ -71,7 +71,7 @@ return [
         'partner' => [
             'exclude' => true,
             'l10n_mode' => 'exclude',
-            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_db.xlf:tx_academicpartners_domain_model_partnership.partner',
+            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:tx_academicpartners_domain_model_partnership.partner',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
@@ -90,7 +90,7 @@ return [
         'role' => [
             'exclude' => false,
             'l10n_mode' => 'exclude',
-            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_db.xlf:tx_academicpartners_domain_model_partnership.role',
+            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:tx_academicpartners_domain_model_partnership.role',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
