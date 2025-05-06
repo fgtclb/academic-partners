@@ -16,41 +16,38 @@ use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 class Partner extends AbstractEntity implements GetCategoryCollectionInterface
 {
     protected int $doktype = 0;
-
     protected string $title = '';
-
     protected string $abstract = '';
-
     protected string $description = '';
-
     protected string $addressStreet = '';
-
     protected string $addressStreetNumber = '';
-
     protected string $addressAdditional = '';
-
     protected string $addressZip = '';
-
     protected string $addressCity = '';
-
     protected string $addressCountry = '';
-
     protected float $geocodeLongitude = 0;
-
     protected float $geocodeLatitude = 0;
-
     protected ?\DateTime $geocodeLastRun = null;
-
     protected string $geocodeStatus = 'open';
-
     protected string $geocodeMessage = '';
-
     protected bool $showOnMap = true;
-
     protected ?CategoryCollection $attributes = null;
 
     /** @var ObjectStorage<FileReference> */
-    protected $media;
+    protected ObjectStorage $media;
+
+    public function __construct()
+    {
+        $this->initializeObject();
+    }
+
+    /**
+     * @link https://docs.typo3.org/m/typo3/reference-coreapi/main/en-us/ExtensionArchitecture/Extbase/Reference/Domain/Model/Index.html#good-use-initializeobject-for-setup
+     */
+    public function initializeObject(): void
+    {
+        $this->media = new ObjectStorage();
+    }
 
     /**
      * @return int<0, max>|null
