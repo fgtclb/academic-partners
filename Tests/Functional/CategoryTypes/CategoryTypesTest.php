@@ -4,17 +4,12 @@ declare(strict_types=1);
 
 namespace FGTCLB\AcademicPartners\Tests\Functional\CategoryTypes;
 
+use FGTCLB\AcademicPartners\Tests\Functional\AbstractAcademicPartnersTestCase;
 use FGTCLB\CategoryTypes\Registry\CategoryTypeRegistry;
 use PHPUnit\Framework\Attributes\Test;
-use SBUERK\TYPO3\Testing\TestCase\FunctionalTestCase;
 
-final class CategoryTypesTest extends FunctionalTestCase
+final class CategoryTypesTest extends AbstractAcademicPartnersTestCase
 {
-    protected array $testExtensionsToLoad = [
-        'fgtclb/category-types',
-        'fgtclb/academic-partners',
-    ];
-
     #[Test]
     public function extensionCategoryTypesYamlIsLoaded(): void
     {
