@@ -4,12 +4,18 @@
     "description": "Extension for showing academic partners in list and map view",
     "minimum-stability": "stable",
     "license": "GPL-2.0-or-later",
-    "author": [
+    "authors": [
         {
-            "name": "Jan-Philipp Halle",
-            "email": "p.halle@web-vision.de"
+            "name": "FGTCLB GmbH",
+            "email": "hello@fgtclb.com"
         }
     ],
+    "support": {
+        "issues": "https://github.com/fgtclb/academic-extensions/issues",
+        "source": "https://github.com/fgtclb/academic-extensions",
+        "email": "hello@fgtclb.com"
+    },
+    "homepage": "https://www.fgtclb.com/",
     "config": {
         "vendor-dir": ".Build/vendor",
         "bin-dir": ".Build/bin",
@@ -57,17 +63,5 @@
     "suggest": {
         "fgtclb/page-backend-layout": "Provides backend category preview",
         "typo3/cms-scheduler": "Install EXT:scheduler for the automatic geocoding"
-    },
-    "authors": [
-        {
-            "name": "FGTCLB GmbH",
-            "email": "hello@fgtclb.com"
-        }
-    ],
-    "support": {
-        "issues": "https://github.com/fgtclb/academic-extensions/issues",
-        "source": "https://github.com/fgtclb/academic-extensions",
-        "email": "hello@fgtclb.com"
-    },
-    "homepage": "https://www.fgtclb.com/"
+    }
 }

@@ -1,11 +1,10 @@
 <?php
 
 $EM_CONF[$_EXTKEY] = [
-    'title' => 'FGTCLB: Academic Partners',
-    'description' => 'Extension for showing academic partners in list and map view',
+    'author' => 'FGTCLB',
+    'author_company' => 'FGTCLB GmbH',
+    'author_email' => 'hello@fgtclb.com',
     'category' => 'fe,be',
-    'state' => 'beta',
-    'version' => '2.0.2',
     'constraints' => [
         'depends' => [
             'typo3' => '12.4.0-13.4.99',
@@ -18,14 +17,8 @@ $EM_CONF[$_EXTKEY] = [
             'page_backend_layout' => '2.0.0-2.9.99',
         ],
     ],
-    'autoload' => [
-        'psr-4' => [
-            'FGTCLB\\AcademicPartners\\' => 'Classes/',
-        ],
-    ],
-    'autoload-dev' => [
-        'psr-4' => [
-            'FGTCLB\\AcademicPartners\\Tests\\' => 'Tests/',
-        ],
-    ],
+    'description' => 'Extension for showing academic partners in list and map view',
+    'state' => 'beta',
+    'title' => 'FGTCLB: Academic Partners',
+    'version' => '2.0.2',
 ];
