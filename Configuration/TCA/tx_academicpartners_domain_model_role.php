@@ -30,7 +30,7 @@ return [
             'showitem' => implode(',', [
                 'name',
                 'description',
-                'contacts',
+                'partnerships',
                 '--palette--;;paletteCore',
             ]),
         ],
