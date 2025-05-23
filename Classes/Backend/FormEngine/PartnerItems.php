@@ -29,7 +29,7 @@ class PartnerItems
                 $parameters['items'][] = [
                     'label' => $partner->getTitle(),
                     'value' => $partner->getUid(),
-                    'icon' => 'tx_academicpartners_domain_model_partner',
+                    'icon' => 'tx_academicpartners_domain_model_partnership',
                 ];
             }
         }
