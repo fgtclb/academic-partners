@@ -15,7 +15,7 @@ defined('TYPO3') or die;
         'tt_content',
         'CType',
         'academic',
-        'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlfcontent.ctype.group.label',
+        'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:content.ctype.group.label',
     );
 
     // Plugin: academicpartners_list
