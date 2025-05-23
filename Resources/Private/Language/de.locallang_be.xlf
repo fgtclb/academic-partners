@@ -304,8 +304,8 @@
 				<target>Seitentypen</target>
             </trans-unit>
             <trans-unit id="tx_academicpartners_domain_model_role.partnerships">
-                <source>Contacts</source>
-				<target>Kontakte</target>
+                <source>Partnerships</source>
+				<target>Partnerschaften</target>
             </trans-unit>
         </body>
     </file>

@@ -237,7 +237,7 @@
                 <source>Page types</source>
             </trans-unit>
             <trans-unit id="tx_academicpartners_domain_model_role.partnerships">
-                <source>Contacts</source>
+                <source>Partnerships</source>
             </trans-unit>
         </body>
     </file>
