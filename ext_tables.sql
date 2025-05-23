@@ -1,6 +1,5 @@
 CREATE TABLE pages (
-    partner_name varchar(255) DEFAULT '' NOT NULL,
-    partner_abbreviation varchar(255) DEFAULT '' NOT NULL,
+    abbreviation varchar(255) DEFAULT '' NOT NULL,
     address_street varchar(255) DEFAULT '' NOT NULL,
     address_street_number varchar(8) DEFAULT '' NOT NULL,
     address_zip varchar(20) DEFAULT '' NOT NULL,
@@ -13,7 +12,9 @@ CREATE TABLE pages (
     geocode_status varchar(40) DEFAULT '' NOT NULL,
     geocode_message varchar(255) DEFAULT '' NOT NULL,
     show_on_map tinyint(1) unsigned DEFAULT '1' NOT NULL,
-    tx_academicpartners_partnerships int(11) DEFAULT NULL
+    tx_academicpartners_partnerships int(11) DEFAULT NULL,
+    link text NOT NULL DEFAULT '',
+    description longtext DEFAULT NULL,
 );
 
 CREATE TABLE tx_academicpartners_domain_model_partnership (
