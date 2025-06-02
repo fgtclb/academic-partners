@@ -1,22 +1,18 @@
 <html
     lang="en"
     xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
-    xmlns:ace="http://typo3.org/ns/FGTCLB/CategoryTypes/ViewHelpers"
+    xmlns:ct="http://typo3.org/ns/FGTCLB/CategoryTypes/ViewHelpers"
     data-namespace-typo3-fluid="true"
 >
-    <f:for
-        each="{categories.allCategoriesByType}"
-        as="category"
-        key="categoryKey"
-    >
-        <f:if condition="{category}">
-            <label for="{categoryKey}">
-                {f:translate(
-                    key: 'sys_category.academic_partners.{categoryKey}',
-                    extensionName: 'academic_partners'
-                )}
+
+<f:for each="{categories.allCategoriesByType}" as="category" key="categoryKey">
+    <f:if condition="{category}">
+        <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+            <label for="{categoryKey}" class="form-label">
+                {f:translate(key: 'sys_category.partners.{categoryKey}', extensionName: 'academic_partners')}
             </label>
-            <ace:form.filterSelect
+
+            <ct:form.filterSelect
                 id="{categoryKey}"
                 property="filterCollection.{categoryKey}"
                 value="{demand.filterCollection.filterCategories.{categoryKey}}"
@@ -24,12 +20,15 @@
                 optionValueField="uid"
                 optionLabelField="title"
                 prependOptionLabel="{f:translate(
-                    key: 'sys_category.academic_partners.allOptions',
+                    key: 'sys_category.partners.allOptions',
                     extensionName: 'academic_partners'
                 )}"
                 prependOptionValue=""
                 additionalAttributes="{'onchange': 'this.form.submit()'}"
+                class="form-select"
             />
-        </f:if>
-    </f:for>
+        </div>
+    </f:if>
+</f:for>
+
 </html>

@@ -1,244 +1,239 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-    <file
-        source-language="en"
-        datatype="plaintext"
-        original="messages"
-        date="2023-04-24T15:52:42Z"
-    >
-        <header/>
-        <body>
-            <!-- Backend Layout -->
+	<file source-language="en" datatype="plaintext" original="messages" date="2023-04-24T15:52:42Z">
+		<header/>
+		<body>
+			<!-- Backend Layout -->
 
-            <trans-unit id="backend_layout.academic_partners">
-                <source>[Academic] Partners</source>
-            </trans-unit>
+			<trans-unit id="backend_layout.academic_partner">
+				<source>Academic Partner</source>
+			</trans-unit>
 
-            <!-- Doktype -->
+			<!-- Doktype -->
 
-            <trans-unit id="pages.doktype.groups.academic">
-                <source>[Academic] Extensions</source>
-            </trans-unit>
-            <trans-unit id="pages.doktype.items.academic_partner">
-                <source>[Academic] Partners</source>
-            </trans-unit>
+			<trans-unit id="pages.doktype.groups.academic">
+				<source>Academic</source>
+			</trans-unit>
+			<trans-unit id="pages.doktype.items.academic_partner">
+				<source>Partner</source>
+			</trans-unit>
 
-            <!-- Labels	for pages -->
+			<!-- Labels	for pages -->
 
-            <trans-unit id="pages.academic_partners">
-                <source>[Academic] Partner Page</source>
-            </trans-unit>
-            <trans-unit id="pages.div.partner_information">
-                <source>Partner</source>
-            </trans-unit>
+			<trans-unit id="pages.academic_partners">
+				<source>Partner</source>
+			</trans-unit>
+			<trans-unit id="pages.div.partner_information">
+				<source>Partner</source>
+			</trans-unit>
 
 
-            <!-- Plugins -->
+			<!-- Plugins -->
 
-            <trans-unit id="content.ctype.group.label">
-                <source>[Academic] Extensions</source>
-            </trans-unit>
-            <trans-unit id="plugin.partner_list.title">
-                <source>[Academic] Partners list</source>
-            </trans-unit>
-            <trans-unit id="plugin.partner_list.description">
-                <source>Display a sortable and filterable list of partners.</source>
-            </trans-unit>
-            <trans-unit id="plugin.partner_list.configuration">
-                <source>Configuration</source>
-            </trans-unit>
-            <trans-unit id="plugin.partner_map.title">
-                <source>[Academic] Partners map</source>
-            </trans-unit>
-            <trans-unit id="plugin.partner_map.description">
-                <source>Display a sortable and filterable list of partners with map.</source>
-            </trans-unit>
-            <trans-unit id="plugin.partner_map.configuration">
-                <source>Configuration</source>
-            </trans-unit>
-            <trans-unit id="plugin.partner_partnershipslist.title">
-                <source>[Academic] Partnerships list</source>
-            </trans-unit>
-            <trans-unit id="plugin.partner_partnershipslist.description">
-                <source>Display a list of partners assigned to this page.</source>
-            </trans-unit>
-            <trans-unit id="plugin.partner_partnershipsteaser.title">
-                <source>[Academic] Partnerships teaser</source>
-            </trans-unit>
-            <trans-unit id="plugin.partner_partnershipsteaser.description">
-                <source>Display teasers for partners assigned to this page.</source>
-            </trans-unit>
+			<trans-unit id="content.ctype.group.label">
+				<source>Academic</source>
+			</trans-unit>
+			<trans-unit id="plugin.partner_list.title">
+				<source>Partners List</source>
+			</trans-unit>
+			<trans-unit id="plugin.partner_list.description">
+				<source>Display a sortable and filterable list of partners.</source>
+			</trans-unit>
+			<trans-unit id="plugin.partner_list.configuration">
+				<source>Configuration</source>
+			</trans-unit>
+			<trans-unit id="plugin.partner_map.title">
+				<source>Partners Map</source>
+			</trans-unit>
+			<trans-unit id="plugin.partner_map.description">
+				<source>Display a sortable and filterable list of partners with map.</source>
+			</trans-unit>
+			<trans-unit id="plugin.partner_map.configuration">
+				<source>Configuration</source>
+			</trans-unit>
+			<trans-unit id="plugin.partner_partnershipslist.title">
+				<source>Partnerships List</source>
+			</trans-unit>
+			<trans-unit id="plugin.partner_partnershipslist.description">
+				<source>Display a list of partners assigned to this page.</source>
+			</trans-unit>
+			<trans-unit id="plugin.partner_partnershipsteaser.title">
+				<source>Partnerships Teaser</source>
+			</trans-unit>
+			<trans-unit id="plugin.partner_partnershipsteaser.description">
+				<source>Display teasers for partners assigned to this page.</source>
+			</trans-unit>
 
-            <!-- Flexform -->
+			<!-- Flexform -->
 
-            <trans-unit id="flexform.categories.label">
-                <source>Default categories</source>
-            </trans-unit>
-            <trans-unit id="flexform.categories.description">
-                <source>Selected categories of the same type (e.g. ‘Degree’) are checked as alternatives (OR). If a category has subcategories (e.g. ‘Master’ with ‘Master of Arts’), these are automatically added to the list of alternatives. In addition, the pages found for each category type must also be able to be found in all other selected category types (AND).</source>
-            </trans-unit>
-            <trans-unit id="flexform.hide_filtering.label">
-                <source>Hide category filtering</source>
-            </trans-unit>
-            <trans-unit id="flexform.hide_filtering.description">
-                <source>If the option is enabled, options for filtering by categories will not be visible in the frontend.</source>
-            </trans-unit>
-            <trans-unit id="flexform.hide_sorting.label">
-                <source>Hide sorting</source>
-            </trans-unit>
-            <trans-unit id="flexform.hide_sorting.description">
-                <source>If the option is enabled, options for sorting will not be visible in the frontend.</source>
-            </trans-unit>
-            <trans-unit id="flexform.sorting.label">
-                <source>Default sorting</source>
-            </trans-unit>
-            <trans-unit id="flexform.sorting.description">
-                <source>Default sorting in frontend (can be changed by user if sorting options are visible in the frontend).</source>
-            </trans-unit>
-            <trans-unit id="flexform.sorting.title.asc">
-                <source>Title A-Z</source>
-            </trans-unit>
-            <trans-unit id="flexform.sorting.title.desc">
-                <source>Title Z-A</source>
-            </trans-unit>
-            <trans-unit id="flexform.sorting.update">
-                <source>Last updated (latest first)</source>
-            </trans-unit>
-            <trans-unit id="flexform.sorting.update.asc">
-                <source>Last updated (latest last)</source>
-            </trans-unit>
-            <trans-unit id="flexform.sorting.sorting.asc">
-                <source>Page sorting (result may be unexpected)</source>
-            </trans-unit>
+			<trans-unit id="flexform.categories.label">
+				<source>Default categories</source>
+			</trans-unit>
+			<trans-unit id="flexform.categories.description">
+				<source>Selected categories of the same type (e.g. ‘Degree’) are checked as alternatives (OR). If a category has subcategories (e.g. ‘Master’ with ‘Master of Arts’), these are automatically added to the list of alternatives. In addition, the pages found for each category type must also be able to be found in all other selected category types (AND).</source>
+			</trans-unit>
+			<trans-unit id="flexform.hide_filtering.label">
+				<source>Hide category filtering</source>
+			</trans-unit>
+			<trans-unit id="flexform.hide_filtering.description">
+				<source>If the option is enabled, options for filtering by categories will not be visible in the frontend.</source>
+			</trans-unit>
+			<trans-unit id="flexform.hide_sorting.label">
+				<source>Hide sorting</source>
+			</trans-unit>
+			<trans-unit id="flexform.hide_sorting.description">
+				<source>If the option is enabled, options for sorting will not be visible in the frontend.</source>
+			</trans-unit>
+			<trans-unit id="flexform.sorting.label">
+				<source>Default sorting</source>
+			</trans-unit>
+			<trans-unit id="flexform.sorting.description">
+				<source>Default sorting in frontend (can be changed by user if sorting options are visible in the frontend).</source>
+			</trans-unit>
+			<trans-unit id="flexform.sorting.title.asc">
+				<source>Title A-Z</source>
+			</trans-unit>
+			<trans-unit id="flexform.sorting.title.desc">
+				<source>Title Z-A</source>
+			</trans-unit>
+			<trans-unit id="flexform.sorting.update">
+				<source>Last updated (latest first)</source>
+			</trans-unit>
+			<trans-unit id="flexform.sorting.update.asc">
+				<source>Last updated (latest last)</source>
+			</trans-unit>
+			<trans-unit id="flexform.sorting.sorting.asc">
+				<source>Page sorting (result may be unexpected)</source>
+			</trans-unit>
 
-            <!-- Pages table: TCA tabs and palettes -->
+			<!-- Pages table: TCA tabs and palettes -->
 
-            <trans-unit id="pages.div.partner_information">
-                <source>Partner</source>
-            </trans-unit>
-            <trans-unit id="palettes.address.label">
-                <source>Address</source>
-            </trans-unit>
-            <trans-unit id="palettes.geocode.label">
-                <source>Geodata</source>
-            </trans-unit>
+			<trans-unit id="pages.div.partner_information">
+				<source>Partner</source>
+			</trans-unit>
+			<trans-unit id="palettes.address.label">
+				<source>Address</source>
+			</trans-unit>
+			<trans-unit id="palettes.geocode.label">
+				<source>Geodata</source>
+			</trans-unit>
 
-            <!-- Pages table: TCA columns -->
+			<!-- Pages table: TCA columns -->
 
-            <trans-unit id="columns.address_additional.label">
-                <source>Additional</source>
-            </trans-unit>
-            <trans-unit id="columns.address_city.label">
-                <source>City</source>
-            </trans-unit>
-            <trans-unit id="columns.address_city.description">
-                <source>A valid city name is required for geocoding.</source>
-            </trans-unit>
-            <trans-unit id="columns.address_country.label">
-                <source>Country</source>
-            </trans-unit>
-            <trans-unit id="columns.address_country.description">
-                <source>A valid country is required for geocoding.</source>
-            </trans-unit>
-            <trans-unit id="columns.address_street.label">
-                <source>Street</source>
-            </trans-unit>
-            <trans-unit id="columns.address_street.description">
-                <source>A valid street name is required for geocoding.</source>
-            </trans-unit>
-            <trans-unit id="columns.address_street_number.label">
-                <source>Street Number</source>
-            </trans-unit>
-            <trans-unit id="columns.address_street_number.description">
-                <source>A valid street number is required for geocoding.</source>
-            </trans-unit>
-            <trans-unit id="columns.address_zip.label">
-                <source>Zip</source>
-            </trans-unit>
-            <trans-unit id="columns.address_zip.description">
-                <source>A valid zip code is required for geocoding.</source>
-            </trans-unit>
-            <trans-unit id="columns.description.label">
-                <source>Description</source>
-            </trans-unit>
-            <trans-unit id="columns.geocode_last_run.label">
-                <source>Geocoded on</source>
-            </trans-unit>
-            <trans-unit id="columns.geocode_latitude.label">
-                <source>Latitude</source>
-            </trans-unit>
-            <trans-unit id="columns.geocode_longitude.label">
-                <source>Longitude</source>
-            </trans-unit>
-            <trans-unit id="columns.geocode_message.label">
-                <source>Geocode Message</source>
-            </trans-unit>
-            <trans-unit id="columns.geocode_status.label">
-                <source>Geocode Status</source>
-            </trans-unit>
-            <trans-unit id="columns.geocode_status.I.open.label">
-                <source>open</source>
-            </trans-unit>
-            <trans-unit id="columns.geocode_status.I.successful.label">
-                <source>successful</source>
-            </trans-unit>
-            <trans-unit id="columns.geocode_status.I.failed.label">
-                <source>failed</source>
-            </trans-unit>
-            <trans-unit id="columns.geocode_status.I.manually.label">
-                <source>manually</source>
-            </trans-unit>
-            <trans-unit id="columns.link.label">
-                <source>Link to Website</source>
-            </trans-unit>
-            <trans-unit id="columns.name.label">
-                <source>Name</source>
-            </trans-unit>
-            <trans-unit id="columns.abbreviation.label">
-                <source>Abbreviation</source>
-            </trans-unit>
-            <trans-unit id="columns.show_on_map.label">
-                <source>Show on map</source>
-            </trans-unit>
-            <trans-unit id="columns.tx_academicpartners_partnerships.label">
-                <source>Partnerships</source>
-            </trans-unit>
+			<trans-unit id="columns.address_additional.label">
+				<source>Additional</source>
+			</trans-unit>
+			<trans-unit id="columns.address_city.label">
+				<source>City</source>
+			</trans-unit>
+			<trans-unit id="columns.address_city.description">
+				<source>A valid city name is required for geocoding.</source>
+			</trans-unit>
+			<trans-unit id="columns.address_country.label">
+				<source>Country</source>
+			</trans-unit>
+			<trans-unit id="columns.address_country.description">
+				<source>A valid country is required for geocoding.</source>
+			</trans-unit>
+			<trans-unit id="columns.address_street.label">
+				<source>Street</source>
+			</trans-unit>
+			<trans-unit id="columns.address_street.description">
+				<source>A valid street name is required for geocoding.</source>
+			</trans-unit>
+			<trans-unit id="columns.address_street_number.label">
+				<source>Street Number</source>
+			</trans-unit>
+			<trans-unit id="columns.address_street_number.description">
+				<source>A valid street number is required for geocoding.</source>
+			</trans-unit>
+			<trans-unit id="columns.address_zip.label">
+				<source>Zip</source>
+			</trans-unit>
+			<trans-unit id="columns.address_zip.description">
+				<source>A valid zip code is required for geocoding.</source>
+			</trans-unit>
+			<trans-unit id="columns.description.label">
+				<source>Description</source>
+			</trans-unit>
+			<trans-unit id="columns.geocode_last_run.label">
+				<source>Geocoded on</source>
+			</trans-unit>
+			<trans-unit id="columns.geocode_latitude.label">
+				<source>Latitude</source>
+			</trans-unit>
+			<trans-unit id="columns.geocode_longitude.label">
+				<source>Longitude</source>
+			</trans-unit>
+			<trans-unit id="columns.geocode_message.label">
+				<source>Geocode Message</source>
+			</trans-unit>
+			<trans-unit id="columns.geocode_status.label">
+				<source>Geocode Status</source>
+			</trans-unit>
+			<trans-unit id="columns.geocode_status.I.open.label">
+				<source>open</source>
+			</trans-unit>
+			<trans-unit id="columns.geocode_status.I.successful.label">
+				<source>successful</source>
+			</trans-unit>
+			<trans-unit id="columns.geocode_status.I.failed.label">
+				<source>failed</source>
+			</trans-unit>
+			<trans-unit id="columns.geocode_status.I.manually.label">
+				<source>manually</source>
+			</trans-unit>
+			<trans-unit id="columns.link.label">
+				<source>Link to Website</source>
+			</trans-unit>
+			<trans-unit id="columns.name.label">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="columns.abbreviation.label">
+				<source>Abbreviation</source>
+			</trans-unit>
+			<trans-unit id="columns.show_on_map.label">
+				<source>Show on map</source>
+			</trans-unit>
+			<trans-unit id="columns.tx_academicpartners_partnerships.label">
+				<source>Partnerships</source>
+			</trans-unit>
 
-            <!-- Partnership table: TCA columns -->
+			<!-- Partnership table: TCA columns -->
 
-            <trans-unit id="tx_academicpartners_domain_model_partnership">
-                <source>Partnership</source>
-            </trans-unit>
-            <trans-unit id="tx_academicpersons_domain_model_contract.tx_academicpartners_domain_model_partnership.button">
-                <source>Create new linked page</source>
-            </trans-unit>
-            <trans-unit id="tx_academicpartners_domain_model_partnership.page">
-                <source>Page</source>
-            </trans-unit>
-            <trans-unit id="tx_academicpartners_domain_model_partnership.partner">
-                <source>Partner</source>
-            </trans-unit>
-            <trans-unit id="tx_academicpartners_domain_model_partnership.role">
-                <source>Role</source>
-            </trans-unit>
+			<trans-unit id="tx_academicpartners_domain_model_partnership">
+				<source>Partnership</source>
+			</trans-unit>
+			<trans-unit id="tx_academicpersons_domain_model_contract.tx_academicpartners_domain_model_partnership.button">
+				<source>Create new linked page</source>
+			</trans-unit>
+			<trans-unit id="tx_academicpartners_domain_model_partnership.page">
+				<source>Page</source>
+			</trans-unit>
+			<trans-unit id="tx_academicpartners_domain_model_partnership.partner">
+				<source>Partner</source>
+			</trans-unit>
+			<trans-unit id="tx_academicpartners_domain_model_partnership.role">
+				<source>Role</source>
+			</trans-unit>
 
-            <!-- Role table: TCA columns -->
+			<!-- Role table: TCA columns -->
 
-            <trans-unit id="tx_academicpartners_domain_model_role">
-                <source>Role</source>
-            </trans-unit>
-            <trans-unit id="tx_academicpartners_domain_model_role.name">
-                <source>Name</source>
-            </trans-unit>
-            <trans-unit id="tx_academicpartners_domain_model_role.description">
-                <source>Description</source>
-            </trans-unit>
-            <trans-unit id="tx_academicpartners_domain_model_role.doktypes">
-                <source>Page types</source>
-            </trans-unit>
-            <trans-unit id="tx_academicpartners_domain_model_role.partnerships">
-                <source>Partnerships</source>
-            </trans-unit>
-        </body>
-    </file>
+			<trans-unit id="tx_academicpartners_domain_model_role">
+				<source>Role</source>
+			</trans-unit>
+			<trans-unit id="tx_academicpartners_domain_model_role.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_academicpartners_domain_model_role.description">
+				<source>Description</source>
+			</trans-unit>
+			<trans-unit id="tx_academicpartners_domain_model_role.doktypes">
+				<source>Page types</source>
+			</trans-unit>
+			<trans-unit id="tx_academicpartners_domain_model_role.partnerships">
+				<source>Partnerships</source>
+			</trans-unit>
+		</body>
+	</file>
 </xliff>

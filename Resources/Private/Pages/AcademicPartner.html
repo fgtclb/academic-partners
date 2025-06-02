@@ -1,0 +1,59 @@
+<html
+    lang="en"
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
+    data-namespace-typo3-fluid="true"
+>
+
+<div class="academic-partners-detail container">
+    <div class="d-flex flex-column-reverse">
+        <h1>{partner.title}</h1>
+
+        <f:for each="{images}" as="image" iteration="i">
+            <f:if condition="{i.isFirst}">
+                <f:image image="{image}" class="img-fluid"/>
+            </f:if>
+        </f:for>
+    </div>
+
+    <f:if condition="{partner.categories.allCategoriesByType}">
+        <ul>
+            <f:for each="{partner.categories.allCategoriesByType}" as="categories" key="type">
+                <f:if condition="{categories}">
+                    <li>
+                        <core:icon identifier="category_types.partners.{type}"/>
+
+                        <b>{f:translate(key: 'sys_category.partners.{type}', extensionName: 'academic_partners')}:</b>
+
+                        <span>
+                            <f:for each="{categories}" as="category" iteration="i">
+                                {category.title}{f:if(condition: '!{i.isLast}', then: ', ')}
+                            </f:for>
+                        </span>
+                    </li>
+                </f:if>
+            </f:for>
+        </ul>
+    </f:if>
+
+    <f:if condition="{partner.addressStreet} || {partner.addressStreetNumber} || {partner.addressAdditional}">
+        <b>{f:translate(key: 'academic_partners.address', extensionName: 'academic_partners')}:</b>
+
+        <span>
+            {partner.addressStreet} {partner.addressStreetNumber} {partner.addressAdditional}
+
+            <f:if condition="{partner.addressZip} || {partner.addressCity}">
+                - {partner.addressZip} {partner.addressCity}
+            </f:if>
+
+
+            <f:if condition="{partner.addressCountryLocalizedNameLabel}">
+                | {f:translate(key: '{partner.addressCountryLocalizedNameLabel}', extensionName: 'academic_partners')}
+            </f:if>
+        </span>
+    </f:if>
+
+    <f:cObject typoscriptObjectPath="styles.content.getContent"/>
+</div>
+
+</html>

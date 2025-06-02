@@ -4,12 +4,12 @@
     xmlns:ace="http://typo3.org/ns/FGTCLB/AcademicPartners/ViewHelpers"
     data-namespace-typo3-fluid="true"
 >
-    <label for="sortingField">
-        {f:translate(
-            key: 'sorting.sortingField.label',
-            extensionName: 'academic_partners'
-        )}
+
+<div class="col-12 col-md-6 col-lg-4 col-xl-3">
+    <label for="sortingField" class="form-label">
+        {f:translate(key: 'sorting.field.label', extensionName: 'academic_partners')}
     </label>
+
     <ace:form.sortingSelect
         id="sortingField"
         property="sortingField"
@@ -17,13 +17,15 @@
         type="fields"
         additionalAttributes="{'onchange': 'this.form.submit()'}"
         l10n="filter.sortingField"
+        class="form-select"
     />
-    <label for="sortingDirection">
-        {f:translate(
-            key: 'sorting.sortingDirection.label',
-            extensionName: 'academic_partners'
-        )}
+</div>
+
+<div class="col-12 col-md-6 col-lg-4 col-xl-3">
+    <label for="sortingDirection" class="form-label">
+        {f:translate(key: 'sorting.direction.label', extensionName: 'academic_partners')}
     </label>
+
     <ace:form.sortingSelect
         id="sortingDirection"
         property="sortingDirection"
@@ -31,5 +33,8 @@
         type="directions"
         additionalAttributes="{'onchange': 'this.form.submit()'}"
         l10n="filter.sortingDirection"
+        class="form-select"
     />
+</div>
+
 </html>

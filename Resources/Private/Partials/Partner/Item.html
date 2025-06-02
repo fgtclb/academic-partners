@@ -1,0 +1,51 @@
+<html
+    lang="en"
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
+    data-namespace-typo3-fluid="true"
+>
+
+<div class="card flex-column-reverse academic-partners-item mt-4">
+    <div class="card-content">
+        <div class="card-body">
+            <f:render
+                partial="Partner/Header"
+                arguments="{
+                    header: '{partner.title}',
+                    layout: '{data.header_layout}',
+                    positionClass: 'card-title',
+                    link: '{f:uri.page(pageUid: partner.uid)}',
+                    subheader: '{data.subheader}'
+                }"
+            />
+        </div>
+
+        <f:if condition="{partner.attributes}">
+            <ul class="list-group list-group-flush">
+                <f:for each="{partner.attributes.allCategoriesByType}" as="attributes" key="category">
+                    <f:if condition="{attributes}">
+                        <li class="list-group-item">
+                            <core:icon identifier="category_types.partners.{category}"/>
+
+                            <b>{f:translate(key: 'sys_category.partners.{category}', extensionName: 'academic_partners')}:</b>
+
+                            <span>
+                                <f:for each="{attributes}" as="attribute" iteration="i">
+                                    {attribute.title}{f:if(condition: '!{i.isLast}', then: ', ')}
+                                </f:for>
+                            </span>
+                        </li>
+                    </f:if>
+                </f:for>
+            </ul>
+        </f:if>
+    </div>
+
+    <f:for each="{partner.media}" as="image" iteration="i">
+        <f:if condition="{i.isFirst}">
+            <f:image image="{image}" class="card-img-top img-fluid"/>
+        </f:if>
+    </f:for>
+</div>
+
+</html>

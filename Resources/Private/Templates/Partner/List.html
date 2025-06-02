@@ -3,41 +3,17 @@
     xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
     data-namespace-typo3-fluid="true"
 >
-    <f:layout name="Default" />
-    <f:section name="Header">
-        <header>
-            <h1>{data.title}</h1>
-        </header>
-    </f:section>
-    <f:section name="Main">
-        <f:if condition="{settings.hideSorting}==false || {settings.hideFilter}==false">
-            <div class="partner-filter">
-                <f:form
-                    action="list"
-                    id="partner-filter"
-                    name="demand"
-                    object="{demand}"
-                >
-                    <div class="row">
-                        <f:if condition="{settings.hideSorting}==false">
-                            <f:render
-                                partial="Partner/DemandSorting"
-                                arguments="{_all}"
-                            />
-                        </f:if>
-                        <f:if condition="{settings.hideFilter}==false">
-                            <f:render
-                                partial="Partner/DemandCategories"
-                                arguments="{_all}"
-                            />
-                        </f:if>
-                    </div>
-                </f:form>
-            </div>
-        </f:if>
-        <f:render
-            partial="Partner/Items"
-            arguments="{_all}"
-        />
-    </f:section>
+
+<div class="academic-partners-list">
+    <f:render
+        partial="Partner/SortingAndFilters"
+        arguments="{_all}"
+    />
+
+    <f:render
+        partial="Partner/ItemList"
+        arguments="{_all}"
+    />
+</div>
+
 </html>

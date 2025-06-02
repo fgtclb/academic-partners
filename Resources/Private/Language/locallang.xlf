@@ -1,79 +1,82 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-    <file
-        source-language="en"
-        atatype="plaintext"
-        original="messages"
-        date="2023-03-15T11:39:25Z"
-        product-name="academic-partners"
-    >
-        <header/>
-        <body>
-            <!-- System Categories -->
+	<file source-language="en" atatype="plaintext" original="messages" date="2023-03-15T11:39:25Z" product-name="academic-partners">
+		<header/>
+		<body>
+			<!-- System Categories -->
 
-            <trans-unit id="sys_category.academic_partners.collaboration_type">
-                <source>Collaboration Type</source>
-            </trans-unit>
-            <trans-unit id="sys_category.academic_partners.partner_type">
-                <source>Partner Type</source>
-            </trans-unit>
-            <trans-unit id="sys_category.academic_partners.region">
-                <source>Region</source>
-            </trans-unit>
-            <trans-unit id="sys_category.academic_partners.sdg">
-                <source>SDG</source>
-            </trans-unit>
-            
-            <!-- Sorting direction options -->
+			<trans-unit id="sys_category.partners.collaboration_type">
+				<source>Collaboration Type</source>
+			</trans-unit>
+			<trans-unit id="sys_category.partners.partner_type">
+				<source>Partner Type</source>
+			</trans-unit>
+			<trans-unit id="sys_category.partners.region">
+				<source>Region</source>
+			</trans-unit>
+			<trans-unit id="sys_category.partners.sdg">
+				<source>SDG</source>
+			</trans-unit>
+			<trans-unit id="sys_category.partners.allOptions">
+				<source>All options</source>
+			</trans-unit>
 
-            <trans-unit id="sorting.sortingDirection.label">
-                <source>Sorting direction</source>
-            </trans-unit>
-            <trans-unit id="sorting.direction.asc">
-                <source>ascending</source>
-            </trans-unit>
-            <trans-unit id="sorting.direction.desc">
-                <source>descending</source>
-            </trans-unit>
+			<!-- Detail page labels -->
 
-            <!-- Sorting field options -->
+			<trans-unit id="academic_partners.address">
+				<source>Address</source>
+			</trans-unit>
 
-            <trans-unit id="sorting.sortingField.label">
-                <source>Sorting field</source>
-            </trans-unit>
-            <trans-unit id="sorting.field.title">
-                <source>Title</source>
-            </trans-unit>
-            <trans-unit id="sorting.field.lastUpdated">
-                <source>Last updated</source>
-            </trans-unit>
-            <trans-unit id="sorting.field.sorting">
-                <source>Sorting</source>
-            </trans-unit>
+			<!-- Sorting direction options -->
 
-            <!-- Combined sorting options -->
+			<trans-unit id="sorting.direction.label">
+				<source>Sorting direction</source>
+			</trans-unit>
+			<trans-unit id="sorting.direction.asc">
+				<source>ascending</source>
+			</trans-unit>
+			<trans-unit id="sorting.direction.desc">
+				<source>descending</source>
+			</trans-unit>
 
-            <trans-unit id="sorting.title.asc">
-                <source>Title A-Z</source>
-            </trans-unit>
-            <trans-unit id="sorting.title.desc">
-                <source>Title Z-A</source>
-            </trans-unit>
-            <trans-unit id="sorting.lastUpdated.asc">
-                <source>Last updated (latest last)</source>
-            </trans-unit>
-            <trans-unit id="sorting.lastUpdated.desc">
-                <source>Last updated (latest first)</source>
-            </trans-unit>
-            <trans-unit id="sorting.sorting.asc">
-                <source>Page sorting (Result may be unexpected)</source>
-            </trans-unit>
+			<!-- Sorting field options -->
 
-            <!-- List -->
+			<trans-unit id="sorting.field.label">
+				<source>Sorting field</source>
+			</trans-unit>
+			<trans-unit id="sorting.field.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="sorting.field.lastUpdated">
+				<source>Last updated</source>
+			</trans-unit>
+			<trans-unit id="sorting.field.sorting">
+				<source>Sorting</source>
+			</trans-unit>
 
-            <trans-unit id="list.noPartnersFound">
-                <source>No partners found.</source>
-            </trans-unit>
-        </body>
-    </file>
+			<!-- Combined sorting options -->
+
+			<trans-unit id="sorting.title.asc">
+				<source>Title A-Z</source>
+			</trans-unit>
+			<trans-unit id="sorting.title.desc">
+				<source>Title Z-A</source>
+			</trans-unit>
+			<trans-unit id="sorting.lastUpdated.asc">
+				<source>Last updated (latest last)</source>
+			</trans-unit>
+			<trans-unit id="sorting.lastUpdated.desc">
+				<source>Last updated (latest first)</source>
+			</trans-unit>
+			<trans-unit id="sorting.sorting.asc">
+				<source>Page sorting (Result may be unexpected)</source>
+			</trans-unit>
+
+			<!-- List -->
+
+			<trans-unit id="list.noPartnersFound">
+				<source>No partners found.</source>
+			</trans-unit>
+		</body>
+	</file>
 </xliff>

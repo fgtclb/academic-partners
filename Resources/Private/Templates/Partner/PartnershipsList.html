@@ -3,37 +3,56 @@
     xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
     data-namespace-typo3-fluid="true"
 >
-    <div class="academic-contacts4pages">
-        <f:if condition="{partnershipRoles}">
-            <f:then>
-                <f:for each="{partnershipRoles}" as="role">
-                    <f:if condition="{role.description}">
-                        <f:then>
-                            <p>{role.description}</p>
-                        </f:then>
-                        <f:else>
-                            <p>{role.name}</p>
-                        </f:else>
-                    </f:if>
+
+<div class="academic-partnerships-list">
+    <f:if condition="{partnershipRoles}">
+        <f:then>
+            <f:for each="{partnershipRoles}" as="role">
+                <div class="row">
+                    <f:render
+                        partial="Partner/Header"
+                        arguments="{
+                            header: '{role.name}',
+                            layout: '{data.header_layout}',
+                            subheader: '{data.subheader}'
+                        }"
+                    />
 
                     <f:for each="{partnerships}" as="partnership">
                         <f:if condition="{partnership.role} == {role}">
-                            <f:render
-                                partial="Partnerships/ListItem"
-                                arguments="{partnership: partnership}"
-                            />
+                            <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                                <f:render
+                                    partial="Partnerships/List/Item"
+                                    arguments="{
+                                        partner: partnership.partner,
+                                        data: data,
+                                        settings: settings,
+                                        grouped: 'true'
+                                    }"
+                                />
+                            </div>
                         </f:if>
                     </f:for>
-                </f:for>
-            </f:then>
-            <f:else>
+                </div>
+            </f:for>
+        </f:then>
+        <f:else>
+            <div class="row">
                 <f:for each="{partnerships}" as="partnership">
-                    <f:render
-                        partial="Partnerships/ListItem"
-                        arguments="{partnership: partnership}"
-                    />
+                    <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                        <f:render
+                            partial="Partnerships/List/Item"
+                            arguments="{
+                                partner: partnership.partner,
+                                data: data,
+                                settings: settings
+                            }"
+                        />
+                    </div>
                 </f:for>
-            </f:else>
-        </f:if>
-    </div>
+            </div>
+        </f:else>
+    </f:if>
+</div>
+
 </html>
