@@ -27,8 +27,16 @@ class PartnerProcessor implements DataProcessorInterface
         array $processorConfiguration,
         array $processedData
     ) {
-        $partnerFactory = GeneralUtility::makeInstance(PartnerFactory::class);
-        $processedData['partner'] = $partnerFactory->get($processedData['page']->getPageRecord());
+        // Try to fetch page data for FLUIDTEMPLATE
+        $pageData = $processedData['data'] ?? [];
+        if ($pageData === []) {
+            // If no page data is available in FLUIDTEMPLATE, try to fetch page data from PAGEVIEW
+            $pageData = $processedData['page']->getPageRecord() ?? [];
+        }
+        if ($pageData !== []) {
+            $programDataFactory = GeneralUtility::makeInstance(PartnerFactory::class);
+            $processedData['partner'] = $programDataFactory->get($pageData);
+        }
         return $processedData;
     }
 }
