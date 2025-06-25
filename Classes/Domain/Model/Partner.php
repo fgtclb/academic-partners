@@ -75,6 +75,11 @@ class Partner extends AbstractEntity implements GetCategoryCollectionInterface
         return $this->title;
     }
 
+    public function getAbstract(): string
+    {
+        return $this->abstract;
+    }
+
     public function getDescription(): string
     {
         return $this->description;
