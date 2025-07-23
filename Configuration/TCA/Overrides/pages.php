@@ -2,11 +2,13 @@
 
 declare(strict_types=1);
 
+use FGTCLB\AcademicBase\TcaManipulator;
 use FGTCLB\AcademicPartners\Backend\FormEngine\CountryItems;
 use FGTCLB\AcademicPartners\Enumeration\PageTypes;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 defined('TYPO3') or die;
 
@@ -274,26 +276,23 @@ defined('TYPO3') or die;
         $additionalTCAcolumns
     );
 
-    // Add the partnerships tab and column to all page types
-    ExtensionManagementUtility::addToAllTCAtypes(
-        'pages',
+    $GLOBALS['TCA'] = GeneralUtility::makeInstance(TcaManipulator::class)->addToPageTypesGeneralTab(
+        $GLOBALS['TCA'],
         implode(',', [
             '--div--;LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:tx_academicpartners_domain_model_partnership',
             'tx_academicpartners_partnerships',
         ]),
-        '',
-        'after:title'
+        [],
+        [254, 255]
     );
 
-    // Add all other columns only to academic partners page type
-    ExtensionManagementUtility::addToAllTCAtypes(
-        'pages',
+    $GLOBALS['TCA'] = GeneralUtility::makeInstance(TcaManipulator::class)->addToPageTypesGeneralTab(
+        $GLOBALS['TCA'],
         implode(',', [
             '--div--;LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:pages.div.partner_information',
             '--palette--;;address',
             '--palette--;;geocode',
         ]),
-        (string)PageTypes::ACADEMIC_PARTNERS,
-        'after:title'
+        [PageTypes::ACADEMIC_PARTNERS]
     );
 })();
