@@ -1,6 +1,4 @@
 mod.wizards.newContentElement.wizardItems.academic {
-  header = LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:content.ctype.group.label
-  after = special
   elements {
     academicpartners_list {
       iconIdentifier = academic-partners

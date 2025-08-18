@@ -9,6 +9,7 @@ use SBUERK\TYPO3\Testing\TestCase\FunctionalTestCase;
 abstract class AbstractAcademicPartnersTestCase extends FunctionalTestCase
 {
     protected array $testExtensionsToLoad = [
+        'fgtclb/academic-base',
         'fgtclb/category-types',
         'fgtclb/academic-partners',
     ];

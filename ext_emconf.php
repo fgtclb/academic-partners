@@ -11,6 +11,7 @@ $EM_CONF[$_EXTKEY] = [
             'backend' => '12.4.22-13.4.99',
             'extbase' => '12.4.22-13.4.99',
             'fluid' => '12.4.22-13.4.99',
+            'academic_base' => '2.0.2',
             'category_types' => '2.0.2',
         ],
         'suggest' => [

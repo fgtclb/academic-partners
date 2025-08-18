@@ -30,9 +30,6 @@
 
 			<!-- Plugins -->
 
-			<trans-unit id="content.ctype.group.label">
-				<source>Academic</source>
-			</trans-unit>
 			<trans-unit id="plugin.partner_list.title">
 				<source>Partners List</source>
 			</trans-unit>

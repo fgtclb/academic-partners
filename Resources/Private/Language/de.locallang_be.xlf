@@ -35,10 +35,6 @@
 
 			<!-- Plugins -->
 
-			<trans-unit id="content.ctype.group.label">
-				<source>Academic</source>
-				<target>Academic</target>
-			</trans-unit>
 			<trans-unit id="plugin.partner_list.title">
 				<source>Partners List</source>
 				<target>Partnerliste</target>
