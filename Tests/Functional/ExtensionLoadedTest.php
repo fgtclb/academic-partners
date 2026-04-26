@@ -4,20 +4,18 @@ declare(strict_types=1);
 
 namespace FGTCLB\AcademicPartners\Tests\Functional;
 
-use PHPUnit\Framework\Attributes\Test;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use FGTCLB\TestingHelper\FunctionalTestCase\ExtensionsLoadedTestsTrait;
 
 final class ExtensionLoadedTest extends AbstractAcademicPartnersTestCase
 {
-    #[Test]
-    public function testCaseLoadsExtension(): void
-    {
-        $this->assertContains('fgtclb/academic-partners', $this->testExtensionsToLoad);
-    }
+    use ExtensionsLoadedTestsTrait;
 
-    #[Test]
-    public function extensionIsLoaded(): void
-    {
-        $this->assertTrue(ExtensionManagementUtility::isLoaded('academic_partners'));
-    }
+    private static $expectedLoadedExtensions = [
+        // composer package names
+        'fgtclb/academic-base',
+        'fgtclb/academic-partners',
+        // extension keys
+        'academic_base',
+        'academic_partners',
+    ];
 }
