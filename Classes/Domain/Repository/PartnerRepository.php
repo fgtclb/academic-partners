@@ -45,6 +45,13 @@ class PartnerRepository extends Repository
         $query = $this->createQuery();
         $query->getQuerySettings()->setRespectStoragePage(false);
 
+        if ($demand->getShowHiddenRecords() === true) {
+            // Include hidden (disabled) records; other enable fields
+            // (deleted, start-/endtime, fe_group) stay in effect.
+            $query->getQuerySettings()->setIgnoreEnableFields(true);
+            $query->getQuerySettings()->setEnableFieldsToBeIgnored(['disabled']);
+        }
+
         $constraints = [];
         $constraints[] = $query->equals('doktype', PageTypes::ACADEMIC_PARTNERS);
 

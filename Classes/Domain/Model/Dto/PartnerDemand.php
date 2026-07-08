@@ -12,6 +12,7 @@ class PartnerDemand
     /** @var int[] */
     protected array $pages = [];
     protected ?FilterCollection $filterCollection = null;
+    protected bool $showHiddenRecords = false;
     protected string $sorting = '';
     protected string $sortingField = '';
     protected string $sortingDirection = '';
@@ -53,6 +54,16 @@ class PartnerDemand
     public function setFilterCollection(?FilterCollection $filterCollection): void
     {
         $this->filterCollection = $filterCollection;
+    }
+
+    public function setShowHiddenRecords(bool $showHiddenRecords): void
+    {
+        $this->showHiddenRecords = $showHiddenRecords;
+    }
+
+    public function getShowHiddenRecords(): bool
+    {
+        return $this->showHiddenRecords;
     }
 
     public function setSorting(string $sorting): void
