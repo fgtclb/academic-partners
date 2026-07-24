@@ -2,15 +2,12 @@
 
 declare(strict_types=1);
 
-use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 
 defined('TYPO3') or die;
 
 (static function (): void {
-    $typo3MajorVersion = (new Typo3Version())->getMajorVersion();
-
     // Plugin: academicpartners_list
     ExtensionManagementUtility::addPlugin(
         [
@@ -24,7 +21,7 @@ defined('TYPO3') or die;
     );
     ExtensionManagementUtility::addPiFlexFormValue(
         '*',
-        sprintf('FILE:EXT:academic_partners/Configuration/FlexForms/Core%s/ListSettings.xml', $typo3MajorVersion),
+        'FILE:EXT:academic_partners/Configuration/FlexForms/ListSettings.xml',
         'academicpartners_list',
     );
 
@@ -41,7 +38,7 @@ defined('TYPO3') or die;
     );
     ExtensionManagementUtility::addPiFlexFormValue(
         '*',
-        sprintf('FILE:EXT:academic_partners/Configuration/FlexForms/Core%s/ListSettings.xml', $typo3MajorVersion),
+        'FILE:EXT:academic_partners/Configuration/FlexForms/ListSettings.xml',
         'academicpartners_map',
     );
 
