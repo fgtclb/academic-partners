@@ -2,21 +2,20 @@
 
 declare(strict_types=1);
 
+use FGTCLB\AcademicBase\TcaManipulator;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 
 defined('TYPO3') or die;
 
 (static function (): void {
     // Plugin: academicpartners_list
-    ExtensionManagementUtility::addPlugin(
+    (new TcaManipulator())->addContentElementPlugin(
         [
             'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:plugin.partner_list.title',
             'value' => 'academicpartners_list',
             'icon' => 'academic-partners',
             'group' => 'academic',
         ],
-        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT,
         'academic_partners'
     );
     ExtensionManagementUtility::addPiFlexFormValue(
@@ -26,14 +25,13 @@ defined('TYPO3') or die;
     );
 
     // Plugin: academicpartners_map
-    ExtensionManagementUtility::addPlugin(
+    (new TcaManipulator())->addContentElementPlugin(
         [
             'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:plugin.partner_map.title',
             'value' => 'academicpartners_map',
             'icon' => 'academic-partners',
             'group' => 'academic',
         ],
-        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT,
         'academic_partners'
     );
     ExtensionManagementUtility::addPiFlexFormValue(
@@ -58,26 +56,24 @@ defined('TYPO3') or die;
     );
 
     // Plugin: academicpartners_partnershipslist
-    ExtensionManagementUtility::addPlugin(
+    (new TcaManipulator())->addContentElementPlugin(
         [
             'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:plugin.partner_partnershipslist.title',
             'value' => 'academicpartners_partnershipslist',
             'icon' => 'academic-partners',
             'group' => 'academic',
         ],
-        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT,
         'academic_partners'
     );
 
     // Plugin: academicpartners_partnershipsteaser
-    ExtensionManagementUtility::addPlugin(
+    (new TcaManipulator())->addContentElementPlugin(
         [
             'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:plugin.partner_partnershipsteaser.title',
             'value' => 'academicpartners_partnershipsteaser',
             'icon' => 'academic-partners',
             'group' => 'academic',
         ],
-        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT,
         'academic_partners'
     );
 })();
