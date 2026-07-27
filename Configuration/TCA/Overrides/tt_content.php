@@ -18,8 +18,10 @@ defined('TYPO3') or die;
         ],
         'academic_partners'
     );
-    $GLOBALS['TCA']['tt_content']['types']['academicpartners_list']['columnsOverrides']['pi_flexform']['config']['ds']
-        = 'FILE:EXT:academic_partners/Configuration/FlexForms/ListSettings.xml';
+    (new TcaManipulator())->addContentElementPluginFlexForm(
+        'academicpartners_list',
+        'FILE:EXT:academic_partners/Configuration/FlexForms/ListSettings.xml',
+    );
 
     // Plugin: academicpartners_map
     (new TcaManipulator())->addContentElementPlugin(
@@ -31,8 +33,10 @@ defined('TYPO3') or die;
         ],
         'academic_partners'
     );
-    $GLOBALS['TCA']['tt_content']['types']['academicpartners_map']['columnsOverrides']['pi_flexform']['config']['ds']
-        = 'FILE:EXT:academic_partners/Configuration/FlexForms/ListSettings.xml';
+    (new TcaManipulator())->addContentElementPluginFlexForm(
+        'academicpartners_map',
+        'FILE:EXT:academic_partners/Configuration/FlexForms/ListSettings.xml',
+    );
 
     // Add configuration tab for list and map plugins
     ExtensionManagementUtility::addToAllTCAtypes(
