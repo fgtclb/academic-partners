@@ -1,0 +1,20 @@
+"pages",
+,"uid","pid","doktype","deleted","hidden","sys_language_uid","l10n_parent","l18n_cfg","slug","title","description","geocode_latitude","geocode_longitude","show_on_map"
+,1,0,1,0,0,0,0,0,"/","Site Root","","","",1
+,2,1,1,0,0,0,0,0,"/home","Home (EN)","","","",1
+,3,1,254,0,0,0,0,0,"/regional-partners","Regional partners","","","",1
+,10,1,40,0,0,0,0,0,"/alpha-university","Alpha University","Joint research on quantum optics.","48.137154","11.576124",1
+,11,1,40,0,0,0,0,0,"/beta-institute","Beta Institute","Applied materials science.","52.520008","13.404954",1
+,12,1,40,0,1,0,0,0,"/gamma-partner","Gamma Hidden Partner","","","",1
+,13,3,40,0,0,0,0,0,"/delta-regional-college","Delta Regional College","Regional teaching cooperation.","","",1
+"tt_content",
+,"uid","pid","deleted","hidden","sys_language_uid","l18n_parent","CType","header","pages","pi_flexform"
+,1,2,0,0,0,0,"academicpartners_partnershipslist","","",""
+"tx_academicpartners_domain_model_role",
+,"uid","pid","deleted","hidden","sys_language_uid","l10n_parent","sorting","name","description"
+,1,1,0,0,0,0,16,"Research partner","Joint research and publications."
+,2,1,0,0,0,0,32,"Funding partner","Financial support."
+"tx_academicpartners_domain_model_partnership",
+,"uid","pid","deleted","hidden","sys_language_uid","l10n_parent","sorting","page","partner","role"
+,1,1,0,0,0,0,16,2,10,1
+,2,1,0,0,0,0,32,2,11,2
