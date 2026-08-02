@@ -7,12 +7,14 @@ namespace FGTCLB\AcademicPartners\Factory;
 use FGTCLB\AcademicPartners\Domain\Model\Dto\PartnerDemand;
 use FGTCLB\CategoryTypes\Collection\FilterCollection;
 use FGTCLB\CategoryTypes\Domain\Repository\CategoryRepository;
+use FGTCLB\CategoryTypes\Filter\CategoryFilterNormalizer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class DemandFactory
 {
     public function __construct(
         private readonly CategoryRepository $categoryRepository,
+        private readonly CategoryFilterNormalizer $categoryFilterNormalizer,
     ) {}
 
     /**
@@ -55,14 +57,9 @@ class DemandFactory
             }
 
             if (isset($demandFromForm['filterCollection'])) {
-                $categoryUids = [];
-                foreach ($demandFromForm['filterCollection'] as $uids) {
-                    $categoryUids = array_merge($categoryUids, GeneralUtility::intExplode(',', $uids));
-                }
-
                 $categoryCollection = $this->categoryRepository->findByGroupAndUidList(
                     'partners',
-                    $categoryUids,
+                    $this->categoryFilterNormalizer->toUidList($demandFromForm['filterCollection']),
                 );
             }
         }
