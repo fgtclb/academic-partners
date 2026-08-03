@@ -13,7 +13,7 @@ CREATE TABLE pages (
     geocode_message varchar(255) DEFAULT '' NOT NULL,
     show_on_map tinyint(1) unsigned DEFAULT '1' NOT NULL,
     tx_academicpartners_partnerships int(11) DEFAULT NULL,
-    link text NOT NULL DEFAULT '',
+    link text DEFAULT NULL,
     description longtext DEFAULT NULL,
 );
 
