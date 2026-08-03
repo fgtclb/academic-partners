@@ -123,6 +123,12 @@ final class AcademicPartnersPluginTest extends AbstractAcademicPartnersTestCase
         $this->assertStringContainsString('academic-partners-filtersorting', $content);
         $this->assertStringContainsString('Sorting field', $content);
         $this->assertStringContainsString('Sorting direction', $content);
+        // The options are written by `CategoryTypes\ViewHelpers\Form\AbstractSelectViewHelper`,
+        // which `ViewHelpers\Form\SortingSelectViewHelper` no longer overrides - this is what
+        // covers that here, the class has no test of its own.
+        $this->assertStringContainsString('<option value="title" selected="selected">Title</option>', $content);
+        $this->assertStringContainsString('<option value="lastUpdated">Last updated</option>', $content);
+        $this->assertStringContainsString('<option value="asc" selected="selected">ascending</option>', $content);
     }
 
     #[Test]

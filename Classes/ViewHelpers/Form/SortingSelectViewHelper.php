@@ -109,23 +109,6 @@ final class SortingSelectViewHelper extends AbstractSelectViewHelper
         return $options;
     }
 
-    /**
-     * @param array<int|string, array{value: int|string, label: string, isSelected: bool}> $options
-     * @return string
-     */
-    protected function renderOptionTags($options): string
-    {
-        $output = '';
-        foreach ($options as $option) {
-            $output .= '<option value="' . $option['value'] . '"';
-            if ($option['isSelected']) {
-                $output .= ' selected="selected"';
-            }
-            $output .= '>' . htmlspecialchars((string)$option['label']) . '</option>' . LF;
-        }
-        return $output;
-    }
-
     protected function translateLabel(
         string $labelKey,
         ?string $l10nPrefix = 'sorting'
