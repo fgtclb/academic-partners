@@ -1,0 +1,18 @@
+// Layout of the partner map.
+//
+// The Leaflet stylesheets themselves are vendored and are not built: they sit
+// beside their images in "Resources/Public/Css/" and are loaded as they are.
+// This file only sizes the map and puts its panes behind the site chrome.
+
+#map {
+    height: 500px;
+}
+
+.leaflet-top,
+.leaflet-bottom {
+    z-index: 0;
+}
+
+.leaflet-pane {
+    z-index: 0;
+}
