@@ -1,0 +1,5 @@
+"pages"
+,"uid","pid","doktype","sys_language_uid","l10n_parent","hidden","deleted","title","slug"
+,1,0,1,0,0,0,0,"Root","/"
+,2,1,1,0,0,0,0,"Regular page","/regular-page"
+,3,1,254,0,0,0,0,"Storage folder","/storage-folder"
