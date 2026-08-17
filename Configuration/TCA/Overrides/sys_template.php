@@ -8,7 +8,7 @@ defined('TYPO3') or die;
 
 (static function (): void {
     ExtensionManagementUtility::addStaticFile(
-        'academic_programs',
+        'academic_partners',
         'Configuration/TypoScript/',
         'Academic Partners Page Setup'
     );
