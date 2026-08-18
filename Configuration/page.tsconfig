@@ -10,8 +10,8 @@
 # it on every installation. Registered only in the set, the value resolves
 # nowhere, the page properties show "[ MISSING LABEL ]" for it and the layout
 # cannot be selected for a new page at all.
-@import 'EXT:academic_partners/Configuration/TsConfig/BackendLayouts/*.tsconfig'
-@import 'EXT:academic_partners/Configuration/TsConfig/Wizards/*.tsconfig'
+@import 'EXT:academic_partners/Configuration/TSconfig/BackendLayouts/*.tsconfig'
+@import 'EXT:academic_partners/Configuration/TSconfig/Wizards/*.tsconfig'
 
 # Register `EXT:backend` template overrides in backend context
 templates.typo3/cms-backend.academic-partners = fgtclb/academic-partners:Resources/Private/Backend
