@@ -33,6 +33,4 @@ mod.wizards.newContentElement.wizardItems.academic {
       }
     }
   }
-
-  show := addToList(academicpartners_list,academicpartners_map,academicpartners_partnershipslist,academicpartners_partnershipsteaser)
 }
