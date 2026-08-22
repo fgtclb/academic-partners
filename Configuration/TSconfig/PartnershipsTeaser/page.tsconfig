@@ -1,0 +1,23 @@
+# Page TSconfig of the partnerships teaser content element.
+#
+# Delivered by the set "fgtclb/academic-partners-partnerships-teaser" and
+# registered for the page field "Page TSconfig" by
+# "Configuration/TCA/Overrides/pages.php" - one physical copy, two ways to it.
+#
+# The content element is hidden for the whole installation by
+# "Configuration/page.tsconfig"; this file is what makes it selectable again,
+# so it applies where the component is actually wanted instead of everywhere.
+TCEFORM.tt_content.CType.removeItems := removeFromList(academicpartners_partnershipsteaser)
+
+mod.wizards.newContentElement.wizardItems.academic {
+  elements {
+    academicpartners_partnershipsteaser {
+      iconIdentifier = academic-partners
+      title = LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:plugin.partner_partnershipsteaser.title
+      description = LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:plugin.partner_partnershipsteaser.description
+      tt_content_defValues {
+        CType = academicpartners_partnershipsteaser
+      }
+    }
+  }
+}

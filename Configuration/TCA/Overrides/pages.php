@@ -311,4 +311,43 @@ defined('TYPO3') or die;
         ]),
         [PageTypes::ACADEMIC_PARTNERS]
     );
+
+    //==================================================================================================================
+    // Page TSconfig, selectable in the page field "Page TSconfig" for installations that do not use site sets.
+    //
+    // The files are the same ones the sets of this extension deliver. Use one mechanism per site, not both.
+    //
+    // The page type registered above and its backend layout are deliberately NOT part of this: they are stored on page
+    // records, so they have to resolve on every installation. The page type is registered in TCA and the backend layout
+    // is imported by the always included "Configuration/page.tsconfig".
+    //==================================================================================================================
+    ExtensionManagementUtility::registerPageTSConfigFile(
+        'academic_partners',
+        'Configuration/TSconfig/List/page.tsconfig',
+        'Academic Partners: Partners List',
+    );
+
+    ExtensionManagementUtility::registerPageTSConfigFile(
+        'academic_partners',
+        'Configuration/TSconfig/Map/page.tsconfig',
+        'Academic Partners: Partners Map',
+    );
+
+    ExtensionManagementUtility::registerPageTSConfigFile(
+        'academic_partners',
+        'Configuration/TSconfig/PartnershipsList/page.tsconfig',
+        'Academic Partners: Partnerships List',
+    );
+
+    ExtensionManagementUtility::registerPageTSConfigFile(
+        'academic_partners',
+        'Configuration/TSconfig/PartnershipsTeaser/page.tsconfig',
+        'Academic Partners: Partnerships Teaser',
+    );
+
+    ExtensionManagementUtility::registerPageTSConfigFile(
+        'academic_partners',
+        'Configuration/TSconfig/Full/page.tsconfig',
+        'Academic Partners: All components',
+    );
 })();

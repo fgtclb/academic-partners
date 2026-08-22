@@ -60,6 +60,9 @@ final class AcademicPartnerPageTemplateTest extends AbstractAcademicPartnersTest
                     // The site package first, the extension after it - see the fixture.
                     'EXT:academic_partners/Tests/Functional/Pages/Fixtures/TypoScript/Setup/SitePackage.typoscript',
                     'EXT:academic_partners/Configuration/TypoScript/setup.typoscript',
+                    // The page template renders "styles.content.getContent", which only this component
+                    // assigns - it is opt-in since the configuration was cut per component.
+                    'EXT:academic_partners/Configuration/TypoScript/ContentLoad/setup.typoscript',
                 ],
             ],
         );
