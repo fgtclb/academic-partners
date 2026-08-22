@@ -1,0 +1,5 @@
+EXT:academic_partners/Configuration/TypoScript/List,
+EXT:academic_partners/Configuration/TypoScript/Map,
+EXT:academic_partners/Configuration/TypoScript/PartnershipsList,
+EXT:academic_partners/Configuration/TypoScript/PartnershipsTeaser,
+EXT:academic_partners/Configuration/TypoScript/ContentLoad

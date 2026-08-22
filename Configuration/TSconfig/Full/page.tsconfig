@@ -1,0 +1,9 @@
+# Aggregate page TSconfig: every component this extension ships.
+#
+# The counterpart of the set "fgtclb/academic-partners" for installations that
+# include page TSconfig through the page field "Page TSconfig" instead of
+# through a site set.
+@import 'EXT:academic_partners/Configuration/TSconfig/List/page.tsconfig'
+@import 'EXT:academic_partners/Configuration/TSconfig/Map/page.tsconfig'
+@import 'EXT:academic_partners/Configuration/TSconfig/PartnershipsList/page.tsconfig'
+@import 'EXT:academic_partners/Configuration/TSconfig/PartnershipsTeaser/page.tsconfig'

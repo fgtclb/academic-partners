@@ -1,0 +1,17 @@
+# The partners map content element.
+#
+# "typoscript" points at the folder that "Configuration/TCA/Overrides/sys_template.php"
+# registers as a static template, and "pagets" at the file that
+# "Configuration/TCA/Overrides/pages.php" registers - there is exactly one
+# physical copy of each, so the two delivery mechanisms can never drift apart.
+#
+# The TypoScript folder holds nothing but an "include_static_file.txt" naming
+# "Configuration/TypoScript": all four content elements of this extension are
+# driven by the one plugin namespace "plugin.tx_academicpartners", and that
+# block is shipped once instead of four times.
+name: fgtclb/academic-partners-map
+label: 'Academic Partners: Partners Map'
+dependencies:
+  - fgtclb/academic-base-ctype-group
+typoscript: 'EXT:academic_partners/Configuration/TypoScript/Map/'
+pagets: 'EXT:academic_partners/Configuration/TSconfig/Map/page.tsconfig'
