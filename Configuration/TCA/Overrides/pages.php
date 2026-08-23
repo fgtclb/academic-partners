@@ -5,9 +5,7 @@ declare(strict_types=1);
 use FGTCLB\AcademicBase\TcaManipulator;
 use FGTCLB\AcademicPartners\Backend\FormEngine\CountryItems;
 use FGTCLB\AcademicPartners\Enumeration\PageTypes;
-use TYPO3\CMS\Core\DataHandling\PageDoktypeRegistry;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
-use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -48,24 +46,15 @@ defined('TYPO3') or die;
             'types' => [
                 PageTypes::ACADEMIC_PARTNERS => [
                     'showitem' => $GLOBALS['TCA']['pages']['types'][PageRepository::DOKTYPE_DEFAULT]['showitem'],
-                    // TYPO3 v14+ resolves the tables allowed on a page type from
-                    // this TCA option (superseding the PageDoktypeRegistry below).
+                    // TYPO3 v14+ resolves the tables allowed on a page type from this
+                    // TCA option. TYPO3 v13 has no such option and needs the
+                    // PageDoktypeRegistry, which is fed by the RegisterAcademicPageDoktype
+                    // event listener - see its docblock for why it cannot happen here.
                     'allowedRecordTypes' => ['*'],
                 ],
             ],
         ]
     );
-
-    // TYPO3 v13 has no "allowedRecordTypes" TCA option yet and still resolves the
-    // allowed tables through the PageDoktypeRegistry. Registering it in
-    // ext_tables.php was deprecated in TYPO3 v14.3, hence the version-guarded call.
-    // @todo Remove once TYPO3 v13 support is dropped; keep only "allowedRecordTypes".
-    if ((new Typo3Version())->getMajorVersion() < 14) {
-        GeneralUtility::makeInstance(PageDoktypeRegistry::class)->add(
-            PageTypes::ACADEMIC_PARTNERS,
-            ['allowedTables' => '*']
-        );
-    }
 
     // Define academic partners specific columns
     $additionalTCAcolumns = [
