@@ -99,20 +99,41 @@ final class PartnerRepositoryGeolocationTest extends AbstractAcademicPartnersTes
     }
 
     /**
-     * The query limits to one row without ordering it, so which of several open partners is
-     * returned is left to the database. The test can therefore only assert that it is one of
-     * them - it is deliberately not pinned to a uid, because doing so would encode the row
-     * order of SQLite and break on another DBMS.
+     * The query limits to one row, and without an ordering the DBMS picked it - which of
+     * several open partners got geocoded next was arbitrary (ACE-491). Oldest first makes
+     * the queue deterministic on every DBMS and keeps a freshly created partner from
+     * starving the ones that wait longer. SQLite cannot make this assertion fail because
+     * uid order is its natural order; it pins the contract for the DBMS where the pick
+     * was arbitrary before.
      */
     #[Test]
-    public function withSeveralOpenPartnersOneOfThemIsReturned(): void
+    public function withSeveralOpenPartnersTheOldestOneIsGeocodedFirst(): void
     {
         $this->importCSVDataSet(__DIR__ . '/Fixtures/PartnerRepositoryGeolocation/severalOpenPartners.csv');
 
         $partner = $this->subject()->findNextForGeolocation();
 
         $this->assertInstanceOf(Partner::class, $partner);
-        $this->assertContains($partner->getUid(), [10, 11, 12]);
+        $this->assertSame(10, $partner->getUid());
+    }
+
+    /**
+     * Like `findAll()`, the map source orders by the backend `sorting` the editor
+     * arranged, and the fixture contradicts creation order on purpose: partner 12
+     * (`sorting` 64) precedes partner 11 (`sorting` 128). Without the explicit ordering
+     * the marker order belonged to the DBMS (ACE-491).
+     */
+    #[Test]
+    public function geoLocatedPartnersAreReturnedInTheirBackendSortingOrder(): void
+    {
+        $this->importCSVDataSet(__DIR__ . '/Fixtures/PartnerRepositoryGeolocation/partners.csv');
+
+        $uids = [];
+        foreach ($this->subject()->findGeoLocated() as $partner) {
+            $uids[] = (int)$partner->getUid();
+        }
+
+        $this->assertSame([12, 11], $uids);
     }
 
     /**

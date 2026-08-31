@@ -187,9 +187,53 @@ final class PartnershipRepositoryFindByPidTest extends AbstractAcademicPartnersT
         $this->assertSame(['Research partner', 'Research partner'], $roleNames);
     }
 
+    /**
+     * The partnership table is manually sortable (TCA ctrl `sortby`), and the fixture
+     * deliberately contradicts creation order: record 2 (`sorting` 16) precedes record 1
+     * (`sorting` 32). Without the explicit ordering the DBMS decides - uid order on
+     * SQLite, arbitrary on PostgreSQL, where the partnership teaser rendered a different
+     * partner on two renders of the same seed data (ACE-491).
+     */
+    #[Test]
+    public function partnershipsAreReturnedInTheirBackendSortingOrder(): void
+    {
+        $this->importCSVDataSet(__DIR__ . '/Fixtures/PartnershipRepositoryFindByPid/partnerships.csv');
+
+        $this->assertSame([2, 1], $this->orderedResultUids($this->subject()->findByPid(2)));
+    }
+
+    /**
+     * Two partnerships sharing one `sorting` value - copies, or records created by an
+     * import - fall back to uid order. SQLite cannot make this assertion fail because uid
+     * order is its natural order; it pins the contract for the DBMS where a tie is
+     * otherwise resolved arbitrarily.
+     */
+    #[Test]
+    public function partnershipsWithEqualSortingFallBackToUidOrder(): void
+    {
+        $this->importCSVDataSet(__DIR__ . '/Fixtures/PartnershipRepositoryFindByPid/partnershipsWithEqualSorting.csv');
+
+        $this->assertSame([7, 8], $this->orderedResultUids($this->subject()->findByPid(2)));
+    }
+
     private function subject(): PartnershipRepository
     {
         return $this->get(PartnershipRepository::class);
+    }
+
+    /**
+     * Like {@see resultUids()}, but preserving the result order for the ordering tests.
+     *
+     * @param QueryResult<Partnership> $result
+     * @return int[]
+     */
+    private function orderedResultUids(QueryResult $result): array
+    {
+        $uids = [];
+        foreach ($result as $partnership) {
+            $uids[] = (int)$partnership->getUid();
+        }
+        return $uids;
     }
 
     /**

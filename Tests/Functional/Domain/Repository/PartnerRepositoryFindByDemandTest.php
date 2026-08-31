@@ -129,6 +129,24 @@ final class PartnerRepositoryFindByDemandTest extends AbstractAcademicPartnersTe
         $this->assertSame($expectedUids, $this->resultUids($this->subject()->findByDemand($demand)));
     }
 
+    /**
+     * The fixture adds three partners sharing one title to the setUp records, so the
+     * demanded `title asc` ordering leaves their relative order undefined - and the DBMS
+     * resolved it, differently between two calls on PostgreSQL (ACE-491). The `uid`
+     * tiebreaker settles it, in the middle of an otherwise title-ordered list. The tied
+     * records' `sorting` values are deliberately reversed against uid order, so a
+     * `sorting`-based accident cannot produce the expected list.
+     */
+    #[Test]
+    public function partnersEqualInTheDemandedOrderingFallBackToUidOrder(): void
+    {
+        $this->importCSVDataSet(__DIR__ . '/Fixtures/PartnerRepositoryFindByDemand/partnersWithEqualTitles.csv');
+        $demand = $this->demand();
+        $demand->setSorting(SortingOptions::SORT_BY_TITLE_ASC);
+
+        $this->assertSame([11, 13, 20, 21, 22, 12, 10], $this->resultUids($this->subject()->findByDemand($demand)));
+    }
+
     private function subject(): PartnerRepository
     {
         return $this->get(PartnerRepository::class);
