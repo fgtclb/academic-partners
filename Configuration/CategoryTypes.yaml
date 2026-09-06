@@ -3,15 +3,19 @@ types:
     title: 'LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:sys_category.partners.region'
     group: partners
     icon: 'EXT:academic_partners/Resources/Public/Icons/CategoryTypes/Region.svg'
+    inlineIcon: true
   - identifier: partner_type
     title: 'LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:sys_category.partners.partner_type'
     group: partners
     icon: 'EXT:academic_partners/Resources/Public/Icons/CategoryTypes/PartnerType.svg'
+    inlineIcon: true
   - identifier: collaboration_type
     title: 'LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:sys_category.partners.collaboration_type'
     group: partners
     icon: 'EXT:academic_partners/Resources/Public/Icons/CategoryTypes/CollaborationType.svg'
+    inlineIcon: true
   - identifier: sdg
     title: 'LLL:EXT:academic_partners/Resources/Private/Language/locallang.xlf:sys_category.partners.sdg'
     group: partners
     icon: 'EXT:academic_partners/Resources/Public/Icons/CategoryTypes/Sdg.svg'
+    inlineIcon: true
