@@ -5,15 +5,18 @@ declare(strict_types=1);
 namespace FGTCLB\AcademicPartners\Command;
 
 use FGTCLB\AcademicPartners\Domain\Repository\PartnerRepository;
+use FGTCLB\AcademicPartners\Service\GeocodeWriteContext;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
+use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Http\RequestFactory;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\HttpUtility;
-use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 
 /**
  * Geocode one partner address per execution run where geocoding is missing.
@@ -31,7 +34,7 @@ final class GeocodeCommand extends Command
 
     public function __construct(
         private readonly PartnerRepository $partnerRepository,
-        private readonly PersistenceManager $persistenceManager,
+        private readonly GeocodeWriteContext $geocodeWriteContext,
         private readonly RequestFactory $requestFactory,
         private readonly LoggerInterface $logger,
     ) {
@@ -64,15 +67,13 @@ final class GeocodeCommand extends Command
             || $partner->getAddressZip() === ''
             || $partner->getAddressCountry() === ''
         ) {
-            $partner->setGeocodeStatus('failed');
-            $partner->setGeocodeMessage('There are not sufficient address details given.');
-            $this->partnerRepository->update($partner);
-            $this->persistenceManager->persistAll();
-            return Command::SUCCESS;
+            return $this->writeGeocodeResult($partner->getUid(), [
+                'geocode_status' => 'failed',
+                'geocode_message' => 'There are not sufficient address details given.',
+            ]) ? Command::SUCCESS : Command::FAILURE;
         }
 
         $now = new \DateTime();
-        $partner->setGeocodeLastRun($now);
 
         $address = [];
         $address['street'] = trim(implode(' ', [$partner->getAddressStreet(), $partner->getAddressStreetNumber()]));
@@ -119,18 +120,66 @@ final class GeocodeCommand extends Command
             return Command::FAILURE;
         }
 
+        $values = ['geocode_last_run' => $now->getTimestamp()];
         if (isset($geodata[0]) && !empty($geodata[0])) {
-            $partner->setGeocodeLatitude((float)($geodata[0]['lat']));
-            $partner->setGeocodeLongitude((float)($geodata[0]['lon']));
-            $partner->setGeocodeStatus('successful');
+            $values['geocode_latitude'] = (string)(float)$geodata[0]['lat'];
+            $values['geocode_longitude'] = (string)(float)$geodata[0]['lon'];
+            $values['geocode_status'] = 'successful';
         } else {
-            $partner->setGeocodeStatus('failed');
-            $partner->setGeocodeMessage('The address details were not sufficient for geolocalization.');
+            $values['geocode_status'] = 'failed';
+            $values['geocode_message'] = 'The address details were not sufficient for geolocalization.';
         }
 
-        $this->partnerRepository->update($partner);
-        $this->persistenceManager->persistAll();
+        return $this->writeGeocodeResult($partner->getUid(), $values)
+            ? Command::SUCCESS
+            : Command::FAILURE;
+    }
 
-        return Command::SUCCESS;
+    /**
+     * Written through the DataHandler rather than the repository on purpose. The
+     * coordinate columns are `allowLanguageSynchronization`, and only a DataHandler
+     * write runs `DataMapProcessor`: persisting through Extbase reaches the default
+     * record and leaves every translation carrying whatever it carried before, which
+     * is what kept translated partners off the map (ACE-562).
+     *
+     * A refused write has to fail the run. `findNextForGeolocation()` selects on
+     * `geocode_status = 'open'`, so a result that never reaches the database leaves the
+     * status untouched and the next scheduled run picks the same partner again - an
+     * unbounded retry against Nominatim, which is what the mandatory referrer argument
+     * exists to keep legitimate. The DataHandler refuses silently where the previous
+     * `persistAll()` threw, so the error log is what has to be checked.
+     *
+     * @param array<string, string|int> $values
+     */
+    private function writeGeocodeResult(?int $partnerUid, array $values): bool
+    {
+        if ($partnerUid === null) {
+            $this->logger->error('Refusing to geocode a partner without a uid.');
+
+            return false;
+        }
+
+        $written = false;
+        $this->geocodeWriteContext->runAsLiveBackendUser(
+            function (BackendUserAuthentication $backendUser) use ($partnerUid, $values, &$written): void {
+                $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
+                $dataHandler->start(['pages' => [$partnerUid => $values]], [], $backendUser);
+                $dataHandler->process_datamap();
+
+                foreach ($dataHandler->errorLog as $message) {
+                    $this->logger->error(
+                        'The DataHandler refused a geocoding result: {message}',
+                        [
+                            'partner' => $partnerUid,
+                            'message' => $message,
+                        ]
+                    );
+                }
+
+                $written = $dataHandler->errorLog === [];
+            }
+        );
+
+        return $written;
     }
 }

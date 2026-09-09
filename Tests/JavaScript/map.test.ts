@@ -99,6 +99,21 @@ describe("the partner map", () => {
         '<li class="map-partner" data-lat="47.195131" data-lng="8.526731"' +
         ' data-name="TYPO3 Association" data-link="/partner/typo3-association">' +
         "<span>TYPO3 Association</span></li>" +
+        // Never geocoded. "Number('')" is 0, not NaN, so this used to be drawn
+        // at 0/0 instead of being skipped (ACE-562).
+        '<li class="map-partner" data-lat="" data-lng=""' +
+        ' data-name="Without Coordinates" data-link="/partner/without-coordinates">' +
+        "<span>Without Coordinates</span></li>" +
+        // A zero pair in a spelling the SQL rule does not catch: the query matches
+        // the literal "0" the command writes, so this one reaches the module.
+        '<li class="map-partner" data-lat="0.0" data-lng="0"' +
+        ' data-name="Null Island" data-link="/partner/null-island">' +
+        "<span>Null Island</span></li>" +
+        // A single zero is a real coordinate: this one is on the prime meridian
+        // and has to survive the check that removes the two above.
+        '<li class="map-partner" data-lat="51.477928" data-lng="0"' +
+        ' data-name="Royal Observatory" data-link="/partner/royal-observatory">' +
+        "<span>Royal Observatory</span></li>" +
         "</ul>",
     );
 
@@ -106,15 +121,36 @@ describe("the partner map", () => {
     // unconditionally waits here for an event that has already fired.
     assert.notEqual(document.readyState, "loading");
 
+    // The module reports an unusable record on the console. Captured rather than
+    // silenced, so the test can assert it still happens.
+    const warnings: string[] = [];
+    /* eslint-disable no-console -- capturing the module's own report is the point. */
+    const originalWarn = console.warn;
+    console.warn = (...args: unknown[]): void => {
+      warnings.push(String(args[1]));
+    };
+    /* eslint-enable no-console */
+
     const recorded = installLeafletStub();
 
-    await import("@fgtclb/academic-partners/frontend/map.js");
+    try {
+      await import("@fgtclb/academic-partners/frontend/map.js");
+    } finally {
+      // eslint-disable-next-line no-console
+      console.warn = originalWarn;
+    }
 
     assert.ok(recorded.map !== null, "the map was never created");
     assert.equal(recorded.map.elementId, "map");
-    assert.equal(recorded.markers.length, 1);
+    assert.equal(recorded.markers.length, 2);
     assert.deepEqual(recorded.markers[0].position, [47.195131, 8.526731]);
     assert.match(recorded.markers[0].popup ?? "", /TYPO3 Association/);
+    assert.deepEqual(recorded.markers[1].position, [51.477928, 0]);
+    assert.match(recorded.markers[1].popup ?? "", /Royal Observatory/);
     assert.deepEqual(recorded.map.fitted, { padding: [50, 50] });
+
+    // Both unusable entries were reported rather than silently dropped.
+    assert.equal(warnings.length, 2);
+    assert.deepEqual(warnings, ["Without Coordinates", "Null Island"]);
   });
 });

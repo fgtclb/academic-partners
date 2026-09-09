@@ -144,6 +144,44 @@ class Partner extends AbstractEntity implements GetCategoryCollectionInterface
         $this->geocodeLatitude = $latitude;
     }
 
+    /**
+     * Whether this partner has a coordinate that can be drawn on a map.
+     *
+     * This is the model end of the rule `PartnerRepository::drawableCoordinatesConstraint()`
+     * applies to the map query and `Resources/Private/TypeScript/frontend/map.ts` applies to
+     * the markup: the pair `0/0` means "nothing was written", while a single zero is a real
+     * coordinate - longitude 0 runs through the United Kingdom, France, Spain and Ghana, and
+     * latitude 0 is the equator. Like the module, it also refuses a coordinate that is not a
+     * finite number.
+     *
+     * It exists for templates that render one partner rather than a query result. A detail
+     * page drawing the partner's own location has no query to constrain, so without this it
+     * renders an empty map centred on Germany - and before ACE-562 taught the module to refuse
+     * the pair, a marker at 0/0 off the coast of Africa.
+     *
+     * Deliberately not called "geo located", for the same reason as
+     * `PartnerDemand::setDrawableOnly()`: `PartnerRepository::findGeoLocated()` also requires
+     * a geocode *status*, and a status is a claim rather than a coordinate. A record can be
+     * `manually` located and carry no coordinate at all.
+     *
+     * The model does not see what the query sees, in either direction. Extbase's `DataMapper`
+     * skips a `NULL` column, which leaves the property at its default of `0`, and casts the
+     * empty string to `0.0` - so absence cannot be told apart from a stored zero, and a pair
+     * with only one coordinate missing reads as that coordinate being 0 and is reported
+     * drawable where the map query excludes it. The other way round, a hand-entered `0.0` or
+     * `-0` becomes `0.0` here and is refused, as the module refuses it, while the string-based
+     * query lets it through. ACE-566, which changes the columns to a numeric type, is where
+     * the two are reconciled.
+     */
+    public function isDrawable(): bool
+    {
+        if (!is_finite($this->geocodeLatitude) || !is_finite($this->geocodeLongitude)) {
+            return false;
+        }
+
+        return !($this->geocodeLatitude === 0.0 && $this->geocodeLongitude === 0.0);
+    }
+
     public function setGeocodeLastRun(\DateTime $geocodeLastRun): void
     {
         $this->geocodeLastRun = $geocodeLastRun;

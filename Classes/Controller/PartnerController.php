@@ -62,6 +62,10 @@ class PartnerController extends ActionController
             $contentElementData
         );
 
+        // A partner without coordinates cannot be drawn and would end up at 0/0
+        // instead of being left out (ACE-562).
+        $demandObject->setDrawableOnly(true);
+
         $partners = $this->partnerRepository->findByDemand($demandObject);
         $categories = $this->categoryRepository->findAllApplicable('partners', ...array_values($partners->toArray()));
 

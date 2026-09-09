@@ -17,12 +17,13 @@ use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
- * Three parts of `Partner` do more than hold a value: the country lookup, the lazily
- * fetched category collection and the object storage set up in `initializeObject()`.
- * The plain accessors are deliberately not covered - they would assert that PHP works.
+ * Four parts of `Partner` do more than hold a value: the country lookup, the lazily
+ * fetched category collection, the object storage set up in `initializeObject()`, and the
+ * rule deciding whether the partner can be drawn on a map. The plain accessors are
+ * deliberately not covered - they would assert that PHP works.
  *
- * Both non-accessor methods reach for a collaborator through `GeneralUtility::makeInstance()`,
- * which is why they are pinned here: the instance stack of the testing framework fails the
+ * The country lookup and the category collection reach for a collaborator through
+ * `GeneralUtility::makeInstance()`, which is why they are pinned here: the instance stack of the testing framework fails the
  * test when a lookup happens that should not have happened, and PHP fails it with an
  * `ArgumentCountError` when one happens that the test did not prepare for.
  */
@@ -174,6 +175,68 @@ final class PartnerTest extends UnitTestCase
 
         $this->assertInstanceOf(ObjectStorage::class, $subject->getMedia());
         $this->assertCount(0, $subject->getMedia());
+    }
+
+    /**
+     * The model end of the map rule (ACE-562): the pair 0/0 means "nothing was written".
+     * A template rendering a single partner - a detail page drawing the partner's own
+     * location - has no query to constrain, and relies on this instead.
+     */
+    #[Test]
+    #[DataProvider('coordinatePairs')]
+    public function onlyTheZeroPairIsNotDrawable(float $latitude, float $longitude, bool $expected): void
+    {
+        $subject = new Partner();
+        $subject->setGeocodeLatitude($latitude);
+        $subject->setGeocodeLongitude($longitude);
+
+        $this->assertSame($expected, $subject->isDrawable());
+    }
+
+    /**
+     * @return \Generator<string, array{0: float, 1: float, 2: bool}>
+     */
+    public static function coordinatePairs(): \Generator
+    {
+        yield 'a located partner' => [49.6298, 8.3592, true];
+        // Greenwich and the equator are real places. Treating a single zero as missing
+        // would hide partners that are genuinely there, which the query rule refuses too.
+        yield 'a partner on the prime meridian' => [51.4779, 0.0, true];
+        yield 'a partner on the equator' => [0.0, 32.5825, true];
+        yield 'nothing was written' => [0.0, 0.0, false];
+        yield 'negative zero is still nothing' => [-0.0, -0.0, false];
+        // Both signs have to count. Without a partner south and west of Greenwich, a rule
+        // that only accepts positive coordinates would pass every case above.
+        yield 'a partner south and west of Greenwich' => [-34.6037, -58.3816, true];
+        // A hand-entered value too large for a float casts to INF. The module refuses a
+        // coordinate that is not finite, so the model must not promise a map for it.
+        yield 'an infinite latitude' => [INF, 8.3592, false];
+        yield 'a longitude that is not a number' => [49.6298, NAN, false];
+    }
+
+    /**
+     * A partner that was never geocoded carries the property defaults. It must not be
+     * drawn before geocoding has run - that is the record ACE-562 found in the sea.
+     */
+    #[Test]
+    public function aPartnerThatWasNeverGeocodedIsNotDrawable(): void
+    {
+        $this->assertFalse((new Partner())->isDrawable());
+    }
+
+    /**
+     * A geocode status is a claim, not a coordinate - which is why the accessor is not
+     * called "geo located". `Aarhus Universitet` in the development seed is `manually`
+     * located and carries no coordinate at all, and must not be drawn because of its
+     * status alone.
+     */
+    #[Test]
+    public function aStatusWithoutACoordinateIsNotDrawable(): void
+    {
+        $subject = new Partner();
+        $subject->setGeocodeStatus('manually');
+
+        $this->assertFalse($subject->isDrawable());
     }
 
     private function countryProvider(): CountryProvider

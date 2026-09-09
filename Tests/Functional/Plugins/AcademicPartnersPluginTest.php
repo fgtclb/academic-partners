@@ -28,6 +28,7 @@ final class AcademicPartnersPluginTest extends AbstractAcademicPartnersTestCase
 
     protected const LANGUAGE_PRESETS = [
         'EN' => ['id' => 0, 'title' => 'English', 'locale' => 'en_US.UTF8', 'iso' => 'en', 'hrefLang' => 'en-US', 'direction' => ''],
+        'DE' => ['id' => 1, 'title' => 'Deutsch', 'locale' => 'de_DE.UTF8', 'iso' => 'de', 'hrefLang' => 'de-DE', 'direction' => ''],
     ];
 
     protected function setUp(): void
@@ -43,7 +44,7 @@ final class AcademicPartnersPluginTest extends AbstractAcademicPartnersTestCase
         parent::tearDown();
     }
 
-    private function setUpTestCase(string $dataSet): void
+    private function setUpTestCase(string $dataSet, bool $withGermanLanguage = false): void
     {
         $this->importCSVDataSet(__DIR__ . '/Fixtures/AcademicPartnersPlugin/' . $dataSet . '.csv');
         $this->setUpFrontendRootPage(
@@ -60,12 +61,24 @@ final class AcademicPartnersPluginTest extends AbstractAcademicPartnersTestCase
                 ],
             ],
         );
-        $this->writeFrontendPluginTestSite([
+        $languages = [
             $this->buildDefaultLanguageConfiguration(
                 identifier: 'EN',
                 base: '/',
             ),
-        ]);
+        ];
+
+        if ($withGermanLanguage) {
+            // Falls back to English, so a content element that is not translated is
+            // still rendered and the test can be about the partner record alone.
+            $languages[] = $this->buildLanguageConfiguration(
+                identifier: 'DE',
+                base: '/de/',
+                fallbackIdentifiers: ['EN'],
+            );
+        }
+
+        $this->writeFrontendPluginTestSite($languages);
     }
 
     private function renderHomePage(): string
@@ -197,6 +210,68 @@ final class AcademicPartnersPluginTest extends AbstractAcademicPartnersTestCase
         $this->assertStringContainsString('data-lng="11.576124"', $content);
         $this->assertStringContainsString('Alpha University', $content);
         $this->assertStringNotContainsString('Gamma Hidden Partner', $content);
+    }
+
+    /**
+     * "Delta Regional College" has no coordinates. `Partner` types them as
+     * non-nullable `float` defaulting to 0, so the record used to reach the template
+     * as `data-lat="0" data-lng="0"` and was drawn as a marker in the Atlantic
+     * (ACE-562). `data-lat="0"` is therefore what must be absent - never `data-lat=""`,
+     * which the model cannot produce.
+     */
+    #[Test]
+    public function partnerMapPluginOmitsPartnersWithoutCoordinates(): void
+    {
+        $this->setUpTestCase('partnerMapPage');
+
+        $content = $this->renderHomePage();
+        $this->assertStringContainsString('id="partner-10"', $content);
+        $this->assertStringNotContainsString('Delta Regional College', $content);
+        $this->assertStringNotContainsString('id="partner-13"', $content);
+        $this->assertStringNotContainsString('data-lat="0"', $content);
+    }
+
+    /**
+     * A place does not move when the page is translated, so the coordinates are
+     * `allowLanguageSynchronization` and a translation carries the same pair as its
+     * default record - which is the state this fixture is in, and the state
+     * `Upgrades\SynchronizePartnerCoordinatesUpgradeWizard` puts existing sites into.
+     *
+     * The map has to work in a translated language like any other: the partner is drawn
+     * at its coordinates, under its translated title. Before ACE-562 a translation that
+     * had never been geocoded reached the template as `data-lat="0"` and was drawn in
+     * the Atlantic in that language.
+     */
+    #[Test]
+    public function partnerMapPluginDrawsATranslatedPartnerAtItsDefaultCoordinates(): void
+    {
+        $this->setUpTestCase('partnerMapPageTranslated', withGermanLanguage: true);
+
+        $content = $this->renderFrontendPage(self::FRONTEND_PLUGIN_TEST_BASE . 'de/home');
+
+        $this->assertStringContainsString('id="partner-10"', $content);
+        $this->assertStringContainsString('data-lat="48.137154"', $content);
+        $this->assertStringContainsString('data-lng="11.576124"', $content);
+        $this->assertStringContainsString('Alpha Universitaet', $content);
+        $this->assertStringNotContainsString('data-lat="0"', $content);
+    }
+
+    /**
+     * With nothing left to draw the map is not rendered at all: an empty Leaflet canvas
+     * centred on Germany says nothing, and an editor cannot tell it from a broken one.
+     * The partner at 0/0 in this fixture is excluded for the same reason as the one
+     * without any coordinates.
+     */
+    #[Test]
+    public function partnerMapPluginRendersAMessageWhenNoPartnerHasCoordinates(): void
+    {
+        $this->setUpTestCase('partnerMapPage_noLocatedPartners');
+
+        $content = $this->renderHomePage();
+        $this->assertStringContainsString('academic-partners-map', $content);
+        $this->assertStringNotContainsString('id="map-partners"', $content);
+        $this->assertStringNotContainsString('id="map"', $content);
+        $this->assertStringContainsString('No partner with a location to show on the map.', $content);
     }
 
     #[Test]

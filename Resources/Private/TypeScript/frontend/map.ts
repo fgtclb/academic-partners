@@ -63,10 +63,27 @@ const initializeMap = (): void => {
     const markers = library.markerClusterGroup({ chunkedLoading: true });
 
     partnerContainer.querySelectorAll<HTMLElement>('.map-partner').forEach((partner): void => {
-        const latitude = Number(partner.dataset.lat);
-        const longitude = Number(partner.dataset.lng);
+        const rawLatitude = partner.dataset.lat?.trim() ?? '';
+        const rawLongitude = partner.dataset.lng?.trim() ?? '';
+        const latitude = Number(rawLatitude);
+        const longitude = Number(rawLongitude);
 
-        if (Number.isNaN(latitude) || Number.isNaN(longitude)) {
+        // `Number('')` is `0`, not `NaN`, so an absent coordinate walked straight
+        // through the previous `Number.isNaN()` check and was drawn at 0/0 - open
+        // ocean off Africa (ACE-562). Absence is therefore tested on the raw
+        // attribute, before the conversion that hides it.
+        //
+        // The pair 0/0 is refused whatever spelling it arrives in, because it means
+        // "nothing was written" rather than a place. A single zero is kept: longitude
+        // 0 runs through the United Kingdom, France, Spain and Ghana, and latitude 0
+        // is the equator.
+        const unusable = rawLatitude === ''
+            || rawLongitude === ''
+            || !Number.isFinite(latitude)
+            || !Number.isFinite(longitude)
+            || (latitude === 0 && longitude === 0);
+
+        if (unusable) {
             // Kept from the original: a partner record with unusable coordinates
             // is an editorial mistake, and silence would make it invisible.
             // eslint-disable-next-line no-console

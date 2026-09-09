@@ -133,7 +133,7 @@ final class PartnerRepositoryGeolocationTest extends AbstractAcademicPartnersTes
             $uids[] = (int)$partner->getUid();
         }
 
-        $this->assertSame([12, 11], $uids);
+        $this->assertSame([12, 11, 21], $uids);
     }
 
     /**
@@ -146,12 +146,13 @@ final class PartnerRepositoryGeolocationTest extends AbstractAcademicPartnersTes
     {
         $this->importCSVDataSet(__DIR__ . '/Fixtures/PartnerRepositoryGeolocation/partners.csv');
 
-        $this->assertSame([11, 12], $this->resultUids($this->subject()->findGeoLocated()));
+        $this->assertSame([11, 12, 21], $this->resultUids($this->subject()->findGeoLocated()));
     }
 
     /**
-     * The complement of the list above: a partner waiting for geocoding and one whose
-     * geocoding failed have no usable coordinates, so they must not reach the map.
+     * The complement of the list above. Both fixtures carry real coordinates, so the
+     * geocode *status* is the only thing that can keep them out - a partner without
+     * coordinates would be excluded twice over and would prove nothing here.
      */
     #[Test]
     public function openAndFailedPartnersAreNotGeoLocated(): void
@@ -176,8 +177,9 @@ final class PartnerRepositoryGeolocationTest extends AbstractAcademicPartnersTes
     }
 
     /**
-     * The `partners` fixture marks an ordinary page `successful`. It carries neither an
-     * address nor coordinates, and putting it on the map would place a marker at 0/0.
+     * The `partners` fixture marks an ordinary page `successful` *and* gives it real
+     * coordinates, so `doktype` is the only thing left that can keep it off the map. A
+     * page without coordinates would be excluded twice over and prove nothing here.
      */
     #[Test]
     public function aPageThatIsNotAPartnerPageIsNeverGeoLocated(): void
@@ -199,6 +201,74 @@ final class PartnerRepositoryGeolocationTest extends AbstractAcademicPartnersTes
 
         $this->assertCount(0, $this->subject()->findGeoLocated());
         $this->assertSame([], $this->resultUids($this->subject()->findGeoLocated()));
+    }
+
+    /**
+     * A status is a claim, not a coordinate. `GeocodeCommand` only writes `successful`
+     * together with a pair of values, but a record edited by hand - or restored from an
+     * older installation - can carry the status and nothing else, and that used to reach
+     * the map as the valid coordinate 0/0 (ACE-562).
+     */
+    #[Test]
+    public function aPartnerMarkedLocatedWithoutCoordinatesIsNotGeoLocated(): void
+    {
+        $this->importCSVDataSet(__DIR__ . '/Fixtures/PartnerRepositoryGeolocation/partners.csv');
+
+        $this->assertNotContains(19, $this->resultUids($this->subject()->findGeoLocated()));
+    }
+
+    /**
+     * 0/0 is open ocean south of Ghana. Nothing is there, so the pair is what "nothing
+     * was written" looks like once both values have been cast to float.
+     */
+    #[Test]
+    public function aPartnerAtZeroZeroIsNotGeoLocated(): void
+    {
+        $this->importCSVDataSet(__DIR__ . '/Fixtures/PartnerRepositoryGeolocation/partners.csv');
+
+        $this->assertNotContains(20, $this->resultUids($this->subject()->findGeoLocated()));
+    }
+
+    /**
+     * The counterpart, and the reason the check above is on the pair rather than on
+     * either value: longitude 0 is the prime meridian and runs through the United
+     * Kingdom, France, Spain and Ghana. Treating a single zero as "missing" would hide
+     * partners that are genuinely there.
+     */
+    #[Test]
+    public function aPartnerOnThePrimeMeridianStaysGeoLocated(): void
+    {
+        $this->importCSVDataSet(__DIR__ . '/Fixtures/PartnerRepositoryGeolocation/partners.csv');
+
+        $this->assertContains(21, $this->resultUids($this->subject()->findGeoLocated()));
+    }
+
+    /**
+     * The realistic shape of "never geocoded": `ext_tables.sql` declares both columns
+     * `VARCHAR(20) DEFAULT NULL` and there is no TCA default, so a freshly created
+     * partner page carries SQL `NULL` rather than an empty string. This is the branch
+     * that relies on `NOT (column = '')` being `NULL` - and therefore not true - rather
+     * than on a plain string match, so it is the one where the four supported DBMS
+     * could in principle disagree.
+     */
+    #[Test]
+    public function aPartnerWhoseCoordinatesAreNullIsNotGeoLocated(): void
+    {
+        $this->importCSVDataSet(__DIR__ . '/Fixtures/PartnerRepositoryGeolocation/partners.csv');
+
+        $this->assertNotContains(22, $this->resultUids($this->subject()->findGeoLocated()));
+    }
+
+    /**
+     * Half a coordinate is no coordinate: a longitude without a latitude cannot be
+     * drawn anywhere, so both columns have to carry a value.
+     */
+    #[Test]
+    public function aPartnerWithOnlyOneCoordinateIsNotGeoLocated(): void
+    {
+        $this->importCSVDataSet(__DIR__ . '/Fixtures/PartnerRepositoryGeolocation/partners.csv');
+
+        $this->assertNotContains(23, $this->resultUids($this->subject()->findGeoLocated()));
     }
 
     private function subject(): PartnerRepository

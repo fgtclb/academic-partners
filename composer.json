@@ -49,7 +49,8 @@
         "typo3/cms-backend": "~13.4.0@dev || ~14.3.6@dev",
         "typo3/cms-core": "~13.4.0@dev || ~14.3.6@dev",
         "typo3/cms-extbase": "~13.4.0@dev || ~14.3.6@dev",
-        "typo3/cms-fluid": "~13.4.0@dev || ~14.3.6@dev"
+        "typo3/cms-fluid": "~13.4.0@dev || ~14.3.6@dev",
+        "typo3/cms-install": "~13.4.0@dev || ~14.3.6@dev"
     },
     "require-dev": {
         "fgtclb/environment-state-manager": "^2.0.1@dev"

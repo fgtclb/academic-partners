@@ -4,37 +4,54 @@
     data-namespace-typo3-fluid="true"
 >
 
-<f:asset.css identifier="partnerC0" href="EXT:academic_partners/Resources/Public/Css/leaflet.css" />
-<f:asset.css identifier="partnerC1" href="EXT:academic_partners/Resources/Public/Css/markerCluster.css" />
-<f:asset.css identifier="partnerC2" href="EXT:academic_partners/Resources/Public/Css/frontend/map.css" />
-
-<f:asset.script identifier="partnerS0" src="EXT:academic_partners/Resources/Public/JavaScript/leaflet.js" />
-<f:asset.script identifier="partnerS1" src="EXT:academic_partners/Resources/Public/JavaScript/markerCluster.js" />
-<f:asset.module identifier="@fgtclb/academic-partners/frontend/map.js" />
-
 <div class="academic-partners-map">
     <f:render
         partial="Partner/SortingAndFilters"
         arguments="{_all}"
     />
 
-    <div id="map" class="mt-4"></div>
+    <f:if condition="{partners}">
+        <f:then>
+            <f:asset.css identifier="partnerC0" href="EXT:academic_partners/Resources/Public/Css/leaflet.css" />
+            <f:asset.css identifier="partnerC1" href="EXT:academic_partners/Resources/Public/Css/markerCluster.css" />
+            <f:asset.css identifier="partnerC2" href="EXT:academic_partners/Resources/Public/Css/frontend/map.css" />
 
-    <ul id="map-partners" class="d-none">
-        <f:for each="{partners}" as="partner">
-            <li
-                id="partner-{partner.uid}"
-                class="map-partner"
-                data-description="{partner.description}"
-                data-name="{partner.title}"
-                data-lat="{partner.geocodeLatitude}"
-                data-lng="{partner.geocodeLongitude}"
-                data-link="{f:uri.page(pageUid: partner.uid)}"
-            >
-                <span>{partner.title}</span>
-            </li>
-        </f:for>
-    </ul>
+            <f:asset.script identifier="partnerS0" src="EXT:academic_partners/Resources/Public/JavaScript/leaflet.js" />
+            <f:asset.script identifier="partnerS1" src="EXT:academic_partners/Resources/Public/JavaScript/markerCluster.js" />
+            <f:asset.module identifier="@fgtclb/academic-partners/frontend/map.js" />
+
+            <div id="map" class="mt-4"></div>
+
+            <ul id="map-partners" class="d-none">
+                <f:for each="{partners}" as="partner">
+                    <li
+                        id="partner-{partner.uid}"
+                        class="map-partner"
+                        data-description="{partner.description}"
+                        data-name="{partner.title}"
+                        data-lat="{partner.geocodeLatitude}"
+                        data-lng="{partner.geocodeLongitude}"
+                        data-link="{f:uri.page(pageUid: partner.uid)}"
+                    >
+                        <span>{partner.title}</span>
+                    </li>
+                </f:for>
+            </ul>
+        </f:then>
+        <f:else>
+            <p class="academic-partners-map-empty">
+                <f:if condition="{demand.filterCollection.filterCategories}">
+                    <f:then>
+                        <!-- The visitor filtered everything away; the geodata is not the reason. -->
+                        {f:translate(key: 'list.noPartnersFound', extensionName: 'academic_partners')}
+                    </f:then>
+                    <f:else>
+                        {f:translate(key: 'map.noLocatedPartnersFound', extensionName: 'academic_partners')}
+                    </f:else>
+                </f:if>
+            </p>
+        </f:else>
+    </f:if>
 </div>
 
 </html>

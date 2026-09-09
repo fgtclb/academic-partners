@@ -13,6 +13,7 @@ class PartnerDemand
     protected array $pages = [];
     protected ?FilterCollection $filterCollection = null;
     protected bool $showHiddenRecords = false;
+    protected bool $drawableOnly = false;
     protected string $sorting = '';
     protected string $sortingField = '';
     protected string $sortingDirection = '';
@@ -64,6 +65,28 @@ class PartnerDemand
     public function getShowHiddenRecords(): bool
     {
         return $this->showHiddenRecords;
+    }
+
+    /**
+     * Restricts the result to partners that can actually be drawn on a map. Set by the
+     * map action; the list leaves it off, because a partner without coordinates is
+     * still a perfectly good list entry.
+     *
+     * Deliberately not called "geo located": `PartnerRepository::findGeoLocated()`
+     * means a geocode *status* as well, while this asks only whether there is a
+     * coordinate to draw.
+     *
+     * `Partner::isDrawable()` is the same rule for a template that renders one partner
+     * instead of a query result, such as a detail page drawing the partner's own place.
+     */
+    public function setDrawableOnly(bool $drawableOnly): void
+    {
+        $this->drawableOnly = $drawableOnly;
+    }
+
+    public function getDrawableOnly(): bool
+    {
+        return $this->drawableOnly;
     }
 
     public function setSorting(string $sorting): void

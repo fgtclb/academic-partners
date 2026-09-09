@@ -83,6 +83,12 @@
       <trans-unit id="list.noPartnersFound">
         <source>No partners found.</source>
       </trans-unit>
+
+      <!-- Map -->
+
+      <trans-unit id="map.noLocatedPartnersFound">
+        <source>No partner with a location to show on the map.</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

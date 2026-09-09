@@ -103,6 +103,13 @@
         <source>No partners found.</source>
         <target>Keine Partner gefunden.</target>
       </trans-unit>
+
+      <!-- Map -->
+
+      <trans-unit id="map.noLocatedPartnersFound">
+        <source>No partner with a location to show on the map.</source>
+        <target>Kein Partner mit Standort für die Karte vorhanden.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
