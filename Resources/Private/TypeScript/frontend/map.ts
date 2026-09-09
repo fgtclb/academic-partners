@@ -40,7 +40,7 @@ interface LeafletStatic {
 const leaflet = (): LeafletStatic | undefined =>
     (window as unknown as { LeafletObject?: LeafletStatic }).LeafletObject;
 
-document.addEventListener('DOMContentLoaded', (): void => {
+const initializeMap = (): void => {
     const library = leaflet();
     const partnerContainer = document.getElementById('map-partners');
 
@@ -91,6 +91,16 @@ document.addEventListener('DOMContentLoaded', (): void => {
     } else {
         map.setView([51.1657, 10.4515], 6);
     }
-});
+};
+
+// `f:asset.module` renders every module with `async`, so this file is not
+// ordered against document parsing and regularly runs after
+// `DOMContentLoaded` has already fired. Waiting for that event unconditionally
+// would then wait forever and the map would never be drawn.
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeMap, { once: true });
+} else {
+    initializeMap();
+}
 
 export {};

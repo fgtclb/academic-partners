@@ -1,6 +1,6 @@
 /* Generated from Resources/Private/TypeScript — do not edit. */
 const leaflet = () => window.LeafletObject;
-document.addEventListener("DOMContentLoaded", () => {
+const initializeMap = () => {
   const library = leaflet();
   const partnerContainer = document.getElementById("map-partners");
   if (library === void 0 || partnerContainer === null) {
@@ -34,4 +34,9 @@ document.addEventListener("DOMContentLoaded", () => {
   } else {
     map.setView([51.1657, 10.4515], 6);
   }
-});
+};
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initializeMap, { once: true });
+} else {
+  initializeMap();
+}
