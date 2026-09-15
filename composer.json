@@ -1,7 +1,7 @@
 {
     "name": "fgtclb/academic-partners",
     "type": "typo3-cms-extension",
-    "description": "Extension for showing academic partners in list and map view",
+    "description": "FGTCLB: Academic Partners - Extension for showing academic partners in list and map view",
     "minimum-stability": "stable",
     "license": "GPL-2.0-or-later",
     "authors": [
