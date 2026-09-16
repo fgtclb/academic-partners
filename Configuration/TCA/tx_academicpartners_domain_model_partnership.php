@@ -83,6 +83,9 @@ return [
                     ],
                 ],
                 'itemsProcFunc' => PartnerItems::class . '->itemsProcFunc',
+                'sortItems' => [
+                    'label' => 'asc',
+                ],
                 'minitems' => 1,
                 'default' => 0,
             ],
