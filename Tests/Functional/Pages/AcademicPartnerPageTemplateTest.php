@@ -22,6 +22,11 @@ use SBUERK\TYPO3\Testing\SiteHandling\SiteBasedTestTrait;
  * Remove those two lines from "Configuration/TypoScript/Page/AcademicPartners.typoscript" and the page
  * renders the site package's fallback template instead - which is what the second
  * assertion is for.
+ *
+ * The remaining tests pin what the template renders of the categories assigned to the
+ * page. That block read a property the model does not have until ACE-673, so it never
+ * appeared; asserting the rendered output rather than the property name is what keeps a
+ * rename from hiding it again.
  */
 final class AcademicPartnerPageTemplateTest extends AbstractAcademicPartnersTestCase
 {
@@ -83,5 +88,51 @@ final class AcademicPartnerPageTemplateTest extends AbstractAcademicPartnersTest
 
         $this->assertStringContainsString('academic-partners-detail', $content);
         $this->assertStringNotContainsString('site-package-default-template', $content);
+    }
+
+    /**
+     * The fixture assigns one category of type "region" and one of type "partner_type" to
+     * the page, so both type labels and both category titles have to reach the output.
+     */
+    #[Test]
+    public function partnerPageListsItsCategoriesGroupedByType(): void
+    {
+        $this->setUpTestCase();
+
+        $content = $this->renderFrontendPage('https://www.acme.com/web-vision');
+
+        $this->assertStringContainsString('Region', $content);
+        $this->assertStringContainsString('Rhine-Main Area', $content);
+        $this->assertStringContainsString('Partner Type', $content);
+        $this->assertStringContainsString('Research Institute', $content);
+    }
+
+    /**
+     * "collaboration_type" is a registered type and the fixture even holds a category of it,
+     * but that category is assigned to no page. Neither the type nor its category may show up.
+     */
+    #[Test]
+    public function partnerPageOmitsACategoryTypeWithoutAnAssignedCategory(): void
+    {
+        $this->setUpTestCase();
+
+        $content = $this->renderFrontendPage('https://www.acme.com/web-vision');
+
+        $this->assertStringNotContainsString('Collaboration Type', $content);
+        $this->assertStringNotContainsString('Joint Degree Programme', $content);
+    }
+
+    #[Test]
+    public function partnerPageWithoutCategoriesRendersNoCategoryList(): void
+    {
+        $this->setUpTestCase();
+
+        $content = $this->renderFrontendPage('https://www.acme.com/acme-ag');
+
+        $this->assertStringContainsString('academic-partners-detail', $content);
+        $this->assertStringNotContainsString('Region', $content);
+        $this->assertStringNotContainsString('Rhine-Main Area', $content);
+        $this->assertStringNotContainsString('Partner Type', $content);
+        $this->assertStringNotContainsString('Research Institute', $content);
     }
 }
