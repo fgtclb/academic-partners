@@ -16,9 +16,9 @@
         </f:for>
     </div>
 
-    <f:if condition="{partner.categories.allCategoriesByType}">
+    <f:if condition="{partner.attributes.allCategoriesByType}">
         <ul>
-            <f:for each="{partner.categories.allCategoriesByType}" as="categories" key="type">
+            <f:for each="{partner.attributes.allCategoriesByType}" as="categories" key="type">
                 <f:if condition="{categories}">
                     <li>
                         <core:icon identifier="category_types.partners.{type}"/>
