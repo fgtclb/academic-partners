@@ -18,3 +18,13 @@ services:
           identifier: 'partner-data',
           label: 'Partner Processor'
         }
+
+  # TYPO3's `Core\Attribute\AsEventListener` does not exist on TYPO3 v12, which this
+  # branch supports, so the listener is registered here. Symfony's attribute of the same
+  # name is not a substitute: it registers nothing in TYPO3 and the listener would
+  # silently never fire.
+  FGTCLB\AcademicPartners\EventListener\AddPageModuleCategorySummary:
+    tags:
+      - name: event.listener
+        identifier: 'academic-partners/page-module-category-summary'
+        event: TYPO3\CMS\Backend\Controller\Event\ModifyPageLayoutContentEvent
