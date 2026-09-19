@@ -7,10 +7,10 @@ Important: Partner queries are ordered deterministically
 Description
 ===========
 
-Every query of this extension executed without an ordering, so the order of its
-result was whatever the database happened to yield. On PostgreSQL that is not
-the same list twice: the partnership teaser rendered a different partner on two
-renders of the same data. The queries now order explicitly:
+Most queries of this extension executed without an ordering, so the order of
+their result was whatever the database happened to yield. On PostgreSQL that is
+not the same list twice: the partnership teaser rendered a different partner on
+two renders of the same data. The queries now order explicitly:
 
 *   :php:`PartnershipRepository::findByPid()` — the source of every partnership
     list and teaser — orders by the manual backend :sql:`sorting` (TCA ctrl
@@ -30,13 +30,25 @@ renders of the same data. The queries now order explicitly:
 Impact
 ======
 
-Partnership lists and teasers now render in the order the records have in the
-backend. An installation whose editors reordered partnership records will see
-the frontend follow that order — which is the order the editor expressed, but
-was never delivered before. Everything else keeps its practical order: the
-backend page sorting and :sql:`uid` ascending are what every supported
-database returned in practice, they are simply guaranteed now rather than
-coincidental.
+Partnership lists and teasers now render in the order of the partnerships'
+:sql:`sorting`. Partnerships are inline records of their partner page: a new
+one is added at the bottom, and saving the page numbers them in the order of
+its form, so a list maintained on the partner page keeps its oldest-first
+order unless an editor rearranged it. They are inline records of their role as
+well, and that relation writes the same :sql:`sorting` column: saving a role
+numbers its partnerships in the role's form order, across partner pages, which
+can rearrange the partnerships of a page. Arrange them on the partner page
+where the result is not the intended one.
+
+Partners on the map follow the page tree among siblings. The backend typically
+places a page created below a parent page above the existing ones, so partner
+pages nobody rearranged are sorted newest first, while the database returned
+them oldest first (:sql:`uid` order) — that order can appear reversed. Arrange
+the pages in the page tree where the new order is not the intended one.
+
+The geocoding queue and the tiebreakers use :sql:`uid` ascending, the order
+SQLite, MySQL and MariaDB return in practice; on PostgreSQL the previous order
+was not reliable to begin with.
 
 Affected Installations
 ======================
