@@ -31,21 +31,25 @@ same. They now order explicitly:
 Impact
 ======
 
-Partnership lists and teasers now render in the order the partnerships have on
-their partner page. Partnerships are inline records of that page: a new one is
-added at the bottom, and saving the page numbers them in the order of the form.
-A list nobody rearranged therefore keeps its previous order, oldest first. A
-list an editor rearranged now follows that arrangement, which was never
-delivered before.
+Partnership lists and teasers now render in the order of the partnerships'
+:sql:`sorting`. Partnerships are inline records of their partner page: a new
+one is added at the bottom, and saving the page numbers them in the order of
+its form, so a list maintained on the partner page keeps its oldest-first
+order unless an editor rearranged it. They are inline records of their role as
+well, and that relation writes the same :sql:`sorting` column: saving a role
+numbers its partnerships in the role's form order, across partner pages, which
+can rearrange the partnerships of a page. Arrange them on the partner page
+where the result is not the intended one.
 
-Partners on the map follow the page tree. The backend typically places a page
-created in a folder above the existing ones, so partner pages nobody rearranged
-are sorted newest first, while the database returned them oldest first
-(:sql:`uid` order) — that order can appear reversed. Arrange the pages in the
-page tree where the new order is not the intended one.
+Partners on the map follow the page tree among siblings. The backend typically
+places a page created below a parent page above the existing ones, so partner
+pages nobody rearranged are sorted newest first, while the database returned
+them oldest first (:sql:`uid` order) — that order can appear reversed. Arrange
+the pages in the page tree where the new order is not the intended one.
 
 The geocoding queue and the tiebreakers use :sql:`uid` ascending, the order
-every supported database returned in practice, so they change nothing visible.
+SQLite, MySQL and MariaDB return in practice; on PostgreSQL the previous order
+was not reliable to begin with.
 
 Affected Installations
 ======================
