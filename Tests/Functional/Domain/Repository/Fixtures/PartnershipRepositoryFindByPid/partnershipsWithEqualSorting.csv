@@ -1,0 +1,14 @@
+"pages"
+,"uid","pid","doktype","sys_language_uid","l10n_parent","hidden","deleted","title","slug"
+,1,0,1,0,0,0,0,"Root","/"
+,2,1,1,0,0,0,0,"Page with partnerships","/page-with-partnerships"
+,4,1,254,0,0,0,0,"Storage folder","/storage-folder"
+,10,1,40,0,0,0,0,"Alpha University","/alpha-university"
+,11,1,40,0,0,0,0,"Beta Institute","/beta-institute"
+"tx_academicpartners_domain_model_role"
+,"uid","pid","deleted","hidden","sys_language_uid","l10n_parent","sorting","name","description"
+,1,4,0,0,0,0,16,"Research partner","Joint research and publications."
+"tx_academicpartners_domain_model_partnership"
+,"uid","pid","deleted","hidden","sys_language_uid","l10n_parent","sorting","page","partner","role"
+,7,4,0,0,0,0,16,2,10,1
+,8,4,0,0,0,0,16,2,11,1

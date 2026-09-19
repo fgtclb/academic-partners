@@ -96,6 +96,27 @@ final class PartnerRepositoryFindAllTest extends AbstractAcademicPartnersTestCas
         $this->assertCount(0, $result);
     }
 
+    /**
+     * Partner records are pages, so `sorting` is the backend order the editor arranged -
+     * the page tree order among siblings, a deterministic interleave across parents -
+     * and the fixture contradicts creation order on purpose: partner 11 (`sorting` 64)
+     * precedes partner 10 (`sorting` 128) although they live under different parents.
+     * Without the explicit ordering the select items this method feeds followed the DBMS
+     * row order, which is not the same list twice on PostgreSQL (ACE-491).
+     */
+    #[Test]
+    public function partnersAreReturnedInTheirBackendSortingOrder(): void
+    {
+        $this->importCSVDataSet(__DIR__ . '/Fixtures/PartnerRepositoryFindAll/partners.csv');
+
+        $uids = [];
+        foreach ($this->subject()->findAll() ?? [] as $partner) {
+            $uids[] = (int)$partner->getUid();
+        }
+
+        $this->assertSame([11, 10], $uids);
+    }
+
     private function subject(): PartnerRepository
     {
         return $this->get(PartnerRepository::class);
