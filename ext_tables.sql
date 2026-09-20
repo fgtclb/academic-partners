@@ -21,6 +21,11 @@ CREATE TABLE tx_academicpartners_domain_model_partnership (
     page int(11) unsigned DEFAULT '0' NOT NULL,
     partner int(11) unsigned DEFAULT '0' NOT NULL,
     role int(11) unsigned DEFAULT '0' NOT NULL,
+
+    -- The sort order within the role. The partner page owns the shared "sorting"
+    -- column, which is derived from "ctrl.sortby"; a "foreign_sortby" column is
+    -- not derived from TCA, so the second relation declares its own here.
+    role_sorting int(11) unsigned DEFAULT '0' NOT NULL,
 );
 
 CREATE TABLE tx_academicpartners_domain_model_role (

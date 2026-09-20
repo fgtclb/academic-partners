@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use FGTCLB\AcademicPartners\Controller\PartnerController;
+use FGTCLB\AcademicPartners\Hook\PartnershipSortingHook;
 use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -62,4 +63,9 @@ use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
         [],
         ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT,
     );
+
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass']['academicPartnersPartnershipSorting']
+        = PartnershipSortingHook::class;
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processCmdmapClass']['academicPartnersPartnershipSorting']
+        = PartnershipSortingHook::class;
 })();

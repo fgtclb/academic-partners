@@ -1,0 +1,19 @@
+"pages",
+,"uid","pid","doktype","deleted","hidden","sys_language_uid","l10n_parent","slug","title"
+,1,0,1,0,0,0,0,"/","Site Root"
+,10,1,1,0,0,0,0,"/partner-one","Partner One"
+,11,1,1,0,0,0,0,"/partner-two","Partner Two"
+,100,1,254,0,0,0,0,"/sysfolder-records","Recordcollection"
+"tx_academicpartners_domain_model_role",
+,"uid","pid","deleted","hidden","sys_language_uid","l10n_parent","name","partnerships"
+,1,100,0,0,0,0,"Coordinator",4
+,2,100,0,0,0,0,"Sponsor",2
+"tx_academicpartners_domain_model_partnership",
+,"uid","pid","deleted","hidden","sys_language_uid","l10n_parent","sorting","page","partner","role","role_sorting"
+,1,10,0,0,0,0,2,10,11,1,0
+,2,10,0,0,0,0,2,10,11,1,0
+,3,11,0,0,0,0,1,11,10,1,0
+,4,11,0,0,0,0,7,11,10,2,0
+,5,10,0,0,0,0,5,10,11,2,0
+,6,10,0,0,0,0,1,10,11,0,0
+,7,11,1,0,0,0,3,11,10,1,0

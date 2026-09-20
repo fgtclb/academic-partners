@@ -46,7 +46,8 @@
         "typo3/cms-backend": "^12.4.22 || ^13.4",
         "typo3/cms-core": "^12.4.22 || ^13.4",
         "typo3/cms-extbase": "^12.4.22 || ^13.4",
-        "typo3/cms-fluid": "^12.4.22 || ^13.4"
+        "typo3/cms-fluid": "^12.4.22 || ^13.4",
+        "typo3/cms-install": "^12.4.22 || ^13.4"
     },
     "require-dev": {
         "fgtclb/environment-state-manager": "^1.0"

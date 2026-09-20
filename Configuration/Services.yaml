@@ -11,6 +11,11 @@ services:
   FGTCLB\AcademicPartners\Domain\Repository\PartnerRepository:
     public: true
 
+  # Instantiated by the DataHandler through GeneralUtility::makeInstance(), which
+  # resolves a public service from the container - constructor injection needs it.
+  FGTCLB\AcademicPartners\Hook\PartnershipSortingHook:
+    public: true
+
   FGTCLB\AcademicPartners\DataProcessing\PartnerProcessor:
     tags:
       - {

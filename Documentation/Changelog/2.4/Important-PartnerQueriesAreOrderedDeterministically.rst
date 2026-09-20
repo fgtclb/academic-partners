@@ -36,10 +36,9 @@ Partnership lists and teasers now render in the order of the partnerships'
 one is added at the bottom, and saving the page numbers them in the order of
 its form, so a list maintained on the partner page keeps its oldest-first
 order unless an editor rearranged it. They are inline records of their role as
-well, and that relation writes the same :sql:`sorting` column: saving a role
-numbers its partnerships in the role's form order, across partner pages, which
-can rearrange the partnerships of a page. Arrange them on the partner page
-where the result is not the intended one.
+well, and that relation wrote the same :sql:`sorting` column until the role
+gained a sort column of its own - see *Important: A partner role sorts its
+partnerships on its own* in this changelog.
 
 Partners on the map follow the page tree among siblings. The backend typically
 places a page created below a parent page above the existing ones, so partner
