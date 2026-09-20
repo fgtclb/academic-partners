@@ -117,6 +117,9 @@ return [
                 'type' => 'inline',
                 'foreign_table' => 'tx_academicpartners_domain_model_partnership',
                 'foreign_field' => 'role',
+                // A sort column of this relation's own: the partner page relation
+                // owns "sorting", the column the frontend renders partnerships in.
+                'foreign_sortby' => 'role_sorting',
                 'appearance' => [
                     'collapseAll' => 1,
                     'expandSingle' => 1,
