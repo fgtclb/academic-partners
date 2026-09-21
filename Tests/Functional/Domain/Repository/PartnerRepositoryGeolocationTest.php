@@ -188,6 +188,19 @@ final class PartnerRepositoryGeolocationTest extends AbstractAcademicPartnersTes
     }
 
     /**
+     * A status is a claim, not a coordinate. Partner 19 says `successful` and carries
+     * nothing, which is what a geocoding run that wrote its status and lost its result
+     * leaves behind - and what would put a marker at 0/0.
+     */
+    #[Test]
+    public function aPartnerClaimingToBeLocatedWithoutCoordinatesIsNotGeoLocated(): void
+    {
+        $this->importCSVDataSet(__DIR__ . '/Fixtures/PartnerRepositoryGeolocation/partners.csv');
+
+        $this->assertNotContains(19, $this->resultUids($this->subject()->findGeoLocated()));
+    }
+
+    /**
      * An installation whose partners are all still waiting hands the map an empty result
      * rather than nothing at all - `findGeoLocated()` is typed non nullable and the map
      * template iterates it directly.

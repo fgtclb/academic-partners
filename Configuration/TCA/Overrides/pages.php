@@ -140,6 +140,14 @@ defined('TYPO3') or die;
                 'type' => 'input',
                 'max' => 20,
                 'eval' => 'trim',
+                'behaviour' => [
+                    // A place does not move when the page is translated. Synchronized
+                    // rather than excluded, so an editor sees the value on the
+                    // translation and can still detach it deliberately. Existing
+                    // translations are brought in line by
+                    // `Upgrades\SynchronizePartnerCoordinatesUpgradeWizard` - see ACE-709.
+                    'allowLanguageSynchronization' => true,
+                ],
             ],
         ],
         'geocode_latitude' => [
@@ -148,6 +156,14 @@ defined('TYPO3') or die;
                 'type' => 'input',
                 'max' => 20,
                 'eval' => 'trim',
+                'behaviour' => [
+                    // A place does not move when the page is translated. Synchronized
+                    // rather than excluded, so an editor sees the value on the
+                    // translation and can still detach it deliberately. Existing
+                    // translations are brought in line by
+                    // `Upgrades\SynchronizePartnerCoordinatesUpgradeWizard` - see ACE-709.
+                    'allowLanguageSynchronization' => true,
+                ],
             ],
         ],
         'geocode_last_run' => [
