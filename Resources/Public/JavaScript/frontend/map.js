@@ -3,7 +3,7 @@
 (() => {
   // packages/fgtclb/academic-partners/Resources/Private/TypeScript/frontend/map.ts
   var leaflet = () => window.LeafletObject;
-  document.addEventListener("DOMContentLoaded", () => {
+  var initializeMap = () => {
     const library = leaflet();
     const partnerContainer = document.getElementById("map-partners");
     if (library === void 0 || partnerContainer === null) {
@@ -19,9 +19,13 @@
     const map = library.map("map", { zoom: 6, layers: [tiles] });
     const markers = library.markerClusterGroup({ chunkedLoading: true });
     partnerContainer.querySelectorAll(".map-partner").forEach((partner) => {
-      const latitude = Number(partner.dataset.lat);
-      const longitude = Number(partner.dataset.lng);
-      if (Number.isNaN(latitude) || Number.isNaN(longitude)) {
+      var _a, _b;
+      const rawLatitude = ((_a = partner.dataset.lat) == null ? void 0 : _a.trim()) ?? "";
+      const rawLongitude = ((_b = partner.dataset.lng) == null ? void 0 : _b.trim()) ?? "";
+      const latitude = Number(rawLatitude);
+      const longitude = Number(rawLongitude);
+      const unusable = rawLatitude === "" || rawLongitude === "" || !Number.isFinite(latitude) || !Number.isFinite(longitude) || latitude === 0 && longitude === 0;
+      if (unusable) {
         console.warn("Invalid coordinates for partner:", partner.dataset.name);
         return;
       }
@@ -37,5 +41,10 @@
     } else {
       map.setView([51.1657, 10.4515], 6);
     }
-  });
+  };
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initializeMap, { once: true });
+  } else {
+    initializeMap();
+  }
 })();

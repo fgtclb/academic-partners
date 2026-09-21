@@ -40,7 +40,7 @@ interface LeafletStatic {
 const leaflet = (): LeafletStatic | undefined =>
     (window as unknown as { LeafletObject?: LeafletStatic }).LeafletObject;
 
-document.addEventListener('DOMContentLoaded', (): void => {
+const initializeMap = (): void => {
     const library = leaflet();
     const partnerContainer = document.getElementById('map-partners');
 
@@ -63,10 +63,27 @@ document.addEventListener('DOMContentLoaded', (): void => {
     const markers = library.markerClusterGroup({ chunkedLoading: true });
 
     partnerContainer.querySelectorAll<HTMLElement>('.map-partner').forEach((partner): void => {
-        const latitude = Number(partner.dataset.lat);
-        const longitude = Number(partner.dataset.lng);
+        const rawLatitude = partner.dataset.lat?.trim() ?? '';
+        const rawLongitude = partner.dataset.lng?.trim() ?? '';
+        const latitude = Number(rawLatitude);
+        const longitude = Number(rawLongitude);
 
-        if (Number.isNaN(latitude) || Number.isNaN(longitude)) {
+        // `Number('')` is `0`, not `NaN`, so an absent coordinate walked straight
+        // through the previous `Number.isNaN()` check and was drawn at 0/0 - open
+        // ocean off Africa (ACE-708). Absence is therefore tested on the raw
+        // attribute, before the conversion that hides it.
+        //
+        // The pair 0/0 is refused whatever spelling it arrives in, because it means
+        // "nothing was written" rather than a place. A single zero is kept: longitude
+        // 0 runs through the United Kingdom, France, Spain and Ghana, and latitude 0
+        // is the equator.
+        const unusable = rawLatitude === ''
+            || rawLongitude === ''
+            || !Number.isFinite(latitude)
+            || !Number.isFinite(longitude)
+            || (latitude === 0 && longitude === 0);
+
+        if (unusable) {
             // Kept from the original: a partner record with unusable coordinates
             // is an editorial mistake, and silence would make it invisible.
             // eslint-disable-next-line no-console
@@ -91,6 +108,16 @@ document.addEventListener('DOMContentLoaded', (): void => {
     } else {
         map.setView([51.1657, 10.4515], 6);
     }
-});
+};
+
+// `f:asset.module` renders every module with `async`, so this file is not
+// ordered against document parsing and regularly runs after
+// `DOMContentLoaded` has already fired. Waiting for that event unconditionally
+// would then wait forever and the map would never be drawn.
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeMap, { once: true });
+} else {
+    initializeMap();
+}
 
 export {};
