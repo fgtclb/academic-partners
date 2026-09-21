@@ -1,0 +1,37 @@
+"pages",
+,"uid","pid","doktype","deleted","hidden","sys_language_uid","l10n_parent","l18n_cfg","slug","title","description","geocode_latitude","geocode_longitude","show_on_map"
+,1,0,1,0,0,0,0,0,"/","Site Root","","","",1
+,2,1,1,0,0,0,0,0,"/home","Home (EN)","","","",1
+,3,1,1,0,0,0,0,0,"/partnerships","Partnerships","","","",1
+,4,1,1,0,0,0,0,0,"/teaser","Teaser","","","",1
+,10,1,40,0,0,0,0,0,"/alpha-university","Alpha University","Joint research on quantum optics.","48.137154","11.576124",1
+,11,1,40,0,0,0,0,0,"/beta-institute","Beta Institute","Applied materials science.","52.520008","13.404954",1
+"sys_file_storage",
+,"uid","pid","name","driver","configuration","is_browsable","is_public","is_writable","is_online","is_default","processingfolder"
+,1,0,"fileadmin","Local","<?xml version=""1.0"" encoding=""utf-8"" standalone=""yes"" ?><T3FlexForms><data><sheet index=""sDEF""><language index=""lDEF""><field index=""basePath""><value index=""vDEF"">fileadmin/</value></field><field index=""pathType""><value index=""vDEF"">relative</value></field><field index=""caseSensitive""><value index=""vDEF"">1</value></field></language></sheet></data></T3FlexForms>",1,1,1,1,1,""
+"sys_file",
+,"uid","pid","storage","type","mime_type","missing","extension","name","identifier","identifier_hash","folder_hash","sha1","size","creation_date","modification_date"
+,1,0,1,2,"image/jpeg",0,"jpg","landscape.jpg","/images/landscape.jpg","860f54915db2bcdc50fc3aad2a80cb2b5103cc7d","ca306f2df2823c083069873158fd3b91fd4ebe01","683fca5d5576daac0adc2fc288107af9de30c3c7",8491,1700000000,1700000000
+,2,0,1,2,"image/svg+xml",0,"svg","logo.svg","/images/logo.svg","c98457ae07aa79cc3c86636291636e02e51f9759","ca306f2df2823c083069873158fd3b91fd4ebe01","f943ac2eeeeac42d2f35fae11c6f319962db3481",138,1700000000,1700000000
+"sys_file_metadata",
+,"uid","pid","file","sys_language_uid","width","height"
+,1,0,1,0,800,600
+,2,0,2,0,120,40
+"sys_file_reference",
+,"uid","pid","deleted","hidden","sys_language_uid","uid_local","uid_foreign","tablenames","fieldname","sorting_foreign","alternative"
+,1,1,0,0,0,1,10,"pages","media",1,"The logo of Alpha University"
+,2,1,0,0,0,2,11,"pages","media",1,"The logo of Beta Institute"
+"tx_academicpartners_domain_model_role",
+,"uid","pid","deleted","hidden","sys_language_uid","l10n_parent","sorting","name","description"
+,1,1,0,0,0,0,16,"Research partner","Joint research and publications."
+"tx_academicpartners_domain_model_partnership",
+,"uid","pid","deleted","hidden","sys_language_uid","l10n_parent","sorting","page","partner","role"
+,1,1,0,0,0,0,16,3,10,1
+,2,1,0,0,0,0,32,3,11,1
+,3,1,0,0,0,0,48,4,10,1
+,4,1,0,0,0,0,64,4,11,1
+"tt_content",
+,"uid","pid","deleted","hidden","sys_language_uid","l18n_parent","CType","header","pages","pi_flexform"
+,1,2,0,0,0,0,"academicpartners_list","","","<?xml version=""1.0"" encoding=""utf-8"" standalone=""yes"" ?><T3FlexForms><data><sheet index=""sDEF""><language index=""lDEF""><field index=""settings.hideFilter""><value index=""vDEF"">1</value></field><field index=""settings.hideSorting""><value index=""vDEF"">1</value></field><field index=""settings.sorting""><value index=""vDEF"">title asc</value></field><field index=""settings.showHiddenRecords""><value index=""vDEF"">0</value></field></language></sheet></data></T3FlexForms>"
+,2,3,0,0,0,0,"academicpartners_partnershipslist","","",""
+,3,4,0,0,0,0,"academicpartners_partnershipsteaser","","",""
