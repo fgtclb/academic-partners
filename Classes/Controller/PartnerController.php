@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace FGTCLB\AcademicPartners\Controller;
 
+use FGTCLB\AcademicBase\Domain\Model\Dto\PluginControllerActionContext;
+use FGTCLB\AcademicBase\Domain\Model\Dto\PluginControllerActionContextInterface;
 use FGTCLB\AcademicPartners\Domain\Repository\PartnerRepository;
 use FGTCLB\AcademicPartners\Domain\Repository\PartnershipRepository;
+use FGTCLB\AcademicPartners\Event\ModifyPartnerDemandEvent;
+use FGTCLB\AcademicPartners\Event\ModifyPartnerListEvent;
 use FGTCLB\AcademicPartners\Factory\DemandFactory;
 use FGTCLB\CategoryTypes\Domain\Repository\CategoryRepository;
 use Psr\Http\Message\ResponseInterface;
@@ -35,14 +39,28 @@ class PartnerController extends ActionController
             $contentElementData
         );
 
+        $context = $this->pluginControllerActionContext();
+        /** @var ModifyPartnerDemandEvent $demandEvent */
+        $demandEvent = $this->eventDispatcher->dispatch(new ModifyPartnerDemandEvent($demandObject, $context));
+        $demandObject = $demandEvent->getDemand();
+
         $partners = $this->partnerRepository->findByDemand($demandObject);
         $categories = $this->categoryRepository->findAllApplicable('partners', ...array_values($partners->toArray()));
 
+        /** @var ModifyPartnerListEvent $listEvent */
+        $listEvent = $this->eventDispatcher->dispatch(new ModifyPartnerListEvent(
+            partners: $partners,
+            categories: $categories,
+            demand: $demandObject,
+            view: $this->view,
+            pluginControllerActionContext: $context,
+        ));
+
         $this->view->assignMultiple([
-            'partners' => $partners,
+            'partners' => $listEvent->getPartners(),
             'data' => $contentElementData,
             'demand' => $demandObject,
-            'categories' => $categories,
+            'categories' => $listEvent->getCategories(),
         ]);
 
         return $this->htmlResponse();
@@ -62,18 +80,33 @@ class PartnerController extends ActionController
             $contentElementData
         );
 
+        $context = $this->pluginControllerActionContext();
+        /** @var ModifyPartnerDemandEvent $demandEvent */
+        $demandEvent = $this->eventDispatcher->dispatch(new ModifyPartnerDemandEvent($demandObject, $context));
+        $demandObject = $demandEvent->getDemand();
+
         // A partner without coordinates cannot be drawn and would end up at 0/0
-        // instead of being left out (ACE-562).
+        // instead of being left out (ACE-562). This runs after the demand event on
+        // purpose: a listener may widen the map's demand, but not back onto 0/0.
         $demandObject->setDrawableOnly(true);
 
         $partners = $this->partnerRepository->findByDemand($demandObject);
         $categories = $this->categoryRepository->findAllApplicable('partners', ...array_values($partners->toArray()));
 
+        /** @var ModifyPartnerListEvent $listEvent */
+        $listEvent = $this->eventDispatcher->dispatch(new ModifyPartnerListEvent(
+            partners: $partners,
+            categories: $categories,
+            demand: $demandObject,
+            view: $this->view,
+            pluginControllerActionContext: $context,
+        ));
+
         $this->view->assignMultiple([
-            'partners' => $partners,
+            'partners' => $listEvent->getPartners(),
             'data' => $contentElementData,
             'demand' => $demandObject,
-            'categories' => $categories,
+            'categories' => $listEvent->getCategories(),
         ]);
 
         return $this->htmlResponse();
@@ -134,5 +167,15 @@ class PartnerController extends ActionController
     private function getCurrentContentObjectRenderer(): ?ContentObjectRenderer
     {
         return $this->request->getAttribute('currentContentObject');
+    }
+
+    /**
+     * Protected rather than private: these controllers stay open until they are made
+     * `final` in 3.0.0, and a subclass that overrides an action needs the context to
+     * dispatch the events itself.
+     */
+    protected function pluginControllerActionContext(): PluginControllerActionContextInterface
+    {
+        return new PluginControllerActionContext($this->request, $this->settings);
     }
 }

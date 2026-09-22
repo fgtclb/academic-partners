@@ -1,0 +1,4 @@
+# The same filter, but only while the map renders - the list on the same page keeps
+# showing every partner.
+plugin.tx_academicpartners.settings.testPartnerDemandCategory = 2
+plugin.tx_academicpartners.settings.testPartnerDemandOnlyForPlugin = Map

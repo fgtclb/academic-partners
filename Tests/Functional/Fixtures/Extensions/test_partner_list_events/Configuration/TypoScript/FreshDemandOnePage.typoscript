@@ -1,0 +1,4 @@
+# The demand listener hands back a demand it built itself, restricted to one page. A
+# controller that queried the demand it built instead would list every partner.
+plugin.tx_academicpartners.settings.testPartnerDemandReplaceWithFresh = 1
+plugin.tx_academicpartners.settings.testPartnerDemandReplacementPages = 3

@@ -1,0 +1,2 @@
+# The demand listener adds a category filter the content element does not have.
+plugin.tx_academicpartners.settings.testPartnerDemandCategory = 2

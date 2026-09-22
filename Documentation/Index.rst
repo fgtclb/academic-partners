@@ -55,6 +55,11 @@ filterable list and map views in the frontend.
 
         Configure the extension and its plugins for your installation.
 
+    ..  card:: :ref:`For developers <developers>`
+
+        The events the partner list and map dispatch, and what a listener
+        may change with them.
+
     ..  card:: :ref:`Known problems <known-problems>`
 
         Known issues and information about them.
@@ -72,6 +77,7 @@ filterable list and map views in the frontend.
     Introduction/Index
     Installation/Index
     Configuration/Index
+    Developers/Index
     KnownProblems/Index
     Changelog/Changelog-3
     Changelog/Changelog-2

@@ -1,0 +1,3 @@
+# The list listener replaces the applicable categories with a single one, while leaving
+# the partners alone - the filter of the plugin then offers only that category.
+plugin.tx_academicpartners.settings.testPartnerListCategory = 2

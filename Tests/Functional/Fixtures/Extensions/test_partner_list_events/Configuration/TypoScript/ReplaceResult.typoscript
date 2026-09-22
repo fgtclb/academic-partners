@@ -1,0 +1,2 @@
+# The list listener replaces the queried partners with a subset of them.
+plugin.tx_academicpartners.settings.testPartnerListKeepTitle = Beta Institute

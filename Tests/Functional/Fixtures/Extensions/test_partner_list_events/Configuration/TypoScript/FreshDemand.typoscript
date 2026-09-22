@@ -1,0 +1,3 @@
+# The demand listener throws the controller's demand away and hands back a fresh one. On
+# the map that resets `drawableOnly`, which the controller sets again after the event.
+plugin.tx_academicpartners.settings.testPartnerDemandReplaceWithFresh = 1

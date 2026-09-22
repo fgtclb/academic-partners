@@ -1,0 +1,21 @@
+<html
+    lang="en"
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    data-namespace-typo3-fluid="true"
+>
+
+<div class="academic-partners-list">
+    <p class="test-partner-list-marker">{testPartnerListMarker}</p>
+
+    <f:render
+        partial="Partner/SortingAndFilters"
+        arguments="{_all}"
+    />
+
+    <f:render
+        partial="Partner/ItemList"
+        arguments="{_all}"
+    />
+</div>
+
+</html>
