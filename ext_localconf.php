@@ -55,4 +55,11 @@ use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
         = PartnershipSortingHook::class;
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processCmdmapClass']['academicPartnersPartnershipSorting']
         = PartnershipSortingHook::class;
+
+    // The list actions are not cacheable, so the cached page around them never depends on
+    // the demand. Kept out of the cache hash, every filter URL of a list shares that one page
+    // cache entry, rather than the redirect of a filter submission signing one entry per
+    // combination of categories and sorting that anybody cares to submit.
+    $GLOBALS['TYPO3_CONF_VARS']['FE']['cacheHash']['excludedParameters'][] = '^tx_academicpartners_list[demand]';
+    $GLOBALS['TYPO3_CONF_VARS']['FE']['cacheHash']['excludedParameters'][] = '^tx_academicpartners_map[demand]';
 })();

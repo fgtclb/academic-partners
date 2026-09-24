@@ -37,6 +37,12 @@ through :php:`getPluginControllerActionContext()`: the request, the site and
 its language, the content object of the element, the settings of the content
 element and the plugin name.
 
+Neither event fires for a submission of the filter and sorting form: the plugin
+answers the POST with a redirect to a URL carrying the selection before the
+demand event, and both events fire on the request that follows, with the
+selection in the query string (or the route), not in the parsed body. See
+:ref:`feature-1790226100`.
+
 ..  code-block:: php
     :caption: EXT:my_extension/Classes/EventListener/RestrictPartnersToOneFolder.php
 
