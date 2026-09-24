@@ -117,6 +117,24 @@
       <trans-unit id="flexform.sorting.sorting.asc">
         <source>Page sorting (result may be unexpected)</source>
       </trans-unit>
+      <trans-unit id="flexform.sheet.filter">
+        <source>Filter</source>
+      </trans-unit>
+      <trans-unit id="flexform.sheet.pagination">
+        <source>Pagination</source>
+      </trans-unit>
+      <trans-unit id="flexform.paginationEnabled.label">
+        <source>Enable pagination</source>
+      </trans-unit>
+      <trans-unit id="flexform.paginationEnabled.description">
+        <source>Splits the list into pages and shows a navigation between them. Filter and sorting stay selected when a visitor moves to another page.</source>
+      </trans-unit>
+      <trans-unit id="flexform.pagination.resultsPerPage.label">
+        <source>Results per page</source>
+      </trans-unit>
+      <trans-unit id="flexform.pagination.resultsPerPage.description">
+        <source>The number of partners on one page. Only used while the pagination is enabled.</source>
+      </trans-unit>
 
       <!-- Pages table: TCA tabs and palettes -->
 

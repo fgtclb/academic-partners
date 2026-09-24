@@ -83,6 +83,9 @@
       <trans-unit id="list.noPartnersFound">
         <source>No partners found.</source>
       </trans-unit>
+      <trans-unit id="list.pagination.label">
+        <source>Pages of the partner list</source>
+      </trans-unit>
 
       <!-- Map -->
 

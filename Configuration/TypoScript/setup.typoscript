@@ -14,6 +14,14 @@
 @import 'EXT:academic_partners/Configuration/TypoScript/Page/'
 
 plugin.tx_academicpartners {
+  settings {
+    # The page links of a paginated list. Pagination itself and the results per
+    # page are set on each content element (FlexForm sheet "Pagination").
+    pagination {
+      numberOfLinks = {$plugin.tx_academicpartners.pagination.numberOfLinks}
+    }
+  }
+
   view {
     templateRootPaths {
       0 = EXT:academic_partners/Resources/Private/Templates/

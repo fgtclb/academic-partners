@@ -7,4 +7,11 @@ plugin.tx_academicpartners {
     # cat=plugin.tx_academicpartners/file; type=string; label=Path to template layouts (FE)
     layoutRootPath = EXT:academic_partners/Resources/Private/Layouts/
   }
+
+  # Also a site setting of the set "fgtclb/academic-partners-list", with the same
+  # default - see "Configuration/Sets/List/settings.definitions.yaml".
+  pagination {
+    # cat=plugin.tx_academicpartners/links; type=int+; label=Pagination: the most page numbers the partner list links at once (numbered pagination only)
+    numberOfLinks = 5
+  }
 }

@@ -9,6 +9,7 @@ use FGTCLB\CategoryTypes\Collection\FilterCollection;
 use FGTCLB\CategoryTypes\Domain\Repository\CategoryRepository;
 use FGTCLB\CategoryTypes\Filter\CategoryFilterNormalizer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 class DemandFactory
 {
@@ -62,6 +63,11 @@ class DemandFactory
                     $this->categoryFilterNormalizer->toUidList($demandFromForm['filterCollection']),
                 );
             }
+
+            $currentPage = $demandFromForm['currentPage'] ?? null;
+            if (MathUtility::canBeInterpretedAsInteger($currentPage)) {
+                $demand->setCurrentPage((int)$currentPage);
+            }
         }
 
         if ($categoryCollection !== null) {
@@ -92,6 +98,9 @@ class DemandFactory
      * visitor who cleared a preset category would otherwise get it back. The categories
      * are one comma separated list, see {@see CategoryFilterNormalizer::toFilterArgument()},
      * and are left out when nothing is filtered.
+     *
+     * The page is never part of it: a filter submission starts on the first page of its
+     * selection. A pagination link adds it to these arguments.
      *
      * @return array<string, mixed>
      */

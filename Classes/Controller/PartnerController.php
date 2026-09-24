@@ -6,15 +6,21 @@ namespace FGTCLB\AcademicPartners\Controller;
 
 use FGTCLB\AcademicBase\Domain\Model\Dto\PluginControllerActionContext;
 use FGTCLB\AcademicBase\Domain\Model\Dto\PluginControllerActionContextInterface;
+use FGTCLB\AcademicPartners\Domain\Model\Partner;
 use FGTCLB\AcademicPartners\Domain\Repository\PartnerRepository;
 use FGTCLB\AcademicPartners\Domain\Repository\PartnershipRepository;
 use FGTCLB\AcademicPartners\Event\ModifyPartnerDemandEvent;
 use FGTCLB\AcademicPartners\Event\ModifyPartnerListEvent;
 use FGTCLB\AcademicPartners\Factory\DemandFactory;
 use FGTCLB\CategoryTypes\Domain\Repository\CategoryRepository;
+use GeorgRinger\NumberedPagination\NumberedPagination;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Http\PropagateResponseException;
+use TYPO3\CMS\Core\Pagination\SimplePagination;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Pagination\QueryResultPaginator;
+use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 use TYPO3\CMS\Extbase\Service\ExtensionService;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
@@ -44,6 +50,13 @@ class PartnerController extends ActionController
             $contentElementData
         );
 
+        // What the request asked for, read before the demand event: the page and the arguments
+        // the pagination links carry. A listener acts on every request, the one a page link
+        // leads to included, so its changes need not travel in the URL - and a listener that
+        // hands back a demand of its own would otherwise pin the list to page one.
+        $requestedPage = $demandObject->getCurrentPage();
+        $requestedArguments = $this->partnerDemandFactory->createDemandArguments($demandObject);
+
         $context = $this->pluginControllerActionContext();
         /** @var ModifyPartnerDemandEvent $demandEvent */
         $demandEvent = $this->eventDispatcher->dispatch(new ModifyPartnerDemandEvent($demandObject, $context));
@@ -61,12 +74,14 @@ class PartnerController extends ActionController
             pluginControllerActionContext: $context,
         ));
 
+        $partners = $listEvent->getPartners();
         $this->view->assignMultiple([
-            'partners' => $listEvent->getPartners(),
+            'partners' => $partners,
             'data' => $contentElementData,
             'demand' => $demandObject,
             'categories' => $listEvent->getCategories(),
         ]);
+        $this->assignPagination($partners, $requestedPage, $requestedArguments);
 
         return $this->htmlResponse();
     }
@@ -230,6 +245,48 @@ class PartnerController extends ActionController
             ),
             1790226082,
         );
+    }
+
+    /**
+     * Splits the list into pages when the content element enables it, the way the profile
+     * list of `academic_persons` does: numbered page links when `numbered_pagination` is
+     * loaded, the core pagination otherwise.
+     *
+     * The paginator pages the result the list event handed back, and the categories of the
+     * filter stay those of the whole result. `demandArguments` is the demand the request
+     * asked for, as a URL carries it; the pagination links add the page to it, so they keep
+     * the filter and the sorting - including an editor's preselection, which only a request
+     * without any demand argument would apply.
+     *
+     * @param QueryResultInterface<int, Partner> $partners
+     * @param array<string, mixed> $requestedArguments
+     */
+    private function assignPagination(QueryResultInterface $partners, int $requestedPage, array $requestedArguments): void
+    {
+        if (!(bool)($this->settings['paginationEnabled'] ?? false)) {
+            return;
+        }
+        $resultsPerPage = (int)($this->settings['pagination']['resultsPerPage'] ?? 0);
+        $numberOfLinks = (int)($this->settings['pagination']['numberOfLinks'] ?? 0);
+
+        $paginator = new QueryResultPaginator(
+            $partners,
+            $requestedPage,
+            $resultsPerPage > 0 ? $resultsPerPage : 10,
+        );
+        if (ExtensionManagementUtility::isLoaded('numbered_pagination')
+            && class_exists(NumberedPagination::class)
+        ) {
+            $pagination = new NumberedPagination($paginator, $numberOfLinks > 0 ? $numberOfLinks : 5);
+        } else {
+            $pagination = new SimplePagination($paginator);
+        }
+
+        $this->view->assignMultiple([
+            'paginator' => $paginator,
+            'pagination' => $pagination,
+            'demandArguments' => $requestedArguments,
+        ]);
     }
 
     private function getCurrentContentObjectRenderer(): ?ContentObjectRenderer

@@ -143,6 +143,22 @@ category of the group and marks the ones no record carries as disabled options.
 :php:`findByGroupAndUidList()` returns a bare list instead, so a listener that
 reaches for that one drops the disabled options the filter otherwise shows.
 
+**A paginated list pages the result the list event hands back.** The event
+sees every partner the list found, not one page of them. With the
+:ref:`pagination <configuration-list-pagination>` enabled, the controller
+builds the paginator after the event, from the result the event hands back, and
+the paginator cuts a page by running that result's query again with a limit and
+an offset. A result a listener hands back is therefore paged by its query, not
+by the records it holds. :html:`{partners}` stays the whole result, the page is
+:html:`{paginator.paginatedItems}`.
+
+The page, and the filter and sorting the page links carry, are read from the
+demand the request asked for, **before** the demand event - as the filter
+redirect reads its URL. A listener that replaces the demand therefore keeps the
+page the visitor asked for, and a listener cannot choose the page. What a
+listener changes does not travel in the page links: it acts again on the
+request a link leads to.
+
 Nothing changes in an installation that has no listener: without one, both
 plugins query and render exactly what they did before.
 

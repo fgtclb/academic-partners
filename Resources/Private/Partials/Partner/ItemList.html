@@ -4,10 +4,29 @@
     data-namespace-typo3-fluid="true"
 >
 
-<f:if condition="{partners}">
+<f:comment>
+    The partners of the list, one page of them when the content element enables the
+    pagination, and the navigation between the pages below them.
+
+    Arguments: the list template renders it with "{_all}", which is what it expects.
+    - partners:         everything the list found
+    - paginator:        the paginator of a paginated list, and "pagination" next to it
+    - demandArguments:  the demand of the list shown, which the page links keep
+</f:comment>
+
+<f:if condition="{paginator}">
+    <f:then>
+        <f:variable name="partnersToList" value="{paginator.paginatedItems}" />
+    </f:then>
+    <f:else>
+        <f:variable name="partnersToList" value="{partners}" />
+    </f:else>
+</f:if>
+
+<f:if condition="{partnersToList}">
     <f:then>
         <div class="row academic-partners-itemlist">
-            <f:for each="{partners}" as="partner">
+            <f:for each="{partnersToList}" as="partner">
                 <div class="col-12 col-md-6 col-lg-4 col-xl-3">
                     <f:render
                         partial="Partner/Item"
@@ -16,6 +35,17 @@
                 </div>
             </f:for>
         </div>
+
+        <f:if condition="{pagination.lastPageNumber} > 1">
+            <f:render
+                partial="Partner/Pagination"
+                arguments="{
+                    paginator: paginator,
+                    pagination: pagination,
+                    demandArguments: demandArguments
+                }"
+            />
+        </f:if>
     </f:then>
     <f:else>
         <span>{f:translate(key: 'list.noPartnersFound', extensionName: 'academic_partners')}</span>

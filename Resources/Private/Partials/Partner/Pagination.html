@@ -1,0 +1,119 @@
+<html
+    lang="en"
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    data-namespace-typo3-fluid="true"
+>
+
+<f:comment>
+    The navigation between the pages of a paginated partner list.
+
+    Every link carries the demand of the list shown - filter and sorting - and the page
+    it leads to. The section "PageLink" renders one; its text is the page number, or the
+    label "labelKey" names for first, previous, next and last.
+
+    "hasLessPages" and "hasMorePages" exist on the numbered pagination only: the core
+    pagination links every page and renders no ellipsis.
+
+    Arguments:
+    - paginator:        the paginator, for the current page
+    - pagination:       the pagination, for the pages to link
+    - demandArguments:  the demand of the list shown, as a URL carries it
+</f:comment>
+
+<nav
+    class="academic-partners-list__pagination"
+    aria-label="{f:translate(key: 'list.pagination.label', extensionName: 'academic_partners')}"
+>
+    <ul class="pagination justify-content-center mt-4">
+        <f:if condition="{pagination.previousPageNumber} && {pagination.previousPageNumber} >= {pagination.firstPageNumber}">
+            <li class="page-item first">
+                <f:render
+                    section="PageLink"
+                    arguments="{
+                        page: pagination.firstPageNumber,
+                        demandArguments: demandArguments,
+                        labelKey: 'widget.pagination.first'
+                    }"
+                />
+            </li>
+            <li class="page-item previous">
+                <f:render
+                    section="PageLink"
+                    arguments="{
+                        page: pagination.previousPageNumber,
+                        demandArguments: demandArguments,
+                        labelKey: 'widget.pagination.previous'
+                    }"
+                />
+            </li>
+        </f:if>
+
+        <f:if condition="{pagination.hasLessPages}">
+            <li class="page-item disabled">
+                <span class="page-link">…</span>
+            </li>
+        </f:if>
+
+        <f:for each="{pagination.allPageNumbers}" as="page">
+            <f:if condition="{page} == {paginator.currentPageNumber}">
+                <f:then>
+                    <li class="page-item active" aria-current="page">
+                        <span class="page-link">{page}</span>
+                    </li>
+                </f:then>
+                <f:else>
+                    <li class="page-item">
+                        <f:render
+                            section="PageLink"
+                            arguments="{page: page, demandArguments: demandArguments}"
+                        />
+                    </li>
+                </f:else>
+            </f:if>
+        </f:for>
+
+        <f:if condition="{pagination.hasMorePages}">
+            <li class="page-item disabled">
+                <span class="page-link">…</span>
+            </li>
+        </f:if>
+
+        <f:if condition="{pagination.nextPageNumber} && {pagination.nextPageNumber} <= {pagination.lastPageNumber}">
+            <li class="page-item next">
+                <f:render
+                    section="PageLink"
+                    arguments="{
+                        page: pagination.nextPageNumber,
+                        demandArguments: demandArguments,
+                        labelKey: 'widget.pagination.next'
+                    }"
+                />
+            </li>
+            <li class="page-item last">
+                <f:render
+                    section="PageLink"
+                    arguments="{
+                        page: pagination.lastPageNumber,
+                        demandArguments: demandArguments,
+                        labelKey: 'widget.pagination.last'
+                    }"
+                />
+            </li>
+        </f:if>
+    </ul>
+</nav>
+
+<f:section name="PageLink">
+    <f:link.action
+        action="list"
+        arguments="{demand: {
+            filterCollection: demandArguments.filterCollection,
+            sortingField: demandArguments.sortingField,
+            sortingDirection: demandArguments.sortingDirection,
+            currentPage: page
+        }}"
+        class="page-link"
+    ><f:if condition="{labelKey}"><f:then><f:translate key="{labelKey}" extensionName="fluid" /></f:then><f:else>{page}</f:else></f:if></f:link.action>
+</f:section>
+
+</html>

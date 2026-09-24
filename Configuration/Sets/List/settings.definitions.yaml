@@ -1,0 +1,25 @@
+# Site settings of the partners list content element.
+#
+# Every path below is also assigned in
+# "Configuration/TypoScript/constants.typoscript", and the default has to be the
+# same in both files: a site that uses the site set and the static template
+# reads the constants after the site settings, so a differing default resets
+# what the integrator configured, silently.
+#
+# Declared with this set rather than with the aggregate one: only the list
+# reads it. A site that depends on "fgtclb/academic-partners" gets it through
+# the dependency on this set.
+categories:
+  academic:
+    label: 'Academic'
+  academic.partners:
+    label: 'Partners'
+    parent: academic
+
+settings:
+  plugin.tx_academicpartners.pagination.numberOfLinks:
+    label: 'Partner list | Pagination: number of page links'
+    description: 'The most page numbers the navigation of a paginated partner list links at once. Used with georgringer/numbered-pagination only; without it, every page is linked. Pagination itself and the results per page are set on each content element.'
+    category: academic.partners
+    type: int
+    default: 5

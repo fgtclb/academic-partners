@@ -34,4 +34,66 @@ final class PluginFlexFormTest extends AbstractAcademicPartnersTestCase
     {
         $this->assertPluginFlexFormIsResolved($cType);
     }
+
+    #[Test]
+    public function listOffersPaginationOnASheetOfItsOwn(): void
+    {
+        $this->assertPluginFlexFormIsResolved('academicpartners_list', 'pagination');
+        $this->assertSame(
+            ['settings.paginationEnabled', 'settings.pagination.resultsPerPage'],
+            $this->fieldNames('academicpartners_list', 'pagination'),
+        );
+    }
+
+    /**
+     * What an element gets that nobody configured: no pagination, and ten partners a
+     * page once it is switched on. A results per page below one is not accepted.
+     */
+    #[Test]
+    public function paginationFieldsDefaultToOffAndTen(): void
+    {
+        $fields = $this->resolvePluginFlexFormDataStructure('academicpartners_list')['sheets']['pagination']['ROOT']['el'] ?? [];
+
+        $this->assertSame('0', (string)($fields['settings.paginationEnabled']['config']['default'] ?? null));
+        $this->assertSame('10', (string)($fields['settings.pagination.resultsPerPage']['config']['default'] ?? null));
+        $this->assertSame('1', (string)($fields['settings.pagination.resultsPerPage']['config']['range']['lower'] ?? null));
+    }
+
+    /**
+     * The map draws every partner the filter matches, so a pagination field on it
+     * would be a switch an editor turns on and sees nothing happen.
+     */
+    #[Test]
+    public function mapOffersNoPagination(): void
+    {
+        $dataStructure = $this->resolvePluginFlexFormDataStructure('academicpartners_map');
+
+        $this->assertSame(['sDEF'], array_keys($dataStructure['sheets'] ?? []));
+        foreach ($this->fieldNames('academicpartners_map', 'sDEF') as $fieldName) {
+            $this->assertStringNotContainsString('pagination', strtolower($fieldName));
+        }
+    }
+
+    /**
+     * List and map carry the filter fields in two files since the list gained its
+     * pagination sheet. This keeps the two from drifting apart.
+     */
+    #[Test]
+    public function listAndMapOfferTheSameFilterFields(): void
+    {
+        $this->assertSame(
+            $this->resolvePluginFlexFormDataStructure('academicpartners_list')['sheets']['sDEF'] ?? null,
+            $this->resolvePluginFlexFormDataStructure('academicpartners_map')['sheets']['sDEF'] ?? null,
+        );
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function fieldNames(string $cType, string $sheetName): array
+    {
+        $dataStructure = $this->resolvePluginFlexFormDataStructure($cType);
+
+        return array_map(strval(...), array_keys($dataStructure['sheets'][$sheetName]['ROOT']['el'] ?? []));
+    }
 }

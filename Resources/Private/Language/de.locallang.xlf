@@ -103,6 +103,10 @@
         <source>No partners found.</source>
         <target>Keine Partner gefunden.</target>
       </trans-unit>
+      <trans-unit id="list.pagination.label">
+        <source>Pages of the partner list</source>
+        <target>Seiten der Partnerliste</target>
+      </trans-unit>
 
       <!-- Map -->
 

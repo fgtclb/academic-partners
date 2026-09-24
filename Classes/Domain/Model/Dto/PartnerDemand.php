@@ -17,6 +17,7 @@ class PartnerDemand
     protected string $sorting = '';
     protected string $sortingField = '';
     protected string $sortingDirection = '';
+    protected int $currentPage = 1;
 
     public function __construct()
     {
@@ -122,5 +123,19 @@ class PartnerDemand
     public function getSortingDirection(): string
     {
         return $this->sortingDirection;
+    }
+
+    /**
+     * The page of a paginated list, never below the first one. A page beyond the last
+     * one is left to the paginator, which shows the last page instead.
+     */
+    public function setCurrentPage(int $currentPage): void
+    {
+        $this->currentPage = max(1, $currentPage);
+    }
+
+    public function getCurrentPage(): int
+    {
+        return $this->currentPage;
     }
 }

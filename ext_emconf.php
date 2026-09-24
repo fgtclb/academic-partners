@@ -21,6 +21,7 @@ $EM_CONF[$_EXTKEY] = [
         ],
         'suggests' => [
             'page_backend_layout' => '2.0.0-2.9.99',
+            'numbered_pagination' => '2.1.0-2.99.99',
         ],
     ],
 ];

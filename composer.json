@@ -67,10 +67,12 @@
     },
     "conflict": {
         "fgtclb/category-types": "<2.0.0",
-        "fgtclb/page-backend-layout": "<2.0.0 || >=3.0.0"
+        "fgtclb/page-backend-layout": "<2.0.0 || >=3.0.0",
+        "georgringer/numbered-pagination": "<2.1.0 || >= 3.0.0"
     },
     "suggest": {
         "fgtclb/page-backend-layout": "Provides backend category preview",
+        "georgringer/numbered-pagination": "Install to use numbered pagination in the partner list. (~2.1)",
         "typo3/cms-scheduler": "Install EXT:scheduler for the automatic geocoding"
     }
 }

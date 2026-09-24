@@ -35,7 +35,9 @@ defined('TYPO3') or die;
     );
     (new TcaManipulator())->addContentElementPluginFlexForm(
         'academicpartners_map',
-        'FILE:EXT:academic_partners/Configuration/FlexForms/ListSettings.xml',
+        // The list's filter fields without its pagination sheet: the map draws every
+        // partner the filter matches. Keep the filter fields of both files the same.
+        'FILE:EXT:academic_partners/Configuration/FlexForms/MapSettings.xml',
     );
 
     // Add configuration tab for list and map plugins

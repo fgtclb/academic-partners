@@ -224,6 +224,51 @@ Edit the page record of the site root, tab :guilabel:`Resources`, field
 
 The setting is inherited by every page below the one it is set on.
 
+..  _configuration-list-pagination:
+
+Pagination of the partner list
+==============================
+
+The :guilabel:`Partners List` content element can split its partners into
+pages. Whether it does, and how many partners a page holds, is set on each
+content element, tab :guilabel:`Pagination`:
+
+..  list-table::
+    :header-rows: 1
+
+    *   -   Field
+        -   Default
+        -   Meaning
+    *   -   :guilabel:`Enable pagination`
+        -   off
+        -   Off, the list renders every partner the filter matches.
+    *   -   :guilabel:`Results per page`
+        -   10
+        -   The number of partners on one page.
+
+How many page numbers the navigation links at once is one value for the whole
+site:
+
+..  list-table::
+    :header-rows: 1
+
+    *   -   Site setting and constant
+        -   Default
+        -   Meaning
+    *   -   :typoscript:`plugin.tx_academicpartners.pagination.numberOfLinks`
+        -   5
+        -   The most page numbers the navigation links around the current page.
+            Read with `georgringer/numbered-pagination` only; without it, the
+            core pagination links every page.
+
+The site setting is declared by the set `fgtclb/academic-partners-list`, so the
+site settings editor offers it to a site that depends on that set or on
+`fgtclb/academic-partners`. A site configured through static templates sets the
+constant instead.
+
+Every page link keeps the active filter and sorting, and a filter submission
+starts on page one. The :guilabel:`Partners Map` is never paginated.
+
 ..  _one-mechanism-per-site:
 
 Do not combine both
@@ -234,8 +279,9 @@ files twice. The site set is applied before the :sql:`sys_template` record, so
 the second read happens after the site settings and after
 :file:`config/sites/<site>/constants.typoscript` — and it resets every constant
 the extension ships a default for back to that default. For this extension that
-is the :typoscript:`plugin.tx_academicpartners` constants block, the three Fluid
-root paths.
+is the :typoscript:`plugin.tx_academicpartners` constants block: the three Fluid
+root paths and the number of page links of the
+:ref:`pagination <configuration-list-pagination>`.
 
 Nothing else is damaged: the :guilabel:`Constants` and :guilabel:`Setup` fields
 of the :sql:`sys_template` record, the page TSconfig of a page and the page
