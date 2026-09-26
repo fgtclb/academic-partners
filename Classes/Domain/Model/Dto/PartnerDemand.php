@@ -7,6 +7,9 @@ namespace FGTCLB\AcademicPartners\Domain\Model\Dto;
 use FGTCLB\AcademicPartners\Enumeration\SortingOptions;
 use FGTCLB\CategoryTypes\Collection\FilterCollection;
 
+/**
+ * @api
+ */
 class PartnerDemand
 {
     /** @var int[] */

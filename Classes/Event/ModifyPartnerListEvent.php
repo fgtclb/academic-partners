@@ -22,6 +22,8 @@ use TYPO3Fluid\Fluid\View\ViewInterface as FluidViewInterface;
  * The categories are the ones computed from the queried partners. They are not recomputed
  * after the event, so a listener that replaces the partners and wants the filter to match
  * them sets the categories as well.
+ *
+ * @api
  */
 final class ModifyPartnerListEvent
 {

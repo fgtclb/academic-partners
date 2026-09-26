@@ -6,6 +6,9 @@ namespace FGTCLB\AcademicPartners\Domain\Model;
 
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
+/**
+ * @api
+ */
 class Partnership extends AbstractEntity
 {
     protected int $page = 0;

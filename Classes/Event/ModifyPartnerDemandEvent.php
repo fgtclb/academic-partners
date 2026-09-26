@@ -17,6 +17,8 @@ use FGTCLB\AcademicPartners\Domain\Model\Dto\PartnerDemand;
  * The map dispatches this event before it restricts the demand to partners that can be
  * drawn, so a listener cannot bring partners without coordinates back onto the map
  * (ACE-562).
+ *
+ * @api
  */
 final class ModifyPartnerDemandEvent
 {
