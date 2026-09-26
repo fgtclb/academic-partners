@@ -390,3 +390,9 @@ Nothing else is damaged: the :guilabel:`Constants` and :guilabel:`Setup` fields
 of the :sql:`sys_template` record, the page TSconfig of a page and the page
 TSconfig files selected on a page are all applied afterwards and still win. Use
 one mechanism per site and the question does not arise.
+
+..  toctree::
+   :maxdepth: 5
+   :titlesonly:
+
+   Labels/Index

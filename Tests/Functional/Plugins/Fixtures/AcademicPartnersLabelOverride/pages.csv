@@ -1,0 +1,17 @@
+"pages",
+,"uid","pid","doktype","deleted","hidden","sys_language_uid","l10n_parent","l18n_cfg","slug","title","backend_layout","description","geocode_latitude","geocode_longitude","show_on_map","address_street","address_zip","address_city","address_country","categories"
+,1,0,1,0,0,0,0,0,"/","Site Root","","","","",1,"","","","",0
+,2,1,1,0,0,0,0,0,"/home","Home (EN)","","","","",1,"","","","",0
+,3,1,1,0,0,0,0,0,"/map","Map","","","","",1,"","","","",0
+,4,1,254,0,0,0,0,0,"/categories","Categories","","","","",1,"","","","",0
+,10,1,40,0,0,0,0,0,"/alpha-university","Alpha University","pagets__AcademicPartner","Joint research on quantum optics.","","",1,"Main Street","10115","Berlin","DE",1
+"sys_category",
+,"uid","pid","deleted","hidden","parent","type","title","sys_language_uid","l10n_parent"
+,1,4,0,0,0,"region","Europe",0,0
+"sys_category_record_mm",
+,"uid_local","uid_foreign","tablenames","fieldname","sorting","sorting_foreign"
+,1,10,"pages","categories",0,1
+"tt_content",
+,"uid","pid","deleted","hidden","sys_language_uid","l18n_parent","CType","header","pages","pi_flexform"
+,1,2,0,0,0,0,"academicpartners_list","","","<?xml version=""1.0"" encoding=""utf-8"" standalone=""yes"" ?><T3FlexForms><data><sheet index=""sDEF""><language index=""lDEF""><field index=""settings.hideFilter""><value index=""vDEF"">1</value></field><field index=""settings.hideSorting""><value index=""vDEF"">0</value></field><field index=""settings.sorting""><value index=""vDEF"">title asc</value></field><field index=""settings.showHiddenRecords""><value index=""vDEF"">0</value></field></language></sheet></data></T3FlexForms>"
+,2,3,0,0,0,0,"academicpartners_map","","","<?xml version=""1.0"" encoding=""utf-8"" standalone=""yes"" ?><T3FlexForms><data><sheet index=""sDEF""><language index=""lDEF""><field index=""settings.hideFilter""><value index=""vDEF"">1</value></field><field index=""settings.hideSorting""><value index=""vDEF"">0</value></field><field index=""settings.sorting""><value index=""vDEF"">title asc</value></field><field index=""settings.showHiddenRecords""><value index=""vDEF"">0</value></field></language></sheet></data></T3FlexForms>"
