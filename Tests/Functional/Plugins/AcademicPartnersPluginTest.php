@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace FGTCLB\AcademicPartners\Tests\Functional\Plugins;
 
 use FGTCLB\AcademicPartners\Tests\Functional\AbstractAcademicPartnersTestCase;
+use FGTCLB\TestingHelper\FunctionalTestCase\ContentElementHeaderAssertionTrait;
 use FGTCLB\TestingHelper\FunctionalTestCase\FrontendPluginRenderingTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use SBUERK\TYPO3\Testing\SiteHandling\SiteBasedTestTrait;
 
@@ -20,11 +22,25 @@ use SBUERK\TYPO3\Testing\SiteHandling\SiteBasedTestTrait;
  * from the FlexForm of the content element, while the two partnership plugins take none and
  * resolve their records from the page the content element sits on
  * (`PartnershipRepository::findByPid()`).
+ *
+ * The header of a content element renders once: by default the content element layout
+ * renders it and the plugins do not. A site whose layout renders no header switches
+ * `renderContentElementHeader` on, and the templates then render the
+ * `EXT:fluid_styled_content` `Header/All` partial themselves. The switched on cases guard
+ * the `record` view variable as well: on TYPO3 v14 the partial renders the header through
+ * it, and fails without it.
  */
 final class AcademicPartnersPluginTest extends AbstractAcademicPartnersTestCase
 {
+    use ContentElementHeaderAssertionTrait;
     use FrontendPluginRenderingTrait;
     use SiteBasedTestTrait;
+
+    private const HEADER = 'Our academic partners';
+    private const SUBHEADER = 'Universities we work with';
+    private const RENDER_HEADER_CONSTANTS = 'EXT:academic_partners/Tests/Functional/Plugins/Fixtures/TypoScript/Constants/RenderContentElementHeader.typoscript';
+    private const HEADER_PARTIAL_OVERRIDE_SETUP = 'EXT:academic_partners/Tests/Functional/Plugins/Fixtures/TypoScript/Setup/HeaderPartialOverride.typoscript';
+    private const LAYOUT_WITHOUT_HEADER_SETUP = 'EXT:academic_partners/Tests/Functional/Plugins/Fixtures/TypoScript/Setup/LayoutWithoutHeader.typoscript';
 
     protected const LANGUAGE_PRESETS = [
         'EN' => ['id' => 0, 'title' => 'English', 'locale' => 'en_US.UTF8', 'iso' => 'en', 'hrefLang' => 'en-US', 'direction' => ''],
@@ -44,8 +60,16 @@ final class AcademicPartnersPluginTest extends AbstractAcademicPartnersTestCase
         parent::tearDown();
     }
 
-    private function setUpTestCase(string $dataSet, bool $withGermanLanguage = false): void
-    {
+    /**
+     * @param list<string> $additionalConstantFiles
+     * @param list<string> $additionalSetupFiles
+     */
+    private function setUpTestCase(
+        string $dataSet,
+        bool $withGermanLanguage = false,
+        array $additionalConstantFiles = [],
+        array $additionalSetupFiles = [],
+    ): void {
         $this->importCSVDataSet(__DIR__ . '/Fixtures/AcademicPartnersPlugin/' . $dataSet . '.csv');
         $this->setUpFrontendRootPage(
             pageId: 1,
@@ -53,11 +77,13 @@ final class AcademicPartnersPluginTest extends AbstractAcademicPartnersTestCase
                 'constants' => [
                     'EXT:fluid_styled_content/Configuration/TypoScript/constants.typoscript',
                     'EXT:academic_partners/Configuration/TypoScript/constants.typoscript',
+                    ...$additionalConstantFiles,
                 ],
                 'setup' => [
                     'EXT:fluid_styled_content/Configuration/TypoScript/setup.typoscript',
                     'EXT:academic_partners/Configuration/TypoScript/setup.typoscript',
                     'EXT:academic_partners/Tests/Functional/Plugins/Fixtures/TypoScript/Setup/Rendering.typoscript',
+                    ...$additionalSetupFiles,
                 ],
             ],
         );
@@ -84,19 +110,6 @@ final class AcademicPartnersPluginTest extends AbstractAcademicPartnersTestCase
     private function renderHomePage(): string
     {
         return $this->renderFrontendPage('https://www.acme.com/home');
-    }
-
-    /**
-     * The header of the content element is not part of any template of this extension — it
-     * comes from `lib.contentElement`, which is what `PLUGIN_TYPE_CONTENT_ELEMENT` wires up.
-     * On TYPO3 v14 that header partial renders through the `record` view variable, so this is
-     * the assertion that fails should the plugin ever be registered without it.
-     */
-    private function setContentElementHeader(string $header): void
-    {
-        $this->getConnectionPool()
-            ->getConnectionForTable('tt_content')
-            ->update('tt_content', ['header' => $header], ['uid' => 1]);
     }
 
     /**
@@ -153,15 +166,6 @@ final class AcademicPartnersPluginTest extends AbstractAcademicPartnersTestCase
         $this->assertStringNotContainsString('academic-partners-filtersorting', $content);
         // The list itself is unaffected by hiding the form.
         $this->assertStringContainsString('Alpha University', $content);
-    }
-
-    #[Test]
-    public function partnerListPluginRendersContentElementHeader(): void
-    {
-        $this->setUpTestCase('partnerListPage');
-        $this->setContentElementHeader('Our academic partners');
-
-        $this->assertStringContainsString('Our academic partners', $this->renderHomePage());
     }
 
     #[Test]
@@ -275,15 +279,6 @@ final class AcademicPartnersPluginTest extends AbstractAcademicPartnersTestCase
     }
 
     #[Test]
-    public function partnerMapPluginRendersContentElementHeader(): void
-    {
-        $this->setUpTestCase('partnerMapPage');
-        $this->setContentElementHeader('Where our partners are');
-
-        $this->assertStringContainsString('Where our partners are', $this->renderHomePage());
-    }
-
-    #[Test]
     public function partnershipsListPluginRendersPartnershipsGroupedByRole(): void
     {
         $this->setUpTestCase('partnershipsListPage');
@@ -316,15 +311,6 @@ final class AcademicPartnersPluginTest extends AbstractAcademicPartnersTestCase
     }
 
     #[Test]
-    public function partnershipsListPluginRendersContentElementHeader(): void
-    {
-        $this->setUpTestCase('partnershipsListPage');
-        $this->setContentElementHeader('Our partnerships');
-
-        $this->assertStringContainsString('Our partnerships', $this->renderHomePage());
-    }
-
-    #[Test]
     public function partnershipsTeaserPluginRendersPartnershipsGroupedByRole(): void
     {
         $this->setUpTestCase('partnershipsTeaserPage');
@@ -352,12 +338,116 @@ final class AcademicPartnersPluginTest extends AbstractAcademicPartnersTestCase
         $this->assertStringNotContainsString('Research partner', $content);
     }
 
-    #[Test]
-    public function partnershipsTeaserPluginRendersContentElementHeader(): void
+    private function setContentElementHeader(int $uid, int $headerLayout): void
     {
-        $this->setUpTestCase('partnershipsTeaserPage');
-        $this->setContentElementHeader('Selected partnerships');
+        $this->getConnectionPool()
+            ->getConnectionForTable('tt_content')
+            ->update(
+                'tt_content',
+                ['header' => self::HEADER, 'subheader' => self::SUBHEADER, 'header_layout' => $headerLayout],
+                ['uid' => $uid],
+            );
+    }
 
-        $this->assertStringContainsString('Selected partnerships', $this->renderHomePage());
+    /**
+     * Every view with the header layouts "Default", 2 and "Hidden", and the number of times
+     * the header and the subheader have to render: "Default" is the layout the header
+     * partial resolves through a setting, and the one a plugin rendering it without that
+     * setting leaves an empty `<header>` for. A view names the data set, the page, the
+     * content element and the class of the element the template wraps its output in.
+     *
+     * @return \Generator<string, array{string, string, int, string, int, int}>
+     */
+    public static function viewsAndHeaderLayouts(): \Generator
+    {
+        $views = [
+            'partner list' => ['partnerListPage', 'https://www.acme.com/home', 1, 'academic-partners-list'],
+            'partner map' => ['partnerMapPage', 'https://www.acme.com/home', 1, 'academic-partners-map'],
+            'partnerships list' => ['partnershipsListPage', 'https://www.acme.com/home', 1, 'academic-partnerships-list'],
+            'partnerships teaser' => ['partnershipsTeaserPage', 'https://www.acme.com/home', 1, 'academic-partnerships-teaser'],
+        ];
+        $headerLayouts = [
+            'header layout "Default"' => [0, 1],
+            'header layout 2' => [2, 1],
+            'header layout "Hidden"' => [100, 0],
+        ];
+        foreach ($views as $view => [$dataSet, $url, $contentElement, $wrapperClass]) {
+            foreach ($headerLayouts as $name => [$headerLayout, $expectedHeadings]) {
+                yield $view . ', ' . $name => [$dataSet, $url, $contentElement, $wrapperClass, $headerLayout, $expectedHeadings];
+            }
+        }
+    }
+
+    #[Test]
+    #[DataProvider('viewsAndHeaderLayouts')]
+    public function aPluginLeavesTheContentElementHeaderToTheLayout(
+        string $dataSet,
+        string $url,
+        int $contentElement,
+        string $wrapperClass,
+        int $headerLayout,
+        int $expectedHeadings,
+    ): void {
+        $this->setUpTestCase($dataSet);
+        $this->setContentElementHeader($contentElement, $headerLayout);
+
+        $content = $this->renderFrontendPage($url);
+        $wrapper = sprintf(
+            '//*[@id = "c%d"]//*[contains(concat(" ", normalize-space(@class), " "), " %s ")]',
+            $contentElement,
+            $wrapperClass,
+        );
+        $this->assertSame($expectedHeadings, $this->countHeadingsReading($content, self::HEADER));
+        $this->assertSame($expectedHeadings, $this->countHeadingsReading($content, self::SUBHEADER));
+        $this->assertSame(0, $this->countHeadingsReading($content, self::HEADER, $wrapper));
+        $this->assertSame(0, $this->countHeadingsReading($content, self::SUBHEADER, $wrapper));
+    }
+
+    #[Test]
+    #[DataProvider('viewsAndHeaderLayouts')]
+    public function aPluginRendersTheContentElementHeaderWhenSwitchedOn(
+        string $dataSet,
+        string $url,
+        int $contentElement,
+        string $wrapperClass,
+        int $headerLayout,
+        int $expectedHeadings,
+    ): void {
+        $this->setUpTestCase($dataSet, false, [self::RENDER_HEADER_CONSTANTS], [self::LAYOUT_WITHOUT_HEADER_SETUP]);
+        $this->setContentElementHeader($contentElement, $headerLayout);
+
+        $content = $this->renderFrontendPage($url);
+        $frame = sprintf('//*[@id = "c%d"]', $contentElement);
+        // The fixture layout renders no header, so a heading inside the frame of the element
+        // comes from the template. The first two assertions prove the fixture layout and the
+        // template of the view rendered.
+        $this->assertSame(1, $this->countContentElementHeaderNodes($content, $frame . '[contains(concat(" ", normalize-space(@class), " "), " frame-without-header ")]'));
+        $this->assertSame(1, $this->countContentElementHeaderNodes(
+            $content,
+            sprintf('%s//*[contains(concat(" ", normalize-space(@class), " "), " %s ")]', $frame, $wrapperClass),
+        ));
+        $this->assertSame($expectedHeadings, $this->countHeadingsReading($content, self::HEADER));
+        $this->assertSame($expectedHeadings, $this->countHeadingsReading($content, self::HEADER, $frame));
+        $this->assertSame($expectedHeadings, $this->countHeadingsReading($content, self::SUBHEADER));
+        $this->assertSame($expectedHeadings, $this->countHeadingsReading($content, self::SUBHEADER, $frame));
+    }
+
+    /**
+     * A site package that renders the header its own way registers its own `Header/All`
+     * above the paths of the extension, and that one renders instead of the partial of
+     * EXT:fluid_styled_content, whose path sorts below every other one.
+     */
+    #[Test]
+    public function aHeaderPartialOfTheSitePackageWinsOverTheShippedOne(): void
+    {
+        $this->setUpTestCase('partnerListPage', false, [self::RENDER_HEADER_CONSTANTS], [self::LAYOUT_WITHOUT_HEADER_SETUP, self::HEADER_PARTIAL_OVERRIDE_SETUP]);
+        $this->setContentElementHeader(1, 2);
+
+        $content = $this->renderFrontendPage('https://www.acme.com/home');
+        $this->assertSame(0, $this->countHeadingsReading($content, self::HEADER));
+        $this->assertSame(1, $this->countContentElementHeaderNodes(
+            $content,
+            '//*[@id = "c1"]//p[@class = "site-package-header"][normalize-space() = "' . self::HEADER . '"]',
+        ));
     }
 }

@@ -1,0 +1,2 @@
+# The site lets the partner plugins render the header of their content element themselves.
+plugin.tx_academicpartners.renderContentElementHeader = 1

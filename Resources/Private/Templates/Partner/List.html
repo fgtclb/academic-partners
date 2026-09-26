@@ -5,6 +5,10 @@
 >
 
 <div class="academic-partners-list">
+    <f:if condition="{settings.renderContentElementHeader}">
+        <f:render partial="Header/All" arguments="{_all}" />
+    </f:if>
+
     <f:render
         partial="Partner/SortingAndFilters"
         arguments="{_all}"

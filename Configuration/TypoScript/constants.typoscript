@@ -8,6 +8,11 @@ plugin.tx_academicpartners {
     layoutRootPath = EXT:academic_partners/Resources/Private/Layouts/
   }
 
+  # Also a site setting of the set "fgtclb/academic-partners", with the same default -
+  # see "Configuration/Sets/Full/settings.definitions.yaml".
+  # cat=plugin.tx_academicpartners//a; type=boolean; label=Render the content element header in the plugins: only for a site whose content element layout renders no header
+  renderContentElementHeader = 0
+
   # Also a site setting of the set "fgtclb/academic-partners-list", with the same
   # default - see "Configuration/Sets/List/settings.definitions.yaml".
   pagination {

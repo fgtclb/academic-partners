@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FGTCLB\AcademicPartners\Controller;
 
+use FGTCLB\AcademicBase\Controller\GetCurrentContentRecordMethodTrait;
 use FGTCLB\AcademicBase\Domain\Model\Dto\PluginControllerActionContext;
 use FGTCLB\AcademicBase\Domain\Model\Dto\PluginControllerActionContextInterface;
 use FGTCLB\AcademicPartners\Domain\Model\Partner;
@@ -27,6 +28,8 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 class PartnerController extends ActionController
 {
+    use GetCurrentContentRecordMethodTrait;
+
     private ExtensionService $filterRedirectExtensionService;
 
     private FilterTypeResolver $filterTypeResolver;
@@ -82,6 +85,7 @@ class PartnerController extends ActionController
         $this->view->assignMultiple([
             'partners' => $partners,
             'data' => $contentElementData,
+            'record' => $this->getCurrentContentRecord($this->getCurrentContentObjectRenderer()),
             'demand' => $demandObject,
             'categories' => $categories,
             'filterTypes' => $this->filterTypeResolver->resolveFromSettings($categories, $this->settings),
@@ -132,6 +136,7 @@ class PartnerController extends ActionController
         $this->view->assignMultiple([
             'partners' => $listEvent->getPartners(),
             'data' => $contentElementData,
+            'record' => $this->getCurrentContentRecord($this->getCurrentContentObjectRenderer()),
             'demand' => $demandObject,
             'categories' => $categories,
             'filterTypes' => $this->filterTypeResolver->resolveFromSettings($categories, $this->settings),
@@ -159,6 +164,7 @@ class PartnerController extends ActionController
 
         $this->view->assignMultiple([
             'data' => $contentElementData,
+            'record' => $this->getCurrentContentRecord($this->getCurrentContentObjectRenderer()),
             'partnerships' => $partnerships,
             'partnershipRoles' => $roles,
         ]);
@@ -185,6 +191,7 @@ class PartnerController extends ActionController
 
         $this->view->assignMultiple([
             'data' => $contentElementData,
+            'record' => $this->getCurrentContentRecord($this->getCurrentContentObjectRenderer()),
             'partnerships' => $partnerships,
             'partnershipRoles' => $roles,
         ]);

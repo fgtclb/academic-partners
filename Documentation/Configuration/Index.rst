@@ -371,6 +371,44 @@ on in a template that renders the partial.
     away and with one "All" label, and anything else needed an override of the
     partial.
 
+..  _configuration-content-element-header:
+
+The header of the content elements
+==================================
+
+The header and the subheader an editor enters on a :guilabel:`Partners List`,
+:guilabel:`Partners Map`, :guilabel:`Partnerships List` or
+:guilabel:`Partnerships Teaser` content element are rendered by the content
+element layout of the site, as for any other content element. The layouts of
+:guilabel:`EXT:fluid_styled_content` and of the bootstrap package do that, and
+the plugins render no header of their own.
+
+A site whose content element layout renders no header, because its element
+templates render it instead, lets the plugins render it:
+
+..  code-block:: typoscript
+    :caption: TypoScript constants
+
+    plugin.tx_academicpartners.renderContentElementHeader = 1
+
+On a site that uses the site set, that is the site setting :guilabel:`Render the
+content element header in the plugins` of `fgtclb/academic-partners`. The
+templates then render the header partial of :guilabel:`EXT:fluid_styled_content`
+above their output, for every header layout except :guilabel:`Hidden`. Do not
+switch it on where the layout renders the header: the header then appears twice.
+
+The extension does not require :guilabel:`EXT:fluid_styled_content`. It adds the
+partial path of that extension below every other one, so a site package that
+ships a :file:`Header/All.html` of its own renders that one instead, and a site
+without :guilabel:`EXT:fluid_styled_content` provides the partial that way.
+
+For the header layout :guilabel:`Default`, the partial takes the heading level
+from :typoscript:`plugin.tx_academicpartners.settings.defaultHeaderType`, which
+is mapped from the constant :typoscript:`styles.content.defaultHeaderType` of
+:guilabel:`EXT:fluid_styled_content`. A site that does not include the
+TypoScript of :guilabel:`EXT:fluid_styled_content` sets the setting itself;
+without it, such a header renders as an empty :html:`<header>` element.
+
 ..  _one-mechanism-per-site:
 
 Do not combine both
@@ -383,8 +421,9 @@ the second read happens after the site settings and after
 the extension ships a default for back to that default. For this extension that
 is the :typoscript:`plugin.tx_academicpartners` constants block: the three Fluid
 root paths, the number of page links of the
-:ref:`pagination <configuration-list-pagination>` and the settings of
-:ref:`the category filters <configuration-list-filter>`.
+:ref:`pagination <configuration-list-pagination>`, the settings of
+:ref:`the category filters <configuration-list-filter>` and the
+:ref:`content element header <configuration-content-element-header>` switch.
 
 Nothing else is damaged: the :guilabel:`Constants` and :guilabel:`Setup` fields
 of the :sql:`sys_template` record, the page TSconfig of a page and the page

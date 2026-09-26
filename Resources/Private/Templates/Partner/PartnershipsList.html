@@ -5,6 +5,10 @@
 >
 
 <div class="academic-partnerships-list">
+    <f:if condition="{settings.renderContentElementHeader}">
+        <f:render partial="Header/All" arguments="{_all}" />
+    </f:if>
+
     <f:if condition="{partnershipRoles}">
         <f:then>
             <f:for each="{partnershipRoles}" as="role">

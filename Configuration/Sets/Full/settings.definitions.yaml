@@ -1,4 +1,5 @@
-# Site settings of the category filters of the partner list and map.
+# Site settings of the category filters of the partner list and map, and of the
+# content element header of all four plugins.
 #
 # Every path below is also assigned in
 # "Configuration/TypoScript/constants.typoscript", and the default has to be the
@@ -7,11 +8,11 @@
 # what the integrator configured, silently.
 #
 # Declared with the aggregate set rather than with a component set: the list
-# and the map both read them, and a set can only declare settings next to its
-# own "config.yaml". A site that depends on "fgtclb/academic-partners-list" or
-# "fgtclb/academic-partners-map" alone still gets the defaults of the constants,
-# but the site settings editor does not offer the settings - depend on this set
-# for that.
+# and the map both read the filters, every plugin reads the header switch, and
+# a set can only declare settings next to its own "config.yaml". A site that
+# depends on a component set such as "fgtclb/academic-partners-list" alone
+# still gets the defaults of the constants, but the site settings editor does
+# not offer the settings - depend on this set for that.
 categories:
   academic:
     label: 'Academic'
@@ -35,6 +36,12 @@ settings:
   plugin.tx_academicpartners.filter.hideDisabledOptions:
     label: 'Partner list and map | Hide options without results'
     description: 'Leaves out the categories no listed partner carries, instead of showing them as disabled options. A selected category is always shown.'
+    category: academic.partners
+    type: bool
+    default: false
+  plugin.tx_academicpartners.renderContentElementHeader:
+    label: 'Render the content element header in the plugins'
+    description: 'Only for a site whose content element layout renders no header. The layouts of EXT:fluid_styled_content and of the bootstrap package render it, and switched on there the header appears twice.'
     category: academic.partners
     type: bool
     default: false
