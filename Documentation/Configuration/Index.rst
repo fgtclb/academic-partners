@@ -269,6 +269,108 @@ constant instead.
 Every page link keeps the active filter and sorting, and a filter submission
 starts on page one. The :guilabel:`Partners Map` is never paginated.
 
+..  _configuration-list-filter:
+
+The category filters
+====================
+
+The filter form of the :guilabel:`Partners List` and the :guilabel:`Partners
+Map` offers one select per category type of the group `partners`. Three settings
+change which of them it offers and how, for the whole site:
+
+..  list-table::
+    :header-rows: 1
+
+    *   -   Site setting and constant
+        -   Default
+        -   Meaning
+    *   -   :typoscript:`plugin.tx_academicpartners.filter.categoryTypes`
+        -   empty
+        -   The category types to offer, in this order, as a comma separated
+            list of type identifiers, for example `sdg,region`. Empty
+            offers every type that has a category, in the order the types are
+            registered in.
+    *   -   :typoscript:`plugin.tx_academicpartners.filter.visibleCount`
+        -   0
+        -   How many filters the form shows right away. The others follow in a
+            :guilabel:`More filters` section the visitor opens, which is open
+            already while one of its filters has a value. 0 shows every filter.
+    *   -   :typoscript:`plugin.tx_academicpartners.filter.hideDisabledOptions`
+        -   0
+        -   Leaves out a category no listed partner carries, instead of offering
+            it as a disabled option. A selected category is always offered. A
+            filter whose categories are all left out still renders, with its
+            "All" option only.
+
+..  code-block:: yaml
+    :caption: config/sites/my-site/settings.yaml
+
+    plugin:
+      tx_academicpartners:
+        filter:
+          categoryTypes: 'sdg,region'
+          visibleCount: 1
+          hideDisabledOptions: true
+
+The settings are site settings of the aggregate set `fgtclb/academic-partners`
+and constants of the same names for a site on static templates. A site that
+depends on `fgtclb/academic-partners-list` or `fgtclb/academic-partners-map`
+alone gets the defaults, but the site settings editor does not offer the
+settings there — both content elements read them, and a set declares settings
+only for itself.
+
+A type is offered only when at least one category of that type exists, and an
+identifier that is no type of the group is ignored. The settings decide what
+the form offers, not what the list accepts: a link that filters by a category
+of a type the form does not offer still filters the list.
+
+The "All" option of a filter
+----------------------------
+
+The first option of each filter, the one that selects no category, reads the
+label :xml:`sys_category.partners.allOptions.<type>` of this extension, and
+falls back to :xml:`sys_category.partners.allOptions` ("All options") where a
+type has none. The extension ships no label per type; a site adds them in
+TypoScript, for every content element of the extension or for one plugin:
+
+..  code-block:: typoscript
+    :caption: EXT:my_sitepackage/Configuration/TypoScript/setup.typoscript
+
+    plugin.tx_academicpartners._LOCAL_LANG {
+      default.sys_category.partners.allOptions.region = All regions
+      de.sys_category.partners.allOptions.region = Alle Regionen
+    }
+
+    # Only in the partner map:
+    plugin.tx_academicpartners_map._LOCAL_LANG.default.sys_category.partners.allOptions.region = All regions
+
+A language file override works as well, as for any label of this extension:
+:php:`$GLOBALS['TYPO3_CONF_VARS']['SYS']['locallangXMLOverride']` on TYPO3 v13,
+:php:`$GLOBALS['TYPO3_CONF_VARS']['LANG']['resourceOverrides']` on TYPO3 v14,
+each pointing from
+:file:`EXT:academic_partners/Resources/Private/Language/locallang.xlf` to a file
+of the site package.
+
+Templates
+---------
+
+The partial :file:`Partner/DemandCategories.html` renders the selects from the
+variable :html:`{filterTypes}`: :html:`{filterTypes.visible}` and
+:html:`{filterTypes.more}` hold the identifiers of the offered types, in their
+order, before and behind :guilabel:`More filters`. Where that variable does not
+reach the partial — a project controller that overrides :php:`listAction()` or
+:php:`mapAction()`, or a template that renders the partial with arguments of its
+own instead of :html:`{_all}` — it offers every type with a category, as before,
+and the filter types and the visible count have no effect there. To use them,
+let the overriding action call the parent action, and pass :html:`filterTypes`
+on in a template that renders the partial.
+
+..  versionadded:: 2.4
+
+    Up to 2.3 the form offered every type with a category, all of them right
+    away and with one "All" label, and anything else needed an override of the
+    partial.
+
 ..  _one-mechanism-per-site:
 
 Do not combine both
@@ -280,8 +382,9 @@ the second read happens after the site settings and after
 :file:`config/sites/<site>/constants.typoscript` — and it resets every constant
 the extension ships a default for back to that default. For this extension that
 is the :typoscript:`plugin.tx_academicpartners` constants block: the three Fluid
-root paths and the number of page links of the
-:ref:`pagination <configuration-list-pagination>`.
+root paths, the number of page links of the
+:ref:`pagination <configuration-list-pagination>` and the settings of
+:ref:`the category filters <configuration-list-filter>`.
 
 Nothing else is damaged: the :guilabel:`Constants` and :guilabel:`Setup` fields
 of the :sql:`sys_template` record, the page TSconfig of a page and the page

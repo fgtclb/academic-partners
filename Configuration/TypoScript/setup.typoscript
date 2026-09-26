@@ -20,6 +20,13 @@ plugin.tx_academicpartners {
     pagination {
       numberOfLinks = {$plugin.tx_academicpartners.pagination.numberOfLinks}
     }
+
+    # The category filters of the list and the map, see "constants.typoscript".
+    filter {
+      categoryTypes = {$plugin.tx_academicpartners.filter.categoryTypes}
+      visibleCount = {$plugin.tx_academicpartners.filter.visibleCount}
+      hideDisabledOptions = {$plugin.tx_academicpartners.filter.hideDisabledOptions}
+    }
   }
 
   view {

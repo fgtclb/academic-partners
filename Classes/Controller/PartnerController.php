@@ -13,6 +13,7 @@ use FGTCLB\AcademicPartners\Event\ModifyPartnerDemandEvent;
 use FGTCLB\AcademicPartners\Event\ModifyPartnerListEvent;
 use FGTCLB\AcademicPartners\Factory\DemandFactory;
 use FGTCLB\CategoryTypes\Domain\Repository\CategoryRepository;
+use FGTCLB\CategoryTypes\Filter\FilterTypeResolver;
 use GeorgRinger\NumberedPagination\NumberedPagination;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Http\PropagateResponseException;
@@ -27,6 +28,8 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 class PartnerController extends ActionController
 {
     private ExtensionService $filterRedirectExtensionService;
+
+    private FilterTypeResolver $filterTypeResolver;
 
     public function __construct(
         protected PartnerRepository $partnerRepository,
@@ -75,11 +78,13 @@ class PartnerController extends ActionController
         ));
 
         $partners = $listEvent->getPartners();
+        $categories = $listEvent->getCategories();
         $this->view->assignMultiple([
             'partners' => $partners,
             'data' => $contentElementData,
             'demand' => $demandObject,
-            'categories' => $listEvent->getCategories(),
+            'categories' => $categories,
+            'filterTypes' => $this->filterTypeResolver->resolveFromSettings($categories, $this->settings),
         ]);
         $this->assignPagination($partners, $requestedPage, $requestedArguments);
 
@@ -123,11 +128,13 @@ class PartnerController extends ActionController
             pluginControllerActionContext: $context,
         ));
 
+        $categories = $listEvent->getCategories();
         $this->view->assignMultiple([
             'partners' => $listEvent->getPartners(),
             'data' => $contentElementData,
             'demand' => $demandObject,
-            'categories' => $listEvent->getCategories(),
+            'categories' => $categories,
+            'filterTypes' => $this->filterTypeResolver->resolveFromSettings($categories, $this->settings),
         ]);
 
         return $this->htmlResponse();
@@ -192,6 +199,14 @@ class PartnerController extends ActionController
     final public function injectFilterRedirectExtensionService(ExtensionService $extensionService): void
     {
         $this->filterRedirectExtensionService = $extensionService;
+    }
+
+    /**
+     * Method injection for the same reason as {@see injectFilterRedirectExtensionService()}.
+     */
+    final public function injectFilterTypeResolver(FilterTypeResolver $filterTypeResolver): void
+    {
+        $this->filterTypeResolver = $filterTypeResolver;
     }
 
     /**
