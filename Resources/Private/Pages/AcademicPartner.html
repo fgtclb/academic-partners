@@ -23,7 +23,7 @@
                     <li>
                         <core:icon identifier="category_types.partners.{type}"/>
 
-                        <b>{f:translate(key: 'sys_category.partners.{type}', extensionName: 'academic_partners')}:</b>
+                        <b>{f:translate(key: 'sys_category.partners.{type}', extensionName: 'AcademicPartners')}:</b>
 
                         <span>
                             <f:for each="{categories}" as="category" iteration="i">
@@ -37,7 +37,7 @@
     </f:if>
 
     <f:if condition="{partner.addressStreet} || {partner.addressStreetNumber} || {partner.addressAdditional}">
-        <b>{f:translate(key: 'academic_partners.address', extensionName: 'academic_partners')}:</b>
+        <b>{f:translate(key: 'academic_partners.address', extensionName: 'AcademicPartners')}:</b>
 
         <span>
             {partner.addressStreet} {partner.addressStreetNumber} {partner.addressAdditional}
@@ -48,7 +48,7 @@
 
 
             <f:if condition="{partner.addressCountryLocalizedNameLabel}">
-                | {f:translate(key: '{partner.addressCountryLocalizedNameLabel}', extensionName: 'academic_partners')}
+                | {f:translate(key: '{partner.addressCountryLocalizedNameLabel}', extensionName: 'AcademicPartners')}
             </f:if>
         </span>
     </f:if>

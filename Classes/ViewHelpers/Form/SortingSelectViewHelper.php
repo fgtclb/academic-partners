@@ -31,7 +31,7 @@ final class SortingSelectViewHelper extends AbstractSelectViewHelper
             ],
             'extensionName' => [
                 'type' => 'string',
-                'defaultValue' => 'academic_partners',
+                'defaultValue' => 'AcademicPartners',
                 'description' => 'If set, the translation function will use the language labels from the given extension.',
             ],
         ];
