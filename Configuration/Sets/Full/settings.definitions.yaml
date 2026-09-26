@@ -1,0 +1,40 @@
+# Site settings of the category filters of the partner list and map.
+#
+# Every path below is also assigned in
+# "Configuration/TypoScript/constants.typoscript", and the default has to be the
+# same in both files: a site that uses the site set and the static template
+# reads the constants after the site settings, so a differing default resets
+# what the integrator configured, silently.
+#
+# Declared with the aggregate set rather than with a component set: the list
+# and the map both read them, and a set can only declare settings next to its
+# own "config.yaml". A site that depends on "fgtclb/academic-partners-list" or
+# "fgtclb/academic-partners-map" alone still gets the defaults of the constants,
+# but the site settings editor does not offer the settings - depend on this set
+# for that.
+categories:
+  academic:
+    label: 'Academic'
+  academic.partners:
+    label: 'Partners'
+    parent: academic
+
+settings:
+  plugin.tx_academicpartners.filter.categoryTypes:
+    label: 'Partner list and map | Filter types'
+    description: 'The category filters the partner list and map offer, in this order, comma-separated: category type identifiers of the group "partners" (region, partner_type, collaboration_type, sdg, ...). A type without categories is left out. Empty: every category type with categories, in the type order of the group.'
+    category: academic.partners
+    type: string
+    default: ''
+  plugin.tx_academicpartners.filter.visibleCount:
+    label: 'Partner list and map | Visible filters'
+    description: 'How many category filters are shown right away. The others are shown behind "More filters", which the visitor opens, and which is open while one of its filters is in use. 0 shows every filter.'
+    category: academic.partners
+    type: int
+    default: 0
+  plugin.tx_academicpartners.filter.hideDisabledOptions:
+    label: 'Partner list and map | Hide options without results'
+    description: 'Leaves out the categories no listed partner carries, instead of showing them as disabled options. A selected category is always shown.'
+    category: academic.partners
+    type: bool
+    default: false

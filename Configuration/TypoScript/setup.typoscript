@@ -14,6 +14,15 @@
 @import 'EXT:academic_partners/Configuration/TypoScript/Page/'
 
 plugin.tx_academicpartners {
+  settings {
+    # The category filters of the list and the map, see "constants.typoscript".
+    filter {
+      categoryTypes = {$plugin.tx_academicpartners.filter.categoryTypes}
+      visibleCount = {$plugin.tx_academicpartners.filter.visibleCount}
+      hideDisabledOptions = {$plugin.tx_academicpartners.filter.hideDisabledOptions}
+    }
+  }
+
   view {
     templateRootPaths {
       0 = EXT:academic_partners/Resources/Private/Templates/

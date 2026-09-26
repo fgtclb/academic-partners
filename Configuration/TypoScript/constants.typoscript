@@ -7,4 +7,16 @@ plugin.tx_academicpartners {
     # cat=plugin.tx_academicpartners/file; type=string; label=Path to template layouts (FE)
     layoutRootPath = EXT:academic_partners/Resources/Private/Layouts/
   }
+
+  # The category filters of the partner list and map. Also site settings of the set
+  # "fgtclb/academic-partners", with the same defaults - see
+  # "Configuration/Sets/Full/settings.definitions.yaml".
+  filter {
+    # cat=plugin.tx_academicpartners/filter; type=string; label=Filter types: comma-separated category type identifiers of the group "partners", in the order the filter form offers them; empty offers every type with categories
+    categoryTypes =
+    # cat=plugin.tx_academicpartners/filter; type=int+; label=Visible filters: how many filters are shown right away, the others behind "More filters"; 0 shows every filter
+    visibleCount = 0
+    # cat=plugin.tx_academicpartners/filter; type=boolean; label=Hide options without results: leave out the categories no listed partner carries instead of showing them disabled
+    hideDisabledOptions = 0
+  }
 }

@@ -8,12 +8,15 @@ use FGTCLB\AcademicPartners\Domain\Repository\PartnerRepository;
 use FGTCLB\AcademicPartners\Domain\Repository\PartnershipRepository;
 use FGTCLB\AcademicPartners\Factory\DemandFactory;
 use FGTCLB\CategoryTypes\Domain\Repository\CategoryRepository;
+use FGTCLB\CategoryTypes\Filter\FilterTypeResolver;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 class PartnerController extends ActionController
 {
+    private FilterTypeResolver $filterTypeResolver;
+
     public function __construct(
         protected PartnerRepository $partnerRepository,
         protected PartnershipRepository $partnershipRepository,
@@ -43,6 +46,7 @@ class PartnerController extends ActionController
             'data' => $contentElementData,
             'demand' => $demandObject,
             'categories' => $categories,
+            'filterTypes' => $this->filterTypeResolver->resolveFromSettings($categories, $this->settings),
         ]);
 
         return $this->htmlResponse();
@@ -75,6 +79,7 @@ class PartnerController extends ActionController
             'data' => $contentElementData,
             'demand' => $demandObject,
             'categories' => $categories,
+            'filterTypes' => $this->filterTypeResolver->resolveFromSettings($categories, $this->settings),
         ]);
 
         return $this->htmlResponse();
@@ -130,6 +135,15 @@ class PartnerController extends ActionController
         ]);
 
         return $this->htmlResponse();
+    }
+
+    /**
+     * Method injection keeps the constructor, which project subclasses call, unchanged.
+     * Final, and named after what it is for, so a subclass cannot collide with it.
+     */
+    final public function injectFilterTypeResolver(FilterTypeResolver $filterTypeResolver): void
+    {
+        $this->filterTypeResolver = $filterTypeResolver;
     }
 
     private function getCurrentContentObjectRenderer(): ?ContentObjectRenderer
