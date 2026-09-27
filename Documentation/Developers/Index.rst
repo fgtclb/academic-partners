@@ -12,6 +12,9 @@ replace the only alternative there used to be: subclassing
 Which classes of this extension are public API, and what that promises, is
 stated for all academic extensions on the `extension points page of
 academic_base <https://docs.typo3.org/p/fgtclb/academic-base/main/en-us/Developers/ExtensionPoints/Index.html>`__.
+Every plugin of this extension, the partnerships list and teaser included,
+also dispatches :php:`ModifyPluginViewEvent` of :guilabel:`academic_base` when it
+renders, after the list event where there is one; that page describes it.
 
 ..  _developers-partner-events:
 

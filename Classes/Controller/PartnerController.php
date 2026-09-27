@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FGTCLB\AcademicPartners\Controller;
 
+use FGTCLB\AcademicBase\Controller\DispatchModifyPluginViewEventMethodTrait;
 use FGTCLB\AcademicBase\Controller\GetCurrentContentRecordMethodTrait;
 use FGTCLB\AcademicBase\Domain\Model\Dto\PluginControllerActionContext;
 use FGTCLB\AcademicBase\Domain\Model\Dto\PluginControllerActionContextInterface;
@@ -28,6 +29,7 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 class PartnerController extends ActionController
 {
+    use DispatchModifyPluginViewEventMethodTrait;
     use GetCurrentContentRecordMethodTrait;
 
     private ExtensionService $filterRedirectExtensionService;
@@ -91,6 +93,7 @@ class PartnerController extends ActionController
             'filterTypes' => $this->filterTypeResolver->resolveFromSettings($categories, $this->settings),
         ]);
         $this->assignPagination($partners, $requestedPage, $requestedArguments);
+        $this->dispatchModifyPluginViewEvent($this->request, $this->settings, $this->view, $this->eventDispatcher);
 
         return $this->htmlResponse();
     }
@@ -141,6 +144,7 @@ class PartnerController extends ActionController
             'categories' => $categories,
             'filterTypes' => $this->filterTypeResolver->resolveFromSettings($categories, $this->settings),
         ]);
+        $this->dispatchModifyPluginViewEvent($this->request, $this->settings, $this->view, $this->eventDispatcher);
 
         return $this->htmlResponse();
     }
@@ -168,6 +172,7 @@ class PartnerController extends ActionController
             'partnerships' => $partnerships,
             'partnershipRoles' => $roles,
         ]);
+        $this->dispatchModifyPluginViewEvent($this->request, $this->settings, $this->view, $this->eventDispatcher);
 
         return $this->htmlResponse();
     }
@@ -195,6 +200,7 @@ class PartnerController extends ActionController
             'partnerships' => $partnerships,
             'partnershipRoles' => $roles,
         ]);
+        $this->dispatchModifyPluginViewEvent($this->request, $this->settings, $this->view, $this->eventDispatcher);
 
         return $this->htmlResponse();
     }
