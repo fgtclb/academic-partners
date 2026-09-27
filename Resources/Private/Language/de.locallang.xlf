@@ -12,6 +12,10 @@
     <body>
       <!-- System Categories -->
 
+      <trans-unit id="sys_category.partners.group">
+        <source>Academic Partners</source>
+        <target>Akademische Partner</target>
+      </trans-unit>
       <trans-unit id="sys_category.partners.collaboration_type">
         <source>Collaboration Type</source>
         <target>Kooperationsart</target>
