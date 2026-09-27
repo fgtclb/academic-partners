@@ -288,8 +288,8 @@ change which of them it offers and how, for the whole site:
         -   empty
         -   The category types to offer, in this order, as a comma separated
             list of type identifiers, for example `sdg,region`. Empty
-            offers every type that has a category, in the order the types are
-            registered in.
+            offers every type that has a category, in the order of the
+            category types of the group.
     *   -   :typoscript:`plugin.tx_academicpartners.filter.visibleCount`
         -   0
         -   How many filters the form shows right away. The others follow in a
