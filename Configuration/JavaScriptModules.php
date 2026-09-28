@@ -12,6 +12,10 @@ declare(strict_types=1);
  * cannot be reached from a frontend page.
  *
  * The "core" dependency makes the modules EXT:core declares resolvable here.
+ *
+ * "leaflet" and "leaflet.markercluster" are the map libraries, built from their
+ * npm packages by the asset build (Build/vendor.mjs). The version in the path is
+ * the one pinned in Build/package.json and has to follow it.
  */
 return [
     'dependencies' => [
@@ -19,5 +23,7 @@ return [
     ],
     'imports' => [
         '@fgtclb/academic-partners/frontend/' => 'EXT:academic_partners/Resources/Public/JavaScript/frontend/',
+        'leaflet' => 'EXT:academic_partners/Resources/Public/JavaScript/vendor/leaflet/1.9.4/leaflet.js',
+        'leaflet.markercluster' => 'EXT:academic_partners/Resources/Public/JavaScript/vendor/leaflet.markercluster/1.5.3/leaflet.markercluster.js',
     ],
 ];

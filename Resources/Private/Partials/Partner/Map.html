@@ -29,12 +29,15 @@
 </f:if>
 
 <f:section name="Map">
-    <f:asset.css identifier="partnerC0" href="EXT:academic_partners/Resources/Public/Css/leaflet.css" />
-    <f:asset.css identifier="partnerC1" href="EXT:academic_partners/Resources/Public/Css/markerCluster.css" />
+    <f:comment>
+        The map libraries are ES modules, imported by map.js through the import map. Only
+        their stylesheets are registered here, from the same version directories.
+    </f:comment>
+    <f:asset.css identifier="academicPartnersLeaflet" href="EXT:academic_partners/Resources/Public/JavaScript/vendor/leaflet/1.9.4/leaflet.css" />
+    <f:asset.css identifier="academicPartnersMarkerCluster" href="EXT:academic_partners/Resources/Public/JavaScript/vendor/leaflet.markercluster/1.5.3/MarkerCluster.css" />
+    <f:asset.css identifier="academicPartnersMarkerClusterDefault" href="EXT:academic_partners/Resources/Public/JavaScript/vendor/leaflet.markercluster/1.5.3/MarkerCluster.Default.css" />
     <f:asset.css identifier="partnerC2" href="EXT:academic_partners/Resources/Public/Css/frontend/map.css" />
 
-    <f:asset.script identifier="partnerS0" src="EXT:academic_partners/Resources/Public/JavaScript/leaflet.js" />
-    <f:asset.script identifier="partnerS1" src="EXT:academic_partners/Resources/Public/JavaScript/markerCluster.js" />
     <f:asset.module identifier="@fgtclb/academic-partners/frontend/map.js" />
 
     <div
@@ -47,6 +50,7 @@
         data-academic-partners-padding="{map.padding}"
         data-academic-partners-tile-url="{map.tileUrl}"
         data-academic-partners-attribution="{map.attribution}"
+        data-academic-partners-marker-icon="{f:uri.resource(path: 'EXT:academic_partners/Resources/Public/Images/Map/marker-icon.png')}"
     ></div>
 
     <ul id="map-partners" class="d-none">

@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { resetBody } from "../../../../../Build/tests/dom.mjs";
+import { recorded, resetLeaflet } from "../../../../../Build/tests/stubs/leaflet.mjs";
 
 /**
  * The partner map, driven the way a browser drives it.
@@ -12,104 +13,16 @@ import { resetBody } from "../../../../../Build/tests/dom.mjs";
  * so importing the module here reproduces the late load without arranging
  * anything.
  *
- * Leaflet and its cluster plugin are vendored, minified classic scripts that
- * publish the global "LeafletObject". They have no module specifier, so the
- * stub below is a global rather than a stub module, and it records the calls
- * the map is expected to make.
+ * "leaflet" and "leaflet.markercluster" resolve to the recording stubs of the
+ * harness (Build/tests/stubs/). This file imports the Leaflet stub by its path,
+ * which is the same module instance the map module receives, and reads what
+ * the map asked of Leaflet from "recorded".
  */
-interface StubMarker {
-  readonly position: [number, number];
-  readonly popup: string | null;
-  bindPopup(content: string): StubMarker;
-}
-
-interface StubTileLayer {
-  readonly urlTemplate: string;
-  readonly options: { maxZoom: number; attribution: string };
-}
-
-interface StubMap {
-  readonly elementId: string;
-  readonly options: { zoom: number; maxZoom: number };
-  readonly layers: unknown[];
-  readonly fitted: { padding: [number, number] } | null;
-  readonly view: { center: [number, number]; zoom: number } | null;
-}
-
-interface Recorded {
-  map: StubMap | null;
-  tiles: StubTileLayer | null;
-  markers: StubMarker[];
-}
-
 const SPECIFIER = "@fgtclb/academic-partners/frontend/map.js";
 
-const installLeafletStub = (): Recorded => {
-  const recorded: Recorded = {
-    map: null,
-    tiles: null,
-    markers: [],
-  };
-
-  const markerGroup = {
-    added: [] as StubMarker[],
-    addLayer(marker: StubMarker): void {
-      this.added.push(marker);
-      recorded.markers.push(marker);
-    },
-    getLayers(): unknown[] {
-      return this.added;
-    },
-    getBounds(): object {
-      return { _southWest: {} };
-    },
-  };
-
-  // On the window, not on "globalThis": the module reads
-  // "(window as ...).LeafletObject", and the harness installs the jsdom window
-  // as "globalThis.window" rather than merging it into the global object.
-  (window as unknown as { LeafletObject: unknown }).LeafletObject = {
-    tileLayer: (urlTemplate: string, options: { maxZoom: number; attribution: string }): StubTileLayer => {
-      const tiles = { urlTemplate, options: { ...options } };
-      recorded.tiles = tiles;
-      return tiles;
-    },
-    map: (elementId: string, options: { zoom: number; maxZoom: number; layers: unknown[] }): StubMap => {
-      const map = {
-        elementId,
-        options: { zoom: options.zoom, maxZoom: options.maxZoom },
-        layers: [...options.layers],
-        fitted: null as { padding: [number, number] } | null,
-        view: null as { center: [number, number]; zoom: number } | null,
-        addLayer(layer: unknown): void {
-          this.layers.push(layer);
-        },
-        fitBounds(_bounds: unknown, options: { padding: [number, number] }): void {
-          this.fitted = options;
-        },
-        setView(center: [number, number], zoom: number): void {
-          this.view = { center, zoom };
-        },
-      };
-      recorded.map = map;
-      return map;
-    },
-    markerClusterGroup: (): unknown => markerGroup,
-    marker: (position: [number, number]): StubMarker => {
-      const marker = {
-        position,
-        popup: null as string | null,
-        bindPopup(content: string): StubMarker {
-          this.popup = content;
-          return this;
-        },
-      };
-      return marker;
-    },
-  };
-
-  return recorded;
-};
+/** The text of a popup, whether the map handed Leaflet an element or a string. */
+const popupText = (popup: HTMLElement | string | null): string =>
+  popup instanceof HTMLElement ? popup.textContent ?? "" : popup ?? "";
 
 /**
  * Puts the markup in the document and draws the map on it.
@@ -118,10 +31,13 @@ const installLeafletStub = (): Recorded => {
  * draws the map when it is evaluated. The first test is the one that evaluates
  * it, and every test after it starts the module through the exported
  * initialiser.
+ *
+ * The recording is one object for the whole file, "recorded" of the stub. Each
+ * draw resets it, so a test reads what it needs before it draws again.
  */
-const draw = async (markup: string): Promise<Recorded> => {
+const draw = async (markup: string): Promise<typeof recorded> => {
   resetBody(markup);
-  const recorded = installLeafletStub();
+  resetLeaflet();
   const { initializeMap } = await import(SPECIFIER);
   initializeMap();
   return recorded;
@@ -178,7 +94,7 @@ describe("the partner map", () => {
     };
     /* eslint-enable no-console */
 
-    const recorded = installLeafletStub();
+    resetLeaflet();
 
     try {
       await import(SPECIFIER);
@@ -191,10 +107,14 @@ describe("the partner map", () => {
     assert.equal(recorded.map.elementId, "map");
     assert.equal(recorded.markers.length, 2);
     assert.deepEqual(recorded.markers[0].position, [47.195131, 8.526731]);
-    assert.match(recorded.markers[0].popup ?? "", /TYPO3 Association/);
+    assert.match(popupText(recorded.markers[0].popup), /TYPO3 Association/);
     assert.deepEqual(recorded.markers[1].position, [51.477928, 0]);
-    assert.match(recorded.markers[1].popup ?? "", /Royal Observatory/);
+    assert.match(popupText(recorded.markers[1].popup), /Royal Observatory/);
     assert.deepEqual(recorded.map.fitted, { padding: [50, 50] });
+    // One cluster group, loading in chunks, on the map.
+    assert.equal(recorded.clusterGroups.length, 1);
+    assert.deepEqual(recorded.clusterGroups[0]?.options, { chunkedLoading: true });
+    assert.ok(recorded.map.layers.includes(recorded.clusterGroups[0]));
 
     // Both unusable entries were reported rather than silently dropped.
     assert.equal(warnings.length, 2);
@@ -270,6 +190,10 @@ describe("the partner map", () => {
 
     assert.ok(recorded.map !== null);
     assert.deepEqual(recorded.map.fitted, { padding: [50, 50] });
+    // One cluster group, loading in chunks, on the map.
+    assert.equal(recorded.clusterGroups.length, 1);
+    assert.deepEqual(recorded.clusterGroups[0]?.options, { chunkedLoading: true });
+    assert.ok(recorded.map.layers.includes(recorded.clusterGroups[0]));
   });
 
   it("uses a written zero", async () => {
@@ -288,5 +212,49 @@ describe("the partner map", () => {
 
     assert.ok(withPartners.map !== null);
     assert.deepEqual(withPartners.map.fitted, { padding: [0, 0] });
+  });
+
+  it("opens a popup with the partner title in bold, linked to the partner page", async () => {
+    const recorded = await draw('<div id="map"></div>' + ONE_PARTNER);
+
+    const popup = recorded.markers[0]?.popup;
+    assert.ok(popup instanceof HTMLElement, "the popup is not an element");
+    assert.equal(popup.tagName, "A");
+    assert.equal(popup.getAttribute("href"), "/partner/typo3-association");
+    assert.equal(popup.firstElementChild?.tagName, "B");
+    assert.equal(popup.textContent, "TYPO3 Association");
+  });
+
+  it("shows a partner title as it is written", async () => {
+    // The attribute holds the title as Fluid writes it, and "dataset" hands the
+    // module the title the editor typed.
+    const recorded = await draw(
+      '<div id="map"></div>' +
+        '<ul id="map-partners">' +
+        '<li class="map-partner" data-lat="47.195131" data-lng="8.526731"' +
+        ' data-name="Smith &amp; Sons &lt;Ltd&gt;" data-link="/partner/smith-sons">' +
+        "<span>Smith &amp; Sons &lt;Ltd&gt;</span></li>" +
+        "</ul>",
+    );
+
+    const popup = recorded.markers[0]?.popup;
+    assert.ok(popup instanceof HTMLElement, "the popup is not an element");
+    assert.equal(popup.textContent, "Smith & Sons <Ltd>");
+    assert.equal(popup.firstElementChild?.childElementCount, 0);
+  });
+
+  it("takes the marker images from the directory the map names", async () => {
+    const recorded = await draw(
+      '<div id="map" data-academic-partners-marker-icon="/_assets/1a2b/Images/Map/marker-icon.png?1790000000"></div>' +
+        ONE_PARTNER,
+    );
+
+    assert.equal(recorded.markers[0]?.icon?.options.imagePath, "/_assets/1a2b/Images/Map/");
+  });
+
+  it("leaves the marker images to Leaflet when the map names none", async () => {
+    const recorded = await draw('<div id="map"></div>' + ONE_PARTNER);
+
+    assert.equal(recorded.markers[0]?.icon, null);
   });
 });

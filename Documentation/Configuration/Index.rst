@@ -460,6 +460,42 @@ The extension ships no style for the class. What full width means depends on the
 page layout of the site, so the theme of the site styles it. A content element
 saved before the field existed renders at content width.
 
+The files the map loads
+-----------------------
+
+The map is drawn with Leaflet and its marker cluster plugin, both built from
+their npm packages into
+:file:`Resources/Public/JavaScript/vendor/<library>/<version>/`:
+
+..  list-table::
+    :header-rows: 1
+
+    *   -   Library
+        -   Version
+        -   Module
+        -   Stylesheets
+    *   -   Leaflet
+        -   1.9.4
+        -   `leaflet`
+        -   :file:`leaflet.css`
+    *   -   Leaflet.markercluster
+        -   1.5.3
+        -   `leaflet.markercluster`
+        -   :file:`MarkerCluster.css`, :file:`MarkerCluster.Default.css`
+
+The import map of the extension publishes the modules under those names, and the
+map module imports them. No global variable is set. The partial
+:file:`Partner/Map.html` registers the stylesheets,
+:file:`Css/frontend/map.css`, which sizes the map and keeps a site's image rules
+off its tiles and markers. The partial names the marker icon of this extension,
+in :file:`Resources/Public/Images/Map/`, in the attribute
+`data-academic-partners-marker-icon` of the map element, and the markers load
+their images from that directory. Without the attribute they show the icon of
+Leaflet.
+
+Another extension or the theme that maps `leaflet` as well shares the map's
+import map entry: the page loads one of the two Leaflets for every module.
+
 The map on other pages
 ----------------------
 
@@ -524,6 +560,8 @@ The settings reach the map as data attributes of the element
         -   :typoscript:`tileUrl`
     *   -   `data-academic-partners-attribution`
         -   :typoscript:`attribution`
+    *   -   `data-academic-partners-marker-icon`
+        -   none, the partial writes the URL of the marker icon of this extension
 
 An attribute that is missing, empty or out of range uses the default, and the
 two coordinates are used only together.

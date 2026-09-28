@@ -1,12 +1,14 @@
 /* Generated from Resources/Private/TypeScript — do not edit. */
-const leaflet = () => window.LeafletObject;
+import { Icon, map as createMap, marker, tileLayer } from "leaflet";
+import { MarkerClusterGroup } from "leaflet.markercluster";
 const DEFAULTS = {
   center: [51.1657, 10.4515],
   zoom: 6,
   maxZoom: 18,
   padding: 50,
   tileUrl: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Points &copy 2012 LINZ'
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Points &copy 2012 LINZ',
+  markerImages: null
 };
 const numberBetween = (raw, minimum, maximum) => {
   const trimmed = (raw == null ? void 0 : raw.trim()) ?? "";
@@ -20,6 +22,13 @@ const text = (raw) => {
   const trimmed = (raw == null ? void 0 : raw.trim()) ?? "";
   return trimmed === "" ? null : trimmed;
 };
+const directoryOf = (url) => {
+  if (url === null) {
+    return null;
+  }
+  const path = url.split(/[?#]/)[0] ?? "";
+  return path.slice(0, path.lastIndexOf("/") + 1);
+};
 const readConfiguration = (element) => {
   const data = (element == null ? void 0 : element.dataset) ?? {};
   const latitude = numberBetween(data.academicPartnersCenterLat, -90, 90);
@@ -31,25 +40,34 @@ const readConfiguration = (element) => {
     maxZoom: numberBetween(data.academicPartnersMaxZoom, 0, Infinity) ?? DEFAULTS.maxZoom,
     padding: numberBetween(data.academicPartnersPadding, 0, Infinity) ?? DEFAULTS.padding,
     tileUrl: text(data.academicPartnersTileUrl) ?? DEFAULTS.tileUrl,
-    attribution: text(data.academicPartnersAttribution) ?? DEFAULTS.attribution
+    attribution: text(data.academicPartnersAttribution) ?? DEFAULTS.attribution,
+    markerImages: directoryOf(text(data.academicPartnersMarkerIcon))
   };
 };
+const popupFor = (name, link) => {
+  const anchor = document.createElement("a");
+  anchor.href = link;
+  const title = document.createElement("b");
+  title.textContent = name;
+  anchor.append(title);
+  return anchor;
+};
 const initializeMap = () => {
-  const library = leaflet();
   const partnerContainer = document.getElementById("map-partners");
-  if (library === void 0 || partnerContainer === null) {
+  if (partnerContainer === null) {
     return;
   }
   const configuration = readConfiguration(document.getElementById("map"));
-  const tiles = library.tileLayer(
+  const tiles = tileLayer(
     configuration.tileUrl,
     {
       maxZoom: configuration.maxZoom,
       attribution: configuration.attribution
     }
   );
-  const map = library.map("map", { zoom: configuration.zoom, maxZoom: configuration.maxZoom, layers: [tiles] });
-  const markers = library.markerClusterGroup({ chunkedLoading: true });
+  const map = createMap("map", { zoom: configuration.zoom, maxZoom: configuration.maxZoom, layers: [tiles] });
+  const markers = new MarkerClusterGroup({ chunkedLoading: true });
+  const icon = configuration.markerImages === null ? void 0 : new Icon.Default({ imagePath: configuration.markerImages });
   partnerContainer.querySelectorAll(".map-partner").forEach((partner) => {
     var _a, _b;
     const rawLatitude = ((_a = partner.dataset.lat) == null ? void 0 : _a.trim()) ?? "";
@@ -61,10 +79,8 @@ const initializeMap = () => {
       console.warn("Invalid coordinates for partner:", partner.dataset.name);
       return;
     }
-    const name = partner.dataset.name ?? "";
-    const link = partner.dataset.link ?? "";
     markers.addLayer(
-      library.marker([latitude, longitude]).bindPopup(`<a href='${link}'><b>${name}</b></a>`)
+      marker([latitude, longitude], icon === void 0 ? {} : { icon }).bindPopup(popupFor(partner.dataset.name ?? "", partner.dataset.link ?? ""))
     );
   });
   map.addLayer(markers);

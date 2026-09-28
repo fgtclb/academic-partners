@@ -1,8 +1,10 @@
 // Layout of the partner map.
 //
-// The Leaflet stylesheets themselves are vendored and are not built: they sit
-// beside their images in "Resources/Public/Css/" and are loaded as they are.
-// This file only sizes the map and puts its panes behind the site chrome.
+// The stylesheets of Leaflet and of the marker cluster plugin are the ones of
+// their npm packages, written next to the modules below
+// "Resources/Public/JavaScript/vendor/" by the asset build. This file sizes the
+// map, puts its panes behind the site chrome, and keeps a site's image rules
+// off the map images.
 
 #map {
     height: 500px;
@@ -15,4 +17,16 @@
 
 .leaflet-pane {
     z-index: 0;
+}
+
+// Leaflet sets "width: auto" on tiles and markers, and a site rule such as
+// "img { width: 100% }" of a theme wins over it on specificity alone. The copy
+// of the stylesheet this extension shipped before carried "!important" here,
+// and this keeps it.
+.leaflet-container .leaflet-marker-pane img,
+.leaflet-container .leaflet-shadow-pane img,
+.leaflet-container .leaflet-tile-pane img,
+.leaflet-container img.leaflet-image-layer,
+.leaflet-container .leaflet-tile {
+    width: auto !important;
 }

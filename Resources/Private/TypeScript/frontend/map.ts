@@ -1,44 +1,13 @@
 /**
  * Draws the partner map.
  *
- * Leaflet and its marker cluster plugin are vendored, minified and **patched**:
- * their global was renamed from "L" to "LeafletObject" so it cannot collide
- * with another Leaflet on the page. They have no sources here and are therefore
- * not part of this build — they are still loaded as classic scripts, and this
- * module reads the global they define.
- *
- * Only what is actually called is typed. A full set of Leaflet types would be a
- * dependency, and it would describe a build that is not the one on the page.
+ * Leaflet and its marker cluster plugin are ES modules built from their npm
+ * packages into "Resources/Public/JavaScript/vendor/" and published under the
+ * bare specifiers imported below, see "Build/vendor.mjs". Their types are the
+ * small surface declared in "_dependencies.d.ts".
  */
-interface LeafletBounds {
-    readonly _southWest?: unknown;
-}
-
-interface LeafletMarker {
-    bindPopup(content: string): LeafletMarker;
-}
-
-interface LeafletMarkerClusterGroup {
-    addLayer(marker: LeafletMarker): void;
-    getLayers(): unknown[];
-    getBounds(): LeafletBounds;
-}
-
-interface LeafletMap {
-    addLayer(layer: LeafletMarkerClusterGroup): void;
-    fitBounds(bounds: LeafletBounds, options: { padding: [number, number] }): void;
-    setView(center: [number, number], zoom: number): void;
-}
-
-interface LeafletStatic {
-    tileLayer(urlTemplate: string, options: { maxZoom: number; attribution: string }): unknown;
-    map(elementId: string, options: { zoom: number; maxZoom: number; layers: unknown[] }): LeafletMap;
-    markerClusterGroup(options: { chunkedLoading: boolean }): LeafletMarkerClusterGroup;
-    marker(position: [number, number]): LeafletMarker;
-}
-
-const leaflet = (): LeafletStatic | undefined =>
-    (window as unknown as { LeafletObject?: LeafletStatic }).LeafletObject;
+import { Icon, map as createMap, marker, tileLayer } from 'leaflet';
+import { MarkerClusterGroup } from 'leaflet.markercluster';
 
 /**
  * What the map is drawn with. The site settings of the map set reach the module
@@ -53,6 +22,8 @@ interface MapConfiguration {
     readonly padding: number;
     readonly tileUrl: string;
     readonly attribution: string;
+    /** The directory of the marker images, or null for the ones of Leaflet. */
+    readonly markerImages: string | null;
 }
 
 const DEFAULTS: MapConfiguration = {
@@ -62,6 +33,7 @@ const DEFAULTS: MapConfiguration = {
     padding: 50,
     tileUrl: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Points &copy 2012 LINZ',
+    markerImages: null,
 };
 
 /**
@@ -87,6 +59,20 @@ const text = (raw: string | undefined): string | null => {
     return trimmed === '' ? null : trimmed;
 };
 
+/**
+ * The directory of the marker images, from the URL of the marker icon. Leaflet
+ * loads "marker-icon.png", "marker-icon-2x.png" and "marker-shadow.png" from
+ * there. A query string, the cache buster of TYPO3, is not part of it.
+ */
+const directoryOf = (url: string | null): string | null => {
+    if (url === null) {
+        return null;
+    }
+    const path = url.split(/[?#]/)[0] ?? '';
+
+    return path.slice(0, path.lastIndexOf('/') + 1);
+};
+
 const readConfiguration = (element: HTMLElement | null): MapConfiguration => {
     const data = element?.dataset ?? {};
     const latitude = numberBetween(data.academicPartnersCenterLat, -90, 90);
@@ -100,23 +86,38 @@ const readConfiguration = (element: HTMLElement | null): MapConfiguration => {
         padding: numberBetween(data.academicPartnersPadding, 0, Infinity) ?? DEFAULTS.padding,
         tileUrl: text(data.academicPartnersTileUrl) ?? DEFAULTS.tileUrl,
         attribution: text(data.academicPartnersAttribution) ?? DEFAULTS.attribution,
+        markerImages: directoryOf(text(data.academicPartnersMarkerIcon)),
     };
 };
 
+/**
+ * The popup of a partner: its title in bold, linked to its page.
+ *
+ * Built from elements, so a title such as "Smith & Sons" is shown as it is
+ * written.
+ */
+const popupFor = (name: string, link: string): HTMLElement => {
+    const anchor = document.createElement('a');
+    anchor.href = link;
+    const title = document.createElement('b');
+    title.textContent = name;
+    anchor.append(title);
+
+    return anchor;
+};
+
 const initializeMap = (): void => {
-    const library = leaflet();
     const partnerContainer = document.getElementById('map-partners');
 
-    // The original assumed both. A page that renders the plugin without the
-    // vendored scripts, or without the partner list, threw and took the rest of
-    // the page's scripts down with it.
-    if (library === undefined || partnerContainer === null) {
+    // A page that renders the module without the partner list has no map to
+    // draw, and throwing would take the rest of the page's scripts down.
+    if (partnerContainer === null) {
         return;
     }
 
     const configuration = readConfiguration(document.getElementById('map'));
 
-    const tiles = library.tileLayer(
+    const tiles = tileLayer(
         configuration.tileUrl,
         {
             maxZoom: configuration.maxZoom,
@@ -126,8 +127,13 @@ const initializeMap = (): void => {
 
     // The maximum on the map as well: "fitBounds" is capped by the map, which
     // otherwise takes the maximum of the layers it happens to hold.
-    const map = library.map('map', { zoom: configuration.zoom, maxZoom: configuration.maxZoom, layers: [tiles] });
-    const markers = library.markerClusterGroup({ chunkedLoading: true });
+    const map = createMap('map', { zoom: configuration.zoom, maxZoom: configuration.maxZoom, layers: [tiles] });
+    const markers = new MarkerClusterGroup({ chunkedLoading: true });
+    // Per marker, not on Leaflet's class: another module of the page may load
+    // the same Leaflet through the import map.
+    const icon = configuration.markerImages === null
+        ? undefined
+        : new Icon.Default({ imagePath: configuration.markerImages });
 
     partnerContainer.querySelectorAll<HTMLElement>('.map-partner').forEach((partner): void => {
         const rawLatitude = partner.dataset.lat?.trim() ?? '';
@@ -158,13 +164,9 @@ const initializeMap = (): void => {
             return;
         }
 
-        const name = partner.dataset.name ?? '';
-        const link = partner.dataset.link ?? '';
-
         markers.addLayer(
-            library
-                .marker([latitude, longitude])
-                .bindPopup(`<a href='${link}'><b>${name}</b></a>`),
+            marker([latitude, longitude], icon === undefined ? {} : { icon })
+                .bindPopup(popupFor(partner.dataset.name ?? '', partner.dataset.link ?? '')),
         );
     });
 
