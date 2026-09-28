@@ -5,22 +5,21 @@ import { resetBody } from "../../../../../Build/tests/dom.mjs";
 /**
  * The partner map, driven the way a browser drives it.
  *
- * "f:asset.module" renders every module with "async", so this file is not
- * ordered against document parsing: it regularly runs once the document is
- * already "complete". The harness window is in exactly that state - jsdom
- * finishes parsing the markup it is constructed from before a test sees it -
- * so importing the module here reproduces the late load without arranging
- * anything.
+ * The module can run once the document is already "complete", and the harness
+ * window is in exactly that state - jsdom finishes parsing the markup it is
+ * constructed from before a test sees it - so importing the module here
+ * reproduces the late load without arranging anything.
  *
- * Leaflet and its cluster plugin are vendored, minified classic scripts that
- * publish the global "LeafletObject". They have no module specifier, so the
- * stub below is a global rather than a stub module, and it records the calls
- * the map is expected to make.
+ * Leaflet and its cluster plugin are classic scripts, built from their npm
+ * packages, that publish the global "LeafletObject". They have no module
+ * specifier, so the stub below is a global rather than a stub module, and it
+ * records the calls the map is expected to make. The scripts themselves are
+ * tested in "map-libraries.test.ts".
  */
 interface StubMarker {
   readonly position: [number, number];
-  readonly popup: string | null;
-  bindPopup(content: string): StubMarker;
+  readonly popup: HTMLElement | string | null;
+  bindPopup(content: HTMLElement | string): StubMarker;
 }
 
 interface StubMap {
@@ -91,6 +90,10 @@ const installLeafletStub = (): { map: StubMap | null; markers: StubMarker[] } =>
   return recorded;
 };
 
+/** The text of a popup, whether the map handed Leaflet an element or a string. */
+const popupText = (popup: HTMLElement | string | null): string =>
+  popup instanceof HTMLElement ? popup.textContent ?? "" : popup ?? "";
+
 describe("the partner map", () => {
   it("draws itself when the module is evaluated after parsing finished", async () => {
     resetBody(
@@ -116,6 +119,11 @@ describe("the partner map", () => {
         '<li class="map-partner" data-lat="51.477928" data-lng="0"' +
         ' data-name="Royal Observatory" data-link="/partner/royal-observatory">' +
         "<span>Royal Observatory</span></li>" +
+        // The attribute holds the title as Fluid writes it, and "dataset" hands
+        // the module the title the editor typed. The popup shows it as written.
+        '<li class="map-partner" data-lat="48.137154" data-lng="11.576124"' +
+        ' data-name="Smith &amp; Sons &lt;Ltd&gt;" data-link="/partner/smith-sons">' +
+        "<span>Smith &amp; Sons &lt;Ltd&gt;</span></li>" +
         "</ul>",
     );
 
@@ -144,11 +152,23 @@ describe("the partner map", () => {
 
     assert.ok(recorded.map !== null, "the map was never created");
     assert.equal(recorded.map.elementId, "map");
-    assert.equal(recorded.markers.length, 2);
+    assert.equal(recorded.markers.length, 3);
     assert.deepEqual(recorded.markers[0].position, [47.195131, 8.526731]);
-    assert.match(recorded.markers[0].popup ?? "", /TYPO3 Association/);
+    assert.match(popupText(recorded.markers[0].popup), /TYPO3 Association/);
     assert.deepEqual(recorded.markers[1].position, [51.477928, 0]);
-    assert.match(recorded.markers[1].popup ?? "", /Royal Observatory/);
+    assert.match(popupText(recorded.markers[1].popup), /Royal Observatory/);
+
+    // The popup is an anchor around the title in bold, built from elements.
+    const popup = recorded.markers[0].popup;
+    assert.ok(popup instanceof HTMLElement, "the popup is not an element");
+    assert.equal(popup.tagName, "A");
+    assert.equal(popup.getAttribute("href"), "/partner/typo3-association");
+    assert.equal(popup.firstElementChild?.tagName, "B");
+
+    const written = recorded.markers[2].popup;
+    assert.ok(written instanceof HTMLElement, "the popup is not an element");
+    assert.equal(written.textContent, "Smith & Sons <Ltd>");
+    assert.equal(written.firstElementChild?.childElementCount, 0);
     assert.deepEqual(recorded.map.fitted, { padding: [50, 50] });
 
     // Both unusable entries were reported rather than silently dropped.

@@ -3,6 +3,14 @@
 (() => {
   // packages/fgtclb/academic-partners/Resources/Private/TypeScript/frontend/map.ts
   var leaflet = () => window.LeafletObject;
+  var popupFor = (name, link) => {
+    const anchor = document.createElement("a");
+    anchor.href = link;
+    const title = document.createElement("b");
+    title.textContent = name;
+    anchor.append(title);
+    return anchor;
+  };
   var initializeMap = () => {
     const library = leaflet();
     const partnerContainer = document.getElementById("map-partners");
@@ -29,10 +37,8 @@
         console.warn("Invalid coordinates for partner:", partner.dataset.name);
         return;
       }
-      const name = partner.dataset.name ?? "";
-      const link = partner.dataset.link ?? "";
       markers.addLayer(
-        library.marker([latitude, longitude]).bindPopup(`<a href='${link}'><b>${name}</b></a>`)
+        library.marker([latitude, longitude]).bindPopup(popupFor(partner.dataset.name ?? "", partner.dataset.link ?? ""))
       );
     });
     map.addLayer(markers);

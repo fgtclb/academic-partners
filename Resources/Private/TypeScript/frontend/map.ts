@@ -1,21 +1,19 @@
 /**
  * Draws the partner map.
  *
- * Leaflet and its marker cluster plugin are vendored, minified and **patched**:
- * their global was renamed from "L" to "LeafletObject" so it cannot collide
- * with another Leaflet on the page. They have no sources here and are therefore
- * not part of this build — they are still loaded as classic scripts, and this
- * module reads the global they define.
+ * Leaflet and its marker cluster plugin are classic scripts built from their
+ * npm packages (see "Build/vendor.mjs"). They publish the global
+ * "LeafletObject" rather than "L", so they cannot collide with another Leaflet
+ * on the page, and this module reads that global.
  *
- * Only what is actually called is typed. A full set of Leaflet types would be a
- * dependency, and it would describe a build that is not the one on the page.
+ * Only what is actually called is typed.
  */
 interface LeafletBounds {
     readonly _southWest?: unknown;
 }
 
 interface LeafletMarker {
-    bindPopup(content: string): LeafletMarker;
+    bindPopup(content: HTMLElement | string): LeafletMarker;
 }
 
 interface LeafletMarkerClusterGroup {
@@ -39,6 +37,22 @@ interface LeafletStatic {
 
 const leaflet = (): LeafletStatic | undefined =>
     (window as unknown as { LeafletObject?: LeafletStatic }).LeafletObject;
+
+/**
+ * The popup of a partner: its title in bold, linked to its page.
+ *
+ * Built from elements, so a title such as "Smith & Sons" is shown as it is
+ * written.
+ */
+const popupFor = (name: string, link: string): HTMLElement => {
+    const anchor = document.createElement('a');
+    anchor.href = link;
+    const title = document.createElement('b');
+    title.textContent = name;
+    anchor.append(title);
+
+    return anchor;
+};
 
 const initializeMap = (): void => {
     const library = leaflet();
@@ -91,13 +105,10 @@ const initializeMap = (): void => {
             return;
         }
 
-        const name = partner.dataset.name ?? '';
-        const link = partner.dataset.link ?? '';
-
         markers.addLayer(
             library
                 .marker([latitude, longitude])
-                .bindPopup(`<a href='${link}'><b>${name}</b></a>`),
+                .bindPopup(popupFor(partner.dataset.name ?? '', partner.dataset.link ?? '')),
         );
     });
 

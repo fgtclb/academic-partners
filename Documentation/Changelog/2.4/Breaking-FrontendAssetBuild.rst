@@ -18,10 +18,10 @@ in the repository, and both moved into a :file:`frontend/` subdirectory:
     EXT:academic_partners/Resources/Public/JavaScript/map.js
     ->  EXT:academic_partners/Resources/Public/JavaScript/frontend/map.js
 
-The vendored Leaflet library, its marker cluster plugin and their stylesheets
-are **unchanged**. They are third party files without sources here, they keep
-their paths, and the map script still reads the :js:`LeafletObject` global they
-define. Both are still loaded as classic scripts.
+The Leaflet library, its marker cluster plugin and their stylesheets keep their
+paths, and the map script still reads the :js:`LeafletObject` global they
+define. Both are still loaded as classic scripts. The two scripts are built from
+their npm packages, see :ref:`important-partner-map-libraries-from-npm`.
 
 Impact
 ======
