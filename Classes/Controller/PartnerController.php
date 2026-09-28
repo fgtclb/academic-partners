@@ -49,6 +49,7 @@ class PartnerController extends ActionController
      */
     public function listAction(?array $demand = null): ResponseInterface
     {
+        $context = $this->pluginControllerActionContext();
         /** @var array<string, mixed> $contentElementData */
         $contentElementData = $this->getCurrentContentObjectRenderer()?->data ?? [];
         $this->redirectFilterSubmission($contentElementData);
@@ -65,7 +66,6 @@ class PartnerController extends ActionController
         $requestedPage = $demandObject->getCurrentPage();
         $requestedArguments = $this->partnerDemandFactory->createDemandArguments($demandObject);
 
-        $context = $this->pluginControllerActionContext();
         /** @var ModifyPartnerDemandEvent $demandEvent */
         $demandEvent = $this->eventDispatcher->dispatch(new ModifyPartnerDemandEvent($demandObject, $context));
         $demandObject = $demandEvent->getDemand();
@@ -93,7 +93,7 @@ class PartnerController extends ActionController
             'filterTypes' => $this->filterTypeResolver->resolveFromSettings($categories, $this->settings),
         ]);
         $this->assignPagination($partners, $requestedPage, $requestedArguments);
-        $this->dispatchModifyPluginViewEvent($this->request, $this->settings, $this->view, $this->eventDispatcher);
+        $this->dispatchModifyPluginViewEvent($context, $this->view, $this->eventDispatcher);
 
         return $this->htmlResponse();
     }
@@ -104,6 +104,7 @@ class PartnerController extends ActionController
      */
     public function mapAction(?array $demand = null): ResponseInterface
     {
+        $context = $this->pluginControllerActionContext();
         /** @var array<string, mixed> $contentElementData */
         $contentElementData = $this->getCurrentContentObjectRenderer()?->data ?? [];
         $this->redirectFilterSubmission($contentElementData);
@@ -113,7 +114,6 @@ class PartnerController extends ActionController
             $contentElementData
         );
 
-        $context = $this->pluginControllerActionContext();
         /** @var ModifyPartnerDemandEvent $demandEvent */
         $demandEvent = $this->eventDispatcher->dispatch(new ModifyPartnerDemandEvent($demandObject, $context));
         $demandObject = $demandEvent->getDemand();
@@ -144,7 +144,7 @@ class PartnerController extends ActionController
             'categories' => $categories,
             'filterTypes' => $this->filterTypeResolver->resolveFromSettings($categories, $this->settings),
         ]);
-        $this->dispatchModifyPluginViewEvent($this->request, $this->settings, $this->view, $this->eventDispatcher);
+        $this->dispatchModifyPluginViewEvent($context, $this->view, $this->eventDispatcher);
 
         return $this->htmlResponse();
     }
@@ -154,6 +154,7 @@ class PartnerController extends ActionController
      */
     public function partnershipsListAction(): ResponseInterface
     {
+        $context = $this->pluginControllerActionContext();
         /** @var array<string, mixed> */
         $contentElementData = $this->getCurrentContentObjectRenderer()?->data ?? [];
         $partnerships = $this->partnershipRepository->findByPid((int)($contentElementData['pid'] ?? 0));
@@ -172,7 +173,7 @@ class PartnerController extends ActionController
             'partnerships' => $partnerships,
             'partnershipRoles' => $roles,
         ]);
-        $this->dispatchModifyPluginViewEvent($this->request, $this->settings, $this->view, $this->eventDispatcher);
+        $this->dispatchModifyPluginViewEvent($context, $this->view, $this->eventDispatcher);
 
         return $this->htmlResponse();
     }
@@ -182,6 +183,7 @@ class PartnerController extends ActionController
      */
     public function partnershipsTeaserAction(): ResponseInterface
     {
+        $context = $this->pluginControllerActionContext();
         /** @var array<string, mixed> */
         $contentElementData = $this->getCurrentContentObjectRenderer()?->data ?? [];
         $partnerships = $this->partnershipRepository->findByPid((int)($contentElementData['pid'] ?? 0));
@@ -200,7 +202,7 @@ class PartnerController extends ActionController
             'partnerships' => $partnerships,
             'partnershipRoles' => $roles,
         ]);
-        $this->dispatchModifyPluginViewEvent($this->request, $this->settings, $this->view, $this->eventDispatcher);
+        $this->dispatchModifyPluginViewEvent($context, $this->view, $this->eventDispatcher);
 
         return $this->htmlResponse();
     }
