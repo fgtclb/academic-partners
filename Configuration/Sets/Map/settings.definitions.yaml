@@ -1,0 +1,75 @@
+# Site settings of the partner map content element.
+#
+# Every path below is also assigned in
+# "Configuration/TypoScript/constants.typoscript", and the default has to be the
+# same in both files: a site that uses the site set and the static template
+# reads the constants after the site settings, so a differing default resets
+# what the integrator configured, silently.
+#
+# The defaults are the values the map module was drawn with before they could
+# be configured, and the module falls back to them for a value it cannot use.
+#
+# The centre is a string, not a number: the number field of the site settings
+# editor steps by 0.01 unless told otherwise, so the browser refuses to save a
+# coordinate with four decimals, and a finer step fails the float arithmetic of
+# the server side check for some values. The module checks the range instead.
+#
+# Declared with this set rather than with the aggregate one: only the map reads
+# them. A site that depends on "fgtclb/academic-partners" gets them through the
+# dependency on this set.
+categories:
+  academic:
+    label: 'Academic'
+  academic.partners:
+    label: 'Partners'
+    parent: academic
+
+settings:
+  plugin.tx_academicpartners.map.centerLatitude:
+    label: 'Partner map | Centre latitude'
+    description: 'The latitude the map is centred on while it shows no partner, from -90 to 90, with a decimal point. A map with partners fits itself around them.'
+    category: academic.partners
+    type: string
+    default: '51.1657'
+  plugin.tx_academicpartners.map.centerLongitude:
+    label: 'Partner map | Centre longitude'
+    description: 'The longitude the map is centred on while it shows no partner, from -180 to 180, with a decimal point.'
+    category: academic.partners
+    type: string
+    default: '10.4515'
+  plugin.tx_academicpartners.map.zoom:
+    label: 'Partner map | Zoom without partners'
+    description: 'The zoom level of the map while it shows no partner, 0 shows the whole world.'
+    category: academic.partners
+    type: int
+    default: 6
+    options:
+      min: 0
+  plugin.tx_academicpartners.map.maxZoom:
+    label: 'Partner map | Maximum zoom'
+    description: 'How far the map zooms in at most, also when it fits itself around a single partner. Lower it to keep the surroundings of a single partner in view. The tile server has to deliver tiles up to this level.'
+    category: academic.partners
+    type: int
+    default: 18
+    options:
+      min: 0
+  plugin.tx_academicpartners.map.padding:
+    label: 'Partner map | Padding around the partners'
+    description: 'The space in pixels the map keeps between its edge and the outermost partners.'
+    category: academic.partners
+    type: int
+    default: 50
+    options:
+      min: 0
+  plugin.tx_academicpartners.map.tileUrl:
+    label: 'Partner map | Tile server URL'
+    description: 'The URL template the map loads its tiles from, with the placeholders {z}, {x} and {y}, and {s} for a subdomain. Empty uses OpenStreetMap.'
+    category: academic.partners
+    type: string
+    default: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+  plugin.tx_academicpartners.map.attribution:
+    label: 'Partner map | Attribution'
+    description: 'The attribution the map shows for its tiles, as HTML. The terms of the tile server decide what it has to say. Empty uses the attribution the map always showed.'
+    category: academic.partners
+    type: string
+    default: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Points &copy 2012 LINZ'

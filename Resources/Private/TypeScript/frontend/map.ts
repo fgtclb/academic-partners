@@ -32,13 +32,76 @@ interface LeafletMap {
 
 interface LeafletStatic {
     tileLayer(urlTemplate: string, options: { maxZoom: number; attribution: string }): unknown;
-    map(elementId: string, options: { zoom: number; layers: unknown[] }): LeafletMap;
+    map(elementId: string, options: { zoom: number; maxZoom: number; layers: unknown[] }): LeafletMap;
     markerClusterGroup(options: { chunkedLoading: boolean }): LeafletMarkerClusterGroup;
     marker(position: [number, number]): LeafletMarker;
 }
 
 const leaflet = (): LeafletStatic | undefined =>
     (window as unknown as { LeafletObject?: LeafletStatic }).LeafletObject;
+
+/**
+ * What the map is drawn with. The site settings of the map set reach the module
+ * as data attributes of "#map", and every value falls back to the one the map
+ * was drawn with before it could be configured. Those are the only values an
+ * overridden template without the attributes gets.
+ */
+interface MapConfiguration {
+    readonly center: [number, number];
+    readonly zoom: number;
+    readonly maxZoom: number;
+    readonly padding: number;
+    readonly tileUrl: string;
+    readonly attribution: string;
+}
+
+const DEFAULTS: MapConfiguration = {
+    center: [51.1657, 10.4515],
+    zoom: 6,
+    maxZoom: 18,
+    padding: 50,
+    tileUrl: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Points &copy 2012 LINZ',
+};
+
+/**
+ * A number between the two bounds, or null for anything else.
+ *
+ * `Number('')` is `0`, so an empty attribute is told apart from a written zero
+ * on the raw value, as the partner coordinates below are.
+ */
+const numberBetween = (raw: string | undefined, minimum: number, maximum: number): number | null => {
+    const trimmed = raw?.trim() ?? '';
+    const value = Number(trimmed);
+
+    if (trimmed === '' || !Number.isFinite(value) || value < minimum || value > maximum) {
+        return null;
+    }
+
+    return value;
+};
+
+const text = (raw: string | undefined): string | null => {
+    const trimmed = raw?.trim() ?? '';
+
+    return trimmed === '' ? null : trimmed;
+};
+
+const readConfiguration = (element: HTMLElement | null): MapConfiguration => {
+    const data = element?.dataset ?? {};
+    const latitude = numberBetween(data.academicPartnersCenterLat, -90, 90);
+    const longitude = numberBetween(data.academicPartnersCenterLng, -180, 180);
+
+    return {
+        // One value: half of a centre is a place nobody chose.
+        center: latitude !== null && longitude !== null ? [latitude, longitude] : DEFAULTS.center,
+        zoom: numberBetween(data.academicPartnersZoom, 0, Infinity) ?? DEFAULTS.zoom,
+        maxZoom: numberBetween(data.academicPartnersMaxZoom, 0, Infinity) ?? DEFAULTS.maxZoom,
+        padding: numberBetween(data.academicPartnersPadding, 0, Infinity) ?? DEFAULTS.padding,
+        tileUrl: text(data.academicPartnersTileUrl) ?? DEFAULTS.tileUrl,
+        attribution: text(data.academicPartnersAttribution) ?? DEFAULTS.attribution,
+    };
+};
 
 const initializeMap = (): void => {
     const library = leaflet();
@@ -51,15 +114,19 @@ const initializeMap = (): void => {
         return;
     }
 
+    const configuration = readConfiguration(document.getElementById('map'));
+
     const tiles = library.tileLayer(
-        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        configuration.tileUrl,
         {
-            maxZoom: 18,
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Points &copy 2012 LINZ',
+            maxZoom: configuration.maxZoom,
+            attribution: configuration.attribution,
         },
     );
 
-    const map = library.map('map', { zoom: 6, layers: [tiles] });
+    // The maximum on the map as well: "fitBounds" is capped by the map, which
+    // otherwise takes the maximum of the layers it happens to hold.
+    const map = library.map('map', { zoom: configuration.zoom, maxZoom: configuration.maxZoom, layers: [tiles] });
     const markers = library.markerClusterGroup({ chunkedLoading: true });
 
     partnerContainer.querySelectorAll<HTMLElement>('.map-partner').forEach((partner): void => {
@@ -104,9 +171,9 @@ const initializeMap = (): void => {
     map.addLayer(markers);
 
     if (markers.getLayers().length > 0) {
-        map.fitBounds(markers.getBounds(), { padding: [50, 50] });
+        map.fitBounds(markers.getBounds(), { padding: [configuration.padding, configuration.padding] });
     } else {
-        map.setView([51.1657, 10.4515], 6);
+        map.setView(configuration.center, configuration.zoom);
     }
 };
 
@@ -120,4 +187,4 @@ if (document.readyState === 'loading') {
     initializeMap();
 }
 
-export {};
+export { initializeMap };

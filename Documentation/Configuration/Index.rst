@@ -371,6 +371,169 @@ on in a template that renders the partial.
     away and with one "All" label, and anything else needed an override of the
     partial.
 
+..  _configuration-map:
+
+The partner map
+===============
+
+The :guilabel:`Partners Map` content element draws its partners on a map, with
+the tiles of OpenStreetMap by default. Where the map is centred, how far it
+zooms and where its tiles come from is one configuration for the whole site:
+
+..  list-table::
+    :header-rows: 1
+
+    *   -   Site setting and constant
+        -   Default
+        -   Meaning
+    *   -   :typoscript:`plugin.tx_academicpartners.map.centerLatitude`
+        -   51.1657
+        -   The latitude the map is centred on while it shows no partner, from
+            -90 to 90, with a decimal point.
+    *   -   :typoscript:`plugin.tx_academicpartners.map.centerLongitude`
+        -   10.4515
+        -   The longitude of that centre, from -180 to 180, with a decimal
+            point.
+    *   -   :typoscript:`plugin.tx_academicpartners.map.zoom`
+        -   6
+        -   The zoom level while the map shows no partner. 0 shows the whole
+            world.
+    *   -   :typoscript:`plugin.tx_academicpartners.map.maxZoom`
+        -   18
+        -   How far the map zooms in at most. A map with partners fits itself
+            around them, and around a single partner it zooms in up to this
+            level. Lower it to keep the surroundings of that partner in view.
+    *   -   :typoscript:`plugin.tx_academicpartners.map.padding`
+        -   50
+        -   The space in pixels between the edge of the map and the outermost
+            partners.
+    *   -   :typoscript:`plugin.tx_academicpartners.map.tileUrl`
+        -   `https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`
+        -   The URL template the map loads its tiles from, with the placeholders
+            `{z}`, `{x}` and `{y}`, and `{s}` for a subdomain.
+    *   -   :typoscript:`plugin.tx_academicpartners.map.attribution`
+        -   the attribution the map always showed, which credits OpenStreetMap
+        -   The attribution the map shows for its tiles. It is HTML, and the
+            map renders it as HTML.
+
+..  code-block:: yaml
+    :caption: config/sites/my-site/settings.yaml
+
+    plugin:
+      tx_academicpartners:
+        map:
+          centerLatitude: 47.5162
+          centerLongitude: 14.5501
+          zoom: 7
+          maxZoom: 14
+
+The settings are site settings of the set `fgtclb/academic-partners-map`, so the
+site settings editor offers them to a site that depends on that set or on
+`fgtclb/academic-partners`. A site configured through static templates sets the
+constants instead.
+
+The defaults are the values the map used before they could be configured, and
+the map falls back to them for every value it cannot use: an empty value, a
+number that is not a number or lies outside its range. The centre is one value,
+so a latitude it cannot use discards the longitude as well. An empty tile URL or
+attribution uses the default, because a tile server's terms usually require an
+attribution. Whether the tile server delivers tiles up to the maximum zoom,
+and what its attribution has to say, is up to the site.
+
+The width of the map
+--------------------
+
+Each :guilabel:`Partners Map` content element has a tab :guilabel:`Layout` with
+the field :guilabel:`Map width`:
+
+..  list-table::
+    :header-rows: 1
+
+    *   -   Option
+        -   Renders
+    *   -   :guilabel:`Content width`, the default
+        -   :html:`<div class="academic-partners-map">`, as before.
+    *   -   :guilabel:`Full width`
+        -   :html:`<div class="academic-partners-map academic-partners-map--full-width">`
+
+The extension ships no style for the class. What full width means depends on the
+page layout of the site, so the theme of the site styles it. A content element
+saved before the field existed renders at content width.
+
+The map on other pages
+----------------------
+
+The map is rendered by the partial :file:`Partner/Map.html`, and a template of
+the site package can render it too. It takes these arguments:
+
+..  list-table::
+    :header-rows: 1
+
+    *   -   Argument
+        -   Meaning
+    *   -   :html:`partners`
+        -   The partners to draw.
+    *   -   :html:`partner`
+        -   A single partner instead. The partial renders nothing when the
+            partner has no coordinates.
+    *   -   :html:`map`
+        -   The map settings above. Without them the map uses the defaults.
+
+The page of the page type :guilabel:`Academic partner` does not show a map, but
+its template has everything a map for the partner of the page needs:
+:html:`{partner}`, and the map settings of the site as :html:`{mapSettings}`.
+The data processor `partner-data` adds both, for a :typoscript:`FLUIDTEMPLATE`
+and for a :typoscript:`PAGEVIEW` page object. It takes the settings from the
+site settings and the constants, not from
+:typoscript:`plugin.tx_academicpartners.settings.map`, so a value a site sets in
+the TypoScript setup of the plugin reaches the content element only. A site
+package that shows the location of the partner renders, in its own
+:file:`AcademicPartner.html`:
+
+..  code-block:: html
+    :caption: EXT:my_sitepackage/Resources/Private/Pages/AcademicPartner.html
+
+    <f:render partial="Partner/Map" arguments="{partner: partner, map: mapSettings}" />
+
+A single partner is where the maximum zoom matters most: the map zooms in on
+the partner up to that level.
+
+The partial draws one map per page. Its element ids are fixed, so on a page that
+renders it twice, the content element on a partner page that shows a map for
+example, only the first map is drawn and the second stays empty.
+
+The settings reach the map as data attributes of the element
+:html:`<div id="map">`, which the partial renders:
+
+..  list-table::
+    :header-rows: 1
+
+    *   -   Attribute
+        -   Setting
+    *   -   `data-academic-partners-center-lat`
+        -   :typoscript:`centerLatitude`
+    *   -   `data-academic-partners-center-lng`
+        -   :typoscript:`centerLongitude`
+    *   -   `data-academic-partners-zoom`
+        -   :typoscript:`zoom`
+    *   -   `data-academic-partners-max-zoom`
+        -   :typoscript:`maxZoom`
+    *   -   `data-academic-partners-padding`
+        -   :typoscript:`padding`
+    *   -   `data-academic-partners-tile-url`
+        -   :typoscript:`tileUrl`
+    *   -   `data-academic-partners-attribution`
+        -   :typoscript:`attribution`
+
+An attribute that is missing, empty or out of range uses the default, and the
+two coordinates are used only together.
+
+A project that overrides :file:`Templates/Partner/Map.html` keeps its template.
+It renders the map without these attributes, so its map uses the defaults until
+it renders the partial or adds the attributes to its own map element. A project
+that already ships a partial :file:`Partner/Map.html` of its own overrides the
+shipped one. It is rendered with :html:`partners` and :html:`map`.
+
 ..  _configuration-content-element-header:
 
 The header of the content elements
@@ -422,7 +585,8 @@ the extension ships a default for back to that default. For this extension that
 is the :typoscript:`plugin.tx_academicpartners` constants block: the three Fluid
 root paths, the number of page links of the
 :ref:`pagination <configuration-list-pagination>`, the settings of
-:ref:`the category filters <configuration-list-filter>` and the
+:ref:`the category filters <configuration-list-filter>` and of
+:ref:`the partner map <configuration-map>`, and the
 :ref:`content element header <configuration-content-element-header>` switch.
 
 Nothing else is damaged: the :guilabel:`Constants` and :guilabel:`Setup` fields

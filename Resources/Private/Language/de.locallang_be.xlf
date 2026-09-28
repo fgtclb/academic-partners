@@ -152,6 +152,26 @@
         <source>Pagination</source>
         <target>Paginierung</target>
       </trans-unit>
+      <trans-unit id="flexform.sheet.layout">
+        <source>Layout</source>
+        <target>Layout</target>
+      </trans-unit>
+      <trans-unit id="flexform.map.layout.label">
+        <source>Map width</source>
+        <target>Kartenbreite</target>
+      </trans-unit>
+      <trans-unit id="flexform.map.layout.description">
+        <source>Full width adds the CSS class "academic-partners-map--full-width" to the element. What it looks like is up to the theme of the site.</source>
+        <target>Volle Breite ergänzt das Element um die CSS-Klasse "academic-partners-map--full-width". Wie es dann aussieht, bestimmt das Theme der Site.</target>
+      </trans-unit>
+      <trans-unit id="flexform.map.layout.default">
+        <source>Content width</source>
+        <target>Inhaltsbreite</target>
+      </trans-unit>
+      <trans-unit id="flexform.map.layout.fullWidth">
+        <source>Full width</source>
+        <target>Volle Breite</target>
+      </trans-unit>
       <trans-unit id="flexform.paginationEnabled.label">
         <source>Enable pagination</source>
         <target>Paginierung aktivieren</target>

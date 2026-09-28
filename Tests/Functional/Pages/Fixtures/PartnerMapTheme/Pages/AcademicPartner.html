@@ -1,0 +1,17 @@
+<html
+    data-namespace-typo3-fluid="true"
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+>
+
+<f:comment>
+    A partner page template of a site package that shows the location of the partner,
+    the way the documentation of the map partial describes it.
+</f:comment>
+
+<div class="site-package-partner-page">
+    <h1>{partner.title}</h1>
+
+    <f:render partial="Partner/Map" arguments="{partner: partner, map: mapSettings}" />
+</div>
+
+</html>

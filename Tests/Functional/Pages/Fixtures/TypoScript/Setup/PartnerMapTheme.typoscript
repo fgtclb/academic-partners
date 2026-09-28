@@ -1,0 +1,10 @@
+# The partner page template of a site package that renders the map partial, for both
+# shapes of a page object: "templateRootPaths" is what FLUIDTEMPLATE reads, "paths" what
+# PAGEVIEW reads. Each ignores the other one.
+#
+# Included after the TypoScript of the extension, so the key sorts above the 100 the
+# extension uses and the template of the site package wins.
+page.10 {
+  templateRootPaths.200 = EXT:academic_partners/Tests/Functional/Pages/Fixtures/PartnerMapTheme/Pages/
+  paths.200 = EXT:academic_partners/Tests/Functional/Pages/Fixtures/PartnerMapTheme/
+}

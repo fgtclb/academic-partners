@@ -1,0 +1,69 @@
+<html
+    lang="en"
+    xmlns:f="http://typo3.org/ns/TYPO3Fluid/Fluid/ViewHelpers"
+    data-namespace-typo3-fluid="true"
+>
+
+<f:comment>
+    The partner map: its assets, the map element and the partners it draws.
+
+    Arguments:
+    - partners: the partners to draw, as the map plugin passes its result.
+    - partner: a single partner instead, as a page template passes the partner of its
+      page. The map is left out unless the partner has coordinates.
+    - map: the map settings, "settings.map" of the plugin and "mapSettings" of the
+      partner page. Without them the map module uses its defaults.
+
+    Several maps on one page are not supported: the element ids are fixed.
+</f:comment>
+
+<f:if condition="{partner}">
+    <f:then>
+        <f:if condition="{partner.drawable}">
+            <f:render section="Map" arguments="{partners: {0: partner}, map: map}" />
+        </f:if>
+    </f:then>
+    <f:else if="{partners}">
+        <f:render section="Map" arguments="{partners: partners, map: map}" />
+    </f:else>
+</f:if>
+
+<f:section name="Map">
+    <f:asset.css identifier="partnerC0" href="EXT:academic_partners/Resources/Public/Css/leaflet.css" />
+    <f:asset.css identifier="partnerC1" href="EXT:academic_partners/Resources/Public/Css/markerCluster.css" />
+    <f:asset.css identifier="partnerC2" href="EXT:academic_partners/Resources/Public/Css/frontend/map.css" />
+
+    <f:asset.script identifier="partnerS0" src="EXT:academic_partners/Resources/Public/JavaScript/leaflet.js" />
+    <f:asset.script identifier="partnerS1" src="EXT:academic_partners/Resources/Public/JavaScript/markerCluster.js" />
+    <f:asset.module identifier="@fgtclb/academic-partners/frontend/map.js" />
+
+    <div
+        id="map"
+        class="mt-4"
+        data-academic-partners-center-lat="{map.centerLatitude}"
+        data-academic-partners-center-lng="{map.centerLongitude}"
+        data-academic-partners-zoom="{map.zoom}"
+        data-academic-partners-max-zoom="{map.maxZoom}"
+        data-academic-partners-padding="{map.padding}"
+        data-academic-partners-tile-url="{map.tileUrl}"
+        data-academic-partners-attribution="{map.attribution}"
+    ></div>
+
+    <ul id="map-partners" class="d-none">
+        <f:for each="{partners}" as="partner">
+            <li
+                id="partner-{partner.uid}"
+                class="map-partner"
+                data-description="{partner.description}"
+                data-name="{partner.title}"
+                data-lat="{partner.geocodeLatitude}"
+                data-lng="{partner.geocodeLongitude}"
+                data-link="{f:uri.page(pageUid: partner.uid)}"
+            >
+                <span>{partner.title}</span>
+            </li>
+        </f:for>
+    </ul>
+</f:section>
+
+</html>

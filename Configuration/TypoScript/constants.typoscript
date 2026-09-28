@@ -31,4 +31,24 @@ plugin.tx_academicpartners {
     # cat=plugin.tx_academicpartners/filter; type=boolean; label=Hide options without results: leave out the categories no listed partner carries instead of showing them disabled
     hideDisabledOptions = 0
   }
+
+  # The partner map. Also site settings of the set "fgtclb/academic-partners-map", with the
+  # same defaults, see "Configuration/Sets/Map/settings.definitions.yaml". They reach the map
+  # module as data attributes of "#map", see "Partials/Partner/Map.html".
+  map {
+    # cat=plugin.tx_academicpartners/map; type=string; label=Centre latitude: the latitude the map is centred on while it shows no partner
+    centerLatitude = 51.1657
+    # cat=plugin.tx_academicpartners/map; type=string; label=Centre longitude: the longitude the map is centred on while it shows no partner
+    centerLongitude = 10.4515
+    # cat=plugin.tx_academicpartners/map; type=int+; label=Zoom without partners: the zoom level of the map while it shows no partner
+    zoom = 6
+    # cat=plugin.tx_academicpartners/map; type=int+; label=Maximum zoom: how far the map zooms in at most, also around a single partner
+    maxZoom = 18
+    # cat=plugin.tx_academicpartners/map; type=int+; label=Padding: the space in pixels between the edge of the map and the outermost partners
+    padding = 50
+    # cat=plugin.tx_academicpartners/map; type=string; label=Tile server URL: the URL template the map loads its tiles from
+    tileUrl = https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png
+    # cat=plugin.tx_academicpartners/map; type=string; label=Attribution: the attribution the map shows for its tiles, as HTML
+    attribution = &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Points &copy 2012 LINZ
+  }
 }

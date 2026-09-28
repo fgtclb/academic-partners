@@ -4,7 +4,13 @@
     data-namespace-typo3-fluid="true"
 >
 
-<div class="academic-partners-map">
+<f:comment>The layout of the content element. The theme styles the modifier class.</f:comment>
+<f:variable name="layoutClass" value="" />
+<f:if condition="{settings.map.layout} == 'fullWidth'">
+    <f:variable name="layoutClass" value=" academic-partners-map--full-width" />
+</f:if>
+
+<div class="academic-partners-map{layoutClass}">
     <f:if condition="{settings.renderContentElementHeader}">
         <f:render partial="Header/All" arguments="{_all}" />
     </f:if>
@@ -16,31 +22,7 @@
 
     <f:if condition="{partners}">
         <f:then>
-            <f:asset.css identifier="partnerC0" href="EXT:academic_partners/Resources/Public/Css/leaflet.css" />
-            <f:asset.css identifier="partnerC1" href="EXT:academic_partners/Resources/Public/Css/markerCluster.css" />
-            <f:asset.css identifier="partnerC2" href="EXT:academic_partners/Resources/Public/Css/frontend/map.css" />
-
-            <f:asset.script identifier="partnerS0" src="EXT:academic_partners/Resources/Public/JavaScript/leaflet.js" />
-            <f:asset.script identifier="partnerS1" src="EXT:academic_partners/Resources/Public/JavaScript/markerCluster.js" />
-            <f:asset.module identifier="@fgtclb/academic-partners/frontend/map.js" />
-
-            <div id="map" class="mt-4"></div>
-
-            <ul id="map-partners" class="d-none">
-                <f:for each="{partners}" as="partner">
-                    <li
-                        id="partner-{partner.uid}"
-                        class="map-partner"
-                        data-description="{partner.description}"
-                        data-name="{partner.title}"
-                        data-lat="{partner.geocodeLatitude}"
-                        data-lng="{partner.geocodeLongitude}"
-                        data-link="{f:uri.page(pageUid: partner.uid)}"
-                    >
-                        <span>{partner.title}</span>
-                    </li>
-                </f:for>
-            </ul>
+            <f:render partial="Partner/Map" arguments="{partners: partners, map: settings.map}" />
         </f:then>
         <f:else>
             <p class="academic-partners-map-empty">

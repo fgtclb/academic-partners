@@ -9,6 +9,11 @@ use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
 
 /**
  * Processor class for partner page types
+ *
+ * Adds the variables `partner` and `mapSettings`. `mapSettings` are the values of the
+ * option `map`, the settings a page template hands to the partial `Partner/Map`. They
+ * go through the processor rather than through `settings`, which a PAGEVIEW page object
+ * does not read.
  */
 class PartnerProcessor implements DataProcessorInterface
 {
@@ -37,6 +42,13 @@ class PartnerProcessor implements DataProcessorInterface
             $programDataFactory = GeneralUtility::makeInstance(PartnerFactory::class);
             $processedData['partner'] = $programDataFactory->get($pageData);
         }
+        $mapSettings = [];
+        foreach ($processorConfiguration['map.'] ?? [] as $name => $value) {
+            if (is_string($value)) {
+                $mapSettings[$name] = $value;
+            }
+        }
+        $processedData['mapSettings'] = $mapSettings;
         return $processedData;
     }
 }

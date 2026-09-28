@@ -1,19 +1,54 @@
 /* Generated from Resources/Private/TypeScript — do not edit. */
 const leaflet = () => window.LeafletObject;
+const DEFAULTS = {
+  center: [51.1657, 10.4515],
+  zoom: 6,
+  maxZoom: 18,
+  padding: 50,
+  tileUrl: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Points &copy 2012 LINZ'
+};
+const numberBetween = (raw, minimum, maximum) => {
+  const trimmed = (raw == null ? void 0 : raw.trim()) ?? "";
+  const value = Number(trimmed);
+  if (trimmed === "" || !Number.isFinite(value) || value < minimum || value > maximum) {
+    return null;
+  }
+  return value;
+};
+const text = (raw) => {
+  const trimmed = (raw == null ? void 0 : raw.trim()) ?? "";
+  return trimmed === "" ? null : trimmed;
+};
+const readConfiguration = (element) => {
+  const data = (element == null ? void 0 : element.dataset) ?? {};
+  const latitude = numberBetween(data.academicPartnersCenterLat, -90, 90);
+  const longitude = numberBetween(data.academicPartnersCenterLng, -180, 180);
+  return {
+    // One value: half of a centre is a place nobody chose.
+    center: latitude !== null && longitude !== null ? [latitude, longitude] : DEFAULTS.center,
+    zoom: numberBetween(data.academicPartnersZoom, 0, Infinity) ?? DEFAULTS.zoom,
+    maxZoom: numberBetween(data.academicPartnersMaxZoom, 0, Infinity) ?? DEFAULTS.maxZoom,
+    padding: numberBetween(data.academicPartnersPadding, 0, Infinity) ?? DEFAULTS.padding,
+    tileUrl: text(data.academicPartnersTileUrl) ?? DEFAULTS.tileUrl,
+    attribution: text(data.academicPartnersAttribution) ?? DEFAULTS.attribution
+  };
+};
 const initializeMap = () => {
   const library = leaflet();
   const partnerContainer = document.getElementById("map-partners");
   if (library === void 0 || partnerContainer === null) {
     return;
   }
+  const configuration = readConfiguration(document.getElementById("map"));
   const tiles = library.tileLayer(
-    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    configuration.tileUrl,
     {
-      maxZoom: 18,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Points &copy 2012 LINZ'
+      maxZoom: configuration.maxZoom,
+      attribution: configuration.attribution
     }
   );
-  const map = library.map("map", { zoom: 6, layers: [tiles] });
+  const map = library.map("map", { zoom: configuration.zoom, maxZoom: configuration.maxZoom, layers: [tiles] });
   const markers = library.markerClusterGroup({ chunkedLoading: true });
   partnerContainer.querySelectorAll(".map-partner").forEach((partner) => {
     var _a, _b;
@@ -34,9 +69,9 @@ const initializeMap = () => {
   });
   map.addLayer(markers);
   if (markers.getLayers().length > 0) {
-    map.fitBounds(markers.getBounds(), { padding: [50, 50] });
+    map.fitBounds(markers.getBounds(), { padding: [configuration.padding, configuration.padding] });
   } else {
-    map.setView([51.1657, 10.4515], 6);
+    map.setView(configuration.center, configuration.zoom);
   }
 };
 if (document.readyState === "loading") {
@@ -44,3 +79,6 @@ if (document.readyState === "loading") {
 } else {
   initializeMap();
 }
+export {
+  initializeMap
+};

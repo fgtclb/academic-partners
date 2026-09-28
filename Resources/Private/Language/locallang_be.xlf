@@ -123,6 +123,21 @@
       <trans-unit id="flexform.sheet.pagination">
         <source>Pagination</source>
       </trans-unit>
+      <trans-unit id="flexform.sheet.layout">
+        <source>Layout</source>
+      </trans-unit>
+      <trans-unit id="flexform.map.layout.label">
+        <source>Map width</source>
+      </trans-unit>
+      <trans-unit id="flexform.map.layout.description">
+        <source>Full width adds the CSS class "academic-partners-map--full-width" to the element. What it looks like is up to the theme of the site.</source>
+      </trans-unit>
+      <trans-unit id="flexform.map.layout.default">
+        <source>Content width</source>
+      </trans-unit>
+      <trans-unit id="flexform.map.layout.fullWidth">
+        <source>Full width</source>
+      </trans-unit>
       <trans-unit id="flexform.paginationEnabled.label">
         <source>Enable pagination</source>
       </trans-unit>

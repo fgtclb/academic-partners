@@ -68,10 +68,32 @@ final class PluginFlexFormTest extends AbstractAcademicPartnersTestCase
     {
         $dataStructure = $this->resolvePluginFlexFormDataStructure('academicpartners_map');
 
-        $this->assertSame(['sDEF'], array_keys($dataStructure['sheets'] ?? []));
-        foreach ($this->fieldNames('academicpartners_map', 'sDEF') as $fieldName) {
-            $this->assertStringNotContainsString('pagination', strtolower($fieldName));
+        $this->assertSame(['sDEF', 'layout'], array_keys($dataStructure['sheets'] ?? []));
+        foreach (['sDEF', 'layout'] as $sheet) {
+            foreach ($this->fieldNames('academicpartners_map', $sheet) as $fieldName) {
+                $this->assertStringNotContainsString('pagination', strtolower($fieldName));
+            }
         }
+    }
+
+    /**
+     * An element nobody configured renders at content width, and so does one saved
+     * before the field existed: the template only reacts to "fullWidth".
+     */
+    #[Test]
+    public function mapOffersTheLayoutWithContentWidthAsDefault(): void
+    {
+        $fields = $this->resolvePluginFlexFormDataStructure('academicpartners_map')['sheets']['layout']['ROOT']['el'] ?? [];
+
+        $this->assertSame(['settings.map.layout'], array_keys($fields));
+        $this->assertSame('default', (string)($fields['settings.map.layout']['config']['default'] ?? null));
+        $this->assertSame(
+            ['default', 'fullWidth'],
+            array_map(
+                static fn(array $item): string => (string)($item['value'] ?? ''),
+                array_values($fields['settings.map.layout']['config']['items'] ?? []),
+            ),
+        );
     }
 
     /**

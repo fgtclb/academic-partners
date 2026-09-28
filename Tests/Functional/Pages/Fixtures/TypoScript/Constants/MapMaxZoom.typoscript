@@ -1,0 +1,2 @@
+# A site that keeps the surroundings of a single partner in view.
+plugin.tx_academicpartners.map.maxZoom = 15

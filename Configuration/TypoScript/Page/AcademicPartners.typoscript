@@ -58,7 +58,19 @@
       }
 
       dataProcessing {
+        // "partner" and "mapSettings". The map settings, for a page template that renders
+        // the partial "Partner/Map", go through the processor, because a PAGEVIEW page
+        // object ignores "settings" of its own.
         100 = partner-data
+        100.map {
+          centerLatitude = {$plugin.tx_academicpartners.map.centerLatitude}
+          centerLongitude = {$plugin.tx_academicpartners.map.centerLongitude}
+          zoom = {$plugin.tx_academicpartners.map.zoom}
+          maxZoom = {$plugin.tx_academicpartners.map.maxZoom}
+          padding = {$plugin.tx_academicpartners.map.padding}
+          tileUrl = {$plugin.tx_academicpartners.map.tileUrl}
+          attribution = {$plugin.tx_academicpartners.map.attribution}
+        }
         110 = files
         110 {
           references.fieldName = media

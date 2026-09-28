@@ -28,6 +28,18 @@ plugin.tx_academicpartners {
       hideDisabledOptions = {$plugin.tx_academicpartners.filter.hideDisabledOptions}
     }
 
+    # The partner map, see "constants.typoscript". The content element adds "layout" to
+    # this block from its FlexForm.
+    map {
+      centerLatitude = {$plugin.tx_academicpartners.map.centerLatitude}
+      centerLongitude = {$plugin.tx_academicpartners.map.centerLongitude}
+      zoom = {$plugin.tx_academicpartners.map.zoom}
+      maxZoom = {$plugin.tx_academicpartners.map.maxZoom}
+      padding = {$plugin.tx_academicpartners.map.padding}
+      tileUrl = {$plugin.tx_academicpartners.map.tileUrl}
+      attribution = {$plugin.tx_academicpartners.map.attribution}
+    }
+
     # The content element layout renders the header of every content element, so the
     # templates render it only for a site whose layout leaves it out. The header partial
     # falls back to the type of the header layout "Default" through the setting below,
