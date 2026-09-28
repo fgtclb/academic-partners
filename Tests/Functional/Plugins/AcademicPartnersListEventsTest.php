@@ -167,6 +167,25 @@ final class AcademicPartnersListEventsTest extends AbstractAcademicPartnersTestC
     }
 
     /**
+     * The map leaves out a partner whose "Show on map" is off in the same place as one
+     * without coordinates, after the event, so a fresh demand does not bring it back
+     * either.
+     */
+    #[Test]
+    public function theMapStillLeavesOutAPartnerHiddenFromItWhenAListenerReplacesTheDemand(): void
+    {
+        $this->setUpTestCase('partnerMapPage', [
+            'EXT:test_partner_list_events/Configuration/TypoScript/FreshDemand.typoscript',
+        ]);
+        $this->getConnectionPool()->getConnectionForTable('pages')
+            ->update('pages', ['show_on_map' => 0], ['uid' => 11]);
+
+        $content = $this->renderHomePage();
+        $this->assertStringContainsString('id="partner-10"', $content);
+        $this->assertStringNotContainsString('id="partner-11"', $content);
+    }
+
+    /**
      * `setDemand()` rather than a mutation of the demand the controller built: the demand
      * that is queried has to be the one the listener handed back, not the one the factory
      * produced. The replacement restricts the list to one page, which the content element

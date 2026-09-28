@@ -220,6 +220,22 @@ class Partner extends AbstractEntity implements GetCategoryCollectionInterface
         return $this->showOnMap;
     }
 
+    public function setShowOnMap(bool $showOnMap): void
+    {
+        $this->showOnMap = $showOnMap;
+    }
+
+    /**
+     * Whether the map draws this partner: it has coordinates it can draw
+     * (`isDrawable()`) and "Show on map" switched on (ACE-770). The rule the map query
+     * applies with `PartnerDemand::setDrawableOnly()`, for a template that renders one
+     * partner, such as a partner page showing its own location.
+     */
+    public function isShownOnMap(): bool
+    {
+        return $this->showOnMap && $this->isDrawable();
+    }
+
     public function getAttributes(): CategoryCollection
     {
         return $this->attributes ??= GeneralUtility::makeInstance(CategoryRepository::class)

@@ -1,5 +1,6 @@
 "pages",
-,"uid","pid","doktype","deleted","hidden","sys_language_uid","l10n_parent","l18n_cfg","slug","title","backend_layout","geocode_latitude","geocode_longitude"
-,1,0,1,0,0,0,0,0,"/","Site Root","","",""
-,10,1,40,0,0,0,0,0,"/web-vision","web-vision GmbH","pagets__AcademicPartner","50.110924","8.682127"
-,11,1,40,0,0,0,0,0,"/acme-ag","Acme AG","pagets__AcademicPartner","\NULL","\NULL"
+,"uid","pid","doktype","deleted","hidden","sys_language_uid","l10n_parent","l18n_cfg","slug","title","backend_layout","geocode_latitude","geocode_longitude","show_on_map"
+,1,0,1,0,0,0,0,0,"/","Site Root","","","",1
+,10,1,40,0,0,0,0,0,"/web-vision","web-vision GmbH","pagets__AcademicPartner","50.110924","8.682127",1
+,11,1,40,0,0,0,0,0,"/acme-ag","Acme AG","pagets__AcademicPartner","\NULL","\NULL",1
+,12,1,40,0,0,0,0,0,"/switched-off-gmbh","Switched Off GmbH","pagets__AcademicPartner","52.520008","13.404954",0

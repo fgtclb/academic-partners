@@ -119,8 +119,9 @@ class PartnerController extends ActionController
         $demandObject = $demandEvent->getDemand();
 
         // A partner without coordinates cannot be drawn and would end up at 0/0
-        // instead of being left out (ACE-562). This runs after the demand event on
-        // purpose: a listener may widen the map's demand, but not back onto 0/0.
+        // instead of being left out (ACE-562), and a partner hidden from the map
+        // ("Show on map") is left out as well. This runs after the demand event on
+        // purpose: a listener may widen the map's demand, but not back onto either.
         $demandObject->setDrawableOnly(true);
 
         $partners = $this->partnerRepository->findByDemand($demandObject);

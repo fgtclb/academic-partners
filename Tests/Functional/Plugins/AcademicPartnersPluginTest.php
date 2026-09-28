@@ -107,6 +107,12 @@ final class AcademicPartnersPluginTest extends AbstractAcademicPartnersTestCase
         $this->writeFrontendPluginTestSite($languages);
     }
 
+    private function switchOffTheMap(int $pageUid): void
+    {
+        $this->getConnectionPool()->getConnectionForTable('pages')
+            ->update('pages', ['show_on_map' => 0], ['uid' => $pageUid]);
+    }
+
     private function renderHomePage(): string
     {
         return $this->renderFrontendPage('https://www.acme.com/home');
@@ -239,7 +245,7 @@ final class AcademicPartnersPluginTest extends AbstractAcademicPartnersTestCase
      * A place does not move when the page is translated, so the coordinates are
      * `allowLanguageSynchronization` and a translation carries the same pair as its
      * default record - which is the state this fixture is in, and the state
-     * `Upgrades\SynchronizePartnerCoordinatesUpgradeWizard` puts existing sites into.
+     * `Upgrades\SynchronizePartnerTranslationsUpgradeWizard` puts existing sites into.
      *
      * The map has to work in a translated language like any other: the partner is drawn
      * at its coordinates, under its translated title. Before ACE-562 a translation that
@@ -258,6 +264,74 @@ final class AcademicPartnersPluginTest extends AbstractAcademicPartnersTestCase
         $this->assertStringContainsString('data-lng="11.576124"', $content);
         $this->assertStringContainsString('Alpha Universitaet', $content);
         $this->assertStringNotContainsString('data-lat="0"', $content);
+    }
+
+    /**
+     * "Show on map" is a switch on the partner page, on by default. A partner an editor
+     * switched off is left out of the map, whatever its coordinates are.
+     */
+    #[Test]
+    public function partnerMapPluginLeavesOutAPartnerHiddenFromTheMap(): void
+    {
+        $this->setUpTestCase('partnerMapPage');
+        $this->switchOffTheMap(11);
+
+        $content = $this->renderHomePage();
+        $this->assertStringContainsString('id="partner-10"', $content);
+        $this->assertStringNotContainsString('id="partner-11"', $content);
+        $this->assertStringNotContainsString('Beta Institute', $content);
+    }
+
+    /**
+     * The switch is about the map. The partner list lists a partner hidden from the map.
+     */
+    #[Test]
+    public function partnerListPluginListsAPartnerHiddenFromTheMap(): void
+    {
+        $this->setUpTestCase('partnerListPage');
+        $this->switchOffTheMap(11);
+
+        $content = $this->renderHomePage();
+        $this->assertStringContainsString('href="/beta-institute"', $content);
+    }
+
+    /**
+     * The map reads the switch of the record in the language of the page. A translation
+     * hidden from the map leaves the partner out of the German map, and the English map
+     * still draws it.
+     */
+    #[Test]
+    public function partnerMapPluginFollowsTheSwitchOfTheTranslationInItsLanguage(): void
+    {
+        $this->setUpTestCase('partnerMapPageTranslated', withGermanLanguage: true);
+        $this->switchOffTheMap(110);
+
+        $german = $this->renderFrontendPage(self::FRONTEND_PLUGIN_TEST_BASE . 'de/home');
+        $this->assertStringNotContainsString('id="partner-10"', $german);
+        $this->assertStringNotContainsString('Alpha Universitaet', $german);
+
+        $english = $this->renderFrontendPage(self::FRONTEND_PLUGIN_TEST_BASE . 'home');
+        $this->assertStringContainsString('id="partner-10"', $english);
+    }
+
+    /**
+     * The other way round: a translation whose switch differs from its default record
+     * keeps the partner on the German map while the default record is switched off. The
+     * column is synchronized, so a translation only differs when an editor detached it,
+     * see `PartnerShowOnMapSynchronizationTest`.
+     */
+    #[Test]
+    public function partnerMapPluginFollowsTheTranslationWhenOnlyTheDefaultIsSwitchedOff(): void
+    {
+        $this->setUpTestCase('partnerMapPageTranslated', withGermanLanguage: true);
+        $this->switchOffTheMap(10);
+
+        $german = $this->renderFrontendPage(self::FRONTEND_PLUGIN_TEST_BASE . 'de/home');
+        $this->assertStringContainsString('id="partner-10"', $german);
+        $this->assertStringContainsString('Alpha Universitaet', $german);
+
+        $english = $this->renderFrontendPage(self::FRONTEND_PLUGIN_TEST_BASE . 'home');
+        $this->assertStringNotContainsString('id="partner-10"', $english);
     }
 
     /**

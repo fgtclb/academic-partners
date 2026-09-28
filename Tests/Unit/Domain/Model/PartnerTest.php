@@ -194,6 +194,32 @@ final class PartnerTest extends UnitTestCase
     }
 
     /**
+     * The rule of the map for one partner: coordinates to draw, and "Show on map"
+     * switched on (ACE-770).
+     */
+    #[Test]
+    #[DataProvider('mapCases')]
+    public function aPartnerIsShownOnTheMapOnlyWithCoordinatesAndTheSwitchOn(float $latitude, bool $showOnMap, bool $expected): void
+    {
+        $subject = new Partner();
+        $subject->setGeocodeLatitude($latitude);
+        $subject->setGeocodeLongitude(8.3592);
+        $subject->setShowOnMap($showOnMap);
+
+        $this->assertSame($expected, $subject->isShownOnMap());
+    }
+
+    /**
+     * @return \Generator<string, array{0: float, 1: bool, 2: bool}>
+     */
+    public static function mapCases(): \Generator
+    {
+        yield 'coordinates and switched on' => [49.6298, true, true];
+        yield 'coordinates and switched off' => [49.6298, false, false];
+        yield 'no coordinates to draw and switched on' => [INF, true, false];
+    }
+
+    /**
      * @return \Generator<string, array{0: float, 1: float, 2: bool}>
      */
     public static function coordinatePairs(): \Generator

@@ -10,7 +10,8 @@
     Arguments:
     - partners: the partners to draw, as the map plugin passes its result.
     - partner: a single partner instead, as a page template passes the partner of its
-      page. The map is left out unless the partner has coordinates.
+      page. The map is left out unless the partner has coordinates and "Show on map"
+      switched on.
     - map: the map settings, "settings.map" of the plugin and "mapSettings" of the
       partner page. Without them the map module uses its defaults.
 
@@ -19,7 +20,7 @@
 
 <f:if condition="{partner}">
     <f:then>
-        <f:if condition="{partner.drawable}">
+        <f:if condition="{partner.shownOnMap}">
             <f:render section="Map" arguments="{partners: {0: partner}, map: map}" />
         </f:if>
     </f:then>

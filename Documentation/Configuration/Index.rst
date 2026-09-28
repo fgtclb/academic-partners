@@ -440,6 +440,20 @@ attribution uses the default, because a tile server's terms usually require an
 attribution. Whether the tile server delivers tiles up to the maximum zoom,
 and what its attribution has to say, is up to the site.
 
+Which partners the map draws
+----------------------------
+
+The map draws the partners the filter matches that have coordinates and whose
+page has :guilabel:`Show on map` switched on, the switch next to the coordinates
+of the partner page. The switch is on for a new partner. It is about the map
+only: the partner list lists a partner hidden from the map.
+
+The map reads the switch of the partner page in the language it is rendered in.
+The switch of a translation follows its default record, as the coordinates do,
+so switching a partner off in the default language takes it off the map in every
+language. An editor who detaches the switch of a translation sets it for that
+language on its own.
+
 The width of the map
 --------------------
 

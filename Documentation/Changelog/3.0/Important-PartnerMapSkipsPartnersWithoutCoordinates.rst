@@ -78,17 +78,15 @@ that single partner whether it has coordinates or not. Such a template draws the
 partner at 0/0, or - with the module above - an empty map centred on Germany.
 
 :php:`Domain\Model\Partner::isDrawable()` is the same rule for a single object.
-Guard the map with it:
+Since ACE-769 the extension ships the map as the partial
+:file:`Partials/Partner/Map.html`, which checks it by itself when it is given a
+single partner, together with :guilabel:`Show on map` (ACE-770,
+:php:`Domain\Model\Partner::isShownOnMap()`):
 
 ..  code-block:: html
     :caption: EXT:my_sitepackage/Resources/Private/Templates/Pages/AcademicPartner.html
 
-    <f:if condition="{partner.drawable}">
-        <f:render partial="Partner/Map" arguments="{partners: '{0: partner}'}" />
-    </f:if>
-
-`Partner/Map` stands for the site package's own map partial: this extension
-ships the map only as the plugin template, not as a partial.
+    <f:render partial="Partner/Map" arguments="{partner: partner, map: mapSettings}" />
 
 It is deliberately not called "geo located":
 :php:`Domain\Repository\PartnerRepository::findGeoLocated()` also requires a
@@ -126,11 +124,12 @@ level down.
 
 Language synchronization takes effect when a record is saved, so it cannot
 repair what is already stored. The upgrade wizard
-:php:`academicPartners_synchronizePartnerCoordinates` copies each partner's
-coordinates onto its translations once. Run it after updating; a site with
-translated partner pages needs it, and a site without translations does not.
-Deleted translations and workspace versions are left alone, and so is a
-coordinate an editor detached from its default record on purpose.
+:php:`academicPartners_synchronizePartnerTranslations` copies each partner's
+coordinates onto its translations once, and the switch "Show on map" as well
+since ACE-770. Run it after updating. A site with translated partner pages needs
+it, and a site without translations does not. Deleted translations and workspace
+versions are left alone, and so is a coordinate an editor detached from its
+default record on purpose.
 
 A workspace draft created *before* the update keeps its own stale coordinate:
 the wizard does not touch drafts, so publishing such a draft after the update

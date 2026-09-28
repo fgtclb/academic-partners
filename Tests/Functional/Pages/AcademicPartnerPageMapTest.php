@@ -103,6 +103,24 @@ final class AcademicPartnerPageMapTest extends AbstractAcademicPartnersTestCase
         $this->assertStringNotContainsString('frontend/map.js', $content);
     }
 
+    /**
+     * "Show on map" switched off: the partner has coordinates, and the partial still
+     * renders no map for it.
+     */
+    #[Test]
+    #[DataProvider('pageObjects')]
+    public function aPartnerHiddenFromTheMapGetsNoMap(string $sitePackage): void
+    {
+        $this->setUpTestCase($sitePackage);
+
+        $content = $this->renderFrontendPage('https://www.acme.com/switched-off-gmbh');
+
+        $this->assertStringContainsString('site-package-partner-page', $content);
+        $this->assertStringContainsString('Switched Off GmbH', $content);
+        $this->assertStringNotContainsString('id="map"', $content);
+        $this->assertStringNotContainsString('frontend/map.js', $content);
+    }
+
     public static function pageObjects(): \Generator
     {
         yield 'FLUIDTEMPLATE' => ['SitePackage.typoscript'];
