@@ -1,0 +1,13 @@
+"be_users"
+,"uid","pid","username","password","admin"
+,1,0,"admin","$1$tCrlLajZ$C0sikFQQ3SWaFAZ1Me0Z/1",1
+"pages"
+,"uid","pid","doktype","sys_language_uid","l10n_parent","hidden","deleted","sorting","title","slug","geocode_status","geocode_latitude","geocode_longitude","show_on_map","l10n_state"
+,1,0,1,0,0,0,0,16,"Site Root","/","open","\NULL","\NULL",1,""
+,10,1,40,0,0,0,0,32,"Alpha University","/alpha-university","successful","48.137154","11.576124",1,""
+,20,1,40,0,0,0,0,48,"Beta Institute","/beta-institute","successful","52.520008","13.404954",1,""
+,120,1,40,1,20,0,0,48,"Beta Institut","/beta-institut","successful","52.520008","13.404954",1,""
+,30,1,40,0,0,0,0,64,"Gamma College","/gamma-college","successful","50.110924","8.682127",1,""
+,130,1,40,1,30,0,0,64,"Gamma Hochschule","/gamma-hochschule","successful","50.110924","8.682127",1,"{""geocode_latitude"":""parent"",""geocode_longitude"":""parent""}"
+,40,1,40,0,0,0,0,80,"Delta Academy","/delta-academy","successful","51.227741","6.773456",1,""
+,140,1,40,1,40,0,0,80,"Delta Akademie","/delta-akademie","successful","51.227741","6.773456",1,"{""show_on_map"":""custom""}"

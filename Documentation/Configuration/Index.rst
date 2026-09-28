@@ -335,6 +335,28 @@ on in a template that renders the partial.
     away and with one "All" label, and anything else needed an override of the
     partial.
 
+..  _configuration-map-show-on-map:
+
+Which partners the map draws
+============================
+
+The :guilabel:`Partners Map` content element draws the partners its filter
+matches that have coordinates and whose page has :guilabel:`Show on map`
+switched on, the switch next to the coordinates of the partner page. The switch
+is on for a new partner. It is about the map only: the partner list lists a
+partner hidden from the map.
+
+The map reads the switch of the partner page in the language it is rendered in.
+The switch of a translation follows its default record, as the coordinates do,
+so switching a partner off in the default language takes it off the map in every
+language. An editor who detaches the switch of a translation sets it for that
+language on its own.
+
+A template that renders a map for one partner, such as a partner page showing
+its own location, checks :php:`Domain\Model\Partner::isShownOnMap()`, which is
+:html:`{partner.shownOnMap}` in Fluid: the partner has coordinates to draw and
+the switch is on.
+
 ..  _one-mechanism-per-site:
 
 Do not combine both

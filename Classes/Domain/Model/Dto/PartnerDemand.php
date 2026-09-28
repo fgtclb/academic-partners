@@ -103,15 +103,16 @@ class PartnerDemand
     }
 
     /**
-     * Restricts the result to partners that can actually be drawn on a map. Set by the
-     * map action; the list leaves it off, because a partner without coordinates is
-     * still a perfectly good list entry.
+     * Restricts the result to the partners the map draws: partners with usable
+     * coordinates and "Show on map" on. Set by the map action. The list leaves it off,
+     * because a partner without coordinates, or hidden from the map, is still a
+     * perfectly good list entry.
      *
      * Deliberately not called "geo located": `PartnerRepository::findGeoLocated()`
-     * means a geocode *status* as well, while this asks only whether there is a
-     * coordinate to draw.
+     * means a geocode *status* as well, while this asks only whether the map can draw
+     * the partner.
      *
-     * `Partner::isDrawable()` is the same rule for a template that renders one partner
+     * `Partner::isShownOnMap()` is the same rule for a template that renders one partner
      * instead of a query result, such as a detail page drawing the partner's own place.
      */
     public function setDrawableOnly(bool $drawableOnly): void

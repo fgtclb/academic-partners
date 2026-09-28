@@ -37,10 +37,9 @@ no coordinates. Nothing has to be done on update.
 
 ..  note::
 
-    This is the client side. A partner without coordinates is still delivered to
-    the page and still counted in the partner list; only the map no longer draws
-    it. Filtering such a partner out of the query, and a wizard that fills the
-    coordinates of existing records, exist on the 3.x line and are not part of
-    this release.
+    This is the client side. The query leaves such a partner out of the map as
+    well, and a wizard fills the coordinates of existing translations, see
+    :ref:`important-map-shows-only-located-partners`. The partner list still
+    lists it.
 
 .. index:: Frontend, JavaScript, ext:academic_partners

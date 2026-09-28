@@ -17,12 +17,13 @@ use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
- * Three parts of `Partner` do more than hold a value: the country lookup, the lazily
- * fetched category collection and the object storage set up in `initializeObject()`.
- * The plain accessors are deliberately not covered - they would assert that PHP works.
+ * Four parts of `Partner` do more than hold a value: the country lookup, the lazily
+ * fetched category collection, the object storage set up in `initializeObject()`, and the
+ * rule deciding whether the partner can be drawn on a map. The plain accessors are
+ * deliberately not covered - they would assert that PHP works.
  *
- * Both non-accessor methods reach for a collaborator through `GeneralUtility::makeInstance()`,
- * which is why they are pinned here: the instance stack of the testing framework fails the
+ * The country lookup and the category collection reach for a collaborator through
+ * `GeneralUtility::makeInstance()`, which is why they are pinned here: the instance stack of the testing framework fails the
  * test when a lookup happens that should not have happened, and PHP fails it with an
  * `ArgumentCountError` when one happens that the test did not prepare for.
  */
@@ -190,6 +191,32 @@ final class PartnerTest extends UnitTestCase
         $subject->setGeocodeLongitude($longitude);
 
         $this->assertSame($expected, $subject->isDrawable());
+    }
+
+    /**
+     * The rule of the map for one partner: coordinates to draw, and "Show on map"
+     * switched on (ACE-770).
+     */
+    #[Test]
+    #[DataProvider('mapCases')]
+    public function aPartnerIsShownOnTheMapOnlyWithCoordinatesAndTheSwitchOn(float $latitude, bool $showOnMap, bool $expected): void
+    {
+        $subject = new Partner();
+        $subject->setGeocodeLatitude($latitude);
+        $subject->setGeocodeLongitude(8.3592);
+        $subject->setShowOnMap($showOnMap);
+
+        $this->assertSame($expected, $subject->isShownOnMap());
+    }
+
+    /**
+     * @return \Generator<string, array{0: float, 1: bool, 2: bool}>
+     */
+    public static function mapCases(): \Generator
+    {
+        yield 'coordinates and switched on' => [49.6298, true, true];
+        yield 'coordinates and switched off' => [49.6298, false, false];
+        yield 'no coordinates to draw and switched on' => [INF, true, false];
     }
 
     /**

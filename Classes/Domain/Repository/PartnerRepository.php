@@ -78,6 +78,10 @@ class PartnerRepository extends Repository
 
         if ($demand->getDrawableOnly() === true) {
             $constraints[] = $this->drawableCoordinatesConstraint($query);
+            // "Show on map" of the partner page, read from the record in the language
+            // of the page. The column is synchronized with the default record, see its
+            // TCA, so a translation follows it unless an editor detached it.
+            $constraints[] = $query->equals('showOnMap', true);
         }
 
         // The method signature of logicalAnd and logicalOr has changed in TYPO3 v12

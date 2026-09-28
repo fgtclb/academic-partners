@@ -67,8 +67,9 @@ class PartnerController extends ActionController
         );
 
         // A partner without coordinates cannot be drawn and would end up at 0/0
-        // instead of being left out (ACE-709). The list leaves the flag off: a
-        // partner without coordinates is still a perfectly good list entry.
+        // instead of being left out (ACE-709), and a partner hidden from the map
+        // ("Show on map", ACE-770) is left out as well. The list leaves the flag
+        // off: such a partner is still a perfectly good list entry.
         $demandObject->setDrawableOnly(true);
 
         $partners = $this->partnerRepository->findByDemand($demandObject);

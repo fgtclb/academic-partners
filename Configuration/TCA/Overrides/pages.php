@@ -145,7 +145,7 @@ defined('TYPO3') or die;
                     // rather than excluded, so an editor sees the value on the
                     // translation and can still detach it deliberately. Existing
                     // translations are brought in line by
-                    // `Upgrades\SynchronizePartnerCoordinatesUpgradeWizard` - see ACE-709.
+                    // `Upgrades\SynchronizePartnerTranslationsUpgradeWizard` - see ACE-709.
                     'allowLanguageSynchronization' => true,
                 ],
             ],
@@ -161,7 +161,7 @@ defined('TYPO3') or die;
                     // rather than excluded, so an editor sees the value on the
                     // translation and can still detach it deliberately. Existing
                     // translations are brought in line by
-                    // `Upgrades\SynchronizePartnerCoordinatesUpgradeWizard` - see ACE-709.
+                    // `Upgrades\SynchronizePartnerTranslationsUpgradeWizard` - see ACE-709.
                     'allowLanguageSynchronization' => true,
                 ],
             ],
@@ -212,6 +212,14 @@ defined('TYPO3') or die;
             'config' => [
                 'type' => 'check',
                 'default' => true,
+                'behaviour' => [
+                    // The map reads the switch of the record in the language of the page.
+                    // Synchronized, as the coordinates are, so a translation follows its
+                    // default record and an editor can still detach it for one language.
+                    // Existing translations are brought in line by
+                    // `Upgrades\SynchronizePartnerTranslationsUpgradeWizard` - see ACE-770.
+                    'allowLanguageSynchronization' => true,
+                ],
             ],
         ],
         'tx_academicpartners_partnerships' => [

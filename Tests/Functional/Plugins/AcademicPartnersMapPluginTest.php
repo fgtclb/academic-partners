@@ -28,6 +28,7 @@ final class AcademicPartnersMapPluginTest extends AbstractAcademicPartnersTestCa
 
     protected const LANGUAGE_PRESETS = [
         'EN' => ['id' => 0, 'title' => 'English', 'locale' => 'en_US.UTF8', 'iso' => 'en', 'hrefLang' => 'en-US', 'direction' => ''],
+        'DE' => ['id' => 1, 'title' => 'Deutsch', 'locale' => 'de_DE.UTF8', 'iso' => 'de', 'hrefLang' => 'de-DE', 'direction' => ''],
     ];
 
     protected function setUp(): void
@@ -43,7 +44,7 @@ final class AcademicPartnersMapPluginTest extends AbstractAcademicPartnersTestCa
         parent::tearDown();
     }
 
-    private function setUpTestCase(string $dataSet): void
+    private function setUpTestCase(string $dataSet, bool $withGermanLanguage = false): void
     {
         $this->importCSVDataSet(__DIR__ . '/Fixtures/AcademicPartnersMapPlugin/' . $dataSet . '.csv');
         $this->setUpFrontendRootPage(
@@ -60,9 +61,21 @@ final class AcademicPartnersMapPluginTest extends AbstractAcademicPartnersTestCa
                 ],
             ],
         );
-        $this->writeFrontendPluginTestSite([
+        $languages = [
             $this->buildDefaultLanguageConfiguration(identifier: 'EN', base: '/'),
-        ]);
+        ];
+        if ($withGermanLanguage) {
+            // Falls back to English, so the content element that is not translated is
+            // still rendered and the test is about the partner record alone.
+            $languages[] = $this->buildLanguageConfiguration(identifier: 'DE', base: '/de/', fallbackIdentifiers: ['EN']);
+        }
+        $this->writeFrontendPluginTestSite($languages);
+    }
+
+    private function switchOffTheMap(int $pageUid): void
+    {
+        $this->getConnectionPool()->getConnectionForTable('pages')
+            ->update('pages', ['show_on_map' => 0], ['uid' => $pageUid]);
     }
 
     private function renderHomePage(): string
@@ -142,5 +155,76 @@ final class AcademicPartnersMapPluginTest extends AbstractAcademicPartnersTestCa
         $this->assertStringNotContainsString('id="map"', $content);
         $this->assertStringContainsString('No partner with a location to show on the map.', $content);
         $this->assertStringNotContainsString('leaflet.js', $content);
+    }
+
+    /**
+     * "Show on map" is a switch on the partner page, on by default. A partner hidden from
+     * the map is left out, whatever its coordinates are (ACE-770).
+     */
+    #[Test]
+    public function mapPluginLeavesOutAPartnerHiddenFromTheMap(): void
+    {
+        $this->setUpTestCase('partnerMapPage');
+        $this->switchOffTheMap(11);
+
+        $content = $this->renderHomePage();
+
+        $this->assertStringContainsString('id="partner-10"', $content);
+        $this->assertStringNotContainsString('id="partner-11"', $content);
+        $this->assertStringNotContainsString('Beta Institute', $content);
+    }
+
+    /**
+     * The switch is about the map. The partner list lists a partner hidden from the map.
+     */
+    #[Test]
+    public function listPluginListsAPartnerHiddenFromTheMap(): void
+    {
+        $this->setUpTestCase('partnerListPage');
+        $this->switchOffTheMap(10);
+
+        $content = $this->renderHomePage();
+
+        $this->assertStringContainsString('Alpha University', $content);
+    }
+
+    /**
+     * The map reads the switch of the record in the language of the page. A translation
+     * hidden from the map leaves the partner out of the German map, and the English map
+     * still draws it.
+     */
+    #[Test]
+    public function mapPluginFollowsTheSwitchOfTheTranslationInItsLanguage(): void
+    {
+        $this->setUpTestCase('partnerMapPageTranslated', withGermanLanguage: true);
+        $this->switchOffTheMap(110);
+
+        $german = $this->renderFrontendPage('https://www.acme.com/de/home');
+        $this->assertStringNotContainsString('id="partner-10"', $german);
+        $this->assertStringNotContainsString('Alpha Universitaet', $german);
+        $this->assertStringContainsString('class="academic-partners-map-empty"', $german);
+
+        $english = $this->renderFrontendPage('https://www.acme.com/home');
+        $this->assertStringContainsString('id="partner-10"', $english);
+    }
+
+    /**
+     * The other way round: a translation whose switch differs from its default record
+     * keeps the partner on the German map while the default record is switched off. The
+     * column is synchronized, so a translation only differs when an editor detached it,
+     * see `PartnerShowOnMapSynchronizationTest`.
+     */
+    #[Test]
+    public function mapPluginFollowsTheTranslationWhenOnlyTheDefaultIsSwitchedOff(): void
+    {
+        $this->setUpTestCase('partnerMapPageTranslated', withGermanLanguage: true);
+        $this->switchOffTheMap(10);
+
+        $german = $this->renderFrontendPage('https://www.acme.com/de/home');
+        $this->assertStringContainsString('id="partner-10"', $german);
+        $this->assertStringContainsString('Alpha Universitaet', $german);
+
+        $english = $this->renderFrontendPage('https://www.acme.com/home');
+        $this->assertStringNotContainsString('id="partner-10"', $english);
     }
 }

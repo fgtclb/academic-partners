@@ -26,7 +26,9 @@ Four things changed:
     map that is not there.
 *   :php:`Partner::isDrawable()` is the same rule for a template that renders
     one partner rather than a query result - a detail page drawing the partner's
-    own location has no query to constrain.
+    own location has no query to constrain. :php:`Partner::isShownOnMap()`
+    applies this rule together with :guilabel:`Show on map`, see
+    :ref:`important-partner-map-honours-show-on-map`.
 *   The coordinate columns became :php:`allowLanguageSynchronization`. A place
     does not move when the page is translated, and a partner translated before
     geocoding ran kept an empty coordinate and was drawn at 0/0 in that
@@ -43,8 +45,9 @@ Impact
 
 Synchronization acts on the write path only, so it repairs nothing that is
 already stored. The upgrade wizard
-:guilabel:`Synchronize academic partner coordinates with their translations`
-does that once for existing records. It leaves alone a translation whose
+:guilabel:`Synchronize academic partner pages with their translations`
+does that once for existing records, for the coordinates and for the switch
+:guilabel:`Show on map`. It leaves alone a translation whose
 coordinates the editor detached deliberately, and deleted or workspace rows.
 
 :php:`GeocodeCommand` writes through the DataHandler now rather than through the
