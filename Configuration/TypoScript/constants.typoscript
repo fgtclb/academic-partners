@@ -13,6 +13,13 @@ plugin.tx_academicpartners {
   # cat=plugin.tx_academicpartners//a; type=boolean; label=Render the content element header in the plugins: only for a site whose content element layout renders no header
   renderContentElementHeader = 0
 
+  # The page of the partner page type. Declared for site sets in
+  # "Configuration/Sets/Full/settings.definitions.yaml" with the same default.
+  page {
+    # cat=plugin.tx_academicpartners/page; type=string; label=Page layout of partner pages: the Fluid layout the partner page renders its section "Main" into
+    layout = Default
+  }
+
   # Also a site setting of the set "fgtclb/academic-partners-list", with the same
   # default - see "Configuration/Sets/List/settings.definitions.yaml".
   pagination {

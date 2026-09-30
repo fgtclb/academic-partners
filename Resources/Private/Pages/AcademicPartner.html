@@ -1,67 +1,46 @@
 <html
     lang="en"
     xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
-    xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
     data-namespace-typo3-fluid="true"
 >
 
-<div class="academic-partners-detail container">
-    <div class="d-flex flex-column-reverse">
-        <h1>{partner.title}</h1>
+<f:comment>
+    The page template of the partner page type. It renders the section "Main" of the page
+    layout of the site, "Default" unless the site setting
+    "plugin.tx_academicpartners.page.layout" names another one. A site without a layout
+    "Default" gets the fallback layout of this extension, which renders the section alone.
+    A layout the setting names has to exist.
 
-        <f:for each="{images}" as="image" iteration="i">
-            <f:if condition="{i.isFirst}">
-                <f:comment>The shared partial of EXT:academic_base.</f:comment>
-                <f:render
-                    partial="Academic/Image"
-                    arguments="{
-                        image: image,
-                        preset: 'detail',
-                        class: 'img-fluid'
-                    }"
-                />
-            </f:if>
-        </f:for>
+    Each part is a partial below "Partner/Page/", so a project replaces one of them rather
+    than this file.
+</f:comment>
+
+<f:layout name="{partnerPageLayout}" />
+
+<f:section name="Main">
+    <f:comment>
+        The page record: the record of the page information object "page" a PAGEVIEW page
+        object assigns, or "data" of a FLUIDTEMPLATE page object. "page" first, because
+        PAGEVIEW reserves that name, while a PAGEVIEW site package may assign a "data" of
+        its own.
+    </f:comment>
+    <f:variable name="pageRecord" value="{page.pageRecord}" />
+    <f:if condition="!{pageRecord}">
+        <f:variable name="pageRecord" value="{data}" />
+    </f:if>
+
+    <div class="academic-partners-detail container">
+        <div class="d-flex flex-column-reverse">
+            <f:render partial="Partner/Page/Header" arguments="{_all}" />
+            <f:render partial="Partner/Page/Media" arguments="{_all}" />
+        </div>
+
+        <f:render partial="Partner/Page/Categories" arguments="{_all}" />
+
+        <f:render partial="Partner/Page/Address" arguments="{_all}" />
+
+        <f:render partial="Partner/Page/Content" arguments="{_all}" />
     </div>
-
-    <f:if condition="{partner.attributes.allCategoriesByType}">
-        <ul>
-            <f:for each="{partner.attributes.allCategoriesByType}" as="categories" key="type">
-                <f:if condition="{categories}">
-                    <li>
-                        <core:icon identifier="category_types.partners.{type}"/>
-
-                        <b>{f:translate(key: 'sys_category.partners.{type}', extensionName: 'AcademicPartners')}:</b>
-
-                        <span>
-                            <f:for each="{categories}" as="category" iteration="i">
-                                {category.title}{f:if(condition: '!{i.isLast}', then: ', ')}
-                            </f:for>
-                        </span>
-                    </li>
-                </f:if>
-            </f:for>
-        </ul>
-    </f:if>
-
-    <f:if condition="{partner.addressStreet} || {partner.addressStreetNumber} || {partner.addressAdditional}">
-        <b>{f:translate(key: 'academic_partners.address', extensionName: 'AcademicPartners')}:</b>
-
-        <span>
-            {partner.addressStreet} {partner.addressStreetNumber} {partner.addressAdditional}
-
-            <f:if condition="{partner.addressZip} || {partner.addressCity}">
-                - {partner.addressZip} {partner.addressCity}
-            </f:if>
-
-
-            <f:if condition="{partner.addressCountryLocalizedNameLabel}">
-                | {f:translate(key: '{partner.addressCountryLocalizedNameLabel}', extensionName: 'AcademicPartners')}
-            </f:if>
-        </span>
-    </f:if>
-
-    <f:cObject typoscriptObjectPath="styles.content.getContent"/>
-</div>
+</f:section>
 
 </html>

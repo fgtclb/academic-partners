@@ -1,0 +1,6 @@
+# An integrator adjusting the content of partner pages: the side column instead
+# of the main column. Inside the same condition as the extension, so pages of
+# other types are not touched.
+[page && traverse(page, "doktype") == 40]
+  page.10.variables.partnerContent.select.where = {#colPos}=1
+[END]

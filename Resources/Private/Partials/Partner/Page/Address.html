@@ -1,0 +1,29 @@
+<html
+    lang="en"
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    data-namespace-typo3-fluid="true"
+>
+
+<f:comment>
+    The address of the partner: street, postal code and city, and the country. Without a
+    street line it renders nothing.
+</f:comment>
+
+<f:if condition="{partner.addressStreet} || {partner.addressStreetNumber} || {partner.addressAdditional}">
+    <b>{f:translate(key: 'academic_partners.address', extensionName: 'AcademicPartners')}:</b>
+
+    <span>
+        {partner.addressStreet} {partner.addressStreetNumber} {partner.addressAdditional}
+
+        <f:if condition="{partner.addressZip} || {partner.addressCity}">
+            - {partner.addressZip} {partner.addressCity}
+        </f:if>
+
+
+        <f:if condition="{partner.addressCountryLocalizedNameLabel}">
+            | {f:translate(key: '{partner.addressCountryLocalizedNameLabel}', extensionName: 'AcademicPartners')}
+        </f:if>
+    </span>
+</f:if>
+
+</html>

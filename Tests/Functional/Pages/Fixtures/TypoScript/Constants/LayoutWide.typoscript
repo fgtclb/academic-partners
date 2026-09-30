@@ -1,0 +1,2 @@
+# An integrator naming another page layout for partner pages.
+plugin.tx_academicpartners.page.layout = Wide

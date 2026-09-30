@@ -67,7 +67,7 @@ or the code fills in, a category type or a field name for example.
     *   - Key
         - Shown by
     *   - :xml:`academic_partners.address`
-        - :file:`Pages/AcademicPartner.html`
+        - :file:`Partials/Partner/Page/Address.html`
     *   - :xml:`filter.moreFilters`
         - :file:`Partials/Partner/DemandCategories.html`
     *   - :xml:`list.noPartnersFound`
@@ -81,7 +81,7 @@ or the code fills in, a category type or a field name for example.
     *   - :xml:`sorting.field.label`
         - :file:`Partials/Partner/DemandSorting.html`
     *   - :xml:`sys_category.partners.<type>`
-        - :file:`Pages/AcademicPartner.html`, :file:`Partials/Partner/DemandCategories.html`, :file:`Partials/Partner/Item.html`, :file:`Partials/Partnerships/List/Item.html`, :file:`Partials/Partnerships/Teaser/Item.html`
+        - :file:`Partials/Partner/Page/Categories.html`, :file:`Partials/Partner/DemandCategories.html`, :file:`Partials/Partner/Item.html`, :file:`Partials/Partnerships/List/Item.html`, :file:`Partials/Partnerships/Teaser/Item.html`
     *   - :xml:`sys_category.partners.allOptions`
         - :file:`Partials/Partner/DemandCategories.html`
     *   - :xml:`sys_category.partners.allOptions.<type>`

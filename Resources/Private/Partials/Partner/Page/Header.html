@@ -1,0 +1,23 @@
+<html
+    lang="en"
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    data-namespace-typo3-fluid="true"
+>
+
+<f:comment>
+    The header of the partner page: the title of the partner and the subtitle of the page.
+
+    One element, because the page template renders it inside a reversed flex column
+    together with the media: the image is shown above the header, the heading stays
+    first in the document.
+</f:comment>
+
+<div class="academic-partners-detail__header">
+    <h1>{partner.title}</h1>
+
+    <f:if condition="{pageRecord.subtitle}">
+        <p class="academic-partners-detail__subtitle">{pageRecord.subtitle}</p>
+    </f:if>
+</div>
+
+</html>

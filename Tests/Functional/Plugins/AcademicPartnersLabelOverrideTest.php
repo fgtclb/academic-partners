@@ -110,7 +110,6 @@ final class AcademicPartnersLabelOverrideTest extends AbstractAcademicPartnersTe
             [
                 'EXT:academic_partners/Tests/Functional/Pages/Fixtures/TypoScript/Setup/SitePackage.typoscript',
                 'EXT:academic_partners/Configuration/TypoScript/setup.typoscript',
-                'EXT:academic_partners/Configuration/TypoScript/ContentLoad/setup.typoscript',
             ],
             $setup,
         );

@@ -1,5 +1,5 @@
-# Site settings of the category filters of the partner list and map, and of the
-# content element header of all four plugins.
+# Site settings of the partner page type, of the category filters of the partner
+# list and map, and of the content element header of all four plugins.
 #
 # Every path below is also assigned in
 # "Configuration/TypoScript/constants.typoscript", and the default has to be the
@@ -7,12 +7,13 @@
 # reads the constants after the site settings, so a differing default resets
 # what the integrator configured, silently.
 #
-# Declared with the aggregate set rather than with a component set: the list
-# and the map both read the filters, every plugin reads the header switch, and
-# a set can only declare settings next to its own "config.yaml". A site that
-# depends on a component set such as "fgtclb/academic-partners-list" alone
-# still gets the defaults of the constants, but the site settings editor does
-# not offer the settings - depend on this set for that.
+# Declared with the aggregate set rather than with a component set: the list and
+# the map both read the filters, every plugin reads the header switch, every
+# component delivers the page type, and a set can only declare settings next to
+# its own "config.yaml". A site that depends on a component set such as
+# "fgtclb/academic-partners-list" alone still gets the defaults of the
+# constants, but the site settings editor does not offer the settings - depend
+# on this set for that.
 categories:
   academic:
     label: 'Academic'
@@ -21,6 +22,12 @@ categories:
     parent: academic
 
 settings:
+  plugin.tx_academicpartners.page.layout:
+    label: 'Partner page | Page layout'
+    description: 'The Fluid layout of the site package the partner page renders its section "Main" into. The layout has to exist. Only for "Default" does the extension bring a fallback, which renders the page without the frame of the site.'
+    category: academic.partners
+    type: string
+    default: 'Default'
   plugin.tx_academicpartners.filter.categoryTypes:
     label: 'Partner list and map | Filter types'
     description: 'The category filters the partner list and map offer, in this order, comma-separated: category type identifiers of the group "partners" (region, partner_type, collaboration_type, sdg, ...). A type without categories is left out. Empty: every category type with categories, in the type order of the group.'

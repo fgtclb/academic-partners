@@ -1,0 +1,33 @@
+<html
+    lang="en"
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
+    data-namespace-typo3-fluid="true"
+>
+
+<f:comment>
+    The categories assigned to the partner page, grouped by category type. A type without
+    an assigned category renders nothing.
+</f:comment>
+
+<f:if condition="{partner.attributes.allCategoriesByType}">
+    <ul>
+        <f:for each="{partner.attributes.allCategoriesByType}" as="categories" key="type">
+            <f:if condition="{categories}">
+                <li>
+                    <core:icon identifier="category_types.partners.{type}"/>
+
+                    <b>{f:translate(key: 'sys_category.partners.{type}', extensionName: 'AcademicPartners')}:</b>
+
+                    <span>
+                        <f:for each="{categories}" as="category" iteration="i">
+                            {category.title}{f:if(condition: '!{i.isLast}', then: ', ')}
+                        </f:for>
+                    </span>
+                </li>
+            </f:if>
+        </f:for>
+    </ul>
+</f:if>
+
+</html>
