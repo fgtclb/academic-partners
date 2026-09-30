@@ -15,11 +15,11 @@ Provides partners.
 
 ## Compatibility
 
-| Branch | Version     | TYPO3     | PHP                                          |
-|--------|-------------|-----------|----------------------------------------------|
-| main   | ^3, 3.x-dev | v13 + v14 | 8.2, 8.3, 8.4, 8.5                           |
-| 2, 2.x | ^2, 2.x-dev | v12 + v13 | 8.1, 8.2, 8.3, 8.4, 8.5 (depending on TYPO3) |
-| 1      | ^1, 1.x-dev | v11 + v12 | 8.1, 8.2, 8.3, 8.4 (depending on TYPO3)      |
+| Branch | Version                  | TYPO3     | PHP                                          |
+|--------|--------------------------|-----------|----------------------------------------------|
+| main   | ^3, 3.0.x-dev (dev-main) | v13 + v14 | 8.2, 8.3, 8.4, 8.5                           |
+| 2      | ^2, 2.4.x-dev (2.x-dev)  | v12 + v13 | 8.1, 8.2, 8.3, 8.4, 8.5 (depending on TYPO3) |
+| 1      | ^1, 1.x-dev              | v11 + v12 | 8.1, 8.2, 8.3, 8.4 (depending on TYPO3)      |
 
 ## Installation
 
@@ -43,7 +43,7 @@ composer require \
 
 **Testing 3.x.x extension version in projects (composer mode)**
 
-It is already possible to use and test the `2.x` version in composer based instances,
+It is already possible to use and test the `3.x` version in composer based instances,
 which is encouraged and feedback of issues not detected by us (or pull-requests).
 
 Your project should configure `minimum-stabilty: dev` and `prefer-stable` to allow
