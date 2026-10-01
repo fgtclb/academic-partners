@@ -6,6 +6,8 @@ namespace FGTCLB\AcademicPartners\Tests\Functional\Pages;
 
 use FGTCLB\AcademicPartners\Tests\Functional\AbstractAcademicPartnersTestCase;
 use FGTCLB\TestingHelper\FunctionalTestCase\FrontendPluginRenderingTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use SBUERK\TYPO3\Testing\SiteHandling\SiteBasedTestTrait;
 
@@ -23,10 +25,13 @@ use SBUERK\TYPO3\Testing\SiteHandling\SiteBasedTestTrait;
  * renders the site package's fallback template instead - which is what the second
  * assertion is for.
  *
- * The remaining tests pin what the template renders of the categories assigned to the
+ * The category tests pin what the template renders of the categories assigned to the
  * page. That block read a property the model does not have until ACE-673, so it never
  * appeared; asserting the rendered output rather than the property name is what keeps a
  * rename from hiding it again.
+ *
+ * The page record tests pin where the data processor takes the page record from, on a
+ * PAGEVIEW and on a FLUIDTEMPLATE page object.
  */
 final class AcademicPartnerPageTemplateTest extends AbstractAcademicPartnersTestCase
 {
@@ -36,6 +41,8 @@ final class AcademicPartnerPageTemplateTest extends AbstractAcademicPartnersTest
     protected const LANGUAGE_PRESETS = [
         'EN' => ['id' => 0, 'title' => 'English', 'locale' => 'en_US.UTF8', 'iso' => 'en', 'hrefLang' => 'en-US', 'direction' => ''],
     ];
+
+    private const FIXTURES = 'EXT:academic_partners/Tests/Functional/Pages/Fixtures/TypoScript/Setup/';
 
     protected function setUp(): void
     {
@@ -50,7 +57,11 @@ final class AcademicPartnerPageTemplateTest extends AbstractAcademicPartnersTest
         parent::tearDown();
     }
 
-    private function setUpTestCase(): void
+    /**
+     * @param string $sitePackage A file below "Fixtures/TypoScript/Setup/", included before the extension.
+     * @param list<string> $additionalSetup Files below "Fixtures/TypoScript/Setup/", included after it.
+     */
+    private function setUpTestCase(string $sitePackage = 'SitePackage.typoscript', array $additionalSetup = []): void
     {
         $this->importCSVDataSet(__DIR__ . '/Fixtures/AcademicPartnerPageTemplateTest/page.csv');
         $this->setUpFrontendRootPage(
@@ -63,7 +74,7 @@ final class AcademicPartnerPageTemplateTest extends AbstractAcademicPartnersTest
                 'setup' => [
                     'EXT:fluid_styled_content/Configuration/TypoScript/setup.typoscript',
                     // The site package first, the extension after it - see the fixture.
-                    'EXT:academic_partners/Tests/Functional/Pages/Fixtures/TypoScript/Setup/SitePackage.typoscript',
+                    self::FIXTURES . $sitePackage,
                     'EXT:academic_partners/Configuration/TypoScript/setup.typoscript',
                     // The page template of this page type renders
                     // "styles.content.getContent" through "f:cObject", and that ViewHelper
@@ -71,6 +82,7 @@ final class AcademicPartnerPageTemplateTest extends AbstractAcademicPartnersTest
                     // component of its own since 2.4, so a site that renders this page type
                     // has to include it - which is what this line is.
                     'EXT:academic_partners/Configuration/TypoScript/ContentLoad/setup.typoscript',
+                    ...array_map(static fn(string $file): string => self::FIXTURES . $file, $additionalSetup),
                 ],
             ],
         );
@@ -137,5 +149,48 @@ final class AcademicPartnerPageTemplateTest extends AbstractAcademicPartnersTest
         $this->assertStringNotContainsString('Rhine-Main Area', $content);
         $this->assertStringNotContainsString('Partner Type', $content);
         $this->assertStringNotContainsString('Research Institute', $content);
+    }
+
+    /**
+     * @return \Generator<string, array{0: string}>
+     */
+    public static function sitePackageDataVariableDataProvider(): \Generator
+    {
+        yield 'a text' => ['SitePackageDataVariable.typoscript'];
+        yield 'the records of a query' => ['SitePackageDataRecords.typoscript'];
+    }
+
+    /**
+     * PAGEVIEW reserves "page" but not "data", so a site package may assign a "data" of
+     * its own. The data processor reads the page record from "page" first, and the
+     * heading, which comes from the partner it builds, still shows. The records of a
+     * query are an array as well, so checking the type of "data" alone would not find
+     * the page record.
+     */
+    #[Test]
+    #[DataProvider('sitePackageDataVariableDataProvider')]
+    #[Group('not-core-12')]
+    public function partnerPageReadsThePageRecordFromPageWhenAPageViewSitePackageAssignsData(string $dataVariable): void
+    {
+        $this->setUpTestCase('SitePackagePageView.typoscript', [$dataVariable]);
+
+        $content = $this->renderFrontendPage('https://www.acme.com/web-vision');
+
+        $this->assertStringContainsString('<h1>web-vision GmbH</h1>', $content);
+    }
+
+    /**
+     * FLUIDTEMPLATE does not reserve "page", so a site package may assign a "page" of its
+     * own. Only an object with "getPageRecord()" counts as "page", anything else leaves
+     * the page record to "data".
+     */
+    #[Test]
+    public function partnerPageReadsThePageRecordFromDataWhenAFluidTemplateSitePackageAssignsPage(): void
+    {
+        $this->setUpTestCase(additionalSetup: ['SitePackagePageVariable.typoscript']);
+
+        $content = $this->renderFrontendPage('https://www.acme.com/web-vision');
+
+        $this->assertStringContainsString('<h1>web-vision GmbH</h1>', $content);
     }
 }
