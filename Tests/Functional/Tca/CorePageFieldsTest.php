@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FGTCLB\AcademicPartners\Tests\Functional\Tca;
 
+use FGTCLB\AcademicPartners\Enumeration\PageTypes;
 use FGTCLB\AcademicPartners\Tests\Functional\AbstractAcademicPartnersTestCase;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
@@ -20,6 +21,39 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
  */
 final class CorePageFieldsTest extends AbstractAcademicPartnersTestCase
 {
+    /**
+     * The meta description of every page (ACE-793).
+     */
+    #[Test]
+    public function theDescriptionKeepsTheDefinitionOfTypo3(): void
+    {
+        $core = $this->coreColumn('description');
+        $this->assertIsArray($core);
+        $column = $GLOBALS['TCA']['pages']['columns']['description'];
+
+        $this->assertSame($core['label'], $column['label']);
+        $this->assertTrue($column['exclude']);
+        $this->assertSame('prefixLangTitle', $column['l10n_mode']);
+        $this->assertSame($core['config']['rows'], $column['config']['rows']);
+    }
+
+    /**
+     * A partner page shows the same field as the description of the partner.
+     */
+    #[Test]
+    public function aPartnerPageLabelsTheDescriptionAsThePartnerDescription(): void
+    {
+        $this->assertSame(
+            [
+                'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:columns.description.label',
+                'config' => [
+                    'rows' => 5,
+                ],
+            ],
+            $GLOBALS['TCA']['pages']['types'][PageTypes::ACADEMIC_PARTNERS]['columnsOverrides']['description'],
+        );
+    }
+
     /**
      * The target of the page type "Link", which TYPO3 v14 added (ACE-791).
      */

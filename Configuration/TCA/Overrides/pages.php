@@ -51,6 +51,18 @@ defined('TYPO3') or die;
                     // PageDoktypeRegistry, which is fed by the RegisterAcademicPageDoktype
                     // event listener - see its docblock for why it cannot happen here.
                     'allowedRecordTypes' => ['*'],
+                    // The description of a partner is the description of its page, the field
+                    // of TYPO3 that also feeds the meta description. It is labelled for partner
+                    // pages only: defining the column again would replace the definition of
+                    // TYPO3 on every page type, its exclude flag and l10n_mode included (ACE-793).
+                    'columnsOverrides' => [
+                        'description' => [
+                            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:columns.description.label',
+                            'config' => [
+                                'rows' => 5,
+                            ],
+                        ],
+                    ],
                 ],
             ],
         ]
@@ -65,13 +77,6 @@ defined('TYPO3') or die;
                 'max' => 255,
                 'eval' => 'trim',
                 'default' => '',
-            ],
-        ],
-        'description' => [
-            'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:columns.description.label',
-            'config' => [
-                'type' => 'text',
-                'rows' => 5,
             ],
         ],
         'link' => [
