@@ -300,6 +300,14 @@ defined('TYPO3') or die;
         ]
     );
 
+    // TYPO3 v14 defines a column "link" of its own, the target of the page type "Link".
+    // Adding the column of this extension would replace that definition on every page
+    // type, so the field of a link page would lose being required (ACE-791). TYPO3 v13
+    // has no such column and gets the one of this extension.
+    if (isset($GLOBALS['TCA']['pages']['columns']['link'])) {
+        unset($additionalTCAcolumns['link']);
+    }
+
     ExtensionManagementUtility::addTCAcolumns(
         'pages',
         $additionalTCAcolumns
