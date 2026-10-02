@@ -15,6 +15,8 @@
         <f:render partial="Header/All" arguments="{_all}" />
     </f:if>
 
+    <f:comment>The links of the active filters lead back to the map, not to the list.</f:comment>
+    <f:variable name="filterAction" value="map" />
     <f:render
         partial="Partner/SortingAndFilters"
         arguments="{_all}"

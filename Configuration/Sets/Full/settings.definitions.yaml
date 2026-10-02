@@ -46,6 +46,24 @@ settings:
     category: academic.partners
     type: bool
     default: false
+  plugin.tx_academicpartners.filter.showActiveFilters:
+    label: 'Partner list and map | Active filter tags'
+    description: 'Shows one tag per selected filter above the partner list and map. Each tag links to the list or map without that filter and keeps every other selection and the sorting.'
+    category: academic.partners
+    type: bool
+    default: false
+  plugin.tx_academicpartners.filter.showReset:
+    label: 'Partner list and map | Reset link'
+    description: 'Shows a link that resets every filter, back to the list or map as the content element presets it. Shown while the visitor has filtered.'
+    category: academic.partners
+    type: bool
+    default: false
+  plugin.tx_academicpartners.filter.showResultCount:
+    label: 'Partner list and map | Result count'
+    description: 'Shows the number of partners found, in a paginated list all of them rather than those of one page.'
+    category: academic.partners
+    type: bool
+    default: false
   plugin.tx_academicpartners.renderContentElementHeader:
     label: 'Render the content element header in the plugins'
     description: 'Only for a site whose content element layout renders no header. The layouts of EXT:fluid_styled_content and of the bootstrap package render it, and switched on there the header appears twice.'

@@ -26,6 +26,9 @@ plugin.tx_academicpartners {
       categoryTypes = {$plugin.tx_academicpartners.filter.categoryTypes}
       visibleCount = {$plugin.tx_academicpartners.filter.visibleCount}
       hideDisabledOptions = {$plugin.tx_academicpartners.filter.hideDisabledOptions}
+      showActiveFilters = {$plugin.tx_academicpartners.filter.showActiveFilters}
+      showReset = {$plugin.tx_academicpartners.filter.showReset}
+      showResultCount = {$plugin.tx_academicpartners.filter.showResultCount}
     }
 
     # The partner map, see "constants.typoscript". The content element adds "layout" to

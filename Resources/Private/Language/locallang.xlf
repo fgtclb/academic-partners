@@ -32,6 +32,15 @@
       <trans-unit id="filter.moreFilters">
         <source>More filters</source>
       </trans-unit>
+      <trans-unit id="filter.activeFilters.label">
+        <source>Active filters</source>
+      </trans-unit>
+      <trans-unit id="filter.activeFilters.remove">
+        <source>Remove filter: %s</source>
+      </trans-unit>
+      <trans-unit id="filter.reset">
+        <source>Reset all filters</source>
+      </trans-unit>
 
       <!-- Detail page labels -->
 
@@ -91,6 +100,12 @@
       </trans-unit>
       <trans-unit id="list.pagination.label">
         <source>Pages of the partner list</source>
+      </trans-unit>
+      <trans-unit id="list.resultCount.singular">
+        <source>%d partner found</source>
+      </trans-unit>
+      <trans-unit id="list.resultCount.plural">
+        <source>%d partners found</source>
       </trans-unit>
 
       <!-- Map -->

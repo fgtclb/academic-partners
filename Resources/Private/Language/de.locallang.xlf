@@ -40,6 +40,18 @@
         <source>More filters</source>
         <target>Weitere Filter</target>
       </trans-unit>
+      <trans-unit id="filter.activeFilters.label">
+        <source>Active filters</source>
+        <target>Aktive Filter</target>
+      </trans-unit>
+      <trans-unit id="filter.activeFilters.remove">
+        <source>Remove filter: %s</source>
+        <target>Filter entfernen: %s</target>
+      </trans-unit>
+      <trans-unit id="filter.reset">
+        <source>Reset all filters</source>
+        <target>Alle Filter zurücksetzen</target>
+      </trans-unit>
 
       <!-- Detail page labels -->
 
@@ -114,6 +126,14 @@
       <trans-unit id="list.pagination.label">
         <source>Pages of the partner list</source>
         <target>Seiten der Partnerliste</target>
+      </trans-unit>
+      <trans-unit id="list.resultCount.singular">
+        <source>%d partner found</source>
+        <target>%d Partner gefunden</target>
+      </trans-unit>
+      <trans-unit id="list.resultCount.plural">
+        <source>%d partners found</source>
+        <target>%d Partner gefunden</target>
       </trans-unit>
 
       <!-- Map -->

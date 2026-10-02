@@ -1,0 +1,21 @@
+<html
+    lang="en"
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    data-namespace-typo3-fluid="true"
+>
+
+<f:comment>
+    The number of partners the list or map found. In a paginated list it is all of them,
+    not those of the page shown.
+
+    Arguments:
+    - count:  the number of partners
+</f:comment>
+<p class="academic-partners-result-count">
+    <f:if condition="{count} == 1">
+        <f:then>{f:translate(key: 'list.resultCount.singular', extensionName: 'AcademicPartners', arguments: {0: count})}</f:then>
+        <f:else>{f:translate(key: 'list.resultCount.plural', extensionName: 'AcademicPartners', arguments: {0: count})}</f:else>
+    </f:if>
+</p>
+
+</html>

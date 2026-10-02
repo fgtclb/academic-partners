@@ -37,6 +37,12 @@ plugin.tx_academicpartners {
     visibleCount = 0
     # cat=plugin.tx_academicpartners/filter; type=boolean; label=Hide options without results: leave out the categories no listed partner carries instead of showing them disabled
     hideDisabledOptions = 0
+    # cat=plugin.tx_academicpartners/filter; type=boolean; label=Active filter tags: one link per selected filter above the partner list and map, which removes that filter
+    showActiveFilters = 0
+    # cat=plugin.tx_academicpartners/filter; type=boolean; label=Reset link: a link back to the list or map as the content element presets it, shown while the visitor has filtered
+    showReset = 0
+    # cat=plugin.tx_academicpartners/filter; type=boolean; label=Result count: the number of partners found
+    showResultCount = 0
   }
 
   # The partner map. Also site settings of the set "fgtclb/academic-partners-map", with the

@@ -68,12 +68,16 @@ or the code fills in, a category type or a field name for example.
         - Shown by
     *   - :xml:`academic_partners.address`
         - :file:`Partials/Partner/Page/Address.html`
+    *   - :xml:`filter.activeFilters.label`, :xml:`filter.activeFilters.remove`, :xml:`filter.reset`
+        - :file:`Partials/Partner/ActiveFilters.html`
     *   - :xml:`filter.moreFilters`
         - :file:`Partials/Partner/DemandCategories.html`
     *   - :xml:`list.noPartnersFound`
         - :file:`Partials/Partner/ItemList.html`, :file:`Templates/Partner/Map.html`
     *   - :xml:`list.pagination.label`
         - :file:`Partials/Partner/Pagination.html`
+    *   - :xml:`list.resultCount.singular`, :xml:`list.resultCount.plural`
+        - :file:`Partials/Partner/ResultCount.html`
     *   - :xml:`map.noLocatedPartnersFound`
         - :file:`Templates/Partner/Map.html`
     *   - :xml:`sorting.direction.label`
