@@ -12,10 +12,9 @@
     after `settings.filter.visibleCount`; they go into a "More filters" disclosure, which is
     open while one of them has a value.
 
-    Without `filterTypes` - a project controller that overrides `listAction()` or
-    `mapAction()`, or a template that renders this partial with arguments of its own - every
-    type with categories is offered in the type order of the group, as before the settings
-    existed.
+    Without `filterTypes`, in a template that renders this partial with arguments of its own,
+    every type with categories is offered in the type order of the group, as before the
+    settings existed.
 </f:comment>
 <f:if condition="{filterTypes}">
     <f:then>

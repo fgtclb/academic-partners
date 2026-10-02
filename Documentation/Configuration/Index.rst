@@ -462,12 +462,10 @@ The partial :file:`Partner/DemandCategories.html` renders the selects from the
 variable :html:`{filterTypes}`: :html:`{filterTypes.visible}` and
 :html:`{filterTypes.more}` hold the identifiers of the offered types, in their
 order, before and behind :guilabel:`More filters`. Where that variable does not
-reach the partial — a project controller that overrides :php:`listAction()` or
-:php:`mapAction()`, or a template that renders the partial with arguments of its
-own instead of :html:`{_all}` — it offers every type with a category, as before,
+reach the partial, in a template that renders the partial with arguments of its
+own instead of :html:`{_all}`, it offers every type with a category, as before,
 and the filter types and the visible count have no effect there. To use them,
-let the overriding action call the parent action, and pass :html:`filterTypes`
-on in a template that renders the partial.
+pass :html:`filterTypes` on in a template that renders the partial.
 
 ..  versionadded:: 2.4
 
@@ -538,9 +536,8 @@ the same names, like the filter settings above.
     the classes `academic-partners-active-filters` (with `__tags`, `__tag`, `__remove` and
     `__reset`) and `academic-partners-result-count`, and bring no styles.
 *   The reset link needs the variable :html:`{visitorSelection}`, which the list
-    action assigns. A project controller that overrides the action without
-    calling the parent action has to assign it, or the list offers no reset
-    link.
+    action assigns. A template that renders the partials with arguments of its
+    own has to pass it on, or the list offers no reset link.
 *   The labels are :xml:`filter.activeFilters.label`,
     :xml:`filter.activeFilters.remove`, :xml:`filter.reset`,
     :xml:`list.resultCount.singular` and :xml:`list.resultCount.plural` of this

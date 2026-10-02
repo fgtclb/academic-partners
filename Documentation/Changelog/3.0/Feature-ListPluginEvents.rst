@@ -51,8 +51,9 @@ Impact
 
 Nothing changes in an installation that has no listener. A project that
 subclasses :php:`PartnerController` to adjust the demand, the result or the view
-variables can drop the subclass and the plugin re-registration that goes with
-it, and listen instead.
+variables listens instead, and drops the subclass and the plugin
+re-registration that goes with it. The controller is final in 3.0, so the
+subclass no longer loads, see :ref:`breaking-1791043406`.
 
 Two details are worth knowing. The map restricts the demand to partners that can
 be drawn **after** the demand event, because a partner without coordinates would

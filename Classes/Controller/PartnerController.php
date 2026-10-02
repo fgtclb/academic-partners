@@ -27,20 +27,18 @@ use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 use TYPO3\CMS\Extbase\Service\ExtensionService;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
-class PartnerController extends ActionController
+final class PartnerController extends ActionController
 {
     use DispatchModifyPluginViewEventMethodTrait;
     use GetCurrentContentRecordMethodTrait;
 
-    private ExtensionService $filterRedirectExtensionService;
-
-    private FilterTypeResolver $filterTypeResolver;
-
     public function __construct(
-        protected PartnerRepository $partnerRepository,
-        protected PartnershipRepository $partnershipRepository,
-        protected CategoryRepository $categoryRepository,
-        protected DemandFactory $partnerDemandFactory
+        private readonly PartnerRepository $partnerRepository,
+        private readonly PartnershipRepository $partnershipRepository,
+        private readonly CategoryRepository $categoryRepository,
+        private readonly DemandFactory $partnerDemandFactory,
+        private readonly ExtensionService $filterRedirectExtensionService,
+        private readonly FilterTypeResolver $filterTypeResolver,
     ) {}
 
     /**
@@ -219,23 +217,6 @@ class PartnerController extends ActionController
     }
 
     /**
-     * Method injection keeps the constructor, which project subclasses call, unchanged.
-     * Final, and named after what it is for, so a subclass cannot collide with it.
-     */
-    final public function injectFilterRedirectExtensionService(ExtensionService $extensionService): void
-    {
-        $this->filterRedirectExtensionService = $extensionService;
-    }
-
-    /**
-     * Method injection for the same reason as {@see injectFilterRedirectExtensionService()}.
-     */
-    final public function injectFilterTypeResolver(FilterTypeResolver $filterTypeResolver): void
-    {
-        $this->filterTypeResolver = $filterTypeResolver;
-    }
-
-    /**
      * Answers a submission of the filter and sorting form with a `303` to the same action,
      * carrying the selection as GET arguments, so a filtered list has a URL that can be
      * bookmarked, shared and reloaded.
@@ -254,12 +235,10 @@ class PartnerController extends ActionController
      * the whole page renders for nothing. The exception ends the request at the
      * `ResponsePropagation` middleware on v13 and v14 alike.
      *
-     * Protected, so a subclass that overrides an action can keep the redirect.
-     *
      * @param array<string, mixed> $contentElementData
      * @throws PropagateResponseException
      */
-    protected function redirectFilterSubmission(array $contentElementData): void
+    private function redirectFilterSubmission(array $contentElementData): void
     {
         if ($this->request->getMethod() !== 'POST') {
             return;
@@ -335,12 +314,7 @@ class PartnerController extends ActionController
         return $this->request->getAttribute('currentContentObject');
     }
 
-    /**
-     * Protected rather than private: these controllers stay open until they are made
-     * `final` in 3.0.0, and a subclass that overrides an action needs the context to
-     * dispatch the events itself.
-     */
-    protected function pluginControllerActionContext(): PluginControllerActionContextInterface
+    private function pluginControllerActionContext(): PluginControllerActionContextInterface
     {
         return new PluginControllerActionContext($this->request, $this->settings);
     }

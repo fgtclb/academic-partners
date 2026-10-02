@@ -56,11 +56,10 @@ Impact
     target carries the plugin's own arguments only: a page type, arguments of
     other plugins and campaign parameters of the submitted URL are not kept,
     so a form posted to a page type endpoint lands on the full page.
-*   A controller subclass that overrides `listAction()` or `mapAction()` keeps
-    working, but does not redirect unless it calls the parent action or the
-    protected `redirectFilterSubmission()` first, as the shipped action does. A
-    project that added its own redirect after a POST can drop it; the URLs that
-    redirect produced change their `cHash`, see :ref:`important-1790226105`.
+*   A project that added its own redirect after a POST, in a subclass of the
+    controller, can drop it together with the subclass, which no longer loads
+    in 3.0, see :ref:`breaking-1791043406`. The URLs that redirect produced
+    change their `cHash`, see :ref:`important-1790226105`.
 *   A route enhancer for these plugins must not declare `defaults` for the
     sorting: a default is left out of a generated path, so the redirect for the
     default sorting would end on the page URL without arguments, where the

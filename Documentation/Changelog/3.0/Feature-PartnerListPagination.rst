@@ -57,12 +57,13 @@ Impact
     project whose override of :file:`Templates/Partner/List.html` renders the
     item list with arguments of its own instead of :html:`{_all}`: it has to
     pass the three variables on.
-*   A project that paginates the list itself - a subclass of
-    :php:`PartnerController` that overrides :php:`listAction()`, a FlexForm
-    field added through an event listener, pagination partials of its own -
-    should remove all of it with this update. Editors would otherwise see two
+*   A project that paginates the list itself, with a FlexForm field added
+    through an event listener and pagination partials of its own, should
+    remove all of it with this update. Editors would otherwise see two
     pagination switches, and the values stored in the project's own field are
     not taken over: enable the pagination again on each content element that
-    used it.
+    used it. A subclass of :php:`PartnerController` that paginated in its
+    :php:`listAction()` has to go anyway, because the controller is final in
+    3.0, see :ref:`breaking-1791043406`.
 
 .. index:: Backend, Frontend, FlexForm, NotScanned
