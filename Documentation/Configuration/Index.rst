@@ -845,4 +845,5 @@ wizard.
    :maxdepth: 5
    :titlesonly:
 
+   RouteEnhancers/Index
    Labels/Index
