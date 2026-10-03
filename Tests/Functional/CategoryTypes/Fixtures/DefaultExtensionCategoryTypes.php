@@ -10,6 +10,8 @@ return [
             'icon' => 'EXT:academic_partners/Resources/Public/Icons/CategoryTypes/Region.svg',
             'priority' => 0,
             'inlineIcon' => true,
+            'frontendIcon' => '',
+            'frontendInlineIcon' => null,
         ],
         1 =>  [
             'identifier' => 'partner_type',
@@ -19,6 +21,8 @@ return [
             'icon' => 'EXT:academic_partners/Resources/Public/Icons/CategoryTypes/PartnerType.svg',
             'priority' => 0,
             'inlineIcon' => true,
+            'frontendIcon' => '',
+            'frontendInlineIcon' => null,
         ],
         2 =>  [
             'identifier' => 'collaboration_type',
@@ -28,6 +32,8 @@ return [
             'icon' => 'EXT:academic_partners/Resources/Public/Icons/CategoryTypes/CollaborationType.svg',
             'priority' => 0,
             'inlineIcon' => true,
+            'frontendIcon' => '',
+            'frontendInlineIcon' => null,
         ],
         3 =>  [
             'identifier' => 'sdg',
@@ -37,6 +43,8 @@ return [
             'icon' => 'EXT:academic_partners/Resources/Public/Icons/CategoryTypes/Sdg.svg',
             'priority' => 0,
             'inlineIcon' => true,
+            'frontendIcon' => '',
+            'frontendInlineIcon' => null,
         ],
     ],
 ];
