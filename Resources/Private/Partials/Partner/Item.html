@@ -1,6 +1,7 @@
 <html
     lang="en"
     xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    xmlns:ct="http://typo3.org/ns/FGTCLB/CategoryTypes/ViewHelpers"
     xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
     data-namespace-typo3-fluid="true"
 >
@@ -27,7 +28,7 @@
                         <li class="list-group-item">
                             <core:icon identifier="category_types.partners.{category}"/>
 
-                            <b>{f:translate(key: 'sys_category.partners.{category}', extensionName: 'AcademicPartners')}:</b>
+                            <b>{f:translate(key: 'sys_category.partners.{category}', extensionName: 'AcademicPartners') -> ct:categoryTypeTitle(group: 'partners', identifier: category)}:</b>
 
                             <span>
                                 <f:for each="{attributes}" as="attribute" iteration="i">

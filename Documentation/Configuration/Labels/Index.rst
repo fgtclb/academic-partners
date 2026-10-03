@@ -54,6 +54,31 @@ Earlier versions of this extension read these overrides on TYPO3 v13 from
 :typoscript:`plugin.tx_academic_partners` instead, see
 :ref:`the changelog <important-label-overrides-use-the-documented-path>`.
 
+..  _configuration-labels-category-types:
+
+Category types of a project
+===========================
+
+A category type is named by the label :xml:`sys_category.partners.<type>`. The
+language file of this extension has one for each type it ships. A type a
+project registers for the group `partners` has none, and is named by the title
+it is registered with in :file:`Configuration/CategoryTypes.yaml` instead,
+translated into the language of the page when the title is an :php:`LLL:`
+reference. A label set under
+:typoscript:`plugin.tx_academicpartners._LOCAL_LANG`, or under the path of one
+content element, wins over the title:
+
+..  code-block:: typoscript
+    :caption: EXT:my_sitepackage/Configuration/TypoScript/setup.typoscript
+
+    plugin.tx_academicpartners._LOCAL_LANG {
+      default.sys_category.partners.funding_body = Funding
+      de.sys_category.partners.funding_body = Förderung
+    }
+
+A template override hands the label to the title view helper, see
+:ref:`the changelog <feature-1791035983>`.
+
 Where the labels are shown
 ==========================
 
