@@ -18,13 +18,17 @@ icon registry, with the arguments they had.
 
 The identifiers stay ``category_types.partners.<type>``, and so does the
 rendered markup, the inlined drawing in its wrapper
-:html:`<span class="t3js-icon icon" data-identifier="…">`. No icon of this
-extension changes its registration: :guilabel:`category_types` registers every
-category type icon in both registries, so the backend keeps showing the same
-icons. One case changes on purpose: a category type declared without an icon
-file made the partials fail with exception 1440754980 of the bitmap icon
-provider of TYPO3, which the backend icon registry picks for an empty source.
-It now shows TYPO3's not-found placeholder.
+:html:`<span class="t3js-icon icon" data-identifier="…">`.
+:guilabel:`category_types` registers every category type icon in both
+registries, so the backend and the frontend show the same drawing unless one of
+the cases below applies. The drawings are new in 3.0, the collaboration type
+draws the shared partnership icon of :guilabel:`academic_base`, and the other
+icons of this extension are renamed, see
+:ref:`breaking-partners-record-and-category-icons-follow-the-colour-scheme`.
+One case changes on purpose: a category type declared without an icon file
+made the partials fail with exception 1440754980 of the bitmap icon provider of
+TYPO3, which the backend icon registry picks for an empty source. It now shows
+TYPO3's not-found placeholder.
 
 What the frontend shows can now differ from the backend:
 
