@@ -2,7 +2,7 @@
     lang="en"
     xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
     xmlns:ct="http://typo3.org/ns/FGTCLB/CategoryTypes/ViewHelpers"
-    xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
+    xmlns:ab="http://typo3.org/ns/FGTCLB/AcademicBase/ViewHelpers"
     data-namespace-typo3-fluid="true"
 >
 
@@ -26,7 +26,7 @@
                 <f:for each="{partner.attributes.allCategoriesByType}" as="attributes" key="category">
                     <f:if condition="{attributes}">
                         <li class="list-group-item">
-                            <core:icon identifier="category_types.partners.{category}"/>
+                            <ab:icon identifier="category_types.partners.{category}"/>
 
                             <b>{f:translate(key: 'sys_category.partners.{category}', extensionName: 'AcademicPartners') -> ct:categoryTypeTitle(group: 'partners', identifier: category)}:</b>
 

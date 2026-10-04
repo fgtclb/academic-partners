@@ -30,11 +30,16 @@ flag a category type icon keeps the core provider.
 Impact
 ======
 
-The four category type icons reach the **frontend**, through
-:html:`<core:icon identifier="category_types.partners.{type}" />` in
-:file:`Pages/AcademicPartner.html`, :file:`Partials/Partnerships/List/Item.html`
-and :file:`Partials/Partnerships/Teaser/Item.html`, and through
+The four category type icons reach the **frontend**, through the icon
+ViewHelper of :guilabel:`academic_base`,
+:html:`<ab:icon identifier="category_types.partners.{type}" />`, in
+:file:`Partials/Partner/Page/Categories.html`,
+:file:`Partials/Partnerships/List/Item.html` and
+:file:`Partials/Partnerships/Teaser/Item.html`, and through
 :html:`category_types.partners.{category}` in :file:`Partials/Partner/Item.html`.
+:guilabel:`category_types` registers them in the frontend icon registry as
+well, with the same provider, see
+:ref:`important-partners-category-icons-come-from-the-frontend-icon-registry`.
 None of those calls asks for the `inline` markup, so their rendered markup
 changes: an :html:`<img>` of a fixed pixel size becomes an inlined
 :html:`<svg>` with :html:`width="1em" height="1em"`, which follows the font size
