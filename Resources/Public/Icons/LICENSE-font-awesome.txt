@@ -19,4 +19,10 @@ it, and the file was renamed after its purpose in this extension. The drawing
 is unchanged and the original attribution comment is kept inside every file.
 
 File (below Resources/Public/Icons/)  Font Awesome icon (solid)
-  CategoryGroups/Partners.svg              building-flag
+  category-type/partner-type.svg  people-group
+  category-type/region.svg        map
+  category-type/sdg.svg           seedling
+  plugin/list.svg                 building
+  plugin/map.svg                  map-location-dot
+  plugin/partners.svg             building-flag
+  plugin/partnerships-teaser.svg  building-ngo

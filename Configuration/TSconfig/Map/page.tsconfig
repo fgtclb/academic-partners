@@ -12,7 +12,7 @@ TCEFORM.tt_content.CType.removeItems := removeFromList(academicpartners_map)
 mod.wizards.newContentElement.wizardItems.academic {
   elements {
     academicpartners_map {
-      iconIdentifier = academic-partners
+      iconIdentifier = tx-academicpartners-plugin-map
       title = LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:plugin.partner_map.title
       description = LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:plugin.partner_map.description
       tt_content_defValues {

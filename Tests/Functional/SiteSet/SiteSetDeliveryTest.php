@@ -304,6 +304,36 @@ final class SiteSetDeliveryTest extends AbstractAcademicPartnersTestCase
     }
 
     /**
+     * The new content element wizard does not read the icon of the content element type,
+     * it reads its own `iconIdentifier`. Both have to name the same icon, or the element
+     * looks different in the wizard than in the page module it is placed into.
+     */
+    #[Test]
+    #[DataProvider('componentDataProvider')]
+    public function wizardEntryCarriesTheIconOfItsContentElement(string $set, string $contentElementType): void
+    {
+        $this->setUpSite(dependencies: [$set]);
+
+        $wizardElements = BackendUtility::getPagesTSconfig(1)['mod.']['wizards.']['newContentElement.']['wizardItems.']['academic.']['elements.'] ?? [];
+
+        $this->assertSame(
+            [
+                'academicpartners_list' => 'tx-academicpartners-plugin-list',
+                'academicpartners_map' => 'tx-academicpartners-plugin-map',
+                'academicpartners_partnershipslist' => 'tx-academicpartners-plugin-partners',
+                'academicpartners_partnershipsteaser' => 'tx-academicpartners-plugin-partnerships-teaser',
+            ][$contentElementType] ?? null,
+            $wizardElements[$contentElementType . '.']['iconIdentifier'] ?? null,
+            sprintf('The wizard entry of "%s" does not carry the content element icon.', $contentElementType),
+        );
+        $this->assertSame(
+            $GLOBALS['TCA']['tt_content']['ctrl']['typeicon_classes'][$contentElementType] ?? null,
+            $wizardElements[$contentElementType . '.']['iconIdentifier'] ?? null,
+            sprintf('The wizard entry and the content element type "%s" name different icons.', $contentElementType),
+        );
+    }
+
+    /**
      * The hide half, asserted on its own. Without it the re-enable assertion above cannot
      * fail: it checks that a content element is absent from `removeItems`, and an empty
      * list satisfies that just as well as a correct one.

@@ -13,7 +13,7 @@ defined('TYPO3') or die;
         [
             'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:plugin.partner_list.title',
             'value' => 'academicpartners_list',
-            'icon' => 'academic-partners',
+            'icon' => 'tx-academicpartners-plugin-list',
             'group' => 'academic',
         ],
         'academic_partners'
@@ -28,7 +28,7 @@ defined('TYPO3') or die;
         [
             'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:plugin.partner_map.title',
             'value' => 'academicpartners_map',
-            'icon' => 'academic-partners',
+            'icon' => 'tx-academicpartners-plugin-map',
             'group' => 'academic',
         ],
         'academic_partners'
@@ -60,7 +60,7 @@ defined('TYPO3') or die;
         [
             'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:plugin.partner_partnershipslist.title',
             'value' => 'academicpartners_partnershipslist',
-            'icon' => 'academic-partners',
+            'icon' => 'tx-academicpartners-plugin-partners',
             'group' => 'academic',
         ],
         'academic_partners'
@@ -71,7 +71,7 @@ defined('TYPO3') or die;
         [
             'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:plugin.partner_partnershipsteaser.title',
             'value' => 'academicpartners_partnershipsteaser',
-            'icon' => 'academic-partners',
+            'icon' => 'tx-academicpartners-plugin-partnerships-teaser',
             'group' => 'academic',
         ],
         'academic_partners'

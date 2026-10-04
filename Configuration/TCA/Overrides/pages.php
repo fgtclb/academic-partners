@@ -29,7 +29,7 @@ defined('TYPO3') or die;
         [
             'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:pages.doktype.items.academic_partner',
             'value' => PageTypes::ACADEMIC_PARTNERS,
-            'icon' => 'academic-partners',
+            'icon' => 'tx-academicpartners-doktype-partner',
             'group' => 'academic',
         ]
     );
@@ -40,7 +40,7 @@ defined('TYPO3') or die;
         [
             'ctrl' => [
                 'typeicon_classes' => [
-                    PageTypes::ACADEMIC_PARTNERS => 'academic-partners',
+                    PageTypes::ACADEMIC_PARTNERS => 'tx-academicpartners-doktype-partner',
                 ],
             ],
             'types' => [

@@ -135,6 +135,26 @@ final class PartnerSelectOrderTest extends AbstractAcademicPartnersTestCase
     }
 
     /**
+     * The entries are partner pages, so each one carries the icon of the academic partner
+     * page type, not the icon of the partnership record the select belongs to.
+     */
+    #[Test]
+    public function everyOfferedPartnerCarriesThePageTypeIcon(): void
+    {
+        $icons = [];
+        foreach ($this->partnerItems() as $item) {
+            if (($item['label'] ?? '') !== '') {
+                $icons[(string)$item['label']] = $item['icon'] ?? null;
+            }
+        }
+
+        $this->assertCount(6, $icons);
+        foreach ($icons as $label => $icon) {
+            $this->assertSame('tx-academicpartners-doktype-partner', $icon, sprintf('The partner "%s" does not carry the page type icon.', $label));
+        }
+    }
+
+    /**
      * The order is a property of the rendered select only. Saving a record without
      * touching the field keeps the partner it refers to, so no stored value follows the
      * new order.

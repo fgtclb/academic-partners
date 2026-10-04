@@ -44,10 +44,10 @@ final class CategoryTypeFrontendIconsTest extends AbstractAcademicPartnersTestCa
     private const TYPE_FRONTEND = 'x="4" y="4" width="8" height="8"';
 
     /**
-     * Parts of the shipped `Region.svg` and `PartnerType.svg`.
+     * Parts of the shipped `category-type/region.svg` and `category-type/partner-type.svg`.
      */
-    private const SHIPPED_REGION = 'd="m10.5 1-5 2L1 1v12';
-    private const SHIPPED_PARTNER_TYPE = 'd="M5 12H1c0-1.5';
+    private const SHIPPED_REGION = 'd="M576 112C576 100.9 570.3 90.6';
+    private const SHIPPED_PARTNER_TYPE = 'd="M320 64C355.3 64 384 92.7';
 
     protected function setUp(): void
     {
@@ -159,7 +159,7 @@ final class CategoryTypeFrontendIconsTest extends AbstractAcademicPartnersTestCa
             $iconRegistry->getIconConfigurationByIdentifier('category_types.partners.network')['options']['source'] ?? null,
         );
         $this->assertSame(
-            'EXT:academic_partners/Resources/Public/Icons/CategoryTypes/Region.svg',
+            'EXT:academic_partners/Resources/Public/Icons/category-type/region.svg',
             $iconRegistry->getIconConfigurationByIdentifier('category_types.partners.region')['options']['source'] ?? null,
         );
     }

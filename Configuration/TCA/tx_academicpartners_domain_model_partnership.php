@@ -27,7 +27,7 @@ return [
         'languageField' => 'sys_language_uid',
         'translationSource' => 'l10n_source',
         'typeicon_classes' => [
-            'default' => 'tx_academicpartners_domain_model_partnership',
+            'default' => 'tx-academicpartners-record-partnership',
         ],
         'security' => [
             'ignorePageTypeRestriction' => true,

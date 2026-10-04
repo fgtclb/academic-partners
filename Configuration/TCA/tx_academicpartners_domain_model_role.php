@@ -22,7 +22,7 @@ return [
             'disabled' => 'hidden',
         ],
         'typeicon_classes' => [
-            'default' => 'tx_academicpartners_domain_model_role',
+            'default' => 'tx-academicpartners-record-role',
         ],
     ],
     'types' => [

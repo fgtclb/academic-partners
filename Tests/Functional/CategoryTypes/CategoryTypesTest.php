@@ -43,13 +43,16 @@ final class CategoryTypesTest extends AbstractAcademicPartnersTestCase
 
     /**
      * The declared group icon exists and is registered for inlining, with the same file in
-     * the icon registry of the backend and in the frontend icon registry.
+     * the icon registry of the backend and in the frontend icon registry. The group shares
+     * the drawing of the partner page type and the partner content elements.
      */
     #[Test]
     public function groupIconIsShippedAndRegistered(): void
     {
         $group = $this->get(CategoryTypeRegistry::class)->getGroup('partners');
         $this->assertNotNull($group);
+        $this->assertSame('EXT:academic_partners/Resources/Public/Icons/plugin/partners.svg', $group->getIcon());
+        $this->assertTrue($group->isInlineIcon());
         $this->assertFileExists(GeneralUtility::getFileAbsFileName($group->getIcon()));
 
         $iconRegistry = $this->get(IconRegistry::class);

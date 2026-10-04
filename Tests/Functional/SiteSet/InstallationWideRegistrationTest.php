@@ -59,7 +59,7 @@ final class InstallationWideRegistrationTest extends AbstractAcademicPartnersTes
 
         $this->assertContains('40', $values, 'The page type of this extension is not selectable.');
         $this->assertSame(
-            'academic-partners',
+            'tx-academicpartners-doktype-partner',
             $GLOBALS['TCA']['pages']['ctrl']['typeicon_classes'][40] ?? null,
             'The page type of this extension has no icon.',
         );

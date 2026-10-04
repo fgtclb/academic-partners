@@ -21,8 +21,9 @@ The type select of a category heads the partner types with the title. The
 icon is registered as :php:`category_types_group.partners`, in the icon
 registry of the backend and in the frontend icon registry of
 :php:`EXT:academic_base`, from
-:file:`Resources/Public/Icons/CategoryGroups/Partners.svg`, a Font Awesome
-Free icon listed in :file:`Resources/Public/Icons/LICENSE-font-awesome.txt`.
+:file:`Resources/Public/Icons/plugin/partners.svg`, the drawing of the academic
+partner page type and the partner content elements, a Font Awesome Free icon
+listed in :file:`Resources/Public/Icons/LICENSE-font-awesome.txt`.
 
 A site package can change the title or the icon by declaring the group
 :yaml:`partners` again, see the developer documentation of
