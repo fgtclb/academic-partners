@@ -88,10 +88,12 @@ final class AcademicPartnersImageRenderingTest extends AbstractAcademicPartnersT
      * @return array{0: \DOMElement, 1: \DOMElement} the item of Alpha University and the one of
      *         Beta Institute, in the order the plugin renders them
      */
-    private function itemsOf(\DOMXPath $xpath, string $itemClass): array
+    private function itemsOf(\DOMXPath $xpath, string $pluginClass): array
     {
         $items = [];
-        foreach ($this->nodesMatching($xpath, sprintf("//*[contains(concat(' ', normalize-space(@class), ' '), ' %s ')]", $itemClass)) as $item) {
+        // The item is the element in a grid column of the plugin.
+        $query = sprintf('//div[contains(concat(" ", normalize-space(@class), " "), " %s ")]//div[contains(concat(" ", normalize-space(@class), " "), " col-12 ")]/div', $pluginClass);
+        foreach ($this->nodesMatching($xpath, $query) as $item) {
             $this->assertInstanceOf(\DOMElement::class, $item);
             $items[] = $item;
         }
@@ -106,13 +108,13 @@ final class AcademicPartnersImageRenderingTest extends AbstractAcademicPartnersT
         $this->setUpTestCase();
 
         $xpath = $this->parseRenderedPage($this->renderFrontendPage('https://www.acme.com/home'));
-        [$withRasterLogo] = $this->itemsOf($xpath, 'academic-partners-item');
+        [$withRasterLogo] = $this->itemsOf($xpath, 'academic-partners-list');
         $this->assertRendersResponsivePicture(
             $xpath,
             $withRasterLogo,
             self::LOGO_SOURCES,
             self::LOGO_FALLBACK_WIDTH,
-            'card-img-top img-fluid',
+            '',
             // The alternative text of the file reference, which the partial passes no
             // argument for and the image view helper therefore keeps.
             'The logo of Alpha University',
@@ -125,12 +127,12 @@ final class AcademicPartnersImageRenderingTest extends AbstractAcademicPartnersT
         $this->setUpTestCase();
 
         $xpath = $this->parseRenderedPage($this->renderFrontendPage('https://www.acme.com/home'));
-        [, $withVectorLogo] = $this->itemsOf($xpath, 'academic-partners-item');
+        [, $withVectorLogo] = $this->itemsOf($xpath, 'academic-partners-list');
         $this->assertRendersUnprocessedSvg(
             $xpath,
             $withVectorLogo,
             '/logo.svg',
-            'card-img-top img-fluid',
+            '',
             'The logo of Beta Institute',
         );
     }
@@ -141,19 +143,19 @@ final class AcademicPartnersImageRenderingTest extends AbstractAcademicPartnersT
         $this->setUpTestCase();
 
         $xpath = $this->parseRenderedPage($this->renderFrontendPage('https://www.acme.com/partnerships'));
-        [$withRasterLogo, $withVectorLogo] = $this->itemsOf($xpath, 'academic-partnerships-list-item');
+        [$withRasterLogo, $withVectorLogo] = $this->itemsOf($xpath, 'academic-partnerships-list');
         $this->assertRendersResponsivePicture(
             $xpath,
             $withRasterLogo,
             self::LOGO_SOURCES,
             self::LOGO_FALLBACK_WIDTH,
-            'card-img-top img-fluid',
+            '',
         );
         $this->assertRendersUnprocessedSvg(
             $xpath,
             $withVectorLogo,
             '/logo.svg',
-            'card-img-top img-fluid',
+            '',
             'The logo of Beta Institute',
         );
     }
@@ -164,19 +166,19 @@ final class AcademicPartnersImageRenderingTest extends AbstractAcademicPartnersT
         $this->setUpTestCase();
 
         $xpath = $this->parseRenderedPage($this->renderFrontendPage('https://www.acme.com/teaser'));
-        [$withRasterLogo, $withVectorLogo] = $this->itemsOf($xpath, 'academic-partnerships-teaser-item');
+        [$withRasterLogo, $withVectorLogo] = $this->itemsOf($xpath, 'academic-partnerships-teaser');
         $this->assertRendersResponsivePicture(
             $xpath,
             $withRasterLogo,
             self::LOGO_SOURCES,
             self::LOGO_FALLBACK_WIDTH,
-            'card-img-top img-fluid',
+            '',
         );
         $this->assertRendersUnprocessedSvg(
             $xpath,
             $withVectorLogo,
             '/logo.svg',
-            'card-img-top img-fluid',
+            '',
             'The logo of Beta Institute',
         );
     }

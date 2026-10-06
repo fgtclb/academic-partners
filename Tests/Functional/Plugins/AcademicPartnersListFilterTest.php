@@ -31,7 +31,7 @@ final class AcademicPartnersListFilterTest extends AbstractAcademicPartnersTestC
     use SiteBasedTestTrait;
 
     private const LIST_NAMESPACE = 'tx_academicpartners_list';
-    private const FORM_CLASS = 'academic-partners-filtersorting';
+    private const FORM = '//form[@name="demand"]';
 
     protected const LANGUAGE_PRESETS = [
         'EN' => ['id' => 0, 'title' => 'English', 'locale' => 'en_US.UTF8', 'iso' => 'en', 'hrefLang' => 'en-US', 'direction' => ''],
@@ -184,9 +184,9 @@ final class AcademicPartnersListFilterTest extends AbstractAcademicPartnersTestC
 
         $this->assertSame(
             ['visible' => ['region', 'partner_type', 'sdg'], 'more' => [], 'disclosure' => 'none', 'summary' => null],
-            $this->renderedCategoryFilters($content, self::FORM_CLASS),
+            $this->renderedCategoryFilters($content, self::FORM),
         );
-        $this->assertSame($this->defaultFilterCells($pluginNamespace), $this->categoryFilterCellMarkup($content, self::FORM_CLASS));
+        $this->assertSame($this->defaultFilterCells($pluginNamespace), $this->categoryFilterCellMarkup($content, self::FORM));
     }
 
     #[DataProvider('pluginPageDataProvider')]
@@ -197,7 +197,7 @@ final class AcademicPartnersListFilterTest extends AbstractAcademicPartnersTestC
 
         $content = $this->renderFrontendPage($url);
 
-        $this->assertSame(['sdg', 'region'], $this->renderedCategoryFilters($content, self::FORM_CLASS)['visible']);
+        $this->assertSame(['sdg', 'region'], $this->renderedCategoryFilters($content, self::FORM)['visible']);
     }
 
     /**
@@ -214,7 +214,7 @@ final class AcademicPartnersListFilterTest extends AbstractAcademicPartnersTestC
 
         $this->assertSame(
             ['visible' => ['sdg'], 'more' => ['region', 'partner_type'], 'disclosure' => 'closed', 'summary' => 'More filters'],
-            $this->renderedCategoryFilters($content, self::FORM_CLASS),
+            $this->renderedCategoryFilters($content, self::FORM),
         );
     }
 
@@ -227,7 +227,7 @@ final class AcademicPartnersListFilterTest extends AbstractAcademicPartnersTestC
 
         $this->assertSame(
             ['visible' => ['region', 'partner_type', 'sdg'], 'more' => [], 'disclosure' => 'none', 'summary' => null],
-            $this->renderedCategoryFilters($content, self::FORM_CLASS),
+            $this->renderedCategoryFilters($content, self::FORM),
         );
     }
 
@@ -252,7 +252,7 @@ final class AcademicPartnersListFilterTest extends AbstractAcademicPartnersTestC
 
         $content = $this->renderFilteredList($filterCollection);
 
-        $this->assertSame($disclosure, $this->renderedCategoryFilters($content, self::FORM_CLASS)['disclosure']);
+        $this->assertSame($disclosure, $this->renderedCategoryFilters($content, self::FORM)['disclosure']);
     }
 
     /**
@@ -280,8 +280,8 @@ final class AcademicPartnersListFilterTest extends AbstractAcademicPartnersTestC
 
         $content = $this->renderFrontendPage($url);
 
-        $this->assertSame(['All regions', 'Europe', 'Americas'], $this->categoryFilterOptions($content, self::FORM_CLASS, 'region'));
-        $this->assertSame(['All options', 'Quality Education', 'Climate Action (disabled)'], $this->categoryFilterOptions($content, self::FORM_CLASS, 'sdg'));
+        $this->assertSame(['All regions', 'Europe', 'Americas'], $this->categoryFilterOptions($content, self::FORM, 'region'));
+        $this->assertSame(['All options', 'Quality Education', 'Climate Action (disabled)'], $this->categoryFilterOptions($content, self::FORM, 'sdg'));
     }
 
     #[DataProvider('pluginPageDataProvider')]
@@ -292,7 +292,7 @@ final class AcademicPartnersListFilterTest extends AbstractAcademicPartnersTestC
 
         $content = $this->renderFrontendPage($url);
 
-        $this->assertSame(['All options', 'Quality Education'], $this->categoryFilterOptions($content, self::FORM_CLASS, 'sdg'));
+        $this->assertSame(['All options', 'Quality Education'], $this->categoryFilterOptions($content, self::FORM, 'sdg'));
     }
 
     #[Test]
@@ -308,9 +308,9 @@ final class AcademicPartnersListFilterTest extends AbstractAcademicPartnersTestC
 
         $this->assertSame(
             ['visible' => ['sdg'], 'more' => ['region'], 'disclosure' => 'closed', 'summary' => 'More filters'],
-            $this->renderedCategoryFilters($content, self::FORM_CLASS),
+            $this->renderedCategoryFilters($content, self::FORM),
         );
-        $this->assertSame(['All options', 'Quality Education'], $this->categoryFilterOptions($content, self::FORM_CLASS, 'sdg'));
+        $this->assertSame(['All options', 'Quality Education'], $this->categoryFilterOptions($content, self::FORM, 'sdg'));
     }
 
     /**
@@ -327,9 +327,9 @@ final class AcademicPartnersListFilterTest extends AbstractAcademicPartnersTestC
 
         $this->assertSame(
             ['visible' => ['region', 'partner_type', 'sdg'], 'more' => [], 'disclosure' => 'none', 'summary' => null],
-            $this->renderedCategoryFilters($content, self::FORM_CLASS),
+            $this->renderedCategoryFilters($content, self::FORM),
         );
-        $this->assertSame($this->defaultFilterCells(self::LIST_NAMESPACE), $this->categoryFilterCellMarkup($content, self::FORM_CLASS));
+        $this->assertSame($this->defaultFilterCells(self::LIST_NAMESPACE), $this->categoryFilterCellMarkup($content, self::FORM));
     }
 
     /**
@@ -337,9 +337,9 @@ final class AcademicPartnersListFilterTest extends AbstractAcademicPartnersTestC
      * list or the map in place of `%1$s`.
      */
     private const DEFAULT_FILTER_CELLS = [
-        '<div class="col-12 col-md-6 col-lg-4 col-xl-3"><label for="region" class="form-label"> Region </label><select onchange="this.form.submit()" id="region" class="form-select" name="%1$s[demand][filterCollection][region]"><option value="">All options</option><option value="1" class="level-0">Europe</option><option value="2" class="level-0">Americas</option></select></div>',
-        '<div class="col-12 col-md-6 col-lg-4 col-xl-3"><label for="partner_type" class="form-label"> Partner Type </label><select onchange="this.form.submit()" id="partner_type" class="form-select" name="%1$s[demand][filterCollection][partner_type]"><option value="">All options</option><option value="3" class="level-0">University</option></select></div>',
-        '<div class="col-12 col-md-6 col-lg-4 col-xl-3"><label for="sdg" class="form-label"> SDG </label><select onchange="this.form.submit()" id="sdg" class="form-select" name="%1$s[demand][filterCollection][sdg]"><option value="">All options</option><option value="4" class="level-0">Quality Education</option><option value="5" class="level-0" disabled>Climate Action</option></select></div>',
+        '<div class="col-12 col-md-6 col-lg-4 col-xl-3"><label for="region"> Region </label><select onchange="this.form.submit()" id="region" name="%1$s[demand][filterCollection][region]"><option value="">All options</option><option value="1" class="level-0">Europe</option><option value="2" class="level-0">Americas</option></select></div>',
+        '<div class="col-12 col-md-6 col-lg-4 col-xl-3"><label for="partner_type"> Partner Type </label><select onchange="this.form.submit()" id="partner_type" name="%1$s[demand][filterCollection][partner_type]"><option value="">All options</option><option value="3" class="level-0">University</option></select></div>',
+        '<div class="col-12 col-md-6 col-lg-4 col-xl-3"><label for="sdg"> SDG </label><select onchange="this.form.submit()" id="sdg" name="%1$s[demand][filterCollection][sdg]"><option value="">All options</option><option value="4" class="level-0">Quality Education</option><option value="5" class="level-0" disabled>Climate Action</option></select></div>',
     ];
 
     /**

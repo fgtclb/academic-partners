@@ -21,10 +21,9 @@
 </f:comment>
 
 <nav
-    class="academic-partners-list__pagination"
     aria-label="{f:translate(key: 'list.pagination.label', extensionName: 'AcademicPartners')}"
 >
-    <ul class="pagination justify-content-center mt-4">
+    <ul class="f3-widget-paginator">
         <f:if condition="{pagination.previousPageNumber} && {pagination.previousPageNumber} >= {pagination.firstPageNumber}">
             <li class="page-item first">
                 <f:render

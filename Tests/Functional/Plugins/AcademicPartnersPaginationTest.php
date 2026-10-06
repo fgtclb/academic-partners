@@ -38,7 +38,7 @@ final class AcademicPartnersPaginationTest extends AbstractAcademicPartnersPagin
     {
         $filteredUrl = $this->assertSeeOtherWithCacheHash($this->submitFrontendForm(
             'https://www.acme.com/home',
-            self::FORM_CLASS,
+            self::FORM,
             [self::LIST_NAMESPACE => ['demand' => ['filterCollection' => ['region' => '6']]]],
         ));
         $firstPage = $this->renderFrontendPage($filteredUrl);
@@ -103,7 +103,7 @@ final class AcademicPartnersPaginationTest extends AbstractAcademicPartnersPagin
         $secondPage = $this->paginationLink($this->renderFrontendPage('https://www.acme.com/home'), '2');
         $this->assertSame(['Charlie College', 'Delta Academy'], $this->renderedPartners($this->renderFrontendPage($secondPage)));
 
-        $location = $this->assertSeeOtherWithCacheHash($this->submitFrontendForm($secondPage, self::FORM_CLASS, [
+        $location = $this->assertSeeOtherWithCacheHash($this->submitFrontendForm($secondPage, self::FORM, [
             self::LIST_NAMESPACE => ['demand' => ['filterCollection' => ['region' => '2']]],
         ]));
 

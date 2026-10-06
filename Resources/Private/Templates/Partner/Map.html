@@ -10,7 +10,7 @@
     <f:variable name="layoutClass" value=" academic-partners-map--full-width" />
 </f:if>
 
-<div class="academic-partners-map{layoutClass}">
+<div class="academic-partners-map {layoutClass}">
     <f:if condition="{settings.renderContentElementHeader}">
         <f:render partial="Header/All" arguments="{_all}" />
     </f:if>
@@ -27,7 +27,7 @@
             <f:render partial="Partner/Map" arguments="{partners: partners, map: settings.map}" />
         </f:then>
         <f:else>
-            <p class="academic-partners-map-empty">
+            <p>
                 <f:if condition="{demand.filterCollection.filterCategories}">
                     <f:then>
                         <!-- The visitor filtered everything away; the geodata is not the reason. -->

@@ -119,6 +119,17 @@ final class AcademicPartnersPluginTest extends AbstractAcademicPartnersTestCase
     }
 
     /**
+     * The items of a plugin, each the element in a grid column of its list.
+     */
+    private function countItems(string $content, string $pluginClass): int
+    {
+        return $this->countContentElementHeaderNodes(
+            $content,
+            sprintf('//div[contains(concat(" ", normalize-space(@class), " "), " %s ")]//div[contains(concat(" ", normalize-space(@class), " "), " col-12 ")]/div', $pluginClass),
+        );
+    }
+
+    /**
      * A partnership rendered inside a role group passes `grouped` down to `Partner/Header`,
      * which renders the partner title one level below the role heading — `h3` instead of the
      * `h2` an ungrouped item gets. Asserting the level is what proves the argument arrives.
@@ -126,7 +137,7 @@ final class AcademicPartnersPluginTest extends AbstractAcademicPartnersTestCase
     private function assertGroupedPartnerHeading(string $content): void
     {
         $this->assertMatchesRegularExpression(
-            '#<h3 class="card-title">\s*<a href="/alpha-university">Alpha University</a>\s*</h3>#',
+            '#<h3 class="">\s*<a href="/alpha-university">Alpha University</a>\s*</h3>#',
             $content,
         );
     }
@@ -138,7 +149,7 @@ final class AcademicPartnersPluginTest extends AbstractAcademicPartnersTestCase
 
         $content = $this->renderHomePage();
         $this->assertStringContainsString('academic-partners-list', $content);
-        $this->assertStringContainsString('academic-partners-itemlist', $content);
+        $this->assertSame(3, $this->countItems($content, 'academic-partners-list'));
         $this->assertStringContainsString('Alpha University', $content);
         $this->assertStringContainsString('Beta Institute', $content);
         // Partners are collected across the whole site, not only below the current page.
@@ -152,7 +163,7 @@ final class AcademicPartnersPluginTest extends AbstractAcademicPartnersTestCase
         $this->setUpTestCase('partnerListPage');
 
         $content = $this->renderHomePage();
-        $this->assertStringContainsString('academic-partners-filtersorting', $content);
+        $this->assertSame(1, $this->countContentElementHeaderNodes($content, '//form[@name="demand"]'));
         $this->assertStringContainsString('Sorting field', $content);
         $this->assertStringContainsString('Sorting direction', $content);
         // The options are written by `CategoryTypes\ViewHelpers\Form\AbstractSelectViewHelper`,
@@ -169,7 +180,7 @@ final class AcademicPartnersPluginTest extends AbstractAcademicPartnersTestCase
         $this->setUpTestCase('partnerListPage_hideFilterAndSorting');
 
         $content = $this->renderHomePage();
-        $this->assertStringNotContainsString('academic-partners-filtersorting', $content);
+        $this->assertSame(0, $this->countContentElementHeaderNodes($content, '//form[@name="demand"]'));
         // The list itself is unaffected by hiding the form.
         $this->assertStringContainsString('Alpha University', $content);
     }
@@ -359,7 +370,7 @@ final class AcademicPartnersPluginTest extends AbstractAcademicPartnersTestCase
 
         $content = $this->renderHomePage();
         $this->assertStringContainsString('academic-partnerships-list', $content);
-        $this->assertStringContainsString('academic-partnerships-list-item', $content);
+        $this->assertSame(2, $this->countItems($content, 'academic-partnerships-list'));
         // With a role assigned the partnerships are grouped, and the role name becomes the
         // heading of each group.
         $this->assertStringContainsString('Research partner', $content);
@@ -378,7 +389,7 @@ final class AcademicPartnersPluginTest extends AbstractAcademicPartnersTestCase
 
         $content = $this->renderHomePage();
         $this->assertStringContainsString('academic-partnerships-list', $content);
-        $this->assertStringContainsString('academic-partnerships-list-item', $content);
+        $this->assertSame(2, $this->countItems($content, 'academic-partnerships-list'));
         $this->assertStringContainsString('Alpha University', $content);
         $this->assertStringContainsString('Beta Institute', $content);
         $this->assertStringNotContainsString('Research partner', $content);
@@ -391,7 +402,7 @@ final class AcademicPartnersPluginTest extends AbstractAcademicPartnersTestCase
 
         $content = $this->renderHomePage();
         $this->assertStringContainsString('academic-partnerships-teaser', $content);
-        $this->assertStringContainsString('academic-partnerships-teaser-item', $content);
+        $this->assertSame(2, $this->countItems($content, 'academic-partnerships-teaser'));
         $this->assertStringContainsString('Research partner', $content);
         $this->assertStringContainsString('Funding partner', $content);
         $this->assertStringContainsString('Alpha University', $content);
@@ -406,7 +417,7 @@ final class AcademicPartnersPluginTest extends AbstractAcademicPartnersTestCase
 
         $content = $this->renderHomePage();
         $this->assertStringContainsString('academic-partnerships-teaser', $content);
-        $this->assertStringContainsString('academic-partnerships-teaser-item', $content);
+        $this->assertSame(2, $this->countItems($content, 'academic-partnerships-teaser'));
         $this->assertStringContainsString('Alpha University', $content);
         $this->assertStringContainsString('Beta Institute', $content);
         $this->assertStringNotContainsString('Research partner', $content);

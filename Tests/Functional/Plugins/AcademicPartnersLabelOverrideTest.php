@@ -145,7 +145,7 @@ final class AcademicPartnersLabelOverrideTest extends AbstractAcademicPartnersTe
     {
         yield 'list, label of the sorting partial' => [
             'https://www.acme.com/home', 'list', 'sorting.field.label', 'Sorting field',
-            '<label for="sortingField" class="form-label"> %s </label>',
+            '<label for="sortingField"> %s </label>',
         ];
         yield 'list, category type of a partner, key from a variable' => [
             'https://www.acme.com/home', 'list', 'sys_category.partners.region', 'Region',
@@ -158,7 +158,7 @@ final class AcademicPartnersLabelOverrideTest extends AbstractAcademicPartnersTe
         ];
         yield 'map, message of the map template' => [
             'https://www.acme.com/map', 'map', 'map.noLocatedPartnersFound', 'No partner with a location to show on the map.',
-            '<p class="academic-partners-map-empty"> %s </p>',
+            '<p> %s </p>',
         ];
     }
 

@@ -250,7 +250,7 @@ final class AcademicPartnerPageTemplateTest extends AbstractAcademicPartnersTest
             $detail,
             3,
             800,
-            'img-fluid',
+            '',
             'The headquarters of web-vision GmbH',
         );
     }
@@ -262,7 +262,7 @@ final class AcademicPartnerPageTemplateTest extends AbstractAcademicPartnersTest
 
         $xpath = $this->parseRenderedPage($this->renderFrontendPage('https://www.acme.com/acme-ag'));
         $detail = $this->elementMatching($xpath, "//*[contains(concat(' ', normalize-space(@class), ' '), ' academic-partners-detail ')]");
-        $this->assertRendersNoImage($xpath, $detail, 'img-fluid');
+        $this->assertRendersNoImage($xpath, $detail, '');
     }
 
     /**
@@ -307,7 +307,7 @@ final class AcademicPartnerPageTemplateTest extends AbstractAcademicPartnersTest
             $detail,
             3,
             800,
-            'img-fluid',
+            '',
             'The headquarters of web-vision GmbH',
         );
     }

@@ -6,15 +6,14 @@
     data-namespace-typo3-fluid="true"
 >
 
-<div class="card flex-column-reverse academic-partnerships-list-item">
+<div>
     <div>
-        <div class="card-body">
+        <div>
             <f:render
                 partial="Partner/Header"
                 arguments="{
                     header: '{partner.title}',
                     layout: '{data.header_layout}',
-                    positionClass: 'card-title',
                     link: '{f:uri.page(pageUid: partner.uid)}',
                     grouped: '{grouped}',
                     subheader: '{data.subheader}'
@@ -23,10 +22,10 @@
         </div>
 
         <f:if condition="{partner.attributes}">
-            <ul class="list-group-flush list-group">
+            <ul>
                 <f:for each="{partner.attributes.allCategoriesByType}" as="categories" key="type">
                     <f:if condition="{categories}">
-                        <li class="list-group-item">
+                        <li>
                             <ab:icon identifier="category_types.partners.{type}"/>
 
                             <b>{f:translate(key: 'sys_category.partners.{type}', extensionName: 'AcademicPartners') -> ct:categoryTypeTitle(group: 'partners', identifier: type)}:</b>
@@ -55,7 +54,6 @@
                 arguments="{
                     image: image,
                     preset: 'logo',
-                    class: 'card-img-top img-fluid'
                 }"
             />
         </f:if>

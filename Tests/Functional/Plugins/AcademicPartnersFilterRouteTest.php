@@ -32,7 +32,7 @@ final class AcademicPartnersFilterRouteTest extends AbstractAcademicPartnersTest
     use SiteBasedTestTrait;
 
     private const LIST_NAMESPACE = 'tx_academicpartners_list';
-    private const FORM_CLASS = 'academic-partners-filtersorting';
+    private const FORM = '//form[@name="demand"]';
 
     protected const LANGUAGE_PRESETS = [
         'EN' => ['id' => 0, 'title' => 'English', 'locale' => 'en_US.UTF8', 'iso' => 'en', 'hrefLang' => 'en-US', 'direction' => ''],
@@ -187,7 +187,7 @@ final class AcademicPartnersFilterRouteTest extends AbstractAcademicPartnersTest
     #[Test]
     public function submittingTheFilterFormRedirectsToTheReadablePath(): void
     {
-        $response = $this->submitFrontendForm('https://www.acme.com/home', self::FORM_CLASS, [
+        $response = $this->submitFrontendForm('https://www.acme.com/home', self::FORM, [
             self::LIST_NAMESPACE => ['demand' => ['filterCollection' => ['region' => '2']]],
         ]);
 

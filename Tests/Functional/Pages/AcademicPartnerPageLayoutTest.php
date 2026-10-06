@@ -40,6 +40,12 @@ final class AcademicPartnerPageLayoutTest extends AbstractAcademicPartnersTestCa
         'DE' => ['id' => 1, 'title' => 'Deutsch', 'locale' => 'de_DE.UTF8', 'iso' => 'de', 'hrefLang' => 'de-DE', 'direction' => ''],
     ];
 
+    /**
+     * The header of the partner page, the element around its heading, and the subtitle
+     * that follows the heading.
+     */
+    private const HEADER = '//div[h1]';
+    private const SUBTITLE = self::HEADER . '/h1/following-sibling::p';
     private const FIXTURES = 'EXT:academic_partners/Tests/Functional/Pages/Fixtures/';
     private const PARTNER_PAGE = 'https://www.acme.com/web-vision';
     private const CONTENT_ELEMENT = 'The partnership covers joint research.';
@@ -308,8 +314,8 @@ final class AcademicPartnerPageLayoutTest extends AbstractAcademicPartnersTestCa
         $this->setUpSite($sitePackage);
 
         $xpath = $this->parseRenderedPage($this->renderFrontendPage(self::PARTNER_PAGE));
-        $header = $this->nodesMatching($xpath, "//*[contains(concat(' ', normalize-space(@class), ' '), ' academic-partners-detail__header ')]");
-        $subtitle = $this->nodesMatching($xpath, "//*[contains(concat(' ', normalize-space(@class), ' '), ' academic-partners-detail__header ')]/h1/following-sibling::*[contains(concat(' ', normalize-space(@class), ' '), ' academic-partners-detail__subtitle ')]");
+        $header = $this->nodesMatching($xpath, self::HEADER);
+        $subtitle = $this->nodesMatching($xpath, self::SUBTITLE);
 
         $this->assertCount(1, $header);
         $this->assertCount(1, $subtitle);
@@ -327,7 +333,7 @@ final class AcademicPartnerPageLayoutTest extends AbstractAcademicPartnersTestCa
         $this->setUpSite($sitePackage);
 
         $xpath = $this->parseRenderedPage($this->renderFrontendPage('https://www.acme.com/de/web-vision'));
-        $subtitle = $this->nodesMatching($xpath, "//*[contains(concat(' ', normalize-space(@class), ' '), ' academic-partners-detail__subtitle ')]");
+        $subtitle = $this->nodesMatching($xpath, self::SUBTITLE);
 
         $this->assertCount(1, $subtitle);
         $this->assertSame('Partnerhochschule seit 2019', trim((string)$subtitle->item(0)?->textContent));
@@ -347,7 +353,7 @@ final class AcademicPartnerPageLayoutTest extends AbstractAcademicPartnersTestCa
         $content = $this->renderFrontendPage(self::PARTNER_PAGE);
 
         $this->assertStringContainsString('<h1>web-vision GmbH</h1>', $content);
-        $this->assertStringContainsString('<p class="academic-partners-detail__subtitle">Partner university since 2019</p>', $content);
+        $this->assertStringContainsString('<p>Partner university since 2019</p>', $content);
     }
 
     #[Test]
@@ -359,7 +365,8 @@ final class AcademicPartnerPageLayoutTest extends AbstractAcademicPartnersTestCa
         $content = $this->renderFrontendPage('https://www.acme.com/acme-ag');
 
         $this->assertStringContainsString('<h1>Acme AG</h1>', $content);
-        $this->assertStringNotContainsString('academic-partners-detail__subtitle', $content);
+        $this->assertCount(1, $this->nodesMatching($this->parseRenderedPage($content), self::HEADER));
+        $this->assertCount(0, $this->nodesMatching($this->parseRenderedPage($content), self::SUBTITLE));
     }
 
     /**

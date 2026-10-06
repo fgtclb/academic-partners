@@ -141,7 +141,7 @@ final class AcademicPartnersMapConfigurationTest extends AbstractAcademicPartner
 
         $content = $this->renderFrontendPage('https://www.acme.com/home');
 
-        $this->assertStringContainsString('<div class="academic-partners-map">', $content);
+        $this->assertStringContainsString('<div class="academic-partners-map ">', $content);
         $this->assertStringNotContainsString('academic-partners-map--full-width', $content);
     }
 

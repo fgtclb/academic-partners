@@ -32,7 +32,13 @@ final class AcademicPartnersActiveFiltersTest extends AbstractAcademicPartnersTe
     use FrontendPluginRenderingTrait;
     use SiteBasedTestTrait;
 
-    private const PREFIX = 'academic-partners';
+    /**
+     * The list or the map, the elements of the active filters, of the result count and of the
+     * pagination below it.
+     */
+    private const LIST = '//div[contains(concat(" ", normalize-space(@class), " "), " academic-partners-list ") or contains(concat(" ", normalize-space(@class), " "), " academic-partners-map ")]';
+    private const ACTIVE_FILTERS = self::LIST . '/div[ul or a]';
+    private const RESULT_COUNT = self::LIST . '/p[1]';
     private const LIST_NAMESPACE = 'tx_academicpartners_list';
     private const MAP_NAMESPACE = 'tx_academicpartners_map';
     private const ALL_ON = "plugin.tx_academicpartners.filter.showActiveFilters = 1\n"
@@ -65,7 +71,7 @@ final class AcademicPartnersActiveFiltersTest extends AbstractAcademicPartnersTe
 
         $content = $this->renderFrontendPage($this->listUrl('/home', '1,3', 'title', 'desc'));
 
-        $tags = $this->activeFilterTags($content, self::PREFIX);
+        $tags = $this->activeFilterTags($content, self::ACTIVE_FILTERS);
         $this->assertSame(['Europe', 'University'], array_keys($tags));
         $this->assertSame(
             ['filterCollection' => ['categories' => '3'], 'sortingDirection' => 'desc', 'sortingField' => 'title'],
@@ -76,9 +82,9 @@ final class AcademicPartnersActiveFiltersTest extends AbstractAcademicPartnersTe
             $this->activeFiltersDemand($tags['University']['href'], self::LIST_NAMESPACE),
         );
         $this->assertSame('Remove filter: Europe', $tags['Europe']['label']);
-        $this->assertSame('/home', $this->activeFiltersResetLink($content, self::PREFIX));
-        $this->assertMatchesRegularExpression('#academic-partners-active-filters__reset[^>]*>\s*Reset all filters\s*</a>#', $content);
-        $this->assertSame('2 partners found', $this->activeFiltersResultCount($content, self::PREFIX));
+        $this->assertSame('/home', $this->activeFiltersResetLink($content, self::ACTIVE_FILTERS));
+        $this->assertSame('Reset all filters', trim((string)$this->activeFiltersQuery($content, self::ACTIVE_FILTERS . '/a')->item(0)?->textContent));
+        $this->assertSame('2 partners found', $this->activeFiltersResultCount($content, self::RESULT_COUNT));
     }
 
     /**
@@ -92,13 +98,13 @@ final class AcademicPartnersActiveFiltersTest extends AbstractAcademicPartnersTe
 
         $content = $this->renderFrontendPage($this->listUrl('/home', '2', 'title', 'asc'));
 
-        $tags = $this->activeFilterTags($content, self::PREFIX);
+        $tags = $this->activeFilterTags($content, self::ACTIVE_FILTERS);
         $this->assertSame(['Americas'], array_keys($tags));
         $this->assertSame(
             ['sortingDirection' => 'asc', 'sortingField' => 'title'],
             $this->activeFiltersDemand($tags['Americas']['href'], self::LIST_NAMESPACE),
         );
-        $this->assertSame('1 partner found', $this->activeFiltersResultCount($content, self::PREFIX));
+        $this->assertSame('1 partner found', $this->activeFiltersResultCount($content, self::RESULT_COUNT));
     }
 
     /**
@@ -114,15 +120,15 @@ final class AcademicPartnersActiveFiltersTest extends AbstractAcademicPartnersTe
 
         $content = $this->renderFrontendPage('https://www.acme.com/europe');
 
-        $tags = $this->activeFilterTags($content, self::PREFIX);
+        $tags = $this->activeFilterTags($content, self::ACTIVE_FILTERS);
         $this->assertSame(['Europe'], array_keys($tags));
-        $this->assertNull($this->activeFiltersResetLink($content, self::PREFIX));
-        $this->assertSame('2 partners found', $this->activeFiltersResultCount($content, self::PREFIX));
+        $this->assertNull($this->activeFiltersResetLink($content, self::ACTIVE_FILTERS));
+        $this->assertSame('2 partners found', $this->activeFiltersResultCount($content, self::RESULT_COUNT));
 
         $withoutPreselection = $this->renderFrontendPage('https://www.acme.com' . $tags['Europe']['href']);
-        $this->assertSame([], $this->activeFilterTags($withoutPreselection, self::PREFIX));
-        $this->assertSame('/europe', $this->activeFiltersResetLink($withoutPreselection, self::PREFIX));
-        $this->assertSame('3 partners found', $this->activeFiltersResultCount($withoutPreselection, self::PREFIX));
+        $this->assertSame([], $this->activeFilterTags($withoutPreselection, self::ACTIVE_FILTERS));
+        $this->assertSame('/europe', $this->activeFiltersResetLink($withoutPreselection, self::ACTIVE_FILTERS));
+        $this->assertSame('3 partners found', $this->activeFiltersResultCount($withoutPreselection, self::RESULT_COUNT));
     }
 
     /**
@@ -136,12 +142,12 @@ final class AcademicPartnersActiveFiltersTest extends AbstractAcademicPartnersTe
 
         $content = $this->renderFrontendPage($this->listUrl('/europe', '2', 'title', 'asc'));
 
-        $this->assertSame(['Americas'], array_keys($this->activeFilterTags($content, self::PREFIX)));
-        $resetLink = $this->activeFiltersResetLink($content, self::PREFIX);
+        $this->assertSame(['Americas'], array_keys($this->activeFilterTags($content, self::ACTIVE_FILTERS)));
+        $resetLink = $this->activeFiltersResetLink($content, self::ACTIVE_FILTERS);
         $this->assertSame('/europe', $resetLink);
 
         $preselected = $this->renderFrontendPage('https://www.acme.com' . $resetLink);
-        $this->assertSame(['Europe'], array_keys($this->activeFilterTags($preselected, self::PREFIX)));
+        $this->assertSame(['Europe'], array_keys($this->activeFilterTags($preselected, self::ACTIVE_FILTERS)));
     }
 
     /**
@@ -155,12 +161,12 @@ final class AcademicPartnersActiveFiltersTest extends AbstractAcademicPartnersTe
         $this->setUpSite(self::ALL_ON);
 
         $sorted = $this->renderFrontendPage($this->listUrl('/home', '', 'title', 'desc'));
-        $this->assertStringNotContainsString('academic-partners-active-filters', $sorted);
-        $this->assertSame('3 partners found', $this->activeFiltersResultCount($sorted, self::PREFIX));
+        $this->assertSame(0, $this->activeFiltersQuery($sorted, self::ACTIVE_FILTERS)->length);
+        $this->assertSame('3 partners found', $this->activeFiltersResultCount($sorted, self::RESULT_COUNT));
 
         $secondPage = $this->renderFrontendPage($this->listUrl('/paginated', '', 'title', 'asc') . '&tx_academicpartners_list%5Bdemand%5D%5BcurrentPage%5D=2');
-        $this->assertSame(1, substr_count($secondPage, 'academic-partners-list__pagination'));
-        $this->assertStringNotContainsString('academic-partners-active-filters', $secondPage);
+        $this->assertSame(1, $this->activeFiltersQuery($secondPage, self::LIST . '/nav')->length);
+        $this->assertSame(0, $this->activeFiltersQuery($secondPage, self::ACTIVE_FILTERS)->length);
     }
 
     /**
@@ -173,8 +179,8 @@ final class AcademicPartnersActiveFiltersTest extends AbstractAcademicPartnersTe
 
         $content = $this->renderFrontendPage('https://www.acme.com/home');
 
-        $this->assertStringNotContainsString('academic-partners-active-filters', $content);
-        $this->assertSame('3 partners found', $this->activeFiltersResultCount($content, self::PREFIX));
+        $this->assertSame(0, $this->activeFiltersQuery($content, self::ACTIVE_FILTERS)->length);
+        $this->assertSame('3 partners found', $this->activeFiltersResultCount($content, self::RESULT_COUNT));
     }
 
     /**
@@ -188,8 +194,8 @@ final class AcademicPartnersActiveFiltersTest extends AbstractAcademicPartnersTe
 
         $content = $this->renderFrontendPage($this->listUrl('/home', '3,5', 'title', 'asc'));
 
-        $this->assertSame(['Asia', 'University'], array_keys($this->activeFilterTags($content, self::PREFIX)));
-        $this->assertSame('0 partners found', $this->activeFiltersResultCount($content, self::PREFIX));
+        $this->assertSame(['Asia', 'University'], array_keys($this->activeFilterTags($content, self::ACTIVE_FILTERS)));
+        $this->assertSame('0 partners found', $this->activeFiltersResultCount($content, self::RESULT_COUNT));
     }
 
     /**
@@ -202,8 +208,8 @@ final class AcademicPartnersActiveFiltersTest extends AbstractAcademicPartnersTe
 
         $content = $this->renderFrontendPage($this->listUrl('/paginated', '1', 'title', 'asc'));
 
-        $this->assertSame(1, substr_count($content, 'academic-partners-list__pagination'));
-        $this->assertSame('2 partners found', $this->activeFiltersResultCount($content, self::PREFIX));
+        $this->assertSame(1, $this->activeFiltersQuery($content, self::LIST . '/nav')->length);
+        $this->assertSame('2 partners found', $this->activeFiltersResultCount($content, self::RESULT_COUNT));
     }
 
     /**
@@ -218,8 +224,8 @@ final class AcademicPartnersActiveFiltersTest extends AbstractAcademicPartnersTe
         foreach (['/home', '/map'] as $path) {
             $content = $this->renderFrontendPage($this->listUrl($path, '1,3', 'title', 'asc', $path === '/map' ? self::MAP_NAMESPACE : self::LIST_NAMESPACE));
 
-            $this->assertStringNotContainsString('academic-partners-active-filters', $content, $path);
-            $this->assertStringNotContainsString('academic-partners-result-count', $content, $path);
+            $this->assertSame(0, $this->activeFiltersQuery($content, self::ACTIVE_FILTERS)->length, $path);
+            $this->assertSame(0, $this->activeFiltersQuery($content, self::RESULT_COUNT)->length, $path);
         }
     }
 
@@ -233,9 +239,9 @@ final class AcademicPartnersActiveFiltersTest extends AbstractAcademicPartnersTe
 
         $content = $this->renderFrontendPage($this->listUrl('/home', '1,3', 'title', 'asc'));
 
-        $this->assertSame([], $this->activeFilterTags($content, self::PREFIX));
-        $this->assertNull($this->activeFiltersResetLink($content, self::PREFIX));
-        $this->assertSame('2 partners found', $this->activeFiltersResultCount($content, self::PREFIX));
+        $this->assertSame([], $this->activeFilterTags($content, self::ACTIVE_FILTERS));
+        $this->assertNull($this->activeFiltersResetLink($content, self::ACTIVE_FILTERS));
+        $this->assertSame('2 partners found', $this->activeFiltersResultCount($content, self::RESULT_COUNT));
     }
 
     /**
@@ -249,8 +255,8 @@ final class AcademicPartnersActiveFiltersTest extends AbstractAcademicPartnersTe
 
         $content = $this->renderFrontendPage($this->listUrl('/filter-hidden', '1,3', 'title', 'asc'));
 
-        $this->assertStringNotContainsString('academic-partners-active-filters', $content);
-        $this->assertSame('2 partners found', $this->activeFiltersResultCount($content, self::PREFIX));
+        $this->assertSame(0, $this->activeFiltersQuery($content, self::ACTIVE_FILTERS)->length);
+        $this->assertSame('2 partners found', $this->activeFiltersResultCount($content, self::RESULT_COUNT));
     }
 
     #[Test]
@@ -260,14 +266,14 @@ final class AcademicPartnersActiveFiltersTest extends AbstractAcademicPartnersTe
 
         $content = $this->renderFrontendPage($this->listUrl('/map', '1,3', 'title', 'asc', self::MAP_NAMESPACE));
 
-        $tags = $this->activeFilterTags($content, self::PREFIX);
+        $tags = $this->activeFilterTags($content, self::ACTIVE_FILTERS);
         $this->assertSame(['Europe', 'University'], array_keys($tags));
         parse_str((string)parse_url($tags['Europe']['href'], PHP_URL_QUERY), $query);
         $this->assertSame('/map', parse_url($tags['Europe']['href'], PHP_URL_PATH));
         $this->assertSame('map', $query[self::MAP_NAMESPACE]['action'] ?? null);
         $this->assertSame(['categories' => '3'], $query[self::MAP_NAMESPACE]['demand']['filterCollection'] ?? null);
-        $this->assertSame('/map', $this->activeFiltersResetLink($content, self::PREFIX));
-        $this->assertSame('2 partners found', $this->activeFiltersResultCount($content, self::PREFIX));
+        $this->assertSame('/map', $this->activeFiltersResetLink($content, self::ACTIVE_FILTERS));
+        $this->assertSame('2 partners found', $this->activeFiltersResultCount($content, self::RESULT_COUNT));
     }
 
     /**
@@ -280,10 +286,10 @@ final class AcademicPartnersActiveFiltersTest extends AbstractAcademicPartnersTe
 
         $content = $this->renderFrontendPage($this->listUrl('/de/home', '1,3', 'title', 'asc'));
 
-        $tags = $this->activeFilterTags($content, self::PREFIX);
+        $tags = $this->activeFilterTags($content, self::ACTIVE_FILTERS);
         $this->assertSame(['Europa', 'Universität'], array_keys($tags));
         $this->assertSame('Filter entfernen: Europa', $tags['Europa']['label']);
-        $this->assertSame('/de/home', $this->activeFiltersResetLink($content, self::PREFIX));
+        $this->assertSame('/de/home', $this->activeFiltersResetLink($content, self::ACTIVE_FILTERS));
     }
 
     /**
@@ -300,9 +306,9 @@ final class AcademicPartnersActiveFiltersTest extends AbstractAcademicPartnersTe
 
         $content = $this->renderFrontendPage($this->listUrl('/home', '1,3', 'title', 'asc'));
 
-        $this->assertSame(['Europe', 'University'], array_keys($this->activeFilterTags($content, self::PREFIX)));
-        $this->assertSame('/home', $this->activeFiltersResetLink($content, self::PREFIX));
-        $this->assertSame('2 partners found', $this->activeFiltersResultCount($content, self::PREFIX));
+        $this->assertSame(['Europe', 'University'], array_keys($this->activeFilterTags($content, self::ACTIVE_FILTERS)));
+        $this->assertSame('/home', $this->activeFiltersResetLink($content, self::ACTIVE_FILTERS));
+        $this->assertSame('2 partners found', $this->activeFiltersResultCount($content, self::RESULT_COUNT));
     }
 
     /**

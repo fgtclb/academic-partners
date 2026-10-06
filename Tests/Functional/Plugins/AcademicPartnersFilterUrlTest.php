@@ -31,7 +31,7 @@ final class AcademicPartnersFilterUrlTest extends AbstractAcademicPartnersTestCa
 
     private const LIST_NAMESPACE = 'tx_academicpartners_list';
     private const MAP_NAMESPACE = 'tx_academicpartners_map';
-    private const FORM_CLASS = 'academic-partners-filtersorting';
+    private const FORM = '//form[@name="demand"]';
 
     protected const LANGUAGE_PRESETS = [
         'EN' => ['id' => 0, 'title' => 'English', 'locale' => 'en_US.UTF8', 'iso' => 'en', 'hrefLang' => 'en-US', 'direction' => ''],
@@ -96,7 +96,7 @@ final class AcademicPartnersFilterUrlTest extends AbstractAcademicPartnersTestCa
     #[Test]
     public function submittingARegionRedirectsToAUrlCarryingIt(): void
     {
-        $response = $this->submitFrontendForm('https://www.acme.com/home', self::FORM_CLASS, [
+        $response = $this->submitFrontendForm('https://www.acme.com/home', self::FORM, [
             self::LIST_NAMESPACE => ['demand' => ['filterCollection' => ['region' => '2']]],
         ]);
 
@@ -122,7 +122,7 @@ final class AcademicPartnersFilterUrlTest extends AbstractAcademicPartnersTestCa
     #[Test]
     public function submittingASortingRedirectsToAUrlCarryingIt(): void
     {
-        $response = $this->submitFrontendForm('https://www.acme.com/home', self::FORM_CLASS, [
+        $response = $this->submitFrontendForm('https://www.acme.com/home', self::FORM, [
             self::LIST_NAMESPACE => ['demand' => ['sortingDirection' => 'desc']],
         ]);
 
@@ -145,7 +145,7 @@ final class AcademicPartnersFilterUrlTest extends AbstractAcademicPartnersTestCa
     #[Test]
     public function categoriesOfSeveralTypesBecomeOneAscendingList(): void
     {
-        $response = $this->submitFrontendForm('https://www.acme.com/home', self::FORM_CLASS, [
+        $response = $this->submitFrontendForm('https://www.acme.com/home', self::FORM, [
             self::LIST_NAMESPACE => ['demand' => ['filterCollection' => ['region' => '6', 'partner_type' => '3']]],
         ]);
 
@@ -169,7 +169,7 @@ final class AcademicPartnersFilterUrlTest extends AbstractAcademicPartnersTestCa
     #[Test]
     public function onlyTheNormalisedSelectionReachesTheUrl(): void
     {
-        $response = $this->submitFrontendForm('https://www.acme.com/home', self::FORM_CLASS, [
+        $response = $this->submitFrontendForm('https://www.acme.com/home', self::FORM, [
             self::LIST_NAMESPACE => ['demand' => ['filterCollection' => ['region' => '2,7,999']]],
         ]);
 
@@ -185,7 +185,7 @@ final class AcademicPartnersFilterUrlTest extends AbstractAcademicPartnersTestCa
     #[Test]
     public function submittingTheMapFormRedirectsToTheMap(): void
     {
-        $response = $this->submitFrontendForm('https://www.acme.com/map', self::FORM_CLASS, [
+        $response = $this->submitFrontendForm('https://www.acme.com/map', self::FORM, [
             self::MAP_NAMESPACE => ['demand' => ['filterCollection' => ['region' => '6']]],
         ]);
 
@@ -214,7 +214,7 @@ final class AcademicPartnersFilterUrlTest extends AbstractAcademicPartnersTestCa
         $this->assertStringContainsString('Alpha University', $content);
         $this->assertStringNotContainsString('Beta Institute', $content);
 
-        $response = $this->submitFrontendForm('https://www.acme.com/europe', self::FORM_CLASS, [
+        $response = $this->submitFrontendForm('https://www.acme.com/europe', self::FORM, [
             self::LIST_NAMESPACE => ['demand' => ['filterCollection' => ['region' => '']]],
         ]);
 
@@ -344,7 +344,7 @@ final class AcademicPartnersFilterUrlTest extends AbstractAcademicPartnersTestCa
         $content = $this->renderFrontendPage('https://www.acme.com/de/home');
         $this->assertMatchesRegularExpression('#<option value="2"[^>]*>Amerika</option>#', $content);
 
-        $response = $this->submitFrontendForm('https://www.acme.com/de/home', self::FORM_CLASS, [
+        $response = $this->submitFrontendForm('https://www.acme.com/de/home', self::FORM, [
             self::LIST_NAMESPACE => ['demand' => ['filterCollection' => ['region' => '2']]],
         ]);
 
@@ -374,7 +374,7 @@ final class AcademicPartnersFilterUrlTest extends AbstractAcademicPartnersTestCa
 
     private function filteredListUrl(string $region): string
     {
-        return $this->assertSeeOtherWithCacheHash($this->submitFrontendForm('https://www.acme.com/home', self::FORM_CLASS, [
+        return $this->assertSeeOtherWithCacheHash($this->submitFrontendForm('https://www.acme.com/home', self::FORM, [
             self::LIST_NAMESPACE => ['demand' => ['filterCollection' => ['region' => $region]]],
         ]));
     }

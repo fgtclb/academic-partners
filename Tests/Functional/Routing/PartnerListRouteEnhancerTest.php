@@ -37,10 +37,14 @@ final class PartnerListRouteEnhancerTest extends AbstractAcademicPartnersTestCas
     use FrontendPluginRenderingTrait;
     use SiteBasedTestTrait;
 
-    private const PREFIX = 'academic-partners';
+    /**
+     * The list or the map and the element of the active filters below it.
+     */
+    private const LIST = '//div[contains(concat(" ", normalize-space(@class), " "), " academic-partners-list ") or contains(concat(" ", normalize-space(@class), " "), " academic-partners-map ")]';
+    private const ACTIVE_FILTERS = self::LIST . '/div[ul or a]';
     private const LIST_NAMESPACE = 'tx_academicpartners_list';
     private const MAP_NAMESPACE = 'tx_academicpartners_map';
-    private const FORM_CLASS = 'academic-partners-filtersorting';
+    private const FORM = '//form[@name="demand"]';
     private const PARTNERS = ['Alpha University', 'Beta Institute', 'Gamma College'];
 
     protected const LANGUAGE_PRESETS = [
@@ -188,7 +192,7 @@ final class PartnerListRouteEnhancerTest extends AbstractAcademicPartnersTestCas
         $this->assertSame('https://www.acme.com' . $path, $uri);
 
         $content = $this->renderFrontendPage($uri);
-        $this->assertSame($tags, array_keys($this->activeFilterTags($content, self::PREFIX)));
+        $this->assertSame($tags, array_keys($this->activeFilterTags($content, self::ACTIVE_FILTERS)));
         $this->assertPartners($partners, $content);
     }
 
@@ -237,7 +241,7 @@ final class PartnerListRouteEnhancerTest extends AbstractAcademicPartnersTestCas
         $this->assertSame('https://www.acme.com' . $path, $uri);
 
         $content = $this->renderFrontendPage($uri);
-        $this->assertSame($tags, array_keys($this->activeFilterTags($content, self::PREFIX)));
+        $this->assertSame($tags, array_keys($this->activeFilterTags($content, self::ACTIVE_FILTERS)));
         $this->assertSelectedSorting($sorting, $content);
     }
 
@@ -250,12 +254,12 @@ final class PartnerListRouteEnhancerTest extends AbstractAcademicPartnersTestCas
     {
         $content = $this->renderFrontendPage('https://www.acme.com/paginated/filter/europe-1,university-3/title/desc');
 
-        $tags = $this->activeFilterTags($content, self::PREFIX);
+        $tags = $this->activeFilterTags($content, self::ACTIVE_FILTERS);
         $this->assertSame('/paginated/filter/university-3/title/desc', $tags['Europe']['href']);
         $this->assertSame('/paginated/filter/europe-1/title/desc', $tags['University']['href']);
         $this->assertStringContainsString('href="/paginated/filter/europe-1,university-3/title/desc/page-2"', $content);
 
-        $response = $this->submitFrontendForm('https://www.acme.com/home', self::FORM_CLASS, [
+        $response = $this->submitFrontendForm('https://www.acme.com/home', self::FORM, [
             self::LIST_NAMESPACE => ['demand' => ['filterCollection' => ['region' => '2'], 'sortingField' => 'lastUpdated', 'sortingDirection' => 'desc']],
         ]);
         $this->assertSame(303, $response->getStatusCode());
@@ -267,7 +271,7 @@ final class PartnerListRouteEnhancerTest extends AbstractAcademicPartnersTestCas
     {
         $content = $this->renderFrontendPage('https://www.acme.com/map/filter/americas-2,europe-1/title/asc');
 
-        $tags = $this->activeFilterTags($content, self::PREFIX);
+        $tags = $this->activeFilterTags($content, self::ACTIVE_FILTERS);
         $this->assertSame('/map/filter/americas-2/title/asc', $tags['Europe']['href']);
         $this->assertSame('/map/filter/europe-1/title/asc', $tags['Americas']['href']);
     }
@@ -292,7 +296,7 @@ final class PartnerListRouteEnhancerTest extends AbstractAcademicPartnersTestCas
     {
         $content = $this->renderFrontendPage('https://www.acme.com/europe');
 
-        $this->assertSame(['Europe'], array_keys($this->activeFilterTags($content, self::PREFIX)));
+        $this->assertSame(['Europe'], array_keys($this->activeFilterTags($content, self::ACTIVE_FILTERS)));
         $this->assertPartners(['Alpha University', 'Gamma College'], $content);
     }
 
