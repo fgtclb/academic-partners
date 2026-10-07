@@ -10,20 +10,22 @@
 </f:comment>
 
 <f:if condition="{partner.addressStreet} || {partner.addressStreetNumber} || {partner.addressAdditional}">
-    <b>{f:translate(key: 'academic_partners.address', extensionName: 'AcademicPartners')}:</b>
+    <p class="ace-address">
+        <b class="ace-label">{f:translate(key: 'academic_partners.address', extensionName: 'AcademicPartners')}:</b>
 
-    <span>
-        {partner.addressStreet} {partner.addressStreetNumber} {partner.addressAdditional}
+        <span class="ace-value">
+            {partner.addressStreet} {partner.addressStreetNumber} {partner.addressAdditional}
 
-        <f:if condition="{partner.addressZip} || {partner.addressCity}">
-            - {partner.addressZip} {partner.addressCity}
-        </f:if>
+            <f:if condition="{partner.addressZip} || {partner.addressCity}">
+                - {partner.addressZip} {partner.addressCity}
+            </f:if>
 
 
-        <f:if condition="{partner.addressCountryLocalizedNameLabel}">
-            | {f:translate(key: '{partner.addressCountryLocalizedNameLabel}', extensionName: 'AcademicPartners')}
-        </f:if>
-    </span>
+            <f:if condition="{partner.addressCountryLocalizedNameLabel}">
+                | {f:translate(key: '{partner.addressCountryLocalizedNameLabel}', extensionName: 'AcademicPartners')}
+            </f:if>
+        </span>
+    </p>
 </f:if>
 
 </html>

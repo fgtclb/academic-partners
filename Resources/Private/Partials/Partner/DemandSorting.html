@@ -6,33 +6,39 @@
 >
 
 <div class="col-12 col-md-6 col-lg-4 col-xl-3">
-    <label for="sortingField">
-        {f:translate(key: 'sorting.field.label', extensionName: 'AcademicPartners')}
-    </label>
+    <div class="ace-field">
+        <label class="ace-label" for="sortingField">
+            {f:translate(key: 'sorting.field.label', extensionName: 'AcademicPartners')}
+        </label>
 
-    <ace:form.sortingSelect
-        id="sortingField"
-        property="sortingField"
-        value="{demand.sortingField}"
-        type="fields"
-        additionalAttributes="{'onchange': 'this.form.submit()'}"
-        l10n="filter.sortingField"
-    />
+        <ace:form.sortingSelect
+            class="ace-control"
+            id="sortingField"
+            property="sortingField"
+            value="{demand.sortingField}"
+            type="fields"
+            additionalAttributes="{'onchange': 'this.form.submit()'}"
+            l10n="filter.sortingField"
+        />
+    </div>
 </div>
 
 <div class="col-12 col-md-6 col-lg-4 col-xl-3">
-    <label for="sortingDirection">
-        {f:translate(key: 'sorting.direction.label', extensionName: 'AcademicPartners')}
-    </label>
+    <div class="ace-field">
+        <label class="ace-label" for="sortingDirection">
+            {f:translate(key: 'sorting.direction.label', extensionName: 'AcademicPartners')}
+        </label>
 
-    <ace:form.sortingSelect
-        id="sortingDirection"
-        property="sortingDirection"
-        value="{demand.sortingDirection}"
-        type="directions"
-        additionalAttributes="{'onchange': 'this.form.submit()'}"
-        l10n="filter.sortingDirection"
-    />
+        <ace:form.sortingSelect
+            class="ace-control"
+            id="sortingDirection"
+            property="sortingDirection"
+            value="{demand.sortingDirection}"
+            type="directions"
+            additionalAttributes="{'onchange': 'this.form.submit()'}"
+            l10n="filter.sortingDirection"
+        />
+    </div>
 </div>
 
 </html>

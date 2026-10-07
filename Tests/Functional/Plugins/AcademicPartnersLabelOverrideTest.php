@@ -145,11 +145,11 @@ final class AcademicPartnersLabelOverrideTest extends AbstractAcademicPartnersTe
     {
         yield 'list, label of the sorting partial' => [
             'https://www.acme.com/home', 'list', 'sorting.field.label', 'Sorting field',
-            '<label for="sortingField"> %s </label>',
+            '<label class="ace-label" for="sortingField"> %s </label>',
         ];
         yield 'list, category type of a partner, key from a variable' => [
             'https://www.acme.com/home', 'list', 'sys_category.partners.region', 'Region',
-            '<b>%s:</b> <span> Europe </span>',
+            '<b class="ace-label">%s:</b> <span class="ace-value"> Europe </span>',
         ];
         yield 'list, sorting option, translated by the view helper' => [
             'https://www.acme.com/home', 'list', 'sorting.field.title', 'Title',
@@ -158,7 +158,7 @@ final class AcademicPartnersLabelOverrideTest extends AbstractAcademicPartnersTe
         ];
         yield 'map, message of the map template' => [
             'https://www.acme.com/map', 'map', 'map.noLocatedPartnersFound', 'No partner with a location to show on the map.',
-            '<p> %s </p>',
+            '<p class="ace-empty"> %s </p>',
         ];
     }
 
@@ -212,8 +212,8 @@ final class AcademicPartnersLabelOverrideTest extends AbstractAcademicPartnersTe
      */
     public static function pageTranslationDataProvider(): \Generator
     {
-        yield 'label of the page template' => ['academic_partners.address', 'Address', '<b>%s:</b>'];
-        yield 'category type, key from a variable' => ['sys_category.partners.region', 'Region', '<b>%s:</b> <span> Europe </span>'];
+        yield 'label of the page template' => ['academic_partners.address', 'Address', '<b class="ace-label">%s:</b>'];
+        yield 'category type, key from a variable' => ['sys_category.partners.region', 'Region', '<b class="ace-label">%s:</b> <span class="ace-value"> Europe </span>'];
         yield 'country, full reference into the core' => ['DE.name', 'Germany', '- 10115 Berlin | %s </span>'];
     }
 

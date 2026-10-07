@@ -12,15 +12,15 @@
 </f:comment>
 
 <f:if condition="{partner.attributes.allCategoriesByType}">
-    <ul>
+    <ul class="ace-properties ace-categories">
         <f:for each="{partner.attributes.allCategoriesByType}" as="categories" key="type">
             <f:if condition="{categories}">
-                <li>
-                    <ab:icon identifier="category_types.partners.{type}"/>
+                <li class="ace-property">
+                    <span class="ace-icon"><ab:icon identifier="category_types.partners.{type}"/></span>
 
-                    <b>{f:translate(key: 'sys_category.partners.{type}', extensionName: 'AcademicPartners') -> ct:categoryTypeTitle(group: 'partners', identifier: type)}:</b>
+                    <b class="ace-label">{f:translate(key: 'sys_category.partners.{type}', extensionName: 'AcademicPartners') -> ct:categoryTypeTitle(group: 'partners', identifier: type)}:</b>
 
-                    <span>
+                    <span class="ace-value">
                         <f:for each="{categories}" as="category" iteration="i">
                             {category.title}{f:if(condition: '!{i.isLast}', then: ', ')}
                         </f:for>

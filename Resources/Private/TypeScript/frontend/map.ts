@@ -135,7 +135,7 @@ const initializeMap = (): void => {
         ? undefined
         : new Icon.Default({ imagePath: configuration.markerImages });
 
-    partnerContainer.querySelectorAll<HTMLElement>('.map-partner').forEach((partner): void => {
+    partnerContainer.querySelectorAll<HTMLElement>('[data-academic-partners-map-partner]').forEach((partner): void => {
         const rawLatitude = partner.dataset.lat?.trim() ?? '';
         const rawLongitude = partner.dataset.lng?.trim() ?? '';
         const latitude = Number(rawLatitude);

@@ -459,7 +459,7 @@ final class AcademicPartnerPageTemplateTest extends AbstractAcademicPartnersTest
 
         $content = $this->renderFrontendPage('https://www.acme.com/web-vision');
 
-        $this->assertStringContainsString('<h1>web-vision GmbH</h1>', $content);
+        $this->assertStringContainsString('<h1 class="ace-title">web-vision GmbH</h1>', $content);
         $this->assertMainColumnInManualOrder($content);
         $this->assertStringNotContainsString('A note in the side column.', $content);
     }

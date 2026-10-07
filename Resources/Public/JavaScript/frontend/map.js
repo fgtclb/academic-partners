@@ -68,7 +68,7 @@ const initializeMap = () => {
   const map = createMap("map", { zoom: configuration.zoom, maxZoom: configuration.maxZoom, layers: [tiles] });
   const markers = new MarkerClusterGroup({ chunkedLoading: true });
   const icon = configuration.markerImages === null ? void 0 : new Icon.Default({ imagePath: configuration.markerImages });
-  partnerContainer.querySelectorAll(".map-partner").forEach((partner) => {
+  partnerContainer.querySelectorAll("[data-academic-partners-map-partner]").forEach((partner) => {
     var _a, _b;
     const rawLatitude = ((_a = partner.dataset.lat) == null ? void 0 : _a.trim()) ?? "";
     const rawLongitude = ((_b = partner.dataset.lng) == null ? void 0 : _b.trim()) ?? "";

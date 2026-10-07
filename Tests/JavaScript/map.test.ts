@@ -45,7 +45,7 @@ const draw = async (markup: string): Promise<typeof recorded> => {
 
 const ONE_PARTNER =
   '<ul id="map-partners">' +
-  '<li class="map-partner" data-lat="47.195131" data-lng="8.526731"' +
+  '<li class="ace-partner" data-academic-partners-map-partner="" data-lat="47.195131" data-lng="8.526731"' +
   ' data-name="TYPO3 Association" data-link="/partner/typo3-association">' +
   "<span>TYPO3 Association</span></li>" +
   "</ul>";
@@ -59,22 +59,22 @@ describe("the partner map", () => {
     resetBody(
       '<div id="map"></div>' +
         '<ul id="map-partners">' +
-        '<li class="map-partner" data-lat="47.195131" data-lng="8.526731"' +
+        '<li class="ace-partner" data-academic-partners-map-partner="" data-lat="47.195131" data-lng="8.526731"' +
         ' data-name="TYPO3 Association" data-link="/partner/typo3-association">' +
         "<span>TYPO3 Association</span></li>" +
         // Never geocoded. "Number('')" is 0, not NaN, so this used to be drawn
         // at 0/0 instead of being skipped (ACE-562).
-        '<li class="map-partner" data-lat="" data-lng=""' +
+        '<li class="ace-partner" data-academic-partners-map-partner="" data-lat="" data-lng=""' +
         ' data-name="Without Coordinates" data-link="/partner/without-coordinates">' +
         "<span>Without Coordinates</span></li>" +
         // A zero pair in a spelling the SQL rule does not catch: the query matches
         // the literal "0" the command writes, so this one reaches the module.
-        '<li class="map-partner" data-lat="0.0" data-lng="0"' +
+        '<li class="ace-partner" data-academic-partners-map-partner="" data-lat="0.0" data-lng="0"' +
         ' data-name="Null Island" data-link="/partner/null-island">' +
         "<span>Null Island</span></li>" +
         // A single zero is a real coordinate: this one is on the prime meridian
         // and has to survive the check that removes the two above.
-        '<li class="map-partner" data-lat="51.477928" data-lng="0"' +
+        '<li class="ace-partner" data-academic-partners-map-partner="" data-lat="51.477928" data-lng="0"' +
         ' data-name="Royal Observatory" data-link="/partner/royal-observatory">' +
         "<span>Royal Observatory</span></li>" +
         "</ul>",
@@ -231,7 +231,7 @@ describe("the partner map", () => {
     const recorded = await draw(
       '<div id="map"></div>' +
         '<ul id="map-partners">' +
-        '<li class="map-partner" data-lat="47.195131" data-lng="8.526731"' +
+        '<li class="ace-partner" data-academic-partners-map-partner="" data-lat="47.195131" data-lng="8.526731"' +
         ' data-name="Smith &amp; Sons &lt;Ltd&gt;" data-link="/partner/smith-sons">' +
         "<span>Smith &amp; Sons &lt;Ltd&gt;</span></li>" +
         "</ul>",

@@ -41,10 +41,9 @@ final class AcademicPartnerPageLayoutTest extends AbstractAcademicPartnersTestCa
     ];
 
     /**
-     * The header of the partner page, the element around its heading, and the subtitle
-     * that follows the heading.
+     * The header of the partner page, and the subtitle that follows its heading.
      */
-    private const HEADER = '//div[h1]';
+    private const HEADER = '//header[h1]';
     private const SUBTITLE = self::HEADER . '/h1/following-sibling::p';
     private const FIXTURES = 'EXT:academic_partners/Tests/Functional/Pages/Fixtures/';
     private const PARTNER_PAGE = 'https://www.acme.com/web-vision';
@@ -189,7 +188,7 @@ final class AcademicPartnerPageLayoutTest extends AbstractAcademicPartnersTestCa
 
         $compiled = $this->renderFrontendPage('https://www.acme.com/acme-ag');
         $header = strpos($compiled, 'site-layout-wide-header');
-        $title = strpos($compiled, '<h1>Acme AG</h1>');
+        $title = strpos($compiled, '<h1 class="ace-title">Acme AG</h1>');
         $footer = strpos($compiled, 'site-layout-wide-footer');
         $this->assertIsInt($header, 'The layout is missing on the second partner page.');
         $this->assertIsInt($title, 'The partner content is missing on the second partner page.');
@@ -255,7 +254,7 @@ final class AcademicPartnerPageLayoutTest extends AbstractAcademicPartnersTestCa
 
         $content = $this->renderFrontendPage(self::PARTNER_PAGE);
 
-        $this->assertStringContainsString('<h1>web-vision GmbH</h1>', $content);
+        $this->assertStringContainsString('<h1 class="ace-title">web-vision GmbH</h1>', $content);
         $this->assertStringContainsString(self::CONTENT_ELEMENT, $content);
         $this->assertStringNotContainsString('site-package-default-template', $content);
     }
@@ -282,7 +281,7 @@ final class AcademicPartnerPageLayoutTest extends AbstractAcademicPartnersTestCa
         $content = $this->renderFrontendPage(self::PARTNER_PAGE);
 
         $this->assertStringContainsString('<div class="project-partner-header">web-vision GmbH</div>', $content);
-        $this->assertStringNotContainsString('<h1>web-vision GmbH</h1>', $content);
+        $this->assertStringNotContainsString('<h1 class="ace-title">web-vision GmbH</h1>', $content);
         $this->assertStringContainsString('<picture', $content);
         $this->assertStringContainsString(self::CONTENT_ELEMENT, $content);
     }
@@ -352,8 +351,8 @@ final class AcademicPartnerPageLayoutTest extends AbstractAcademicPartnersTestCa
 
         $content = $this->renderFrontendPage(self::PARTNER_PAGE);
 
-        $this->assertStringContainsString('<h1>web-vision GmbH</h1>', $content);
-        $this->assertStringContainsString('<p>Partner university since 2019</p>', $content);
+        $this->assertStringContainsString('<h1 class="ace-title">web-vision GmbH</h1>', $content);
+        $this->assertStringContainsString('<p class="ace-subtitle">Partner university since 2019</p>', $content);
     }
 
     #[Test]
@@ -364,7 +363,7 @@ final class AcademicPartnerPageLayoutTest extends AbstractAcademicPartnersTestCa
 
         $content = $this->renderFrontendPage('https://www.acme.com/acme-ag');
 
-        $this->assertStringContainsString('<h1>Acme AG</h1>', $content);
+        $this->assertStringContainsString('<h1 class="ace-title">Acme AG</h1>', $content);
         $this->assertCount(1, $this->nodesMatching($this->parseRenderedPage($content), self::HEADER));
         $this->assertCount(0, $this->nodesMatching($this->parseRenderedPage($content), self::SUBTITLE));
     }

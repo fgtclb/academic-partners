@@ -31,7 +31,7 @@
 
     <div class="container">
         <div class="academic-partners-detail-page">
-            <div>
+            <div class="ace-hero">
                 <f:render partial="Partner/Page/Header" arguments="{_all}" />
                 <f:render partial="Partner/Page/Media" arguments="{_all}" />
             </div>
@@ -42,7 +42,9 @@
         </div>
     </div>
 
-    <f:render partial="Partner/Page/Content" arguments="{_all}" />
+    <div class="ace-content">
+        <f:render partial="Partner/Page/Content" arguments="{_all}" />
+    </div>
 </f:section>
 
 </html>

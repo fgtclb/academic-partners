@@ -25,15 +25,19 @@
 
 <f:if condition="{partnersToList}">
     <f:then>
-        <div class="row">
-            <f:for each="{partnersToList}" as="partner">
-                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
-                    <f:render
-                        partial="Partner/Item"
-                        arguments="{_all}"
-                    />
-                </div>
-            </f:for>
+        <div class="ace-list">
+            <div class="row">
+                <f:for each="{partnersToList}" as="partner">
+                    <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                        <div class="ace-item">
+                            <f:render
+                                partial="Partner/Item"
+                                arguments="{_all}"
+                            />
+                        </div>
+                    </div>
+                </f:for>
+            </div>
         </div>
 
         <f:if condition="{pagination.lastPageNumber} > 1">
@@ -48,7 +52,7 @@
         </f:if>
     </f:then>
     <f:else>
-        <span>{f:translate(key: 'list.noPartnersFound', extensionName: 'AcademicPartners')}</span>
+        <span class="ace-empty">{f:translate(key: 'list.noPartnersFound', extensionName: 'AcademicPartners')}</span>
     </f:else>
 </f:if>
 

@@ -28,14 +28,18 @@
                     <f:variable name="moreFiltersActive" value="1"/>
                 </f:if>
             </f:for>
-            <details class="col-12" {f:if(condition: moreFiltersActive, then: 'open')}>
-                <summary>{f:translate(key: 'filter.moreFilters', extensionName: 'AcademicPartners')}</summary>
-                <div class="row">
-                    <f:for each="{filterTypes.more}" as="categoryKey">
-                        <f:render section="Filter" arguments="{categoryKey: categoryKey, categories: categories, demand: demand, settings: settings}"/>
-                    </f:for>
-                </div>
-            </details>
+            <div class="col-12">
+                <details class="ace-more" {f:if(condition: moreFiltersActive, then: 'open')}>
+                    <summary class="ace-toggle">{f:translate(key: 'filter.moreFilters', extensionName: 'AcademicPartners')}</summary>
+                    <div class="ace-filters">
+                        <div class="row">
+                            <f:for each="{filterTypes.more}" as="categoryKey">
+                                <f:render section="Filter" arguments="{categoryKey: categoryKey, categories: categories, demand: demand, settings: settings}"/>
+                            </f:for>
+                        </div>
+                    </div>
+                </details>
+            </div>
         </f:if>
     </f:then>
     <f:else>
@@ -59,26 +63,29 @@
 <f:section name="Filter">
     <f:variable name="allOptionsLabel" value="{f:translate(key: 'sys_category.partners.allOptions', extensionName: 'AcademicPartners')}"/>
     <div class="col-12 col-md-6 col-lg-4 col-xl-3">
-        <label for="{categoryKey}">
-            {f:translate(key: 'sys_category.partners.{categoryKey}', extensionName: 'AcademicPartners') -> ct:categoryTypeTitle(group: 'partners', identifier: categoryKey)}
-        </label>
+        <div class="ace-filter">
+            <label class="ace-label" for="{categoryKey}">
+                {f:translate(key: 'sys_category.partners.{categoryKey}', extensionName: 'AcademicPartners') -> ct:categoryTypeTitle(group: 'partners', identifier: categoryKey)}
+            </label>
 
-        <ct:form.filterSelect
-            id="{categoryKey}"
-            property="filterCollection.{categoryKey}"
-            value="{demand.filterCollection.filterCategories.{categoryKey}}"
-            options="{categories.{categoryKey}}"
-            optionValueField="uid"
-            optionLabelField="title"
-            prependOptionLabel="{f:translate(
-                key: 'sys_category.partners.allOptions.{categoryKey}',
-                extensionName: 'AcademicPartners',
-                default: allOptionsLabel
-            )}"
-            prependOptionValue=""
-            hideDisabledOptions="{settings.filter.hideDisabledOptions}"
-            additionalAttributes="{'onchange': 'this.form.submit()'}"
-        />
+            <ct:form.filterSelect
+                class="ace-control"
+                id="{categoryKey}"
+                property="filterCollection.{categoryKey}"
+                value="{demand.filterCollection.filterCategories.{categoryKey}}"
+                options="{categories.{categoryKey}}"
+                optionValueField="uid"
+                optionLabelField="title"
+                prependOptionLabel="{f:translate(
+                    key: 'sys_category.partners.allOptions.{categoryKey}',
+                    extensionName: 'AcademicPartners',
+                    default: allOptionsLabel
+                )}"
+                prependOptionValue=""
+                hideDisabledOptions="{settings.filter.hideDisabledOptions}"
+                additionalAttributes="{'onchange': 'this.form.submit()'}"
+            />
+        </div>
     </div>
 </f:section>
 

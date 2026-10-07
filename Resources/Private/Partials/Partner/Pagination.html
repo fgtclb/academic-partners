@@ -21,11 +21,12 @@
 </f:comment>
 
 <nav
+    class="ace-pagination"
     aria-label="{f:translate(key: 'list.pagination.label', extensionName: 'AcademicPartners')}"
 >
-    <ul class="f3-widget-paginator">
+    <ul class="ace-pages">
         <f:if condition="{pagination.previousPageNumber} && {pagination.previousPageNumber} >= {pagination.firstPageNumber}">
-            <li class="page-item first">
+            <li class="ace-page first">
                 <f:render
                     section="PageLink"
                     arguments="{
@@ -35,7 +36,7 @@
                     }"
                 />
             </li>
-            <li class="page-item previous">
+            <li class="ace-page prev">
                 <f:render
                     section="PageLink"
                     arguments="{
@@ -48,20 +49,20 @@
         </f:if>
 
         <f:if condition="{pagination.hasLessPages}">
-            <li class="page-item disabled">
-                <span class="page-link">…</span>
+            <li class="ace-page disabled">
+                <span class="ace-link">…</span>
             </li>
         </f:if>
 
         <f:for each="{pagination.allPageNumbers}" as="page">
             <f:if condition="{page} == {paginator.currentPageNumber}">
                 <f:then>
-                    <li class="page-item active" aria-current="page">
-                        <span class="page-link">{page}</span>
+                    <li class="ace-page active" aria-current="page">
+                        <span class="ace-link">{page}</span>
                     </li>
                 </f:then>
                 <f:else>
-                    <li class="page-item">
+                    <li class="ace-page">
                         <f:render
                             section="PageLink"
                             arguments="{page: page, demandArguments: demandArguments}"
@@ -72,13 +73,13 @@
         </f:for>
 
         <f:if condition="{pagination.hasMorePages}">
-            <li class="page-item disabled">
-                <span class="page-link">…</span>
+            <li class="ace-page disabled">
+                <span class="ace-link">…</span>
             </li>
         </f:if>
 
         <f:if condition="{pagination.nextPageNumber} && {pagination.nextPageNumber} <= {pagination.lastPageNumber}">
-            <li class="page-item next">
+            <li class="ace-page next">
                 <f:render
                     section="PageLink"
                     arguments="{
@@ -88,7 +89,7 @@
                     }"
                 />
             </li>
-            <li class="page-item last">
+            <li class="ace-page last">
                 <f:render
                     section="PageLink"
                     arguments="{
@@ -111,7 +112,7 @@
             sortingDirection: demandArguments.sortingDirection,
             currentPage: page
         }}"
-        class="page-link"
+        class="ace-link"
     ><f:if condition="{labelKey}"><f:then><f:translate key="{labelKey}" extensionName="fluid" /></f:then><f:else>{page}</f:else></f:if></f:link.action>
 </f:section>
 

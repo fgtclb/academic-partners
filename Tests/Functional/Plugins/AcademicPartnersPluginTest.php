@@ -119,13 +119,13 @@ final class AcademicPartnersPluginTest extends AbstractAcademicPartnersTestCase
     }
 
     /**
-     * The items of a plugin, each the element in a grid column of its list.
+     * The items of a plugin.
      */
     private function countItems(string $content, string $pluginClass): int
     {
         return $this->countContentElementHeaderNodes(
             $content,
-            sprintf('//div[contains(concat(" ", normalize-space(@class), " "), " %s ")]//div[contains(concat(" ", normalize-space(@class), " "), " col-12 ")]/div', $pluginClass),
+            sprintf('//div[contains(concat(" ", normalize-space(@class), " "), " %s ")]//div[contains(concat(" ", normalize-space(@class), " "), " ace-item ")]', $pluginClass),
         );
     }
 
@@ -137,7 +137,7 @@ final class AcademicPartnersPluginTest extends AbstractAcademicPartnersTestCase
     private function assertGroupedPartnerHeading(string $content): void
     {
         $this->assertMatchesRegularExpression(
-            '#<h3 class="">\s*<a href="/alpha-university">Alpha University</a>\s*</h3>#',
+            '#<h3 class="ace-title ">\s*<a href="/alpha-university">Alpha University</a>\s*</h3>#',
             $content,
         );
     }

@@ -27,7 +27,7 @@
             <f:render partial="Partner/Map" arguments="{partners: partners, map: settings.map}" />
         </f:then>
         <f:else>
-            <p>
+            <p class="ace-empty">
                 <f:if condition="{demand.filterCollection.filterCategories}">
                     <f:then>
                         <!-- The visitor filtered everything away; the geodata is not the reason. -->
