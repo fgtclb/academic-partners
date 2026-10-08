@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use FGTCLB\AcademicPartners\Controller\PartnerController;
+use FGTCLB\AcademicPartners\Hook\PartnerRoleLocalizationHook;
 use FGTCLB\AcademicPartners\Hook\PartnershipSortingHook;
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 
@@ -55,6 +56,8 @@ use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
         = PartnershipSortingHook::class;
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processCmdmapClass']['academicPartnersPartnershipSorting']
         = PartnershipSortingHook::class;
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processCmdmapClass']['academicPartnersRoleLocalization']
+        = PartnerRoleLocalizationHook::class;
 
     // The list actions are not cacheable, so the cached page around them never depends on
     // the demand. Kept out of the cache hash, every filter URL of a list shares that one page
