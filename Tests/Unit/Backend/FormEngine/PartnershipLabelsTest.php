@@ -15,7 +15,9 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 /**
  * The `label_userFunc` of the partnership table. The backend calls it for every record
  * title it renders, also for a record that is deleted or missing, for example from the
- * open documents or the history, and hands it no row or a row without a uid then.
+ * open documents or the history, and hands it no row or a row without a uid then. A
+ * new record arrives with its `NEW…` placeholder as uid, which PostgreSQL rejects in
+ * the integer comparison of a lookup.
  */
 final class PartnershipLabelsTest extends UnitTestCase
 {
@@ -48,6 +50,8 @@ final class PartnershipLabelsTest extends UnitTestCase
             'row is null' => [['table' => 'tx_academicpartners_domain_model_partnership', 'row' => null, 'title' => '']],
             'row is empty' => [['table' => 'tx_academicpartners_domain_model_partnership', 'row' => [], 'title' => '']],
             'row without uid' => [['table' => 'tx_academicpartners_domain_model_partnership', 'row' => ['pid' => 1], 'title' => '']],
+            'row of a new record' => [['table' => 'tx_academicpartners_domain_model_partnership', 'row' => ['uid' => 'NEW64f1a2b3c4d5e', 'pid' => 1], 'title' => '']],
+            'row with uid 0' => [['table' => 'tx_academicpartners_domain_model_partnership', 'row' => ['uid' => 0, 'pid' => 1], 'title' => '']],
         ];
     }
 
