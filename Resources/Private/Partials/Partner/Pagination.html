@@ -36,6 +36,7 @@
                     }"
                 />
             </li>
+
             <li class="ace-page prev">
                 <f:render
                     section="PageLink"
@@ -89,6 +90,7 @@
                     }"
                 />
             </li>
+
             <li class="ace-page last">
                 <f:render
                     section="PageLink"
@@ -106,14 +108,25 @@
 <f:section name="PageLink">
     <f:link.action
         action="list"
-        arguments="{demand: {
-            filterCollection: demandArguments.filterCollection,
-            sortingField: demandArguments.sortingField,
-            sortingDirection: demandArguments.sortingDirection,
-            currentPage: page
-        }}"
+        arguments="{
+            demand: {
+                filterCollection: demandArguments.filterCollection,
+                sortingField: demandArguments.sortingField,
+                sortingDirection: demandArguments.sortingDirection,
+                currentPage: page
+            }
+        }"
         class="ace-link"
-    ><f:if condition="{labelKey}"><f:then><f:translate key="{labelKey}" extensionName="fluid" /></f:then><f:else>{page}</f:else></f:if></f:link.action>
+    >
+        <f:if condition="{labelKey}">
+            <f:then>
+                {f:translate(key: labelKey, extensionName: 'fluid')}
+            </f:then>
+            <f:else>
+                {page}
+            </f:else>
+        </f:if>
+    </f:link.action>
 </f:section>
 
 </html>
