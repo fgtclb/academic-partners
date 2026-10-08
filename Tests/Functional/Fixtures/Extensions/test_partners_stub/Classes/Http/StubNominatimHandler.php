@@ -23,10 +23,28 @@ final class StubNominatimHandler
     public const LONGITUDE = '13.404954';
 
     /**
+     * Every request answered, so a test can assert what the command sent. A test that
+     * reads it empties it in its `setUp()`.
+     *
+     * @var list<RequestInterface>
+     */
+    public static array $requests = [];
+
+    /**
+     * A status code to answer with instead of the canned result, for the error path. A
+     * test that sets it resets it in its `tearDown()`.
+     */
+    public static ?int $failWithStatus = null;
+
+    /**
      * @param array<string, mixed> $options
      */
     public function __invoke(RequestInterface $request, array $options): PromiseInterface
     {
+        self::$requests[] = $request;
+        if (self::$failWithStatus !== null) {
+            return Create::promiseFor(new Response(self::$failWithStatus));
+        }
         return Create::promiseFor(
             new Response(
                 200,
