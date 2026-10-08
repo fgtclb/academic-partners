@@ -9,8 +9,10 @@ use FGTCLB\AcademicPartners\Service\GeocodeWriteContext;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
@@ -58,8 +60,11 @@ final class GeocodeCommand extends Command
 
         // Nothing to geocode
         if (!$partner) {
+            $output->writeln('No partner is waiting for geocoding.');
+            $this->logger->info('No partner is waiting for geocoding.');
             return Command::SUCCESS;
         }
+        $partnerLabel = sprintf('Partner %d "%s"', $partner->getUid(), $partner->getTitle());
 
         if ($partner->getAddressStreet() === ''
             || $partner->getAddressStreetNumber() === ''
@@ -67,10 +72,10 @@ final class GeocodeCommand extends Command
             || $partner->getAddressZip() === ''
             || $partner->getAddressCountry() === ''
         ) {
-            return $this->writeGeocodeResult($partner->getUid(), [
+            return $this->reportResult($output, $partnerLabel, $partner->getUid(), [
                 'geocode_status' => 'failed',
                 'geocode_message' => 'There are not sufficient address details given.',
-            ]) ? Command::SUCCESS : Command::FAILURE;
+            ]);
         }
 
         $now = new \DateTime();
@@ -84,10 +89,11 @@ final class GeocodeCommand extends Command
 
         $url = $this->geocodingUrl . $addressQuery;
 
-        // Add valid HTTP referer to identify app as required by Nominatim's usage policy
+        // Add valid HTTP referer to identify app as required by Nominatim's usage policy.
+        // The header is spelled "Referer" (RFC 9110), unlike the argument.
         $additionalOptions = [
             'headers' => [
-                'Referrer' => $referrer,
+                'Referer' => $referrer,
             ],
         ];
 
@@ -102,6 +108,7 @@ final class GeocodeCommand extends Command
                     'errorMessage' => $e->getMessage(),
                 ]
             );
+            $this->errorOutput($output)->writeln(sprintf('<error>%s: the request to Nominatim failed: %s</error>', OutputFormatter::escape($partnerLabel), OutputFormatter::escape($e->getMessage())));
             return Command::FAILURE;
         }
 
@@ -117,6 +124,7 @@ final class GeocodeCommand extends Command
                     'exception' => $e,
                 ]
             );
+            $this->errorOutput($output)->writeln(sprintf('<error>%s: Nominatim answered with invalid JSON.</error>', OutputFormatter::escape($partnerLabel)));
             return Command::FAILURE;
         }
 
@@ -130,9 +138,46 @@ final class GeocodeCommand extends Command
             $values['geocode_message'] = 'The address details were not sufficient for geolocalization.';
         }
 
-        return $this->writeGeocodeResult($partner->getUid(), $values)
-            ? Command::SUCCESS
-            : Command::FAILURE;
+        return $this->reportResult($output, $partnerLabel, $partner->getUid(), $values);
+    }
+
+    /**
+     * Writes the result and reports what happened to the partner, on the console and in
+     * the log. The scheduler runs a command with a `NullOutput` on TYPO3 v13 and v14
+     * alike, so the log is the only trace a scheduled run leaves: a partner that could
+     * not be geocoded is a warning, which the default log configuration writes, a
+     * geocoded one is info.
+     *
+     * @param array<string, string|int> $values
+     */
+    private function reportResult(OutputInterface $output, string $partnerLabel, int $partnerUid, array $values): int
+    {
+        if (!$this->writeGeocodeResult($partnerUid, $values)) {
+            $this->errorOutput($output)->writeln(sprintf('<error>%s: the geocoding result could not be stored.</error>', OutputFormatter::escape($partnerLabel)));
+            return Command::FAILURE;
+        }
+        if ($values['geocode_status'] === 'successful') {
+            $message = sprintf(
+                '%s: geocoded to %s, %s.',
+                $partnerLabel,
+                $values['geocode_latitude'],
+                $values['geocode_longitude'],
+            );
+            // The title of a partner is no console markup, the log keeps it as it is.
+            $output->writeln(OutputFormatter::escape($message));
+            $this->logger->info($message, ['partner' => $partnerUid]);
+        } else {
+            $message = sprintf('%s: geocoding failed. %s', $partnerLabel, $values['geocode_message']);
+            // The title of a partner is no console markup, the log keeps it as it is.
+            $output->writeln(OutputFormatter::escape($message));
+            $this->logger->warning($message, ['partner' => $partnerUid]);
+        }
+        return Command::SUCCESS;
+    }
+
+    private function errorOutput(OutputInterface $output): OutputInterface
+    {
+        return $output instanceof ConsoleOutputInterface ? $output->getErrorOutput() : $output;
     }
 
     /**
