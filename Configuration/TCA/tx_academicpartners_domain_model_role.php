@@ -111,7 +111,14 @@ return [
         ],
         'partnerships' => [
             'exclude' => true,
-            'l10n_mode' => 'exclude',
+            // A translated partnership keeps the role of its default language
+            // record (the "role" select of the partnership is l10n_mode
+            // "exclude"), so the list belongs to the default language role only.
+            // "l10n_mode" must stay unset: with "exclude" the DataHandler
+            // synchronized the list into every translation of the role on each
+            // save, which wrote the uid of the role translation into the
+            // translated partnerships.
+            'displayCond' => 'FIELD:sys_language_uid:<=:0',
             'label' => 'LLL:EXT:academic_partners/Resources/Private/Language/locallang_be.xlf:tx_academicpartners_domain_model_role.partnerships',
             'config' => [
                 'type' => 'inline',
