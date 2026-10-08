@@ -180,6 +180,9 @@
       <trans-unit id="columns.address_country.description">
         <source>A valid country is required for geocoding.</source>
       </trans-unit>
+      <trans-unit id="columns.address_country.I.default.label">
+        <source>No country</source>
+      </trans-unit>
       <trans-unit id="columns.address_street.label">
         <source>Street</source>
       </trans-unit>

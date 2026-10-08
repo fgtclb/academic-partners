@@ -160,7 +160,7 @@ final class AcademicPartnersPluginTest extends AbstractAcademicPartnersTestCase
         // covers that here, the class has no test of its own.
         $this->assertStringContainsString('<option value="title" selected="selected">Title</option>', $content);
         $this->assertStringContainsString('<option value="lastUpdated">Last updated</option>', $content);
-        $this->assertStringContainsString('<option value="asc" selected="selected">ascending</option>', $content);
+        $this->assertStringContainsString('<option value="asc" selected="selected">Ascending</option>', $content);
     }
 
     #[Test]

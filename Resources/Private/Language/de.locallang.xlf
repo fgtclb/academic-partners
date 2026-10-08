@@ -67,12 +67,12 @@
         <target>Sortierreihenfolge</target>
       </trans-unit>
       <trans-unit id="sorting.direction.asc">
-        <source>ascending</source>
-        <target>aufsteigend</target>
+        <source>Ascending</source>
+        <target>Aufsteigend</target>
       </trans-unit>
       <trans-unit id="sorting.direction.desc">
-        <source>descending</source>
-        <target>absteigend</target>
+        <source>Descending</source>
+        <target>Absteigend</target>
       </trans-unit>
 
       <!-- Sorting field options -->
@@ -106,11 +106,11 @@
       </trans-unit>
       <trans-unit id="sorting.lastUpdated.asc">
         <source>Last updated (latest last)</source>
-        <target>Zuletzt aktualisiert (zuletzt zuletzt)</target>
+        <target>Zuletzt aktualisiert (älteste zuerst)</target>
       </trans-unit>
       <trans-unit id="sorting.lastUpdated.desc">
         <source>Last updated (latest first)</source>
-        <target>Zuletzt aktualisiert (zuletzt zuerst)</target>
+        <target>Zuletzt aktualisiert (neueste zuerst)</target>
       </trans-unit>
       <trans-unit id="sorting.sorting.asc">
         <source>Page sorting (Result may be unexpected)</source>

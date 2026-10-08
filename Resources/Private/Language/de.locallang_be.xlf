@@ -139,6 +139,7 @@
       </trans-unit>
       <trans-unit id="flexform.sorting.update.asc">
         <source>Last updated (latest last)</source>
+        <target>Zuletzt aktualisiert (älteste zuerst)</target>
       </trans-unit>
       <trans-unit id="flexform.sorting.sorting.asc">
         <source>Page sorting (result may be unexpected)</source>
@@ -216,7 +217,7 @@
       </trans-unit>
       <trans-unit id="columns.address_city.description">
         <source>A valid city name is required for geocoding.</source>
-        <target>Ein gültiger Städtename ist für des Geocoding erforderlich.</target>
+        <target>Ein gültiger Städtename ist für das Geocoding erforderlich.</target>
       </trans-unit>
       <trans-unit id="columns.address_country.label">
         <source>Country</source>
@@ -224,7 +225,11 @@
       </trans-unit>
       <trans-unit id="columns.address_country.description">
         <source>A valid country is required for geocoding.</source>
-        <target>Ein gültiges Land ist für des Geocoding erforderlich.</target>
+        <target>Ein gültiges Land ist für das Geocoding erforderlich.</target>
+      </trans-unit>
+      <trans-unit id="columns.address_country.I.default.label">
+        <source>No country</source>
+        <target>Kein Land</target>
       </trans-unit>
       <trans-unit id="columns.address_street.label">
         <source>Street</source>
@@ -232,7 +237,7 @@
       </trans-unit>
       <trans-unit id="columns.address_street.description">
         <source>A valid street name is required for geocoding.</source>
-        <target>Ein gültiger Straßenname ist für des Geocoding erforderlich.</target>
+        <target>Ein gültiger Straßenname ist für das Geocoding erforderlich.</target>
       </trans-unit>
       <trans-unit id="columns.address_street_number.label">
         <source>Street Number</source>
@@ -240,7 +245,7 @@
       </trans-unit>
       <trans-unit id="columns.address_street_number.description">
         <source>A valid street number is required for geocoding.</source>
-        <target>Eine gültige Hausnummer ist für des Geocoding erforderlich.</target>
+        <target>Eine gültige Hausnummer ist für das Geocoding erforderlich.</target>
       </trans-unit>
       <trans-unit id="columns.address_zip.label">
         <source>Zip</source>
@@ -248,7 +253,7 @@
       </trans-unit>
       <trans-unit id="columns.address_zip.description">
         <source>A valid zip code is required for geocoding.</source>
-        <target>Eine gültige Postleitzahl ist für des Geocoding erforderlich.</target>
+        <target>Eine gültige Postleitzahl ist für das Geocoding erforderlich.</target>
       </trans-unit>
       <trans-unit id="columns.description.label">
         <source>Description</source>
