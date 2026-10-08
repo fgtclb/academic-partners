@@ -141,7 +141,7 @@ final class AcademicPartnersMapConfigurationTest extends AbstractAcademicPartner
 
         $content = $this->renderFrontendPage('https://www.acme.com/home');
 
-        $this->assertStringContainsString('<div class="academic-partners-map container">', $content);
+        $this->assertStringContainsString('<div class="academic-partners-map ">', $content);
         $this->assertStringNotContainsString('layout-fullWidth', $content);
     }
 
@@ -157,8 +157,8 @@ final class AcademicPartnersMapConfigurationTest extends AbstractAcademicPartner
 
         $classes = explode(' ', $container->getAttribute('class'));
         $this->assertSame($fullWidth, in_array('layout-fullWidth', $classes, true));
-        // The content width is the width of the container.
-        $this->assertSame(!$fullWidth, in_array('container', $classes, true));
+        // The width of the content is left to the layout of the content element.
+        $this->assertNotContains('container', $classes);
         // The layout changes the class and nothing else: the map is drawn either way.
         $partners = $xpath->query('//*[@id="map-partners"]/li');
         $this->assertInstanceOf(\DOMNodeList::class, $partners);

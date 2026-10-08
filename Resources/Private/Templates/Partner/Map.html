@@ -6,9 +6,9 @@
 
 <f:comment>
     The layout of the content element. A map saved before the layout existed carries none
-    and renders at the content width, like the layout "default".
+    and renders like the layout "default".
 </f:comment>
-<f:variable name="layoutClass" value="container" />
+<f:variable name="layoutClass" value="" />
 <f:if condition="{settings.map.layout} && {settings.map.layout} != 'default'">
     <f:variable name="layoutClass" value="layout-{settings.map.layout}" />
 </f:if>
