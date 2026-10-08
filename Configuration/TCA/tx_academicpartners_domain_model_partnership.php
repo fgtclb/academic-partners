@@ -47,6 +47,47 @@ return [
         ],
     ],
     'columns' => [
+        // Declared rather than left to the core. TYPO3 v13 creates a missing
+        // "transOrigPointerField" column as the select below, TYPO3 v12 adds it as
+        // "passthrough". A "NEW" placeholder in a passthrough language pointer is
+        // written with the value the remap stack of DataHandler computed for the
+        // entry before it, so on v12 a translation created together with its
+        // original pointed at an unrelated record (ACE-854).
+        'sys_language_uid' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.language',
+            'config' => [
+                'type' => 'language',
+            ],
+        ],
+        'l10n_parent' => [
+            'displayCond' => 'FIELD:sys_language_uid:>:0',
+            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.l18n_parent',
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'items' => [
+                    [
+                        'label' => '',
+                        'value' => 0,
+                    ],
+                ],
+                'foreign_table' => 'tx_academicpartners_domain_model_partnership',
+                'foreign_table_where' => 'AND {#tx_academicpartners_domain_model_partnership}.{#pid}=###CURRENT_PID### AND {#tx_academicpartners_domain_model_partnership}.{#sys_language_uid} IN (-1,0)',
+                'default' => 0,
+            ],
+        ],
+        'l10n_source' => [
+            'config' => [
+                'type' => 'passthrough',
+            ],
+        ],
+        'l10n_diffsource' => [
+            'config' => [
+                'type' => 'passthrough',
+                'default' => '',
+            ],
+        ],
         'hidden' => [
             'exclude' => true,
             'l10n_mode' => 'exclude',
