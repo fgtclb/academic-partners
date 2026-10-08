@@ -337,9 +337,9 @@ final class AcademicPartnersListFilterTest extends AbstractAcademicPartnersTestC
      * list or the map in place of `%1$s`.
      */
     private const DEFAULT_FILTER_CELLS = [
-        '<div class="ace-filter"><label class="ace-label" for="region"> Region </label><select onchange="this.form.submit()" class="ace-control" id="region" name="%1$s[demand][filterCollection][region]"><option value="">All options</option><option value="1" class="level-0">Europe</option><option value="2" class="level-0">Americas</option></select></div>',
-        '<div class="ace-filter"><label class="ace-label" for="partner_type"> Partner Type </label><select onchange="this.form.submit()" class="ace-control" id="partner_type" name="%1$s[demand][filterCollection][partner_type]"><option value="">All options</option><option value="3" class="level-0">University</option></select></div>',
-        '<div class="ace-filter"><label class="ace-label" for="sdg"> SDG </label><select onchange="this.form.submit()" class="ace-control" id="sdg" name="%1$s[demand][filterCollection][sdg]"><option value="">All options</option><option value="4" class="level-0">Quality Education</option><option value="5" class="level-0" disabled>Climate Action</option></select></div>',
+        '<div class="ace-filter ace-field ace-select-wrap"><label class="ace-label" for="region"> Region </label><select onchange="this.form.submit()" class="ace-control ace-select" id="region" name="%1$s[demand][filterCollection][region]"><option value="">All options</option><option value="1" class="level-0">Europe</option><option value="2" class="level-0">Americas</option></select></div>',
+        '<div class="ace-filter ace-field ace-select-wrap"><label class="ace-label" for="partner_type"> Partner Type </label><select onchange="this.form.submit()" class="ace-control ace-select" id="partner_type" name="%1$s[demand][filterCollection][partner_type]"><option value="">All options</option><option value="3" class="level-0">University</option></select></div>',
+        '<div class="ace-filter ace-field ace-select-wrap"><label class="ace-label" for="sdg"> SDG </label><select onchange="this.form.submit()" class="ace-control ace-select" id="sdg" name="%1$s[demand][filterCollection][sdg]"><option value="">All options</option><option value="4" class="level-0">Quality Education</option><option value="5" class="level-0" disabled>Climate Action</option></select></div>',
     ];
 
     /**

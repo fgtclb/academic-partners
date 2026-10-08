@@ -38,10 +38,10 @@ final class PartnerListRouteEnhancerTest extends AbstractAcademicPartnersTestCas
     use SiteBasedTestTrait;
 
     /**
-     * The list or the map and the element of the active filters below it.
+     * The tags are children of the element the filter form is rendered into: the content of
+     * the list, the map itself.
      */
-    private const LIST = '//div[contains(concat(" ", normalize-space(@class), " "), " academic-partners-list ") or contains(concat(" ", normalize-space(@class), " "), " academic-partners-map ")]';
-    private const ACTIVE_FILTERS = self::LIST . '//div[contains(concat(" ", normalize-space(@class), " "), " ace-filters ")][not(ancestor::form)]';
+    private const ACTIVE_FILTERS = '(//div[contains(concat(" ", normalize-space(@class), " "), " academic-partners-list ")]/div[contains(concat(" ", normalize-space(@class), " "), " ace-content ")] | //div[contains(concat(" ", normalize-space(@class), " "), " academic-partners-map ")])';
     private const LIST_NAMESPACE = 'tx_academicpartners_list';
     private const MAP_NAMESPACE = 'tx_academicpartners_map';
     private const FORM = '//form[@name="demand"]';

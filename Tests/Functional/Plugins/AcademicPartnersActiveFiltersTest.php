@@ -37,7 +37,12 @@ final class AcademicPartnersActiveFiltersTest extends AbstractAcademicPartnersTe
      * pagination below it.
      */
     private const LIST = '//div[contains(concat(" ", normalize-space(@class), " "), " academic-partners-list ") or contains(concat(" ", normalize-space(@class), " "), " academic-partners-map ")]';
-    private const ACTIVE_FILTERS = self::LIST . '//div[contains(concat(" ", normalize-space(@class), " "), " ace-filters ")][not(ancestor::form)]';
+    /**
+     * The tags and the reset link are children of the element the filter form is rendered
+     * into: the content of the list, the map itself.
+     */
+    private const ACTIVE_FILTERS = '(//div[contains(concat(" ", normalize-space(@class), " "), " academic-partners-list ")]/div[contains(concat(" ", normalize-space(@class), " "), " ace-content ")] | //div[contains(concat(" ", normalize-space(@class), " "), " academic-partners-map ")])';
+    private const ACTIVE_FILTER_PARTS = self::ACTIVE_FILTERS . '/*[self::ul[contains(concat(" ", normalize-space(@class), " "), " ace-active-filters ")] or self::a]';
     private const RESULT_COUNT = self::LIST . '//p[contains(concat(" ", normalize-space(@class), " "), " ace-count ")]';
     private const LIST_NAMESPACE = 'tx_academicpartners_list';
     private const MAP_NAMESPACE = 'tx_academicpartners_map';
@@ -161,12 +166,12 @@ final class AcademicPartnersActiveFiltersTest extends AbstractAcademicPartnersTe
         $this->setUpSite(self::ALL_ON);
 
         $sorted = $this->renderFrontendPage($this->listUrl('/home', '', 'title', 'desc'));
-        $this->assertSame(0, $this->activeFiltersQuery($sorted, self::ACTIVE_FILTERS)->length);
+        $this->assertSame(0, $this->activeFiltersQuery($sorted, self::ACTIVE_FILTER_PARTS)->length);
         $this->assertSame('3 partners found', $this->activeFiltersResultCount($sorted, self::RESULT_COUNT));
 
         $secondPage = $this->renderFrontendPage($this->listUrl('/paginated', '', 'title', 'asc') . '&tx_academicpartners_list%5Bdemand%5D%5BcurrentPage%5D=2');
         $this->assertSame(1, $this->activeFiltersQuery($secondPage, self::LIST . '//nav')->length);
-        $this->assertSame(0, $this->activeFiltersQuery($secondPage, self::ACTIVE_FILTERS)->length);
+        $this->assertSame(0, $this->activeFiltersQuery($secondPage, self::ACTIVE_FILTER_PARTS)->length);
     }
 
     /**
@@ -179,7 +184,7 @@ final class AcademicPartnersActiveFiltersTest extends AbstractAcademicPartnersTe
 
         $content = $this->renderFrontendPage('https://www.acme.com/home');
 
-        $this->assertSame(0, $this->activeFiltersQuery($content, self::ACTIVE_FILTERS)->length);
+        $this->assertSame(0, $this->activeFiltersQuery($content, self::ACTIVE_FILTER_PARTS)->length);
         $this->assertSame('3 partners found', $this->activeFiltersResultCount($content, self::RESULT_COUNT));
     }
 
@@ -224,7 +229,7 @@ final class AcademicPartnersActiveFiltersTest extends AbstractAcademicPartnersTe
         foreach (['/home', '/map'] as $path) {
             $content = $this->renderFrontendPage($this->listUrl($path, '1,3', 'title', 'asc', $path === '/map' ? self::MAP_NAMESPACE : self::LIST_NAMESPACE));
 
-            $this->assertSame(0, $this->activeFiltersQuery($content, self::ACTIVE_FILTERS)->length, $path);
+            $this->assertSame(0, $this->activeFiltersQuery($content, self::ACTIVE_FILTER_PARTS)->length, $path);
             $this->assertSame(0, $this->activeFiltersQuery($content, self::RESULT_COUNT)->length, $path);
         }
     }
@@ -255,7 +260,7 @@ final class AcademicPartnersActiveFiltersTest extends AbstractAcademicPartnersTe
 
         $content = $this->renderFrontendPage($this->listUrl('/filter-hidden', '1,3', 'title', 'asc'));
 
-        $this->assertSame(0, $this->activeFiltersQuery($content, self::ACTIVE_FILTERS)->length);
+        $this->assertSame(0, $this->activeFiltersQuery($content, self::ACTIVE_FILTER_PARTS)->length);
         $this->assertSame('2 partners found', $this->activeFiltersResultCount($content, self::RESULT_COUNT));
     }
 

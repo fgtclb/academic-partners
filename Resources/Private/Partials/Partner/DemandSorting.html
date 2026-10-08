@@ -6,13 +6,13 @@
 >
 
 <div class="col-12 col-md-6 col-lg-4 col-xl-3">
-    <div class="ace-field">
+    <div class="ace-filter ace-field ace-select-wrap">
         <label class="ace-label" for="sortingField">
             {f:translate(key: 'sorting.field.label', extensionName: 'AcademicPartners')}
         </label>
 
         <ace:form.sortingSelect
-            class="ace-control"
+            class="ace-control ace-select"
             id="sortingField"
             property="sortingField"
             value="{demand.sortingField}"
@@ -24,13 +24,13 @@
 </div>
 
 <div class="col-12 col-md-6 col-lg-4 col-xl-3">
-    <div class="ace-field">
+    <div class="ace-filter ace-field ace-select-wrap">
         <label class="ace-label" for="sortingDirection">
             {f:translate(key: 'sorting.direction.label', extensionName: 'AcademicPartners')}
         </label>
 
         <ace:form.sortingSelect
-            class="ace-control"
+            class="ace-control ace-select"
             id="sortingDirection"
             property="sortingDirection"
             value="{demand.sortingDirection}"
