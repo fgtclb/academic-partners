@@ -183,7 +183,7 @@ final class AcademicPartnerPageTemplateTest extends AbstractAcademicPartnersTest
 
         $content = $this->renderFrontendPage('https://www.acme.com/web-vision');
 
-        $this->assertStringContainsString('academic-partners-detail-page', $content);
+        $this->assertStringContainsString('academic-partners-page', $content);
         $this->assertStringNotContainsString('site-package-default-template', $content);
     }
 
@@ -226,7 +226,7 @@ final class AcademicPartnerPageTemplateTest extends AbstractAcademicPartnersTest
 
         $content = $this->renderFrontendPage('https://www.acme.com/acme-ag');
 
-        $this->assertStringContainsString('academic-partners-detail-page', $content);
+        $this->assertStringContainsString('academic-partners-page', $content);
         $this->assertStringNotContainsString('Region', $content);
         $this->assertStringNotContainsString('Rhine-Main Area', $content);
         $this->assertStringNotContainsString('Partner Type', $content);
@@ -244,7 +244,7 @@ final class AcademicPartnerPageTemplateTest extends AbstractAcademicPartnersTest
         $this->setUpTestCase();
 
         $xpath = $this->parseRenderedPage($this->renderFrontendPage('https://www.acme.com/web-vision'));
-        $detail = $this->elementMatching($xpath, "//*[contains(concat(' ', normalize-space(@class), ' '), ' academic-partners-detail-page ')]");
+        $detail = $this->elementMatching($xpath, "//*[contains(concat(' ', normalize-space(@class), ' '), ' academic-partners-page ')]");
         $this->assertRendersResponsivePicture(
             $xpath,
             $detail,
@@ -261,7 +261,7 @@ final class AcademicPartnerPageTemplateTest extends AbstractAcademicPartnersTest
         $this->setUpTestCase();
 
         $xpath = $this->parseRenderedPage($this->renderFrontendPage('https://www.acme.com/acme-ag'));
-        $detail = $this->elementMatching($xpath, "//*[contains(concat(' ', normalize-space(@class), ' '), ' academic-partners-detail-page ')]");
+        $detail = $this->elementMatching($xpath, "//*[contains(concat(' ', normalize-space(@class), ' '), ' academic-partners-page ')]");
         $this->assertRendersNoImage($xpath, $detail, '');
     }
 
@@ -301,7 +301,7 @@ final class AcademicPartnerPageTemplateTest extends AbstractAcademicPartnersTest
         $this->setUpPageViewTestCase();
 
         $xpath = $this->parseRenderedPage($this->renderFrontendPage('https://www.acme.com/web-vision'));
-        $detail = $this->elementMatching($xpath, "//*[contains(concat(' ', normalize-space(@class), ' '), ' academic-partners-detail-page ')]");
+        $detail = $this->elementMatching($xpath, "//*[contains(concat(' ', normalize-space(@class), ' '), ' academic-partners-page ')]");
         $this->assertRendersResponsivePicture(
             $xpath,
             $detail,

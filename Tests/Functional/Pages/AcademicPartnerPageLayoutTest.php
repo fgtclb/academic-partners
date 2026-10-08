@@ -300,6 +300,7 @@ final class AcademicPartnerPageLayoutTest extends AbstractAcademicPartnersTestCa
 
         $this->assertStringContainsString('<div class="project-partner-page">web-vision GmbH</div>', $content);
         $this->assertStringNotContainsString('academic-partners-detail', $content);
+        $this->assertStringNotContainsString('academic-partners-page', $content);
     }
 
     /**
@@ -374,7 +375,7 @@ final class AcademicPartnerPageLayoutTest extends AbstractAcademicPartnersTestCa
     private function assertPartnerBetween(string $content, string $headerMarker, string $footerMarker): void
     {
         $header = strpos($content, $headerMarker);
-        $partner = strpos($content, 'academic-partners-detail-page');
+        $partner = strpos($content, 'academic-partners-page');
         $element = strpos($content, self::CONTENT_ELEMENT);
         $footer = strpos($content, $footerMarker);
         $this->assertIsInt($header, sprintf('The layout marker "%s" is missing.', $headerMarker));

@@ -37,8 +37,8 @@ final class AcademicPartnersActiveFiltersTest extends AbstractAcademicPartnersTe
      * pagination below it.
      */
     private const LIST = '//div[contains(concat(" ", normalize-space(@class), " "), " academic-partners-list ") or contains(concat(" ", normalize-space(@class), " "), " academic-partners-map ")]';
-    private const ACTIVE_FILTERS = self::LIST . '/div[ul or a]';
-    private const RESULT_COUNT = self::LIST . '/p[1]';
+    private const ACTIVE_FILTERS = self::LIST . '//div[contains(concat(" ", normalize-space(@class), " "), " ace-filters ")][not(ancestor::form)]';
+    private const RESULT_COUNT = self::LIST . '//p[contains(concat(" ", normalize-space(@class), " "), " ace-count ")]';
     private const LIST_NAMESPACE = 'tx_academicpartners_list';
     private const MAP_NAMESPACE = 'tx_academicpartners_map';
     private const ALL_ON = "plugin.tx_academicpartners.filter.showActiveFilters = 1\n"
@@ -165,7 +165,7 @@ final class AcademicPartnersActiveFiltersTest extends AbstractAcademicPartnersTe
         $this->assertSame('3 partners found', $this->activeFiltersResultCount($sorted, self::RESULT_COUNT));
 
         $secondPage = $this->renderFrontendPage($this->listUrl('/paginated', '', 'title', 'asc') . '&tx_academicpartners_list%5Bdemand%5D%5BcurrentPage%5D=2');
-        $this->assertSame(1, $this->activeFiltersQuery($secondPage, self::LIST . '/nav')->length);
+        $this->assertSame(1, $this->activeFiltersQuery($secondPage, self::LIST . '//nav')->length);
         $this->assertSame(0, $this->activeFiltersQuery($secondPage, self::ACTIVE_FILTERS)->length);
     }
 
@@ -208,7 +208,7 @@ final class AcademicPartnersActiveFiltersTest extends AbstractAcademicPartnersTe
 
         $content = $this->renderFrontendPage($this->listUrl('/paginated', '1', 'title', 'asc'));
 
-        $this->assertSame(1, $this->activeFiltersQuery($content, self::LIST . '/nav')->length);
+        $this->assertSame(1, $this->activeFiltersQuery($content, self::LIST . '//nav')->length);
         $this->assertSame('2 partners found', $this->activeFiltersResultCount($content, self::RESULT_COUNT));
     }
 

@@ -91,7 +91,8 @@ final class AcademicPartnersImageRenderingTest extends AbstractAcademicPartnersT
     private function itemsOf(\DOMXPath $xpath, string $pluginClass): array
     {
         $items = [];
-        $query = sprintf('//div[contains(concat(" ", normalize-space(@class), " "), " %s ")]//div[contains(concat(" ", normalize-space(@class), " "), " ace-item ")]', $pluginClass);
+        // The item is the element in a grid column of the list.
+        $query = sprintf('//div[contains(concat(" ", normalize-space(@class), " "), " %s ")]//div[contains(concat(" ", normalize-space(@class), " "), " ace-list ") or contains(concat(" ", normalize-space(@class), " "), " ace-itemlist ")]/div[@class="row"]/div/*', $pluginClass);
         foreach ($this->nodesMatching($xpath, $query) as $item) {
             $this->assertInstanceOf(\DOMElement::class, $item);
             $items[] = $item;

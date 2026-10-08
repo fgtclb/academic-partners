@@ -4,19 +4,24 @@
     data-namespace-typo3-fluid="true"
 >
 
-<f:comment>The layout of the content element. The theme styles the modifier class.</f:comment>
-<f:variable name="layoutClass" value="" />
-<f:if condition="{settings.map.layout} == 'fullWidth'">
-    <f:variable name="layoutClass" value=" academic-partners-map--full-width" />
+<f:comment>
+    The layout of the content element. A map saved before the layout existed carries none
+    and renders at the content width, like the layout "default".
+</f:comment>
+<f:variable name="layoutClass" value="container" />
+<f:if condition="{settings.map.layout} && {settings.map.layout} != 'default'">
+    <f:variable name="layoutClass" value="layout-{settings.map.layout}" />
 </f:if>
 
 <div class="academic-partners-map {layoutClass}">
+
     <f:if condition="{settings.renderContentElementHeader}">
         <f:render partial="Header/All" arguments="{_all}" />
     </f:if>
 
     <f:comment>The links of the active filters lead back to the map, not to the list.</f:comment>
     <f:variable name="filterAction" value="map" />
+
     <f:render
         partial="Partner/SortingAndFilters"
         arguments="{_all}"
@@ -24,7 +29,13 @@
 
     <f:if condition="{partners}">
         <f:then>
-            <f:render partial="Partner/Map" arguments="{partners: partners, map: settings.map}" />
+            <f:render
+                partial="Partner/Map"
+                arguments="{
+                    partners: partners,
+                    map: settings.map
+                }"
+            />
         </f:then>
         <f:else>
             <p class="ace-empty">

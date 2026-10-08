@@ -24,26 +24,35 @@
         PAGEVIEW reserves that name, while a PAGEVIEW site package may assign a "data" of
         its own.
     </f:comment>
-    <f:variable name="pageRecord" value="{page.pageRecord}" />
-    <f:if condition="!{pageRecord}">
-        <f:variable name="pageRecord" value="{data}" />
-    </f:if>
+    <f:variable name="pageRecord" value="{f:if(condition: page.pageRecord, then: page.pageRecord, else: data)}" />
 
-    <div class="container">
-        <div class="academic-partners-detail-page">
-            <div class="ace-hero">
-                <f:render partial="Partner/Page/Header" arguments="{_all}" />
-                <f:render partial="Partner/Page/Media" arguments="{_all}" />
-            </div>
+    <div class="academic-partners-page container">
+        <div class="ace-hero">
+            <f:render
+                partial="Partner/Page/Header"
+                arguments="{_all}"
+            />
 
-            <f:render partial="Partner/Page/Categories" arguments="{_all}" />
-
-            <f:render partial="Partner/Page/Address" arguments="{_all}" />
+            <f:render
+                partial="Partner/Page/Media"
+                arguments="{_all}"
+            />
         </div>
-    </div>
 
-    <div class="ace-content">
-        <f:render partial="Partner/Page/Content" arguments="{_all}" />
+        <f:render
+            partial="Partner/Page/Categories"
+            arguments="{_all}"
+        />
+
+        <f:render
+            partial="Partner/Page/Address"
+            arguments="{_all}"
+        />
+
+        <f:render
+            partial="Partner/Page/Content"
+            arguments="{_all}"
+        />
     </div>
 </f:section>
 

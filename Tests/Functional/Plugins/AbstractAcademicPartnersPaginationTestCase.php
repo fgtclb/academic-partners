@@ -125,7 +125,7 @@ abstract class AbstractAcademicPartnersPaginationTestCase extends AbstractAcadem
         $document = new \DOMDocument();
         @$document->loadHTML('<?xml encoding="utf-8" ?>' . $content);
         $navigations = (new \DOMXPath($document))->query(
-            '//div[contains(concat(" ", normalize-space(@class), " "), " academic-partners-list ")]/nav'
+            '//div[contains(concat(" ", normalize-space(@class), " "), " academic-partners-list ")]/div[contains(concat(" ", normalize-space(@class), " "), " ace-content ")]/nav'
         );
         if ($navigations === false || $navigations->length === 0) {
             return null;

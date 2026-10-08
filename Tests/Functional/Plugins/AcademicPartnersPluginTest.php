@@ -119,13 +119,13 @@ final class AcademicPartnersPluginTest extends AbstractAcademicPartnersTestCase
     }
 
     /**
-     * The items of a plugin.
+     * The items of a plugin, each the element in a grid column of its list.
      */
     private function countItems(string $content, string $pluginClass): int
     {
         return $this->countContentElementHeaderNodes(
             $content,
-            sprintf('//div[contains(concat(" ", normalize-space(@class), " "), " %s ")]//div[contains(concat(" ", normalize-space(@class), " "), " ace-item ")]', $pluginClass),
+            sprintf('//div[contains(concat(" ", normalize-space(@class), " "), " %s ")]//div[contains(concat(" ", normalize-space(@class), " "), " ace-list ") or contains(concat(" ", normalize-space(@class), " "), " ace-itemlist ")]/div[@class="row"]/div/*', $pluginClass),
         );
     }
 

@@ -41,7 +41,7 @@ final class PartnerListRouteEnhancerTest extends AbstractAcademicPartnersTestCas
      * The list or the map and the element of the active filters below it.
      */
     private const LIST = '//div[contains(concat(" ", normalize-space(@class), " "), " academic-partners-list ") or contains(concat(" ", normalize-space(@class), " "), " academic-partners-map ")]';
-    private const ACTIVE_FILTERS = self::LIST . '/div[ul or a]';
+    private const ACTIVE_FILTERS = self::LIST . '//div[contains(concat(" ", normalize-space(@class), " "), " ace-filters ")][not(ancestor::form)]';
     private const LIST_NAMESPACE = 'tx_academicpartners_list';
     private const MAP_NAMESPACE = 'tx_academicpartners_map';
     private const FORM = '//form[@name="demand"]';
