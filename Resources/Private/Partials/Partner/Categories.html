@@ -1,0 +1,29 @@
+<html
+    lang="en"
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    xmlns:ct="http://typo3.org/ns/FGTCLB/CategoryTypes/ViewHelpers"
+    xmlns:ab="http://typo3.org/ns/FGTCLB/AcademicBase/ViewHelpers"
+    data-namespace-typo3-fluid="true"
+>
+
+<ul class="ace-list ace-attributes">
+    <f:for each="{partner.attributes.allCategoriesByType}" as="attributes" key="category">
+        <f:if condition="{attributes}">
+            <li class="ace-list-item ace-attribute">
+                <span class="ace-icon"><ab:icon identifier="category_types.partners.{category}"/></span>
+
+                <b class="ace-label">
+                    {f:translate(key: 'sys_category.partners.{category}', extensionName: 'AcademicPartners') -> ct:categoryTypeTitle(group: 'partners', identifier: category)}:
+                </b>
+
+                <span class="ace-value">
+                    <f:for each="{attributes}" as="attribute" iteration="i">
+                        {attribute.title}{f:if(condition: '!{i.isLast}', then: ', ')}
+                    </f:for>
+                </span>
+            </li>
+        </f:if>
+    </f:for>
+</ul>
+
+</html>

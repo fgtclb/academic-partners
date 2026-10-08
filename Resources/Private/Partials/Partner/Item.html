@@ -6,38 +6,23 @@
     data-namespace-typo3-fluid="true"
 >
 
-<article class="ace-card ace-partner-card">
-    <div class="ace-content">
-        <header class="ace-header">
-            <f:render
-                partial="Partner/Header"
-                arguments="{
-                    header: '{partner.title}',
-                    layout: '{data.header_layout}',
-                    link: '{f:uri.page(pageUid: partner.uid)}',
-                    subheader: '{data.subheader}'
-                }"
-            />
-        </header>
+<article class="ace-item">
+    <div class="ace-item-content">
+        <f:render
+            partial="Partner/Header"
+            arguments="{
+                header: '{partner.title}',
+                layout: '{data.header_layout}',
+                link: '{f:uri.page(pageUid: partner.uid)}',
+                subheader: '{data.subheader}'
+            }"
+        />
 
         <f:if condition="{partner.attributes}">
-            <ul class="ace-properties">
-                <f:for each="{partner.attributes.allCategoriesByType}" as="attributes" key="category">
-                    <f:if condition="{attributes}">
-                        <li class="ace-property">
-                            <span class="ace-icon"><ab:icon identifier="category_types.partners.{category}"/></span>
-
-                            <b class="ace-label">{f:translate(key: 'sys_category.partners.{category}', extensionName: 'AcademicPartners') -> ct:categoryTypeTitle(group: 'partners', identifier: category)}:</b>
-
-                            <span class="ace-value">
-                                <f:for each="{attributes}" as="attribute" iteration="i">
-                                    {attribute.title}{f:if(condition: '!{i.isLast}', then: ', ')}
-                                </f:for>
-                            </span>
-                        </li>
-                    </f:if>
-                </f:for>
-            </ul>
+            <f:render
+                partial="Partner/Categories"
+                arguments="{_all}"
+            />
         </f:if>
     </div>
 
@@ -48,15 +33,13 @@
                 ratio, so the preset is "logo" rather than "card", and a vector logo is
                 passed through unprocessed.
             </f:comment>
-            <div class="ace-media">
-                <f:render
-                    partial="Academic/Image"
-                    arguments="{
-                        image: image,
-                        preset: 'logo',
-                    }"
-                />
-            </div>
+            <f:render
+                partial="Academic/Image"
+                arguments="{
+                    image: image,
+                    preset: 'logo',
+                }"
+            />
         </f:if>
     </f:for>
 </article>
