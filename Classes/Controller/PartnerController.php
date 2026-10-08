@@ -8,6 +8,7 @@ use FGTCLB\AcademicBase\Controller\DispatchModifyPluginViewEventMethodTrait;
 use FGTCLB\AcademicBase\Controller\GetCurrentContentRecordMethodTrait;
 use FGTCLB\AcademicBase\Domain\Model\Dto\PluginControllerActionContext;
 use FGTCLB\AcademicBase\Domain\Model\Dto\PluginControllerActionContextInterface;
+use FGTCLB\AcademicBase\Persistence\HiddenRecordsFetcher;
 use FGTCLB\AcademicPartners\Domain\Model\Partner;
 use FGTCLB\AcademicPartners\Domain\Repository\PartnerRepository;
 use FGTCLB\AcademicPartners\Domain\Repository\PartnershipRepository;
@@ -39,6 +40,7 @@ final class PartnerController extends ActionController
         private readonly DemandFactory $partnerDemandFactory,
         private readonly ExtensionService $filterRedirectExtensionService,
         private readonly FilterTypeResolver $filterTypeResolver,
+        private readonly HiddenRecordsFetcher $hiddenRecordsFetcher,
     ) {}
 
     /**
@@ -294,6 +296,12 @@ final class PartnerController extends ActionController
             $requestedPage,
             $resultsPerPage > 0 ? $resultsPerPage : 10,
         );
+        // The paginator executes the query of the page on its own, and the template renders
+        // that result, so it is fetched like the one of the repository.
+        $paginatedItems = $paginator->getPaginatedItems();
+        if ($paginatedItems instanceof QueryResultInterface) {
+            $this->hiddenRecordsFetcher->fetch($paginatedItems);
+        }
         if (ExtensionManagementUtility::isLoaded('numbered_pagination')
             && class_exists(NumberedPagination::class)
         ) {

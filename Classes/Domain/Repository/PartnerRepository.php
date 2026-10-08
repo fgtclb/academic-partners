@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FGTCLB\AcademicPartners\Domain\Repository;
 
+use FGTCLB\AcademicBase\Persistence\HiddenRecordsFetcher;
 use FGTCLB\AcademicPartners\Domain\Model\Dto\PartnerDemand;
 use FGTCLB\AcademicPartners\Domain\Model\Partner;
 use FGTCLB\AcademicPartners\Enumeration\PageTypes;
@@ -19,6 +20,12 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  */
 class PartnerRepository extends Repository
 {
+    public function __construct(
+        private readonly HiddenRecordsFetcher $hiddenRecordsFetcher,
+    ) {
+        parent::__construct();
+    }
+
     public function initializeObject(): void
     {
         $querySettings = GeneralUtility::makeInstance(Typo3QuerySettings::class);
@@ -100,7 +107,7 @@ class PartnerRepository extends Repository
             ]
         );
 
-        return $query->execute();
+        return $this->hiddenRecordsFetcher->execute($query);
     }
 
     public function findNextForGeolocation(): ?Partner
