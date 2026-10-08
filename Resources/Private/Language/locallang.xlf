@@ -42,10 +42,10 @@
 				<source>Sorting direction</source>
 			</trans-unit>
 			<trans-unit id="sorting.direction.asc">
-				<source>ascending</source>
+				<source>Ascending</source>
 			</trans-unit>
 			<trans-unit id="sorting.direction.desc">
-				<source>descending</source>
+				<source>Descending</source>
 			</trans-unit>
 
 			<!-- Sorting field options -->
