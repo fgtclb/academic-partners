@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FGTCLB\AcademicPartners\Domain\Repository;
 
+use FGTCLB\AcademicBase\Domain\Repository\HiddenRecordsQueryTrait;
 use FGTCLB\AcademicPartners\Domain\Model\Dto\PartnerDemand;
 use FGTCLB\AcademicPartners\Domain\Model\Partner;
 use FGTCLB\AcademicPartners\Enumeration\PageTypes;
@@ -19,6 +20,8 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  */
 class PartnerRepository extends Repository
 {
+    use HiddenRecordsQueryTrait;
+
     public function initializeObject(): void
     {
         $querySettings = GeneralUtility::makeInstance(Typo3QuerySettings::class);
@@ -57,10 +60,7 @@ class PartnerRepository extends Repository
         $query->getQuerySettings()->setRespectStoragePage(false);
 
         if ($demand->getShowHiddenRecords() === true) {
-            // Include hidden (disabled) records; other enable fields
-            // (deleted, start-/endtime, fe_group) stay in effect.
-            $query->getQuerySettings()->setIgnoreEnableFields(true);
-            $query->getQuerySettings()->setEnableFieldsToBeIgnored(['disabled']);
+            $this->includeHiddenRecords($query);
         }
 
         $constraints = [];
@@ -100,7 +100,10 @@ class PartnerRepository extends Repository
             ]
         );
 
-        return $query->execute();
+        $this->matchTranslationsOfHiddenRecords($query);
+        $partners = $query->execute();
+        $this->fetchIncludingHiddenRecords($partners);
+        return $partners;
     }
 
     public function findNextForGeolocation(): ?Partner
