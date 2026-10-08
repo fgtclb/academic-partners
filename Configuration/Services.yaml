@@ -16,6 +16,10 @@ services:
   FGTCLB\AcademicPartners\Hook\PartnershipSortingHook:
     public: true
 
+  # Instantiated by the DataHandler through GeneralUtility::makeInstance() as well.
+  FGTCLB\AcademicPartners\Hook\PartnerRoleLocalizationHook:
+    public: true
+
   FGTCLB\AcademicPartners\DataProcessing\PartnerProcessor:
     tags:
       - {

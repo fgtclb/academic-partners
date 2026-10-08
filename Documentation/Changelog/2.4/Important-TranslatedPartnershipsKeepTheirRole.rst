@@ -55,12 +55,12 @@ translation of their role. This query lists them:
     query lists them too. Delete them before saving the default language
     records that repair the others.
 
-Localizing a role still localizes its partnerships, because core localizes
-every inline child of a localized record, and no configuration prevents that.
-Partnerships without a translation get one that points to the translation of
-the role, which the first query lists. Partnerships that are translated already
-are copied once more, and the copies are no longer removed again, the second
-query lists them. Run both queries after localizing a role.
+Localizing a role, or copying it into a language, no longer localizes its
+partnerships either. Core still localizes every inline child of a localized
+record, and no configuration prevents that, so the partnerships it created are
+deleted again when the localization ends. For a partnership that is translated
+already, core still reports that its localization failed, while nothing is
+created. A plain copy of a role keeps copying its partnerships.
 
 Affected Installations
 ======================
