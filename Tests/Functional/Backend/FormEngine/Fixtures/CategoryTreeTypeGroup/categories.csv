@@ -1,0 +1,26 @@
+"be_users",
+,"uid","pid","username","password","admin"
+,1,0,"admin","$1$tCrlLajZ$C0sikFQQ3SWaFAZ1Me0Z/1",1
+"pages",
+,"uid","pid","doktype","deleted","hidden","sys_language_uid","l10n_parent","slug","title"
+,1,0,1,0,0,0,0,"/","Site Root"
+"tt_content",
+,"uid","pid","CType","header","pi_flexform"
+,1,1,"academicpartners_list","Partner list",""
+"sys_category",
+,"uid","pid","deleted","hidden","sys_language_uid","l10n_parent","parent","sorting","type","title"
+,1,1,0,0,0,0,0,1,"region","Region: Europe"
+,2,1,0,0,0,0,0,2,"partner_type","Partner type: University"
+,3,1,0,0,0,0,0,3,"collaboration_type","Collaboration type: Exchange"
+,4,1,0,0,0,0,0,4,"sdg","SDG: Quality education"
+,5,1,0,0,0,0,0,5,"default","Plain category"
+,6,1,0,0,0,0,0,6,"degree","Degree: Bachelor (programs)"
+,7,1,0,0,0,0,0,7,"competence_field","Competence field: Energy (projects)"
+,8,1,0,0,0,0,0,8,"job_type","Job type: Full time (jobs)"
+,9,1,0,0,0,0,0,9,"default","Plain parent of a partner category"
+,10,1,0,0,0,0,9,10,"region","Region: Asia (below a plain parent)"
+,11,1,0,0,0,0,9,11,"degree","Degree: Master (below the same plain parent)"
+,12,1,0,0,0,0,0,12,"degree","Degree parent of a partner category"
+,13,1,0,0,0,0,12,13,"sdg","SDG: Climate action (below a degree)"
+,14,1,1,0,0,0,0,14,"region","Region: deleted"
+,15,1,0,0,1,1,0,15,"region","Region: Europa (translation)"
