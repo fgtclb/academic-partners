@@ -44,10 +44,10 @@ const draw = async (markup: string): Promise<typeof recorded> => {
 };
 
 const ONE_PARTNER =
-  '<ul id="map-partners">' +
-  '<li class="ace-partner" data-academic-partners-map-partner="" data-lat="47.195131" data-lng="8.526731"' +
+  '<ul id="map-partners" class="ace-list" hidden>' +
+  '<li class="ace-list-item" data-academic-partners-map-partner="" data-lat="47.195131" data-lng="8.526731"' +
   ' data-name="TYPO3 Association" data-link="/partner/typo3-association">' +
-  "<span>TYPO3 Association</span></li>" +
+  '<span class="ace-title">TYPO3 Association</span></li>' +
   "</ul>";
 
 const DEFAULT_TILE_URL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
@@ -58,25 +58,25 @@ describe("the partner map", () => {
   it("draws itself when the module is evaluated after parsing finished", async () => {
     resetBody(
       '<div id="map"></div>' +
-        '<ul id="map-partners">' +
-        '<li class="ace-partner" data-academic-partners-map-partner="" data-lat="47.195131" data-lng="8.526731"' +
+        '<ul id="map-partners" class="ace-list" hidden>' +
+        '<li class="ace-list-item" data-academic-partners-map-partner="" data-lat="47.195131" data-lng="8.526731"' +
         ' data-name="TYPO3 Association" data-link="/partner/typo3-association">' +
-        "<span>TYPO3 Association</span></li>" +
+        '<span class="ace-title">TYPO3 Association</span></li>' +
         // Never geocoded. "Number('')" is 0, not NaN, so this used to be drawn
         // at 0/0 instead of being skipped (ACE-562).
-        '<li class="ace-partner" data-academic-partners-map-partner="" data-lat="" data-lng=""' +
+        '<li class="ace-list-item" data-academic-partners-map-partner="" data-lat="" data-lng=""' +
         ' data-name="Without Coordinates" data-link="/partner/without-coordinates">' +
-        "<span>Without Coordinates</span></li>" +
+        '<span class="ace-title">Without Coordinates</span></li>' +
         // A zero pair in a spelling the SQL rule does not catch: the query matches
         // the literal "0" the command writes, so this one reaches the module.
-        '<li class="ace-partner" data-academic-partners-map-partner="" data-lat="0.0" data-lng="0"' +
+        '<li class="ace-list-item" data-academic-partners-map-partner="" data-lat="0.0" data-lng="0"' +
         ' data-name="Null Island" data-link="/partner/null-island">' +
-        "<span>Null Island</span></li>" +
+        '<span class="ace-title">Null Island</span></li>' +
         // A single zero is a real coordinate: this one is on the prime meridian
         // and has to survive the check that removes the two above.
-        '<li class="ace-partner" data-academic-partners-map-partner="" data-lat="51.477928" data-lng="0"' +
+        '<li class="ace-list-item" data-academic-partners-map-partner="" data-lat="51.477928" data-lng="0"' +
         ' data-name="Royal Observatory" data-link="/partner/royal-observatory">' +
-        "<span>Royal Observatory</span></li>" +
+        '<span class="ace-title">Royal Observatory</span></li>' +
         "</ul>",
     );
 
@@ -123,7 +123,7 @@ describe("the partner map", () => {
 
   it("uses the values it always had when the map carries no configuration", async () => {
     // What an overridden template renders that predates the configuration.
-    const recorded = await draw('<div id="map"></div><ul id="map-partners"></ul>');
+    const recorded = await draw('<div id="map"></div><ul id="map-partners" class="ace-list" hidden></ul>');
 
     assert.ok(recorded.map !== null && recorded.tiles !== null);
     assert.equal(recorded.tiles.urlTemplate, DEFAULT_TILE_URL);
@@ -135,7 +135,7 @@ describe("the partner map", () => {
   it("centres a map without partners on the configured centre and zoom", async () => {
     const recorded = await draw(
       '<div id="map" data-academic-partners-center-lat="47.5162" data-academic-partners-center-lng="14.5501" data-academic-partners-zoom="10"></div>' +
-        '<ul id="map-partners"></ul>',
+        '<ul id="map-partners" class="ace-list" hidden></ul>',
     );
 
     assert.ok(recorded.map !== null);
@@ -172,7 +172,7 @@ describe("the partner map", () => {
       '<div id="map" data-academic-partners-zoom="far" data-academic-partners-max-zoom=""' +
         ' data-academic-partners-center-lat="95" data-academic-partners-center-lng="12"' +
         ' data-academic-partners-tile-url=" " data-academic-partners-attribution=""></div>' +
-        '<ul id="map-partners"></ul>',
+        '<ul id="map-partners" class="ace-list" hidden></ul>',
     );
 
     assert.ok(recorded.map !== null && recorded.tiles !== null);
@@ -200,7 +200,7 @@ describe("the partner map", () => {
     const withoutPartners = await draw(
       '<div id="map" data-academic-partners-zoom="0" data-academic-partners-max-zoom="0"' +
         ' data-academic-partners-center-lat="0" data-academic-partners-center-lng="0"></div>' +
-        '<ul id="map-partners"></ul>',
+        '<ul id="map-partners" class="ace-list" hidden></ul>',
     );
 
     assert.ok(withoutPartners.map !== null && withoutPartners.tiles !== null);
@@ -230,10 +230,10 @@ describe("the partner map", () => {
     // module the title the editor typed.
     const recorded = await draw(
       '<div id="map"></div>' +
-        '<ul id="map-partners">' +
-        '<li class="ace-partner" data-academic-partners-map-partner="" data-lat="47.195131" data-lng="8.526731"' +
+        '<ul id="map-partners" class="ace-list" hidden>' +
+        '<li class="ace-list-item" data-academic-partners-map-partner="" data-lat="47.195131" data-lng="8.526731"' +
         ' data-name="Smith &amp; Sons &lt;Ltd&gt;" data-link="/partner/smith-sons">' +
-        "<span>Smith &amp; Sons &lt;Ltd&gt;</span></li>" +
+        '<span class="ace-title">Smith &amp; Sons &lt;Ltd&gt;</span></li>' +
         "</ul>",
     );
 

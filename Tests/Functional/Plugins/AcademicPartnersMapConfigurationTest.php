@@ -163,6 +163,9 @@ final class AcademicPartnersMapConfigurationTest extends AbstractAcademicPartner
         $partners = $xpath->query('//*[@id="map-partners"]/li');
         $this->assertInstanceOf(\DOMNodeList::class, $partners);
         $this->assertSame(2, $partners->length);
+        // The list hands the partners to the script, the map shows them: the list itself is
+        // hidden without a class a theme has to provide.
+        $this->assertTrue($this->elementMatching($xpath, '//*[@id="map-partners"]')->hasAttribute('hidden'));
         // The FlexForm adds "layout" to "settings.map", and the settings of the TypoScript
         // next to it have to survive that merge.
         $this->assertSame('18', $this->elementMatching($xpath, '//*[@id="map"]')->getAttribute('data-academic-partners-max-zoom'));
