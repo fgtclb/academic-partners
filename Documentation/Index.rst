@@ -55,6 +55,11 @@ filterable list and map views in the frontend.
 
         Configure the extension and its plugins for your installation.
 
+    ..  card:: :ref:`Styling <styling>`
+
+        The classes of the partner plugins and the partner page, and how a site
+        package styles them.
+
     ..  card:: :ref:`For developers <developers>`
 
         The events the partner list and map dispatch, and what a listener
@@ -77,6 +82,7 @@ filterable list and map views in the frontend.
     Introduction/Index
     Installation/Index
     Configuration/Index
+    Styling/Index
     Developers/Index
     KnownProblems/Index
     Changelog/Changelog-3
