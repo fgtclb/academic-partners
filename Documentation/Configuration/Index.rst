@@ -34,13 +34,13 @@ the backend offers, not how much TypoScript is loaded.
     *   -   Set
         -   Delivers
     *   -   `fgtclb/academic-partners-list`
-        -   The :guilabel:`Partners List` content element.
+        -   The :guilabel:`Partner List` content element.
     *   -   `fgtclb/academic-partners-map`
-        -   The :guilabel:`Partners Map` content element.
+        -   The :guilabel:`Partner Map` content element.
     *   -   `fgtclb/academic-partners-partnerships-list`
-        -   The :guilabel:`Partnerships List` content element.
+        -   The :guilabel:`Partners Linked` content element.
     *   -   `fgtclb/academic-partners-partnerships-teaser`
-        -   The :guilabel:`Partnerships Teaser` content element.
+        -   The :guilabel:`Partner Logo Teaser` content element.
     *   -   `fgtclb/academic-partners`
         -   Everything above. This is the set to use unless you deliberately
             want a subset, and it is the name this extension published before
@@ -284,13 +284,13 @@ Edit the :sql:`sys_template` record of the site root and add the entry to
     *   -   Entry
         -   Delivers
     *   -   :guilabel:`Academic Partners: Partners List (academic_partners)`
-        -   The TypoScript of the :guilabel:`Partners List` content element.
+        -   The TypoScript of the :guilabel:`Partner List` content element.
     *   -   :guilabel:`Academic Partners: Partners Map (academic_partners)`
-        -   The same for :guilabel:`Partners Map`.
+        -   The same for :guilabel:`Partner Map`.
     *   -   :guilabel:`Academic Partners: Partnerships List (academic_partners)`
-        -   The same for :guilabel:`Partnerships List`.
+        -   The same for :guilabel:`Partners Linked`.
     *   -   :guilabel:`Academic Partners: Partnerships Teaser (academic_partners)`
-        -   The same for :guilabel:`Partnerships Teaser`.
+        -   The same for :guilabel:`Partner Logo Teaser`.
     *   -   :guilabel:`Academic Partners: All components (academic_partners)`
         -   Every component this extension ships, in one entry.
     *   -   :guilabel:`Academic Partners: Shared plugin settings and page
@@ -315,14 +315,14 @@ Edit the page record of the site root, tab :guilabel:`Resources`, field
     *   -   Entry
         -   Delivers
     *   -   :guilabel:`Academic Partners: Partners List (academic_partners)`
-        -   Makes the :guilabel:`Partners List` content element selectable, and
+        -   Makes the :guilabel:`Partner List` content element selectable, and
             configures its entry in the new content element wizard.
     *   -   :guilabel:`Academic Partners: Partners Map (academic_partners)`
-        -   The same for :guilabel:`Partners Map`.
+        -   The same for :guilabel:`Partner Map`.
     *   -   :guilabel:`Academic Partners: Partnerships List (academic_partners)`
-        -   The same for :guilabel:`Partnerships List`.
+        -   The same for :guilabel:`Partners Linked`.
     *   -   :guilabel:`Academic Partners: Partnerships Teaser (academic_partners)`
-        -   The same for :guilabel:`Partnerships Teaser`.
+        -   The same for :guilabel:`Partner Logo Teaser`.
     *   -   :guilabel:`Academic Partners: All components (academic_partners)`
         -   Every component this extension ships, in one entry.
 
@@ -333,7 +333,7 @@ The setting is inherited by every page below the one it is set on.
 Pagination of the partner list
 ==============================
 
-The :guilabel:`Partners List` content element can split its partners into
+The :guilabel:`Partner List` content element can split its partners into
 pages. Whether it does, and how many partners a page holds, is set on each
 content element, tab :guilabel:`Pagination`:
 
@@ -371,15 +371,15 @@ site settings editor offers it to a site that depends on that set or on
 constant instead.
 
 Every page link keeps the active filter and sorting, and a filter submission
-starts on page one. The :guilabel:`Partners Map` is never paginated.
+starts on page one. The :guilabel:`Partner Map` is never paginated.
 
 ..  _configuration-list-filter:
 
 The category filters
 ====================
 
-The filter form of the :guilabel:`Partners List` and the :guilabel:`Partners
-Map` offers one select per category type of the group `partners`. Three settings
+The filter form of the :guilabel:`Partner List` and the :guilabel:`Partner Map`
+offers one select per category type of the group `partners`. Three settings
 change which of them it offers and how, for the whole site:
 
 ..  list-table::
@@ -479,7 +479,7 @@ Active filters, reset link and result count
 ===========================================
 
 Three switches add to the filter form of the
-:guilabel:`Partners List` and the :guilabel:`Partners Map`, for the whole site. All
+:guilabel:`Partner List` and the :guilabel:`Partner Map`, for the whole site. All
 three are off by default.
 
 ..  list-table::
@@ -553,7 +553,7 @@ the same names, like the filter settings above.
 The partner map
 ===============
 
-The :guilabel:`Partners Map` content element draws its partners on a map, with
+The :guilabel:`Partner Map` content element draws its partners on a map, with
 the tiles of OpenStreetMap by default. Where the map is centred, how far it
 zooms and where its tiles come from is one configuration for the whole site:
 
@@ -634,7 +634,7 @@ language on its own.
 The width of the map
 --------------------
 
-Each :guilabel:`Partners Map` content element has a tab :guilabel:`Layout` with
+Each :guilabel:`Partner Map` content element has a tab :guilabel:`Layout` with
 the field :guilabel:`Map width`:
 
 ..  list-table::
@@ -770,9 +770,9 @@ shipped one. It is rendered with :html:`partners` and :html:`map`.
 The header of the content elements
 ==================================
 
-The header and the subheader an editor enters on a :guilabel:`Partners List`,
-:guilabel:`Partners Map`, :guilabel:`Partnerships List` or
-:guilabel:`Partnerships Teaser` content element are rendered by the content
+The header and the subheader an editor enters on a :guilabel:`Partner List`,
+:guilabel:`Partner Map`, :guilabel:`Partners Linked` or
+:guilabel:`Partner Logo Teaser` content element are rendered by the content
 element layout of the site, as for any other content element. The layouts of
 :guilabel:`EXT:fluid_styled_content` and of the bootstrap package do that, and
 the plugins render no header of their own.

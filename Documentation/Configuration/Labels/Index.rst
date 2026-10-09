@@ -33,13 +33,13 @@ under its language key, :typoscript:`de` for German.
 
     *   - Content element
         - Path
-    *   - :guilabel:`Partners List` (:typoscript:`academicpartners_list`)
+    *   - :guilabel:`Partner List` (:typoscript:`academicpartners_list`)
         - :typoscript:`plugin.tx_academicpartners_list._LOCAL_LANG`
-    *   - :guilabel:`Partners Map` (:typoscript:`academicpartners_map`)
+    *   - :guilabel:`Partner Map` (:typoscript:`academicpartners_map`)
         - :typoscript:`plugin.tx_academicpartners_map._LOCAL_LANG`
-    *   - :guilabel:`Partnerships List` (:typoscript:`academicpartners_partnershipslist`)
+    *   - :guilabel:`Partners Linked` (:typoscript:`academicpartners_partnershipslist`)
         - :typoscript:`plugin.tx_academicpartners_partnershipslist._LOCAL_LANG`
-    *   - :guilabel:`Partnerships Teaser` (:typoscript:`academicpartners_partnershipsteaser`)
+    *   - :guilabel:`Partner Logo Teaser` (:typoscript:`academicpartners_partnershipsteaser`)
         - :typoscript:`plugin.tx_academicpartners_partnershipsteaser._LOCAL_LANG`
 
 The page template of a partner page is not rendered by a plugin: a site sets

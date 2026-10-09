@@ -40,34 +40,34 @@
       <!-- Plugins -->
 
       <trans-unit id="plugin.partner_list.title">
-        <source>Partners List</source>
+        <source>Partner List</source>
       </trans-unit>
       <trans-unit id="plugin.partner_list.description">
-        <source>Display a sortable and filterable list of partners.</source>
+        <source>Displays a sortable and filterable list of partners.</source>
       </trans-unit>
       <trans-unit id="plugin.partner_list.configuration">
         <source>Configuration</source>
       </trans-unit>
       <trans-unit id="plugin.partner_map.title">
-        <source>Partners Map</source>
+        <source>Partner Map</source>
       </trans-unit>
       <trans-unit id="plugin.partner_map.description">
-        <source>Display a sortable and filterable list of partners with map.</source>
+        <source>Displays a sortable and filterable list of partners on an OpenStreetMap map.</source>
       </trans-unit>
       <trans-unit id="plugin.partner_map.configuration">
         <source>Configuration</source>
       </trans-unit>
       <trans-unit id="plugin.partner_partnershipslist.title">
-        <source>Partnerships List</source>
+        <source>Partners Linked</source>
       </trans-unit>
       <trans-unit id="plugin.partner_partnershipslist.description">
-        <source>Display a list of partners assigned to this page.</source>
+        <source>Lists partners linked to the page.</source>
       </trans-unit>
       <trans-unit id="plugin.partner_partnershipsteaser.title">
-        <source>Partnerships Teaser</source>
+        <source>Partner Logo Teaser</source>
       </trans-unit>
       <trans-unit id="plugin.partner_partnershipsteaser.description">
-        <source>Display teasers for partners assigned to this page.</source>
+        <source>Lists logos of selected partners.</source>
       </trans-unit>
 
       <!-- Flexform -->

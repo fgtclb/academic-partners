@@ -43,11 +43,11 @@
       <!-- Plugins -->
 
       <trans-unit id="plugin.partner_list.title">
-        <source>Partners List</source>
-        <target>Partnerliste</target>
+        <source>Partner List</source>
+        <target>Partner Liste</target>
       </trans-unit>
       <trans-unit id="plugin.partner_list.description">
-        <source>Display a sortable and filterable list of partners.</source>
+        <source>Displays a sortable and filterable list of partners.</source>
         <target>Zeigt eine sortierbare und filterbare Liste von Partnern an.</target>
       </trans-unit>
       <trans-unit id="plugin.partner_list.configuration">
@@ -55,32 +55,32 @@
         <target>Konfiguration</target>
       </trans-unit>
       <trans-unit id="plugin.partner_map.title">
-        <source>Partners Map</source>
-        <target>Partnerkarte</target>
+        <source>Partner Map</source>
+        <target>Partner Karte</target>
       </trans-unit>
       <trans-unit id="plugin.partner_map.description">
-        <source>Display a sortable and filterable list of partners with map</source>
-        <target>Zeigt eine sortierbare und filterbare Liste von Partnern mit Karte an.</target>
+        <source>Displays a sortable and filterable list of partners on an OpenStreetMap map.</source>
+        <target>Zeigt eine sortierbare und filterbare Liste von Partnern auf einer Open-Streetmap Karte an.</target>
       </trans-unit>
       <trans-unit id="plugin.partner_map.configuration">
         <source>Configuration</source>
         <target>Konfiguration</target>
       </trans-unit>
       <trans-unit id="plugin.partner_partnershipslist.title">
-        <source>Partnerships List</source>
-        <target>Partnerschaften als Liste</target>
+        <source>Partners Linked</source>
+        <target>Partner verknüpfte</target>
       </trans-unit>
       <trans-unit id="plugin.partner_partnershipslist.description">
-        <source>Display a list of partners assigned to this page.</source>
-        <target>Zeigt eine Liste von Partner an, die mit dieser Seite verbunden sind.</target>
+        <source>Lists partners linked to the page.</source>
+        <target>Listet Partner auf, die mit der Seite verknüpft sind.</target>
       </trans-unit>
       <trans-unit id="plugin.partner_partnershipsteaser.title">
-        <source>Partnerships Teaser</source>
-        <target>Partnerschaften als Teaser</target>
+        <source>Partner Logo Teaser</source>
+        <target>Partner Logo Teaser</target>
       </trans-unit>
       <trans-unit id="plugin.partner_partnershipsteaser.description">
-        <source>Display teasers for partners assigned to this page.</source>
-        <target>Zeigt Teaser für Partner an, die mit dieser Seite verbunden sind.</target>
+        <source>Lists logos of selected partners.</source>
+        <target>Listet Logos von ausgewählten Partnern auf.</target>
       </trans-unit>
 
       <!-- Flexform -->

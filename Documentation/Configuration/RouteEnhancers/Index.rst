@@ -5,8 +5,8 @@
 Route enhancers
 ===============
 
-This extension ships route enhancers for the :guilabel:`Partners List` and the
-:guilabel:`Partners Map` in :file:`Configuration/Routes/List.yaml`. They turn
+This extension ships route enhancers for the :guilabel:`Partner List` and the
+:guilabel:`Partner Map` in :file:`Configuration/Routes/List.yaml`. They turn
 the category filter, the sorting and the page of a list into path segments in
 the language of the site:
 
