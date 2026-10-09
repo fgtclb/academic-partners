@@ -130,7 +130,7 @@
         <source>Map width</source>
       </trans-unit>
       <trans-unit id="flexform.map.layout.description">
-        <source>Full width adds the CSS class "academic-partners-map--full-width" to the element. What it looks like is up to the theme of the site.</source>
+        <source>Full width adds the CSS class "layout-fullWidth" to the element. What it looks like is up to the theme of the site.</source>
       </trans-unit>
       <trans-unit id="flexform.map.layout.default">
         <source>Content width</source>

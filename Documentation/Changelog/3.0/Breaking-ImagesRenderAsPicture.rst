@@ -11,7 +11,7 @@ The partner list item, the partnership list and teaser items and the partner
 page template render their image through the responsive image partial of
 `EXT:academic_base`, :file:`Partials/Academic/Image.html`, from 3.0 on. Every
 raster image is therefore a :html:`<picture>` with WebP sources and a fallback
-:html:`<img>` that carries the classes it carried before, and an SVG file is
+:html:`<img>` with the class `ace-image` of the partial, and an SVG file is
 rendered as one :html:`<img>` of the original file without processing.
 
 The three list items ask for the preset `logo`: the image they render is the

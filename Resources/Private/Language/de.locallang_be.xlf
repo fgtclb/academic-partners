@@ -162,8 +162,8 @@
         <target>Kartenbreite</target>
       </trans-unit>
       <trans-unit id="flexform.map.layout.description">
-        <source>Full width adds the CSS class "academic-partners-map--full-width" to the element. What it looks like is up to the theme of the site.</source>
-        <target>Volle Breite ergänzt das Element um die CSS-Klasse "academic-partners-map--full-width". Wie es dann aussieht, bestimmt das Theme der Site.</target>
+        <source>Full width adds the CSS class "layout-fullWidth" to the element. What it looks like is up to the theme of the site.</source>
+        <target>Volle Breite ergänzt das Element um die CSS-Klasse "layout-fullWidth". Wie es dann aussieht, bestimmt das Theme der Site.</target>
       </trans-unit>
       <trans-unit id="flexform.map.layout.default">
         <source>Content width</source>

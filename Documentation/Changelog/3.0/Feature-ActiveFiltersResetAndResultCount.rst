@@ -41,6 +41,6 @@ Impact
     so the tags of the map lead back to the map.
 *   A project that renders tags, a reset link or a count in its own templates
     can switch the settings on and remove its own markup. The classes are
-    `academic-partners-active-filters` and `academic-partners-result-count`, without styles.
+    `ace-active-filters` and `ace-count`, without styles.
 
 .. index:: Frontend, TypoScript, NotScanned

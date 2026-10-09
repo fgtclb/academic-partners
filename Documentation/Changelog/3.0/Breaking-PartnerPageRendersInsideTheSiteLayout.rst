@@ -27,9 +27,8 @@ From 3.0 on:
     :file:`Partner/Page/Media.html`, :file:`Partner/Page/Categories.html`,
     :file:`Partner/Page/Address.html` and :file:`Partner/Page/Content.html`.
 *   The header renders the subtitle of the page. The title is wrapped in an
-    element with the class `academic-partners-detail__header`, and the
-    subtitle is an element with the class `academic-partners-detail__subtitle`
-    below it.
+    element :html:`<header class="ace-header">`, and the subtitle is an
+    element with the class `ace-subtitle` below it.
 *   :typoscript:`paths`, :typoscript:`templateRootPaths` and
     :typoscript:`partialRootPaths` of the page object use the key `50` instead of
     `100` on partner pages. :typoscript:`layoutRootPaths.100`, which named a
@@ -51,8 +50,8 @@ Impact
     as before, without the frame of the site. A layout named by the setting
     that the site package does not have fails the page.
 *   A partner page with a subtitle shows it below the title. The title is
-    wrapped in an element with the class `academic-partners-detail__header`
-    whether or not a subtitle is set.
+    wrapped in an element :html:`<header class="ace-header">` whether or not a
+    subtitle is set.
 *   A :typoscript:`PAGEVIEW` site package that assigns a variable
     :typoscript:`data` of its own no longer breaks partner pages. The page
     record now comes from :html:`{page}` first, in the template and in the

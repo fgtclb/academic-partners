@@ -187,7 +187,7 @@ on its own:
     *   -   Partial
         -   Renders
     *   -   :file:`Partner/Page/Header.html`
-        -   The title of the partner and the subtitle of the page, in one element with the class `academic-partners-detail__header`.
+        -   The title of the partner and the subtitle of the page, in one element :html:`<header class="ace-header">`.
     *   -   :file:`Partner/Page/Media.html`
         -   The first image of the page, through the shared image partial of
             :guilabel:`EXT:academic_base`.
@@ -533,8 +533,9 @@ the same names, like the filter settings above.
     :file:`Partner/ResultCount.html`. Both are rendered by
     :file:`Partner/SortingAndFilters.html`, so a project that overrides that
     partial does not show them until it renders them as well. The partials use
-    the classes `academic-partners-active-filters` (with `__tags`, `__tag`, `__remove` and
-    `__reset`) and `academic-partners-result-count`, and bring no styles.
+    the classes `ace-active-filters` on the list of tags, `ace-active-filter` on
+    a tag, `ace-link` on the links and `ace-count` on the count, and bring no
+    styles.
 *   The reset link needs the variable :html:`{visitorSelection}`, which the list
     action assigns. A template that renders the partials with arguments of its
     own has to pass it on, or the list offers no reset link.
@@ -645,7 +646,7 @@ the field :guilabel:`Map width`:
     *   -   :guilabel:`Content width`, the default
         -   :html:`<div class="academic-partners-map">`, as before.
     *   -   :guilabel:`Full width`
-        -   :html:`<div class="academic-partners-map academic-partners-map--full-width">`
+        -   :html:`<div class="academic-partners-map layout-fullWidth">`
 
 The extension ships no style for the class. What full width means depends on the
 page layout of the site, so the theme of the site styles it. A content element

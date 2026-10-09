@@ -21,7 +21,7 @@ with a tile server of its own had to copy and rebuild the script.
     Their defaults are the values the map used so far.
 *   A tab :guilabel:`Layout` on the content element with the field
     :guilabel:`Map width`. :guilabel:`Full width` adds the class
-    `academic-partners-map--full-width` to the element, for the theme to style.
+    `layout-fullWidth` to the element, for the theme to style.
     The extension ships no style for it.
 *   The map moved from the plugin template into the partial
     :file:`Partner/Map.html`, which takes a list of partners or a single
