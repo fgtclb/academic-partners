@@ -106,9 +106,10 @@
       }
 
       dataProcessing {
-        // "partner" and "mapSettings". The map settings, for a page template that renders
-        // the partial "Partner/Map", go through the processor, because a PAGEVIEW page
-        // object ignores "settings" of its own.
+        // "partner", "mapSettings" and "mapAssets". The map settings and the switch of the
+        // map script, for a page template that renders the partial "Partner/Map", go
+        // through the processor, because a PAGEVIEW page object ignores "settings" of its
+        // own.
         100 = partner-data
         100.map {
           centerLatitude = {$plugin.tx_academicpartners.map.centerLatitude}
@@ -118,6 +119,11 @@
           padding = {$plugin.tx_academicpartners.map.padding}
           tileUrl = {$plugin.tx_academicpartners.map.tileUrl}
           attribution = {$plugin.tx_academicpartners.map.attribution}
+        }
+        // "mapAssets", the switch of the map script for the same partial, from the site
+        // setting or constant "plugin.tx_academicpartners.assets.js".
+        100.assets {
+          js = {$plugin.tx_academicpartners.assets.js}
         }
         110 = files
         110 {

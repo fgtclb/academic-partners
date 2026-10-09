@@ -16,9 +16,9 @@ use SBUERK\TYPO3\Testing\SiteHandling\SiteBasedTestTrait;
  * for the partner of the page.
  *
  * The shipped page template does not render a map. The fixture template of the site
- * package does, with the variable `mapSettings` the `partner-data` processor adds. The
- * settings go through the processor because a PAGEVIEW page object ignores `settings` of
- * its own, so both shapes of a page object are tested.
+ * package does, with the variables `mapSettings` and `mapAssets` the `partner-data`
+ * processor adds. Both go through the processor because a PAGEVIEW page object ignores
+ * `settings` of its own, so both shapes of a page object are tested.
  */
 final class AcademicPartnerPageMapTest extends AbstractAcademicPartnersTestCase
 {
@@ -121,13 +121,104 @@ final class AcademicPartnerPageMapTest extends AbstractAcademicPartnersTestCase
         $this->assertStringNotContainsString('frontend/map.js', $content);
     }
 
+    /**
+     * The switch of the map script reaches a page template as `mapAssets`, and the partial
+     * leaves out the module and the stylesheets of the map libraries with it. The map
+     * element and the partners stay for a script of the site.
+     */
+    #[Test]
+    #[DataProvider('pageObjects')]
+    public function theSwitchedOffScriptIsLeftOutOnAPartnerPage(string $sitePackage): void
+    {
+        $this->setUpTestCase($sitePackage, ['EXT:academic_partners/Tests/Functional/Plugins/Fixtures/TypoScript/Constants/NoScript.typoscript']);
+
+        $content = $this->renderFrontendPage('https://www.acme.com/web-vision');
+
+        $this->assertStringNotContainsString('frontend/map.js', $content);
+        $this->assertStringNotContainsString('leaflet.css', $content);
+        $this->assertStringNotContainsString('MarkerCluster', $content);
+        $this->assertStringContainsString('id="map"', $content);
+        $this->assertStringContainsString('data-name="web-vision GmbH"', $content);
+    }
+
+    /**
+     * A page template that renders the partial without the argument `assets` keeps the
+     * script, even where the site switched it off: the partial cannot tell a template
+     * that does not pass the switch from one that wants the script.
+     */
+    #[Test]
+    #[DataProvider('pageObjects')]
+    public function aPageTemplateWithoutTheAssetsArgumentKeepsTheScript(string $sitePackage): void
+    {
+        $this->setUpTestCase(
+            $sitePackage,
+            ['EXT:academic_partners/Tests/Functional/Plugins/Fixtures/TypoScript/Constants/NoScript.typoscript'],
+            'PartnerMapThemeWithoutAssets.typoscript',
+        );
+
+        $content = $this->renderFrontendPage('https://www.acme.com/web-vision');
+
+        $this->assertStringContainsString('frontend/map.js', $content);
+        $this->assertStringContainsString('leaflet.css', $content);
+        $this->assertStringContainsString('id="map"', $content);
+    }
+
+    /**
+     * The same switch as a site setting, on a site that names the aggregate set. The
+     * processor reads it through the same constant, so the page leaves the script out.
+     */
+    #[Test]
+    public function theSiteSettingLeavesTheScriptOutOnAPartnerPage(): void
+    {
+        $this->getConnectionPool()->getConnectionForTable('sys_template')->insert(
+            'sys_template',
+            [
+                'pid' => 1,
+                'root' => 1,
+                'clear' => 0,
+                'title' => 'Site package',
+                'constants' => '',
+                // The page object of the site package after the sets, then the template
+                // of the site package that renders the map partial.
+                'config' => '@import \'EXT:academic_partners/Tests/Functional/Pages/Fixtures/TypoScript/Setup/SitePackageAfterSets.typoscript\'' . LF
+                    . '@import \'EXT:academic_partners/Tests/Functional/Pages/Fixtures/TypoScript/Setup/PartnerMapTheme.typoscript\'',
+            ],
+        );
+        $this->writeSiteConfiguration(
+            identifier: 'acme-site-set',
+            site: $this->buildSiteConfiguration(
+                rootPageId: 1,
+                base: self::FRONTEND_PLUGIN_TEST_BASE,
+                additionalRootConfiguration: [
+                    'dependencies' => ['typo3/fluid-styled-content', 'fgtclb/academic-partners'],
+                    'settings' => ['plugin.tx_academicpartners.assets.js' => false],
+                ],
+            ),
+            languages: [
+                $this->buildDefaultLanguageConfiguration(identifier: 'EN', base: '/'),
+            ],
+        );
+
+        $content = $this->renderFrontendPage('https://www.acme.com/web-vision');
+
+        $this->assertStringContainsString('site-package-partner-page', $content);
+        $this->assertStringContainsString('id="map"', $content);
+        $this->assertStringContainsString('data-name="web-vision GmbH"', $content);
+        $this->assertStringNotContainsString('frontend/map.js', $content);
+        $this->assertStringNotContainsString('leaflet.css', $content);
+        $this->assertStringNotContainsString('MarkerCluster', $content);
+    }
+
     public static function pageObjects(): \Generator
     {
         yield 'FLUIDTEMPLATE' => ['SitePackage.typoscript'];
         yield 'PAGEVIEW' => ['SitePackagePageView.typoscript'];
     }
 
-    private function setUpTestCase(string $sitePackage): void
+    /**
+     * @param list<string> $additionalConstants
+     */
+    private function setUpTestCase(string $sitePackage, array $additionalConstants = [], string $theme = 'PartnerMapTheme.typoscript'): void
     {
         $this->setUpFrontendRootPage(
             pageId: 1,
@@ -136,13 +227,14 @@ final class AcademicPartnerPageMapTest extends AbstractAcademicPartnersTestCase
                     'EXT:fluid_styled_content/Configuration/TypoScript/constants.typoscript',
                     'EXT:academic_partners/Configuration/TypoScript/constants.typoscript',
                     'EXT:academic_partners/Tests/Functional/Pages/Fixtures/TypoScript/Constants/MapMaxZoom.typoscript',
+                    ...$additionalConstants,
                 ],
                 'setup' => [
                     'EXT:fluid_styled_content/Configuration/TypoScript/setup.typoscript',
                     // The site package first, the extension after it, as in an installation.
                     'EXT:academic_partners/Tests/Functional/Pages/Fixtures/TypoScript/Setup/' . $sitePackage,
                     'EXT:academic_partners/Configuration/TypoScript/setup.typoscript',
-                    'EXT:academic_partners/Tests/Functional/Pages/Fixtures/TypoScript/Setup/PartnerMapTheme.typoscript',
+                    'EXT:academic_partners/Tests/Functional/Pages/Fixtures/TypoScript/Setup/' . $theme,
                 ],
             ],
         );

@@ -719,6 +719,8 @@ repository carries all three:
 Before version 3.0 the extension shipped them in :file:`Css/frontend/map.css`,
 see :ref:`breaking-partner-map-ships-no-stylesheet`.
 
+..  _configuration-map-other-pages:
+
 The map on other pages
 ----------------------
 
@@ -737,13 +739,17 @@ the site package can render it too. It takes these arguments:
             partner has no coordinates.
     *   -   :html:`map`
         -   The map settings above. Without them the map uses the defaults.
+    *   -   :html:`assets`
+        -   The switch of :ref:`the map script <configuration-javascript>`.
+            Without it the partial loads the script.
 
 The page of the page type :guilabel:`Academic partner` does not show a map, but
 its template and its partials have everything a map for the partner of the page
 needs:
-:html:`{partner}`, and the map settings of the site as :html:`{mapSettings}`.
-The data processor `partner-data` adds both, for a :typoscript:`FLUIDTEMPLATE`
-and for a :typoscript:`PAGEVIEW` page object. It takes the settings from the
+:html:`{partner}`, the map settings of the site as :html:`{mapSettings}`, and
+the switch of the map script as :html:`{mapAssets}`. The data processor
+`partner-data` adds all three, for a :typoscript:`FLUIDTEMPLATE` and for a
+:typoscript:`PAGEVIEW` page object. It takes the settings from the
 site settings and the constants, not from
 :typoscript:`plugin.tx_academicpartners.settings.map`, so a value a site sets in
 the TypoScript setup of the plugin reaches the content element only. A site
@@ -754,7 +760,7 @@ and renders in it:
 ..  code-block:: html
     :caption: EXT:my_sitepackage/Resources/Private/Partials/Partner/Page/Address.html
 
-    <f:render partial="Partner/Map" arguments="{partner: partner, map: mapSettings}" />
+    <f:render partial="Partner/Map" arguments="{partner: partner, map: mapSettings, assets: mapAssets}" />
 
 A single partner is where the maximum zoom matters most: the map zooms in on
 the partner up to that level.
@@ -835,6 +841,59 @@ is mapped from the constant :typoscript:`styles.content.defaultHeaderType` of
 TypoScript of :guilabel:`EXT:fluid_styled_content` sets the setting itself;
 without it, such a header renders as an empty :html:`<header>` element.
 
+..  _configuration-javascript:
+
+Load the script or bring your own
+=================================
+
+The :guilabel:`Partners Map` content element loads the module
+:js:`@fgtclb/academic-partners/frontend/map.js` on the page that carries it,
+together with the stylesheets of the map libraries the module imports, see
+:ref:`configuration-map`. A page template that renders the partial
+:file:`Partner/Map.html` loads the same. No other content element of this
+extension loads a script.
+
+The module and the stylesheets of the libraries are switched off together, per
+site, for an installation that draws the map with a script of its own:
+
+..  list-table::
+    :header-rows: 1
+
+    *   -   Site setting and constant
+        -   Default
+        -   Off means
+    *   -   :yaml:`plugin.tx_academicpartners.assets.js`
+        -   :yaml:`true`
+        -   The page loads neither the module nor the stylesheets of Leaflet and
+            Leaflet.markercluster.
+
+With the site set, it is a site setting of `fgtclb/academic-partners-map`, next
+to the other settings of the map:
+
+..  code-block:: yaml
+    :caption: config/sites/my-site/settings.yaml
+
+    plugin.tx_academicpartners.assets.js: false
+
+With the static template, it is the TypoScript constant of the same name:
+
+..  code-block:: typoscript
+    :caption: Constants of the root sys_template record
+
+    plugin.tx_academicpartners.assets.js = 0
+
+**The map does not work without a script.** The markup stays exactly as it
+is: the map element :html:`<div id="map">` with the settings of the map as
+data attributes, and the hidden list :html:`<ul id="map-partners">` with one
+item per partner, carrying its coordinates, name, description and link. A
+visitor sees an empty map element until a script of your own draws the map
+from those two elements, with the stylesheets of whichever library it uses.
+
+A page template hands the switch to the partial as the argument
+:html:`assets`, see :ref:`configuration-map-other-pages`. A template that does
+not pass it loads the script whatever the setting says. A project that
+overrides :file:`Partials/Partner/Map.html` keeps whatever its copy loads.
+
 ..  _one-mechanism-per-site:
 
 Do not combine both
@@ -849,8 +908,9 @@ is the :typoscript:`plugin.tx_academicpartners` constants block: the three Fluid
 root paths, the number of page links of the
 :ref:`pagination <configuration-list-pagination>`, the settings of
 :ref:`the category filters <configuration-list-filter>` and of
-:ref:`the partner map <configuration-map>`, and the
-:ref:`content element header <configuration-content-element-header>` switch.
+:ref:`the partner map <configuration-map>`, the
+:ref:`content element header <configuration-content-element-header>` switch
+and the :ref:`script switch <configuration-javascript>`.
 
 Nothing else is damaged: the :guilabel:`Constants` and :guilabel:`Setup` fields
 of the :sql:`sys_template` record, the page TSconfig of a page and the page

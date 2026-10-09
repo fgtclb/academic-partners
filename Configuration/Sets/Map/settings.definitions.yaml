@@ -73,3 +73,9 @@ settings:
     category: academic.partners
     type: string
     default: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Points &copy 2012 LINZ'
+  plugin.tx_academicpartners.assets.js:
+    label: 'Partner map | Load the script'
+    description: 'Off for an installation that brings its own script. The map module and the stylesheets of Leaflet are not loaded then, and without a script of your own the map stays empty: the partners are only in the hidden list next to it.'
+    category: academic.partners
+    type: bool
+    default: true

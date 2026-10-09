@@ -83,6 +83,8 @@ final class AcademicPartnersMapConfigurationTest extends AbstractAcademicPartner
         foreach (self::DEFAULTS as $name => $default) {
             $expected['plugin.tx_academicpartners.map.' . $name] = $default;
         }
+        // The switch of the map script, see AcademicPartnersMapScriptSettingTest.
+        $expected['plugin.tx_academicpartners.assets.js'] = true;
         $this->assertSame($expected, $defaults);
     }
 

@@ -14,6 +14,11 @@
       switched on.
     - map: the map settings, "settings.map" of the plugin and "mapSettings" of the
       partner page. Without them the map module uses its defaults.
+    - assets: the switch of the map script, "settings.assets" of the plugin and
+      "mapAssets" of the partner page. "assets.js" switched off leaves out the map module
+      and the stylesheets of the map libraries it imports, and the map element stays
+      empty until a script of the site draws it. Without the argument the partial loads
+      them, as it did before the switch existed.
 
     Several maps on one page are not supported: the element ids are fixed.
 </f:comment>
@@ -25,7 +30,8 @@
                 section="Map"
                 arguments="{
                     partners: {0: partner},
-                    map: map
+                    map: map,
+                    assets: assets
                 }"
             />
         </f:if>
@@ -35,7 +41,8 @@
             section="Map"
             arguments="{
                 partners: partners,
-                map: map
+                map: map,
+                assets: assets
             }"
         />
     </f:else>
@@ -46,13 +53,21 @@
         The map libraries are ES modules, imported by map.js through the import map. Only
         their stylesheets are registered here, from the same version directories: the map
         does not work without them. Sizing the map element is up to the site, Leaflet
-        draws nothing into an element without a height.
+        draws nothing into an element without a height. They belong to the script: a site
+        that brings its own leaves out both. A caller that passes no "assets" gets them,
+        see the arguments above.
     </f:comment>
-    <f:asset.css identifier="academicPartnersLeaflet" href="EXT:academic_partners/Resources/Public/JavaScript/vendor/leaflet/1.9.4/leaflet.css" />
-    <f:asset.css identifier="academicPartnersMarkerCluster" href="EXT:academic_partners/Resources/Public/JavaScript/vendor/leaflet.markercluster/1.5.3/MarkerCluster.css" />
-    <f:asset.css identifier="academicPartnersMarkerClusterDefault" href="EXT:academic_partners/Resources/Public/JavaScript/vendor/leaflet.markercluster/1.5.3/MarkerCluster.Default.css" />
+    <f:variable name="loadScript" value="1" />
+    <f:if condition="{assets}">
+        <f:variable name="loadScript" value="{assets.js}" />
+    </f:if>
+    <f:if condition="{loadScript}">
+        <f:asset.css identifier="academicPartnersLeaflet" href="EXT:academic_partners/Resources/Public/JavaScript/vendor/leaflet/1.9.4/leaflet.css" />
+        <f:asset.css identifier="academicPartnersMarkerCluster" href="EXT:academic_partners/Resources/Public/JavaScript/vendor/leaflet.markercluster/1.5.3/MarkerCluster.css" />
+        <f:asset.css identifier="academicPartnersMarkerClusterDefault" href="EXT:academic_partners/Resources/Public/JavaScript/vendor/leaflet.markercluster/1.5.3/MarkerCluster.Default.css" />
 
-    <f:asset.module identifier="@fgtclb/academic-partners/frontend/map.js" />
+        <f:asset.module identifier="@fgtclb/academic-partners/frontend/map.js" />
+    </f:if>
 
     <div
         id="map"

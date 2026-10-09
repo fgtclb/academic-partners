@@ -1,0 +1,17 @@
+<html
+    data-namespace-typo3-fluid="true"
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+>
+
+<f:comment>
+    A partner page template of a site package that renders the map partial without the
+    argument "assets", as a template written before the switch of the map script existed.
+</f:comment>
+
+<div class="site-package-partner-page">
+    <h1>{partner.title}</h1>
+
+    <f:render partial="Partner/Map" arguments="{partner: partner, map: mapSettings}" />
+</div>
+
+</html>

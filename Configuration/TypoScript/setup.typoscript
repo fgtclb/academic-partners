@@ -43,6 +43,12 @@ plugin.tx_academicpartners {
       attribution = {$plugin.tx_academicpartners.map.attribution}
     }
 
+    # Whether the map loads its script, see "constants.typoscript". The template hands it
+    # to the partial "Partner/Map", which checks it where it registers the script.
+    assets {
+      js = {$plugin.tx_academicpartners.assets.js}
+    }
+
     # The content element layout renders the header of every content element, so the
     # templates render it only for a site whose layout leaves it out. The header partial
     # falls back to the type of the header layout "Default" through the setting below,

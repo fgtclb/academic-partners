@@ -1,0 +1,6 @@
+# The partner page template of a site package that renders the map partial without the
+# argument "assets", for both shapes of a page object, see "PartnerMapTheme.typoscript".
+page.10 {
+  templateRootPaths.200 = EXT:academic_partners/Tests/Functional/Pages/Fixtures/PartnerMapThemeWithoutAssets/Pages/
+  paths.200 = EXT:academic_partners/Tests/Functional/Pages/Fixtures/PartnerMapThemeWithoutAssets/
+}

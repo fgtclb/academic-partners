@@ -11,10 +11,11 @@ use TYPO3\CMS\Frontend\Page\PageInformation;
 /**
  * Processor class for partner page types
  *
- * Adds the variables `partner` and `mapSettings`. `mapSettings` are the values of the
- * option `map`, the settings a page template hands to the partial `Partner/Map`. They
- * go through the processor rather than through `settings`, which a PAGEVIEW page object
- * does not read.
+ * Adds the variables `partner`, `mapSettings` and `mapAssets`. `mapSettings` are the
+ * values of the option `map`, the settings a page template hands to the partial
+ * `Partner/Map`, and `mapAssets` the values of the option `assets`, which the same
+ * partial takes as its argument `assets`. They go through the processor rather than
+ * through `settings`, which a PAGEVIEW page object does not read.
  */
 class PartnerProcessor implements DataProcessorInterface
 {
@@ -50,6 +51,13 @@ class PartnerProcessor implements DataProcessorInterface
             }
         }
         $processedData['mapSettings'] = $mapSettings;
+        $mapAssets = [];
+        foreach ($processorConfiguration['assets.'] ?? [] as $name => $value) {
+            if (is_string($value)) {
+                $mapAssets[$name] = $value;
+            }
+        }
+        $processedData['mapAssets'] = $mapAssets;
         return $processedData;
     }
 }

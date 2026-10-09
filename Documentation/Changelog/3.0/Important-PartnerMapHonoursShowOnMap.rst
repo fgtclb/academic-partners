@@ -24,7 +24,10 @@ of guarding a map of its own:
 
 ..  code-block:: html
 
-    <f:render partial="Partner/Map" arguments="{partner: partner, map: mapSettings}" />
+    <f:render partial="Partner/Map" arguments="{partner: partner, map: mapSettings, assets: mapAssets}" />
+
+:html:`{mapAssets}` is the switch of the map script, see
+:ref:`feature-1791566502`.
 
 A template that keeps its own map and guards it with :html:`{partner.drawable}`
 still draws a partner whose :guilabel:`Show on map` is switched off. Guard it

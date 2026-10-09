@@ -64,4 +64,12 @@ plugin.tx_academicpartners {
     # cat=plugin.tx_academicpartners/map; type=string; label=Attribution: the attribution the map shows for its tiles, as HTML
     attribution = &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Points &copy 2012 LINZ
   }
+
+  # The script of the partner map, with the stylesheets of the map libraries it imports.
+  # Also a site setting of the set "fgtclb/academic-partners-map", with the same default,
+  # see "Configuration/Sets/Map/settings.definitions.yaml".
+  assets {
+    # cat=plugin.tx_academicpartners/enable; type=boolean; label=Partner map: load the script, off for an installation that brings its own
+    js = 1
+  }
 }

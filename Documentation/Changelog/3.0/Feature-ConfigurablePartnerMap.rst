@@ -31,9 +31,10 @@ with a tile server of its own had to copy and rebuild the script.
 
     ..  code-block:: html
 
-        <f:render partial="Partner/Map" arguments="{partner: partner, map: mapSettings}" />
+        <f:render partial="Partner/Map" arguments="{partner: partner, map: mapSettings, assets: mapAssets}" />
 
-    The shipped page template does not render a map.
+    The shipped page template does not render a map. :html:`{mapAssets}` is the
+    switch of the map script, see :ref:`feature-1791566502`.
 
 See :ref:`configuration-map`.
 
