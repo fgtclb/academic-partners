@@ -34,8 +34,9 @@ Impact
     whatever its copy registers. It has to take over the stylesheets, the
     marker icon attribute and the module, and drop the classic scripts, to get
     the modules. The asset identifiers :html:`partnerC0`, :html:`partnerC1`,
-    :html:`partnerS0` and :html:`partnerS1` are gone, :html:`partnerC2` for
-    :file:`Css/frontend/map.css` stays.
+    :html:`partnerS0` and :html:`partnerS1` are gone, and so is
+    :html:`partnerC2` together with the stylesheet of the map, see
+    :ref:`breaking-partner-map-ships-no-stylesheet`.
 *   The marker icon is the one the map showed before. Its images are copied to
     :file:`Resources/Public/Images/Map/`, and the partial names the icon in the
     attribute `data-academic-partners-marker-icon` of the map element. A

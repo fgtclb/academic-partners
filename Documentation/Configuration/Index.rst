@@ -677,16 +677,47 @@ their npm packages into
 
 The import map of the extension publishes the modules under those names, and the
 map module imports them. No global variable is set. The partial
-:file:`Partner/Map.html` registers the stylesheets,
-:file:`Css/frontend/map.css`, which sizes the map and keeps a site's image rules
-off its tiles and markers. The partial names the marker icon of this extension,
-in :file:`Resources/Public/Images/Map/`, in the attribute
-`data-academic-partners-marker-icon` of the map element, and the markers load
-their images from that directory. Without the attribute they show the icon of
-Leaflet.
+:file:`Partner/Map.html` registers the stylesheets of the two libraries, which
+the map needs to work, together with the map module. The partial names the
+marker icon of this extension, in :file:`Resources/Public/Images/Map/`, in the
+attribute `data-academic-partners-marker-icon` of the map element, and the
+markers load their images from that directory. Without the attribute they show
+the icon of Leaflet.
 
 Another extension or the theme that maps `leaflet` as well shares the map's
 import map entry: the page loads one of the two Leaflets for every module.
+
+..  _configuration-map-styling:
+
+Styling the map
+---------------
+
+The extension ships no stylesheet of its own for the map, the site package
+styles it. One rule is not optional: **the map element needs a height.**
+Leaflet draws into :html:`<div id="map" class="ace-map">`, and an element
+without a height shows no map at all.
+
+..  code-block:: css
+    :caption: The stylesheet of the site package
+
+    #map {
+        height: 500px;
+    }
+
+Two more rules are worth taking over where the theme needs them: a
+:css:`z-index: 0` on :css:`.leaflet-pane`, :css:`.leaflet-top` and
+:css:`.leaflet-bottom`, which keeps the map behind a sticky header of the site,
+and :css:`width: auto !important` on the images of the tiles and the markers,
+which keeps an image rule of the theme such as :css:`img { max-width: 100% }`
+from distorting them. The stylesheets of the libraries come after the
+stylesheets of the page, so a rule that overrides one of theirs needs a more
+specific selector, such as :css:`.leaflet-container .leaflet-pane`. The
+stylesheet of the development instances of the mono
+repository carries all three:
+`_academic-partners.scss of EXT:academics_dev_site
+<https://github.com/fgtclb/academic-extensions/blob/main/packages-dev/dev-site/Resources/Private/Scss/frontend/_academic-partners.scss>`__.
+Before version 3.0 the extension shipped them in :file:`Css/frontend/map.css`,
+see :ref:`breaking-partner-map-ships-no-stylesheet`.
 
 The map on other pages
 ----------------------

@@ -44,12 +44,13 @@
 <f:section name="Map">
     <f:comment>
         The map libraries are ES modules, imported by map.js through the import map. Only
-        their stylesheets are registered here, from the same version directories.
+        their stylesheets are registered here, from the same version directories: the map
+        does not work without them. Sizing the map element is up to the site, Leaflet
+        draws nothing into an element without a height.
     </f:comment>
     <f:asset.css identifier="academicPartnersLeaflet" href="EXT:academic_partners/Resources/Public/JavaScript/vendor/leaflet/1.9.4/leaflet.css" />
     <f:asset.css identifier="academicPartnersMarkerCluster" href="EXT:academic_partners/Resources/Public/JavaScript/vendor/leaflet.markercluster/1.5.3/MarkerCluster.css" />
     <f:asset.css identifier="academicPartnersMarkerClusterDefault" href="EXT:academic_partners/Resources/Public/JavaScript/vendor/leaflet.markercluster/1.5.3/MarkerCluster.Default.css" />
-    <f:asset.css identifier="partnerC2" href="EXT:academic_partners/Resources/Public/Css/frontend/map.css" />
 
     <f:asset.module identifier="@fgtclb/academic-partners/frontend/map.js" />
 

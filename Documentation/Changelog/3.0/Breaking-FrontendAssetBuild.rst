@@ -12,8 +12,8 @@ and moved them into a :file:`frontend/` subdirectory, see
 :ref:`breaking-map-assets-are-built`. The script was still a classic script. It
 is an **ES module** now, registered in :file:`Configuration/JavaScriptModules.php`
 and addressed by the bare specifier
-:code:`@fgtclb/academic-partners/frontend/map.js`. The stylesheet stays a
-stylesheet at :file:`Css/frontend/map.css`.
+:code:`@fgtclb/academic-partners/frontend/map.js`. The stylesheet of the map is
+not shipped any more, see :ref:`breaking-partner-map-ships-no-stylesheet`.
 
 The map module imports Leaflet and its marker cluster plugin as modules as well,
 see :ref:`important-1790623331`.
@@ -37,7 +37,8 @@ site package.
 Migration
 =========
 
-In an overridden template or partial, replace the script reference:
+In an overridden template or partial, replace the script reference and drop the
+one to :file:`map.css`:
 
 ..  code-block:: html
 

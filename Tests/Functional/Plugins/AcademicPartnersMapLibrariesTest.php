@@ -93,6 +93,28 @@ final class AcademicPartnersMapLibrariesTest extends AbstractAcademicPartnersTes
     }
 
     /**
+     * The stylesheets of the two libraries are the only ones a map page links: the map
+     * does not work without them. The extension ships no stylesheet of its own since
+     * 3.0, sizing the map element is the site's.
+     */
+    #[Test]
+    public function aMapPageLinksNoStylesheetButThoseOfTheLibraries(): void
+    {
+        $content = $this->renderFrontendPage('https://www.acme.com/home');
+
+        preg_match_all('#<link\b[^>]*>#', $content, $links);
+        $stylesheets = [];
+        foreach ($links[0] as $link) {
+            if (str_contains($link, 'rel="stylesheet"') && preg_match('#\bhref="([^"?]+)#', $link, $href) === 1) {
+                $stylesheets[] = basename($href[1]);
+            }
+        }
+        sort($stylesheets);
+
+        $this->assertSame(['MarkerCluster.Default.css', 'MarkerCluster.css', 'leaflet.css'], $stylesheets);
+    }
+
+    /**
      * The map module takes the directory of its marker images from this attribute, so the
      * map shows the marker icon of this extension, as the classic stylesheet made it do,
      * instead of the one of Leaflet.
