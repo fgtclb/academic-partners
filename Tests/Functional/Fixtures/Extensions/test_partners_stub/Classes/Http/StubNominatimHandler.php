@@ -37,13 +37,19 @@ final class StubNominatimHandler
     public static ?int $failWithStatus = null;
 
     /**
+     * A body to answer with instead of the canned result, with the status above or with
+     * 200. A test that sets it resets it in its `tearDown()`.
+     */
+    public static ?string $answerWithBody = null;
+
+    /**
      * @param array<string, mixed> $options
      */
     public function __invoke(RequestInterface $request, array $options): PromiseInterface
     {
         self::$requests[] = $request;
-        if (self::$failWithStatus !== null) {
-            return Create::promiseFor(new Response(self::$failWithStatus));
+        if (self::$failWithStatus !== null || self::$answerWithBody !== null) {
+            return Create::promiseFor(new Response(self::$failWithStatus ?? 200, [], self::$answerWithBody));
         }
         return Create::promiseFor(
             new Response(

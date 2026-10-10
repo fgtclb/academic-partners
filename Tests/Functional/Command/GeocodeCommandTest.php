@@ -96,6 +96,7 @@ final class GeocodeCommandTest extends AbstractAcademicPartnersTestCase
     {
         StubNominatimHandler::$requests = [];
         StubNominatimHandler::$failWithStatus = null;
+        StubNominatimHandler::$answerWithBody = null;
         GeneralUtility::rmdir($this->instancePath . '/typo3conf/sites', true);
         parent::tearDown();
     }
@@ -161,6 +162,65 @@ final class GeocodeCommandTest extends AbstractAcademicPartnersTestCase
         $this->assertSame(
             'Partner 10 "Alpha University": geocoded to ' . StubNominatimHandler::LATITUDE . ', ' . StubNominatimHandler::LONGITUDE . '.',
             trim($this->runCommand()),
+        );
+    }
+
+    /**
+     * A partner title is no console markup: a tag in it is printed as it is, a closing
+     * tag without an opening one does not break the output.
+     */
+    #[Test]
+    public function theRunPrintsAPartnerTitleAsItIs(): void
+    {
+        $this->get(ConnectionPool::class)->getConnectionForTable('pages')
+            ->update('pages', ['title' => 'Alpha </> <error>University'], ['uid' => 10]);
+
+        $this->assertSame(
+            'Partner 10 "Alpha </> <error>University": geocoded to ' . StubNominatimHandler::LATITUDE . ', ' . StubNominatimHandler::LONGITUDE . '.',
+            trim($this->runCommand()),
+        );
+    }
+
+    #[Test]
+    public function aFailedGeocodingPrintsThePartnerTitleAsItIs(): void
+    {
+        $this->get(ConnectionPool::class)->getConnectionForTable('pages')
+            ->update('pages', ['title' => 'Alpha <info>University</>', 'address_city' => ''], ['uid' => 10]);
+
+        $this->assertSame(
+            'Partner 10 "Alpha <info>University</>": geocoding failed. There are not sufficient address details given.',
+            trim($this->runCommand()),
+        );
+    }
+
+    /**
+     * The message of a failed request comes from outside, Guzzle quotes the start of
+     * the response body in it, and it is printed as it is as well.
+     */
+    #[Test]
+    public function aFailedRequestPrintsItsMessageAsItIs(): void
+    {
+        $this->get(ConnectionPool::class)->getConnectionForTable('pages')
+            ->update('pages', ['title' => 'Alpha <comment>University'], ['uid' => 10]);
+        StubNominatimHandler::$failWithStatus = 503;
+        StubNominatimHandler::$answerWithBody = '</><error>Busy</error>';
+
+        $errorOutput = $this->executeCommand(1)->getErrorOutput();
+
+        $this->assertStringContainsString('Partner 10 "Alpha <comment>University": the request to Nominatim failed', $errorOutput);
+        $this->assertStringContainsString('</><error>Busy</error>', $errorOutput);
+    }
+
+    #[Test]
+    public function anInvalidAnswerPrintsThePartnerTitleAsItIs(): void
+    {
+        $this->get(ConnectionPool::class)->getConnectionForTable('pages')
+            ->update('pages', ['title' => 'Alpha </>University'], ['uid' => 10]);
+        StubNominatimHandler::$answerWithBody = 'no json';
+
+        $this->assertSame(
+            'Partner 10 "Alpha </>University": Nominatim answered with invalid JSON.',
+            trim($this->executeCommand(1)->getErrorOutput()),
         );
     }
 

@@ -9,6 +9,7 @@ use FGTCLB\AcademicPartners\Service\GeocodeWriteContext;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
@@ -107,7 +108,7 @@ final class GeocodeCommand extends Command
                     'errorMessage' => $e->getMessage(),
                 ]
             );
-            $this->errorOutput($output)->writeln(sprintf('<error>%s: the request to Nominatim failed: %s</error>', $partnerLabel, $e->getMessage()));
+            $this->errorOutput($output)->writeln(sprintf('<error>%s: the request to Nominatim failed: %s</error>', OutputFormatter::escape($partnerLabel), OutputFormatter::escape($e->getMessage())));
             return Command::FAILURE;
         }
 
@@ -123,7 +124,7 @@ final class GeocodeCommand extends Command
                     'exception' => $e,
                 ]
             );
-            $this->errorOutput($output)->writeln(sprintf('<error>%s: Nominatim answered with invalid JSON.</error>', $partnerLabel));
+            $this->errorOutput($output)->writeln(sprintf('<error>%s: Nominatim answered with invalid JSON.</error>', OutputFormatter::escape($partnerLabel)));
             return Command::FAILURE;
         }
 
@@ -153,7 +154,7 @@ final class GeocodeCommand extends Command
     private function reportResult(OutputInterface $output, string $partnerLabel, int $partnerUid, array $values): int
     {
         if (!$this->writeGeocodeResult($partnerUid, $values)) {
-            $this->errorOutput($output)->writeln(sprintf('<error>%s: the geocoding result could not be stored.</error>', $partnerLabel));
+            $this->errorOutput($output)->writeln(sprintf('<error>%s: the geocoding result could not be stored.</error>', OutputFormatter::escape($partnerLabel)));
             return Command::FAILURE;
         }
         if ($values['geocode_status'] === 'successful') {
@@ -163,11 +164,13 @@ final class GeocodeCommand extends Command
                 $values['geocode_latitude'],
                 $values['geocode_longitude'],
             );
-            $output->writeln($message);
+            // The title of a partner is no console markup, the log keeps it as it is.
+            $output->writeln(OutputFormatter::escape($message));
             $this->logger->info($message, ['partner' => $partnerUid]);
         } else {
             $message = sprintf('%s: geocoding failed. %s', $partnerLabel, $values['geocode_message']);
-            $output->writeln($message);
+            // The title of a partner is no console markup, the log keeps it as it is.
+            $output->writeln(OutputFormatter::escape($message));
             $this->logger->warning($message, ['partner' => $partnerUid]);
         }
         return Command::SUCCESS;
