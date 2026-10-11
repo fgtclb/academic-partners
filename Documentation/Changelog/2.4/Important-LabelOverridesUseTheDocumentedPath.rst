@@ -7,14 +7,14 @@ Important: Label overrides are read from the documented path
 Description
 ===========
 
-The templates of this extension translate their labels with the extension name
-:html:`AcademicPartners` instead of the extension key
-:html:`academic_partners`. TYPO3 v12 and v13 build the TypoScript path of
-:typoscript:`_LOCAL_LANG` from that name as it is given, so they read label
-overrides from :typoscript:`plugin.tx_academic_partners`. They now read them
-from :typoscript:`plugin.tx_academicpartners` and
+The templates of this extension translated their labels with the extension key
+:html:`academic_partners` as the extension name. TYPO3 v12 and v13 build the
+TypoScript path of :typoscript:`_LOCAL_LANG` from that name as it is given, so
+they read label overrides from :typoscript:`plugin.tx_academic_partners`. The
+templates now use the extension name :html:`AcademicPartners`, so the overrides
+are read from :typoscript:`plugin.tx_academicpartners` and
 :typoscript:`plugin.tx_academicpartners_<plugin>`, the paths the TYPO3
-documentation names and TYPO3 v14 reads anyway.
+documentation names.
 
 The options of the sorting select, which its view helper translates, follow the
 same rule.

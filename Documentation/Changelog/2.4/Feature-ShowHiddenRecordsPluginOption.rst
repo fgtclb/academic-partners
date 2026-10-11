@@ -8,8 +8,8 @@ Description
 ===========
 
 A new boolean plugin option **Show hidden records**
-(:typoscript:`settings.showHiddenRecords`, checkbox/toggle, default off)
-was added to the following plugins:
+(:typoscript:`settings.showHiddenRecords`, a toggle, off by default) was added
+to the following plugins:
 
 * **List** (:php:`academicpartners_list`)
 * **Map** (:php:`academicpartners_map`)
@@ -18,8 +18,8 @@ Both plugins share the single :file:`ListSettings.xml` flexform data
 structure, which gains the new toggle.
 
 When the option is enabled, the frontend partner listing includes hidden
-(disabled) records, also for visitors without a preview of hidden records.
-Only the `hidden` enable column (`disabled`) is ignored; the `deleted`,
+(disabled) records, also for visitors without a preview of hidden records. Only
+the `hidden` enable column (`disabled`) is ignored. The `deleted`,
 `starttime`/`endtime` and `fe_group` restrictions stay in effect.
 
 On a translated page the listing shows the translation of a hidden record,

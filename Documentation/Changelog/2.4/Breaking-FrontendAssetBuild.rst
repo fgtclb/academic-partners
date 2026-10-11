@@ -20,8 +20,9 @@ in the repository, and both moved into a :file:`frontend/` subdirectory:
 
 The Leaflet library, its marker cluster plugin and their stylesheets keep their
 paths, and the map script still reads the :js:`LeafletObject` global they
-define. Both are still loaded as classic scripts. The two scripts are built from
-their npm packages, see :ref:`important-partner-map-libraries-from-npm`.
+define. All scripts are still loaded as classic scripts. Leaflet and the marker
+cluster plugin are built from their npm packages now, see
+:ref:`important-partner-map-libraries-from-npm`.
 
 Impact
 ======
@@ -32,7 +33,7 @@ files are loaded by the extension itself, from the new location.
 An installation that referenced the old path keeps pointing at a file that no
 longer exists.
 
-Affected installations
+Affected Installations
 ======================
 
 Installations that override :file:`Templates/Partner/Map.html` or reference
@@ -49,4 +50,7 @@ references:
     <f:asset.css identifier="partnerC2" href="EXT:academic_partners/Resources/Public/Css/frontend/map.css" />
     <f:asset.script identifier="partnerS2" src="EXT:academic_partners/Resources/Public/JavaScript/frontend/map.js" />
 
-The three Leaflet lines around them stay exactly as they are.
+The four lines that load Leaflet and the marker cluster plugin stay as they
+are.
+
+..  index:: Frontend, JavaScript, Fluid, ext:academic_partners
