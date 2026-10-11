@@ -1,4 +1,4 @@
-.. _important-partner-role-sorts-its-partnerships:
+.. _important-partner-role-sorts-its-partnerships-3-0:
 
 ===========================================================
 Important: A partner role sorts its partnerships on its own

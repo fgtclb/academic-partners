@@ -1,4 +1,4 @@
-.. _important-partner-map-draws-on-late-module-load:
+.. _important-partner-map-draws-on-late-module-load-3-0:
 
 ==================================================
 Important: Partner map draws on a late module load

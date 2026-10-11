@@ -1,4 +1,4 @@
-.. _important-1785882500:
+.. _important-1785882500-3-0:
 
 =======================================================
 Important: The `link` column of `pages` is nullable now

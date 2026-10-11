@@ -1,4 +1,4 @@
-..  _breaking-removed-unused-autocomplete-library:
+..  _breaking-removed-unused-autocomplete-library-3-0:
 
 =================================================
 Breaking: Removed the unused autocomplete library

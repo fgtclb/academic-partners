@@ -1,4 +1,4 @@
-.. _important-partner-page-renders-categories:
+.. _important-partner-page-renders-categories-3-0:
 
 =======================================================
 Important: The partner page type renders its categories

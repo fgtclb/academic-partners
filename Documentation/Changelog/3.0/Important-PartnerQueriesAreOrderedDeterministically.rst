@@ -1,4 +1,4 @@
-.. _important-partner-queries-are-ordered-deterministically:
+.. _important-partner-queries-are-ordered-deterministically-3-0:
 
 ========================================================
 Important: Partner queries are ordered deterministically

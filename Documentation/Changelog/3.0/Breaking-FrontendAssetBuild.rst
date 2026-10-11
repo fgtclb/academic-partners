@@ -1,4 +1,4 @@
-..  _breaking-map-assets-are-built:
+..  _breaking-map-assets-are-built-3-0:
 
 =========================================================
 Breaking: The map assets are built and loaded as a module

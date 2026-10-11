@@ -1,4 +1,4 @@
-.. _important-1786968600:
+.. _important-1786968600-3-0:
 
 ==============================================================================
 Important: The static template and the backend layout are registered correctly

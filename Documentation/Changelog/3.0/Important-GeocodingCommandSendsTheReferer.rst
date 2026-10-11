@@ -1,4 +1,4 @@
-..  _important-geocoding-command-sends-the-referer:
+..  _important-geocoding-command-sends-the-referer-3-0:
 
 ====================================================
 Important: The geocoding command identifies the site

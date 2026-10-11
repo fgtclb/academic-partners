@@ -1,4 +1,4 @@
-..  _important-translated-partnerships-keep-their-role:
+..  _important-translated-partnerships-keep-their-role-3-0:
 
 ==================================================
 Important: Translated partnerships keep their role

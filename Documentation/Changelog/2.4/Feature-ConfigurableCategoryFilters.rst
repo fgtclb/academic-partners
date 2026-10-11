@@ -51,7 +51,7 @@ TYPO3 v13 on, a site setting of the aggregate set, with the same name:
 The "All" option of each filter first reads a label of its type,
 :xml:`sys_category.partners.allOptions.<type>`, and falls back to
 :xml:`sys_category.partners.allOptions` where there is none. The extension ships
-no label per type; a site adds them in TypoScript:
+no label per type. A site adds them in TypoScript:
 
 ..  code-block:: typoscript
 
@@ -67,9 +67,9 @@ from another path, see :ref:`important-1790383005`.
 
 The partial :file:`Partner/DemandCategories.html` loops the new variables
 :html:`{filterTypes.visible}` and :html:`{filterTypes.more}`. Where
-:html:`{filterTypes}` does not reach it — a project controller that overrides
-:php:`listAction()` or :php:`mapAction()`, or a template that renders the
-partial with arguments of its own instead of :html:`{_all}` — it offers every
+:html:`{filterTypes}` does not reach it, as in a project controller that
+overrides :php:`listAction()` or :php:`mapAction()`, or a template that renders
+the partial with arguments of its own instead of :html:`{_all}`, it offers every
 type with a category, as before, and the filter types and the visible count have
 no effect there. To use them, let the overriding action call the parent action,
 and pass :html:`filterTypes` on to the partial.

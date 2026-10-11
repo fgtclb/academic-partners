@@ -1,4 +1,4 @@
-.. _important-partner-map-skips-partners-without-coordinates:
+.. _important-partner-map-skips-partners-without-coordinates-3-0:
 
 ==========================================================
 Important: The map leaves out partners without coordinates
