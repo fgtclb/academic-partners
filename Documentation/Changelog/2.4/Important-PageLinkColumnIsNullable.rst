@@ -1,4 +1,4 @@
-.. _important-1785882500:
+..  _important-1785882500:
 
 =======================================================
 Important: The `link` column of `pages` is nullable now
@@ -14,12 +14,11 @@ It was declared as:
 
     link text NOT NULL DEFAULT '',
 
-MySQL cannot store a default value on a :sql:`TEXT` column. TYPO3 v13 and
-above work around that by expressing the default in the
-:sql:`DEFAULT ('')` syntax MySQL 8.0.13 introduced, TYPO3 v12 does not —
-there the column was created :sql:`NOT NULL` with no default at all.
-Every statement that does not name the column was then rejected, and
-that includes creating a page in the backend:
+MySQL cannot store a plain default value on a :sql:`TEXT` column. TYPO3 v13
+works around that by writing the default in the :sql:`DEFAULT ('')` syntax
+MySQL 8.0.13 introduced. TYPO3 v12 does not, so there the column was created
+:sql:`NOT NULL` with no default at all. Every statement that does not name the
+column was then rejected, and that includes creating a page in the backend:
 
 ..  code-block:: text
 
@@ -47,8 +46,8 @@ Affected Installations
 ======================
 
 All installations of this extension. The database schema has to be
-updated, either in the maintenance area of the install tool or with
-:bash:`typo3 extension:setup`. The change only relaxes the column, so no
-data is converted and nothing can be lost.
+updated, either in :guilabel:`Admin Tools > Maintenance > Analyze Database
+Structure` or with :bash:`vendor/bin/typo3 extension:setup`. The change only
+relaxes the column, so no data is converted and nothing can be lost.
 
-.. index:: Database, ext:academic_partners
+..  index:: Database, ext:academic_partners

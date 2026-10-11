@@ -7,9 +7,9 @@ Important: The partner map honours "Show on map"
 Description
 ===========
 
-A partner page has the switch :guilabel:`Show on map`, next to its coordinates,
-on by default. The partner map ignored it: it drew every partner with coordinates
-that its filter matched, whatever the switch said.
+A partner page has the switch :guilabel:`Show on map` next to its coordinates,
+on by default. The partner map ignored it: it drew every partner with
+coordinates that its filter matched, whatever the switch said.
 
 *   The :guilabel:`Partners Map` content element leaves out a partner whose
     :guilabel:`Show on map` is switched off.
@@ -19,7 +19,7 @@ that its filter matched, whatever the switch said.
 *   The map reads the switch of the partner page in the language it is rendered
     in. The switch of a translation now follows its default record, as the
     coordinates do, and an editor can detach it for one language.
-*   The partner list and the partnerships elements are not affected.
+*   The partner list and the partnership content elements are not affected.
 
 Impact
 ======
@@ -34,14 +34,30 @@ language:
     WHERE doktype = 40 AND show_on_map = 0 AND deleted = 0 AND t3ver_wsid = 0;
 
 A translation can hold a different value from its default record, since nothing
-read the switch before: one made while the default record was switched off
-still holds that `0`. The upgrade wizard :guilabel:`Synchronize academic partner
-pages with their translations`, which synchronizes the coordinates as well, now
-copies the switch of the default record onto every translation that is not
-detached, once. Run it after updating.
+read the switch before. One made while the default record was switched off
+still holds that :sql:`0`. The upgrade wizard :guilabel:`Synchronize academic
+partner pages with their translations`, which synchronizes the coordinates as
+well, copies the switch of the default record onto every translation that is
+not detached, once.
 
-A template of a site package that renders the map for one partner and guards it
-with :html:`{partner.drawable}` still draws a partner whose switch is off. Guard
-it with :html:`{partner.shownOnMap}` instead.
+A template of a site package that renders the map for one partner guards it
+with :html:`{partner.shownOnMap}`. :html:`{partner.drawable}`, which this
+version adds as well, checks the coordinates only and ignores the switch.
 
-.. index:: Frontend, TCA, ext:academic_partners
+Affected Installations
+======================
+
+Installations that render the partner map plugin and have partner pages with
+:guilabel:`Show on map` switched off, in any language.
+
+Migration
+=========
+
+Run the upgrade wizard once after updating, in
+:guilabel:`Admin Tools > Upgrade > Upgrade Wizard` or on the command line:
+
+..  code-block:: bash
+
+    vendor/bin/typo3 upgrade:run academicPartners_synchronizePartnerTranslations
+
+..  index:: Frontend, TCA, ext:academic_partners

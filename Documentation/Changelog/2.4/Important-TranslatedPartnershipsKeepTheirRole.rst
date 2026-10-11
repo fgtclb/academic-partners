@@ -7,8 +7,8 @@ Important: Translated partnerships keep their role
 Description
 ===========
 
-A translated partnership keeps the role of its default language record, the
-:guilabel:`Role` field of the partnership is not translated. The list of
+A translated partnership keeps the role of its default language record, because
+the :guilabel:`Role` field of the partnership is not translated. The list of
 partnerships on a role contradicted that: it was synchronized into every
 translation of the role. Saving a role, in its default language or as a
 translation and even without a change, wrote the uid of the role translation
@@ -33,8 +33,8 @@ translation of their role. This query lists them:
     WHERE partnership.deleted = 0 AND role.sys_language_uid > 0;
 
 *   A translated partnership whose role was rewritten. Saving its default
-    language record, its :sql:`l10n_parent`, copies the role onto the translation again
-    and appends the translation to the list of that role.
+    language record, its :sql:`l10n_parent`, copies the role onto the
+    translation again and appends the translation to the list of that role.
 *   A duplicate created by localizing a role whose partnerships were
     translated already: a second translation for the same :sql:`l10n_parent`
     and language, copied from the translation in that language, so its
@@ -56,10 +56,10 @@ translation of their role. This query lists them:
     records that repair the others.
 
 Localizing a role, or copying it into a language, no longer localizes its
-partnerships either. Core still localizes every inline child of a localized
+partnerships either. TYPO3 still localizes every inline child of a localized
 record, and no configuration prevents that, so the partnerships it created are
 deleted again when the localization ends. For a partnership that is translated
-already, core still reports that its localization failed, while nothing is
+already, TYPO3 still reports that its localization failed, while nothing is
 created. A plain copy of a role keeps copying its partnerships.
 
 Affected Installations

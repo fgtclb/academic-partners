@@ -12,7 +12,7 @@ this extension registers, and its page template has always contained a block
 that lists them, grouped by category type. That block never appeared.
 
 It read the categories as :html:`{partner.categories.allCategoriesByType}`,
-and the model behind :html:`{partner}` has no such property — it exposes the
+and the model behind :html:`{partner}` has no such property. It exposes the
 collection as :php:`getAttributes()`. Fluid resolves an unknown path to
 :php:`null` without raising anything, so the surrounding :html:`<f:if>` was
 false on every partner page and the whole list was skipped. The list and
@@ -29,7 +29,7 @@ Impact
 
 A partner page with at least one category assigned now shows its category
 types and the categories of each, in the markup the template already
-contained — for example :guilabel:`Region` followed by
+contained, for example :guilabel:`Region` followed by
 :guilabel:`Rhine-Main Area`.
 
 A category type without an assigned category produces no entry, and a partner

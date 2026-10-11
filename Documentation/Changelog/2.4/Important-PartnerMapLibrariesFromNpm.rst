@@ -9,11 +9,12 @@ Description
 
 The partner map loads Leaflet 1.9.4 and the marker cluster plugin 1.5.3 as the
 classic scripts :file:`Resources/Public/JavaScript/leaflet.js` and
-:file:`markerCluster.js`. They were minified copies of those releases, edited to
-publish the global :js:`LeafletObject` instead of :js:`L` by replacing the text.
-That edit also changed the path command Leaflet writes for lines and polygons,
-so those were not drawn: the area a cluster covers, which the plugin shows while
-the pointer rests on a cluster, stayed invisible.
+:file:`Resources/Public/JavaScript/markerCluster.js`. They were minified copies
+of those releases, edited to publish the global :js:`LeafletObject` instead of
+:js:`L` by replacing the text. That edit also changed the path command Leaflet
+writes for lines and polygons, so those were not drawn: the area a cluster
+covers, which the plugin shows while the pointer rests on a cluster, stayed
+invisible.
 
 Both files are now built from the npm packages of the same releases. Their
 paths do not change, and they publish what they published before:
@@ -32,4 +33,10 @@ Impact
     :js:`window.LeafletObject`, keeps working unchanged.
 *   The stylesheets and the marker icon are unchanged.
 
-.. index:: Frontend, JavaScript, ext:academic_partners
+Affected Installations
+======================
+
+Every installation that renders the partner map plugin. Nothing has to be done
+on update.
+
+..  index:: Frontend, JavaScript, ext:academic_partners

@@ -1,41 +1,40 @@
 ..  _important-partner-map-draws-on-late-module-load:
 
-======================================================
-Important: The partner map draws on a late module load
-======================================================
+===========================================================
+Important: The partner map draws when its script loads late
+===========================================================
 
 Description
 ===========
 
-The partner map did not draw on most page loads. The container stayed empty, no
-tiles and no markers, and nothing was reported - not in the browser console, not
-in the TYPO3 log.
+The script of the partner map,
+:file:`EXT:academic_partners/Resources/Public/JavaScript/frontend/map.js`, bound
+its whole body to :js:`document.addEventListener('DOMContentLoaded', ...)`
+without asking whether that event was still ahead of it. A script that runs
+after the document has been parsed registered its listener on an event that
+never comes again: the map container stayed empty, without tiles and markers,
+and nothing was reported, neither in the browser console nor in the TYPO3 log.
 
-The module bound its whole body to
-:js:`document.addEventListener('DOMContentLoaded', ...)` without asking whether
-that event was still ahead of it. :html:`<f:asset.module>` renders every module
-with :html:`async`, so it is not ordered against document parsing and regularly
-runs after :js:`DOMContentLoaded` has already fired - and the listener was then
-registered on an event that never comes again.
+The template shipped with the extension loads the script with
+:html:`<f:asset.script>` and without :html:`async`, as a classic script that
+runs while the document is parsed. It was therefore not affected. A script
+loaded with :html:`async`, or injected after parsing by a consent manager or a
+tag manager, was.
 
-The body is called immediately when the document has finished parsing, and
-deferred only while it has not. That is the shape the study plan module already
-used; the map was the only frontend module of this extension without it.
+The body now runs immediately when the document has finished parsing, and
+waits for :js:`DOMContentLoaded` only while it has not.
 
 Impact
 ======
 
-The map draws. An installation that saw it draw before - the timing decided it,
-so some page loads did - sees no difference.
+The map draws however the script is loaded. An installation that renders the
+map with the shipped template sees no difference.
 
 Affected Installations
 ======================
 
-Every installation that renders the partner map plugin. Nothing has to be done
-on update.
+Installations that load the map script asynchronously or late, through a
+template override or their own asset handling. Nothing has to be done on
+update. A workaround that forced the script to load early can be dropped.
 
-An installation that worked around this by loading the module differently, for
-example without :html:`async` through a template override, can drop the
-workaround.
-
-.. index:: Frontend, JavaScript, ext:academic_partners
+..  index:: Frontend, JavaScript, ext:academic_partners
