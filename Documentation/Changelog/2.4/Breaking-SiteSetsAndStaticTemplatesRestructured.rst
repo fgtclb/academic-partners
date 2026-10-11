@@ -163,9 +163,7 @@ Adjust every :typoscript:`@import` in an own site package:
         -   Removed, for the same reason.
 
 Select the static template of this extension in the :sql:`sys_template`
-record. The entry of version 2.3 stored the path of EXT:academic_programs.
-Remove it unless the record selects :guilabel:`Academic Programs Page Setup
-(academic_programs)` on purpose, which stores the same value:
+record:
 
 ..  list-table::
     :header-rows: 1
@@ -180,6 +178,12 @@ Remove it unless the record selects :guilabel:`Academic Programs Page Setup
             :guilabel:`Academic Partners: All components (academic_partners)`,
             stored as `EXT:academic_partners/Configuration/TypoScript/Full`,
             which also carries the content load override.
+
+The entry of version 2.3 stored the path of EXT:academic_programs. Remove it
+unless the site uses EXT:academic_programs on purpose. The entry of that
+extension, :guilabel:`Academic Programs Page Setup (academic_programs)` in
+version 2.3 and :guilabel:`Academic Programs: Shared plugin settings and page
+rendering (academic_programs)` now, stores the same value.
 
 Add the page TSconfig entry, which did not exist before, in the page record of
 the site root, tab :guilabel:`Resources`, field :guilabel:`Page TSconfig`:

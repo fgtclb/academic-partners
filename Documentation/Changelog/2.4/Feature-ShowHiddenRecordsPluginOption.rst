@@ -11,8 +11,8 @@ A new boolean plugin option **Show hidden records**
 (:typoscript:`settings.showHiddenRecords`, a toggle, off by default) was added
 to the following plugins:
 
-* **List** (:php:`academicpartners_list`)
-* **Map** (:php:`academicpartners_map`)
+* **Partners List** (:php:`academicpartners_list`)
+* **Partners Map** (:php:`academicpartners_map`)
 
 Both plugins share the single :file:`ListSettings.xml` flexform data
 structure, which gains the new toggle.

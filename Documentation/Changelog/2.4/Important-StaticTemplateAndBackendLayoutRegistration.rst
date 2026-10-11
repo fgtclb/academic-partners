@@ -13,10 +13,11 @@ Two registrations of this extension did not reach an installation.
 :file:`Configuration/TCA/Overrides/sys_template.php` passed
 :php:`'academic_programs'` to
 :php:`ExtensionManagementUtility::addStaticFile()`, so the entry offered in a
-template record as :guilabel:`Academic Partners Page Setup` pointed at
-:file:`EXT:academic_programs/Configuration/TypoScript/`, the TypoScript of a
-different extension. The TypoScript of this extension was registered nowhere and
-could only be reached through the site set :yaml:`fgtclb/academic-partners`.
+template record up to version 2.3, :guilabel:`Academic Partners Page Setup`,
+pointed at :file:`EXT:academic_programs/Configuration/TypoScript/`, the
+TypoScript of a different extension. The TypoScript of this extension was
+registered nowhere and could only be reached through the site set
+:yaml:`fgtclb/academic-partners`.
 
 What that cost an installation without site sets: the page template directory
 of this extension never entered :typoscript:`page.10.templateRootPaths`, and
