@@ -3,6 +3,7 @@
 namespace FGTCLB\AcademicPartners\DataProcessing;
 
 use FGTCLB\AcademicPartners\Domain\Repository\PartnershipRepository;
+use FGTCLB\AcademicPartners\Service\PartnershipRoles;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
@@ -34,13 +35,7 @@ class PartnershipProcessor implements DataProcessorInterface
 
         $processedData['partnerships'] = $partnerships;
 
-        $roles = [];
-        foreach ($partnerships as $partnership) {
-            $role = $partnership->getRole();
-            if ($role !== null) {
-                $roles[$role->getUid()] = $role;
-            }
-        }
+        $roles = GeneralUtility::makeInstance(PartnershipRoles::class)->collect($partnerships);
         $processedData['partnershipRoles'] = $roles;
 
         return $processedData;

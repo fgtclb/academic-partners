@@ -7,6 +7,7 @@ namespace FGTCLB\AcademicPartners\Controller;
 use FGTCLB\AcademicPartners\Domain\Repository\PartnerRepository;
 use FGTCLB\AcademicPartners\Domain\Repository\PartnershipRepository;
 use FGTCLB\AcademicPartners\Factory\DemandFactory;
+use FGTCLB\AcademicPartners\Service\PartnershipRoles;
 use FGTCLB\CategoryTypes\Domain\Repository\CategoryRepository;
 use FGTCLB\CategoryTypes\Filter\FilterTypeResolver;
 use Psr\Http\Message\ResponseInterface;
@@ -16,6 +17,8 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 class PartnerController extends ActionController
 {
     private FilterTypeResolver $filterTypeResolver;
+
+    private PartnershipRoles $partnershipRoles;
 
     public function __construct(
         protected PartnerRepository $partnerRepository,
@@ -95,13 +98,7 @@ class PartnerController extends ActionController
         $contentElementData = $this->getCurrentContentObjectRenderer()?->data ?? [];
         $partnerships = $this->partnershipRepository->findByPid((int)($contentElementData['pid'] ?? 0));
 
-        $roles = [];
-        foreach ($partnerships as $partnership) {
-            $role = $partnership->getRole();
-            if ($role !== null) {
-                $roles[$role->getUid()] = $role;
-            }
-        }
+        $roles = $this->partnershipRoles->collect($partnerships);
 
         $this->view->assignMultiple([
             'data' => $contentElementData,
@@ -121,13 +118,7 @@ class PartnerController extends ActionController
         $contentElementData = $this->getCurrentContentObjectRenderer()?->data ?? [];
         $partnerships = $this->partnershipRepository->findByPid((int)($contentElementData['pid'] ?? 0));
 
-        $roles = [];
-        foreach ($partnerships as $partnership) {
-            $role = $partnership->getRole();
-            if ($role !== null) {
-                $roles[$role->getUid()] = $role;
-            }
-        }
+        $roles = $this->partnershipRoles->collect($partnerships);
 
         $this->view->assignMultiple([
             'data' => $contentElementData,
@@ -145,6 +136,14 @@ class PartnerController extends ActionController
     final public function injectFilterTypeResolver(FilterTypeResolver $filterTypeResolver): void
     {
         $this->filterTypeResolver = $filterTypeResolver;
+    }
+
+    /**
+     * Method injection for the same reason as {@see injectFilterTypeResolver()}.
+     */
+    final public function injectPartnershipRoles(PartnershipRoles $partnershipRoles): void
+    {
+        $this->partnershipRoles = $partnershipRoles;
     }
 
     private function getCurrentContentObjectRenderer(): ?ContentObjectRenderer
