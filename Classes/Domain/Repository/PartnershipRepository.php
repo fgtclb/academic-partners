@@ -41,9 +41,11 @@ class PartnershipRepository extends Repository
      * fetches exactly those rows with `respectSysLanguage` lifted and the overlay pinned
      * to `OVERLAYS_MIXED`. That overlay maps a translation onto the identity of its
      * default record and passes an untranslated default record through, the same on
-     * TYPO3 v13 and v14 and whatever fallback the site language configures. With
-     * `respectSysLanguage` lifted, the data mapper resolves the role in the language of
-     * the partnership, so a partnership that renders as its translation names its role
+     * TYPO3 v13 and v14. The pinned overlay replaces the overlay type of the site
+     * language, so which partnerships render does not depend on its fallback type, while
+     * its fallback chain still decides which language a default record is overlaid with.
+     * With `respectSysLanguage` lifted, the data mapper resolves the role in the language
+     * of the partnership, so a partnership that renders as its translation names its role
      * in that language.
      *
      * @return QueryResult<Partnership>

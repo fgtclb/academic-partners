@@ -369,6 +369,33 @@ final class PartnershipRepositoryFindByPidTest extends AbstractAcademicPartnersT
     }
 
     /**
+     * Partnership 1 is visible, its German translation 11 is attached to page 2 as well
+     * and hidden. In German the partnership renders as its default record. The pre-query
+     * leaves the hidden translation out, so it keeps the default record, which the overlay
+     * then passes through, since it does not see a hidden translation either.
+     */
+    #[Test]
+    public function aPartnershipWithAHiddenTranslationIsReturnedAsItsDefaultRecord(): void
+    {
+        $this->importCSVDataSet(__DIR__ . '/Fixtures/PartnershipRepositoryFindByPid/hiddenTranslation.csv');
+        $this->setUpLanguageAspect(1);
+
+        $partnerships = iterator_to_array($this->subject()->findByPid(2));
+
+        $this->assertSame(
+            [1],
+            array_map(static fn(Partnership $partnership): int => (int)$partnership->getUid(), $partnerships)
+        );
+        $this->assertSame(
+            [1],
+            array_map(
+                static fn(Partnership $partnership): int => (int)$partnership->_getProperty(AbstractDomainObject::PROPERTY_LOCALIZED_UID),
+                $partnerships
+            )
+        );
+    }
+
+    /**
      * A frontend preview of hidden records includes hidden content in the visibility of
      * the context, and the Extbase query then returns hidden records. The pre-query
      * follows it, so the hidden partnership 6 is returned in the preview, in German as
