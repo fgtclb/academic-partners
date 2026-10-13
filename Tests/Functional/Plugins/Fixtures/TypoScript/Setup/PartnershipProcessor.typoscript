@@ -1,0 +1,11 @@
+# Renders what the `PartnershipProcessor` hands to the template of a page, the
+# partnerships of the current page and the roles they are grouped by, so a
+# test can read them.
+page.20 = FLUIDTEMPLATE
+page.20 {
+  template = TEXT
+  template.value (
+<div class="processor-partnerships" data-count="{partnerships -> f:count()}"><f:for each="{partnerships}" as="partnership"><span class="processor-partnership">{partnership.role.name}: {partnership.partner.title}</span></f:for><f:for each="{partnershipRoles}" as="role"><span class="processor-role">{role.name}</span></f:for></div>
+  )
+  dataProcessing.10 = FGTCLB\AcademicPartners\DataProcessing\PartnershipProcessor
+}

@@ -15,6 +15,7 @@ use FGTCLB\AcademicPartners\Domain\Repository\PartnershipRepository;
 use FGTCLB\AcademicPartners\Event\ModifyPartnerDemandEvent;
 use FGTCLB\AcademicPartners\Event\ModifyPartnerListEvent;
 use FGTCLB\AcademicPartners\Factory\DemandFactory;
+use FGTCLB\AcademicPartners\Service\PartnershipRoles;
 use FGTCLB\CategoryTypes\Domain\Repository\CategoryRepository;
 use FGTCLB\CategoryTypes\Filter\FilterTypeResolver;
 use GeorgRinger\NumberedPagination\NumberedPagination;
@@ -41,6 +42,7 @@ final class PartnerController extends ActionController
         private readonly ExtensionService $filterRedirectExtensionService,
         private readonly FilterTypeResolver $filterTypeResolver,
         private readonly HiddenRecordsFetcher $hiddenRecordsFetcher,
+        private readonly PartnershipRoles $partnershipRoles,
     ) {}
 
     /**
@@ -170,13 +172,7 @@ final class PartnerController extends ActionController
         $contentElementData = $this->getCurrentContentObjectRenderer()?->data ?? [];
         $partnerships = $this->partnershipRepository->findByPid((int)($contentElementData['pid'] ?? 0));
 
-        $roles = [];
-        foreach ($partnerships as $partnership) {
-            $role = $partnership->getRole();
-            if ($role !== null) {
-                $roles[$role->getUid()] = $role;
-            }
-        }
+        $roles = $this->partnershipRoles->collect($partnerships);
 
         $this->view->assignMultiple([
             'data' => $contentElementData,
@@ -199,13 +195,7 @@ final class PartnerController extends ActionController
         $contentElementData = $this->getCurrentContentObjectRenderer()?->data ?? [];
         $partnerships = $this->partnershipRepository->findByPid((int)($contentElementData['pid'] ?? 0));
 
-        $roles = [];
-        foreach ($partnerships as $partnership) {
-            $role = $partnership->getRole();
-            if ($role !== null) {
-                $roles[$role->getUid()] = $role;
-            }
-        }
+        $roles = $this->partnershipRoles->collect($partnerships);
 
         $this->view->assignMultiple([
             'data' => $contentElementData,

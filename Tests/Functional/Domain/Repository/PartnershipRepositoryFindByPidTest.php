@@ -7,7 +7,16 @@ namespace FGTCLB\AcademicPartners\Tests\Functional\Domain\Repository;
 use FGTCLB\AcademicPartners\Domain\Model\Partnership;
 use FGTCLB\AcademicPartners\Domain\Repository\PartnershipRepository;
 use FGTCLB\AcademicPartners\Tests\Functional\AbstractAcademicPartnersTestCase;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
+use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Context\LanguageAspect;
+use TYPO3\CMS\Core\Context\VisibilityAspect;
+use TYPO3\CMS\Core\Core\SystemEnvironmentBuilder;
+use TYPO3\CMS\Core\Http\ServerRequest;
+use TYPO3\CMS\Core\TypoScript\AST\Node\RootNode;
+use TYPO3\CMS\Core\TypoScript\FrontendTypoScript;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractDomainObject;
 use TYPO3\CMS\Extbase\Persistence\Generic\QueryResult;
 
@@ -25,6 +34,12 @@ use TYPO3\CMS\Extbase\Persistence\Generic\QueryResult;
  */
 final class PartnershipRepositoryFindByPidTest extends AbstractAcademicPartnersTestCase
 {
+    protected function tearDown(): void
+    {
+        unset($GLOBALS['TYPO3_REQUEST']);
+        parent::tearDown();
+    }
+
     /**
      * The `page` of the partnership decides, not its `pid`: records 1 and 2 point at page 2
      * while living on two different storage pages, record 3 lives next to record 1 but
@@ -141,15 +156,13 @@ final class PartnershipRepositoryFindByPidTest extends AbstractAcademicPartnersT
     }
 
     /**
-     * The method combines `setRespectSysLanguage(false)` with an explicit `OVERLAYS_ON`
-     * language aspect. Dropping the language constraint means the translated row matches the
-     * `page` comparison too, so a translated partnership is returned *in addition to* its
-     * default language record: two result objects for one editorial record. This is
-     * characterisation - it is what the frontend renders today, and it is the reason the two
-     * settings must not be changed one at a time.
+     * The fixture holds partnership 1 and its German translation 2, which is attached to
+     * the default language page 2 as well, the shape that localizing a role created until
+     * ACE-874. In the default language the translation is not returned next to its default
+     * record any more (ACE-430): one object, mapped from the default language row.
      */
     #[Test]
-    public function aTranslatedPartnershipIsReturnedNextToItsDefaultLanguageRecord(): void
+    public function aTranslatedPartnershipIsReturnedOnceInTheDefaultLanguage(): void
     {
         $this->importCSVDataSet(__DIR__ . '/Fixtures/PartnershipRepositoryFindByPid/translatedPartnerships.csv');
 
@@ -159,23 +172,18 @@ final class PartnershipRepositoryFindByPidTest extends AbstractAcademicPartnersT
         foreach ($result as $partnership) {
             $localizedUids[] = (int)$partnership->_getProperty(AbstractDomainObject::PROPERTY_LOCALIZED_UID);
         }
-        sort($localizedUids);
 
-        $this->assertCount(2, $result);
-        $this->assertSame([1, 1], $this->resultUids($result));
-        $this->assertSame([1, 2], $localizedUids);
+        $this->assertCount(1, $result);
+        $this->assertSame([1], $this->resultUids($result));
+        $this->assertSame([1], $localizedUids);
     }
 
     /**
-     * The second half of the same behaviour, and the part that makes it a defect rather than
-     * a curiosity: the extra object is a translation only in the sense that it was mapped
-     * from the translated row. Its role relation is resolved in the default language, so both
-     * objects carry the same role name and the translated role record is never used - a
-     * frontend that renders a translated partnership list shows the default language role
-     * twice, once per duplicate.
+     * The single object of the default language carries the role of the default language,
+     * not a second copy of it next to a translated object (ACE-430).
      */
     #[Test]
-    public function theTranslatedPartnershipStillCarriesTheDefaultLanguageRole(): void
+    public function theDefaultLanguagePartnershipCarriesTheDefaultLanguageRole(): void
     {
         $this->importCSVDataSet(__DIR__ . '/Fixtures/PartnershipRepositoryFindByPid/translatedPartnerships.csv');
 
@@ -184,7 +192,252 @@ final class PartnershipRepositoryFindByPidTest extends AbstractAcademicPartnersT
             $roleNames[] = $partnership->getRole()?->getName();
         }
 
-        $this->assertSame(['Research partner', 'Research partner'], $roleNames);
+        $this->assertSame(['Research partner'], $roleNames);
+    }
+
+    /**
+     * The language fixture attaches seven partnerships to page 2 and translates the page
+     * into German as page 12:
+     *
+     * - 1, translated as 11 onto page 12, the way translating the partner page does it,
+     * - 2, translated as 12, a copy attached to page 2, the way a role localization did
+     *   it until ACE-874,
+     * - 3, untranslated, sorted last, see
+     *   {@see aTranslatedPartnershipAfterAnUntranslatedOneNamesTheDefaultRoleOnCore13()},
+     * - 4, a German record without a default language record,
+     * - 5, a record for all languages,
+     * - 6, hidden, with a visible translation 16 on page 12,
+     * - 7, translated as 17 onto page 12, with role 3, which has no German translation.
+     *
+     * Role 1 is translated into German as role 2, role 3 is not.
+     *
+     * @param int[] $expectedUids
+     * @param int[] $expectedLocalizedUids
+     * @param list<string|null> $expectedRoleNames
+     */
+    private function assertLanguageResult(
+        int $languageId,
+        array $expectedUids,
+        array $expectedLocalizedUids,
+        array $expectedRoleNames,
+    ): void {
+        $this->importCSVDataSet(__DIR__ . '/Fixtures/PartnershipRepositoryFindByPid/partnershipsPerLanguage.csv');
+        $this->setUpLanguageAspect($languageId);
+
+        $partnerships = iterator_to_array($this->subject()->findByPid(2));
+
+        $this->assertSame(
+            $expectedUids,
+            array_map(static fn(Partnership $partnership): int => (int)$partnership->getUid(), $partnerships),
+            'Unexpected uids.'
+        );
+        $this->assertSame(
+            $expectedLocalizedUids,
+            array_map(
+                static fn(Partnership $partnership): int => (int)$partnership->_getProperty(AbstractDomainObject::PROPERTY_LOCALIZED_UID),
+                $partnerships
+            ),
+            'Unexpected localized uids.'
+        );
+        $this->assertSame(
+            $expectedRoleNames,
+            array_map(static fn(Partnership $partnership): ?string => $partnership->getRole()?->getName(), $partnerships),
+            'Unexpected role names.'
+        );
+    }
+
+    /**
+     * In the default language only the default language records and the record for all
+     * languages are returned, each once. Neither the copy 12 nor the German record 4 is.
+     */
+    #[Test]
+    public function theDefaultLanguageReturnsEachPartnershipOnce(): void
+    {
+        $this->assertLanguageResult(
+            0,
+            [1, 2, 5, 7, 3],
+            [1, 2, 5, 7, 3],
+            ['Research partner', 'Research partner', 'Research partner', 'Funding partner', 'Research partner'],
+        );
+    }
+
+    /**
+     * In German every partnership is returned once. 1 and 7 as their translations on the
+     * page translation, which the query only reaches through the overlay of their default
+     * record. 2 as its copy 12 on page 2, which stands for it and takes its position from
+     * its own `sorting` (36). The German record 4 and the record 5 for all languages as
+     * themselves. The untranslated 3 as its default record, with the role of the default
+     * language. A partnership in German names its role in German where the role has a
+     * translation, and in the default language where it has none (7).
+     */
+    #[Test]
+    public function aTranslatedLanguageReturnsEachPartnershipOnce(): void
+    {
+        $this->assertLanguageResult(
+            1,
+            [1, 2, 4, 5, 7, 3],
+            [11, 12, 4, 5, 17, 3],
+            ['Forschungspartner', 'Forschungspartner', 'Forschungspartner', 'Forschungspartner', 'Funding partner', 'Research partner'],
+        );
+    }
+
+    /**
+     * Partnership 2 has two German translations: the copy 12 on page 2, which sorts
+     * first, and 13 on the page translation. The partnership is returned once, in the
+     * position of the copy, the only one of the two the page matches. Which translation
+     * the object is mapped from is not decided here: the overlay of TYPO3 looks the
+     * translation up by its default record and language without an order, so SQLite
+     * answers 12 and PostgreSQL 13. Both carry the partner and the role of the default
+     * record, which are not translated.
+     */
+    #[Test]
+    public function aCopyNextToATranslationIsReturnedOnceInThePositionOfTheCopy(): void
+    {
+        $this->importCSVDataSet(__DIR__ . '/Fixtures/PartnershipRepositoryFindByPid/copyAndTranslation.csv');
+        $this->setUpLanguageAspect(1);
+
+        $partnerships = iterator_to_array($this->subject()->findByPid(2));
+
+        $this->assertSame(
+            [2, 1],
+            array_map(static fn(Partnership $partnership): int => (int)$partnership->getUid(), $partnerships)
+        );
+        $this->assertContains(
+            (int)$partnerships[0]->_getProperty(AbstractDomainObject::PROPERTY_LOCALIZED_UID),
+            [12, 13]
+        );
+        $this->assertSame('Beta Institute', $partnerships[0]->getPartner()?->getTitle());
+        $this->assertSame('Forschungspartner', $partnerships[0]->getRole()?->getName());
+    }
+
+    /**
+     * A language into which no partnership is translated returns the default language
+     * records and the record for all languages, and nothing of another language.
+     */
+    #[Test]
+    public function aLanguageWithoutTranslationsReturnsTheDefaultLanguagePartnerships(): void
+    {
+        $this->assertLanguageResult(
+            3,
+            [1, 2, 5, 7, 3],
+            [1, 2, 5, 7, 3],
+            ['Research partner', 'Research partner', 'Research partner', 'Funding partner', 'Research partner'],
+        );
+    }
+
+    /**
+     * The data mapper of TYPO3 v13 resolves a relation from the identity map by the
+     * plain uid of the related record when that key is known (`DataMapper::
+     * mapObjectToClassProperty()`). An untranslated partnership loads the default
+     * language role under that key, and a translated partnership sorted after it with the
+     * same role then names the role of the default language as well. TYPO3 v14 keys the
+     * identity map by language and names the translated role. Characterisation of the
+     * core on both versions, the repository cannot change it.
+     *
+     * @return list<string|null>
+     */
+    private function roleNamesOfAnUntranslatedPartnershipFollowedByATranslatedOne(): array
+    {
+        $this->importCSVDataSet(__DIR__ . '/Fixtures/PartnershipRepositoryFindByPid/untranslatedBeforeTranslated.csv');
+        $this->setUpLanguageAspect(1);
+
+        $roleNames = [];
+        foreach ($this->subject()->findByPid(2) as $partnership) {
+            $roleNames[] = $partnership->getRole()?->getName();
+        }
+        return $roleNames;
+    }
+
+    #[Group('not-core-14')]
+    #[Test]
+    public function aTranslatedPartnershipAfterAnUntranslatedOneNamesTheDefaultRoleOnCore13(): void
+    {
+        $this->assertSame(
+            ['Research partner', 'Research partner'],
+            $this->roleNamesOfAnUntranslatedPartnershipFollowedByATranslatedOne(),
+        );
+    }
+
+    #[Group('not-core-13')]
+    #[Test]
+    public function aTranslatedPartnershipAfterAnUntranslatedOneNamesTheTranslatedRoleOnCore14(): void
+    {
+        $this->assertSame(
+            ['Research partner', 'Forschungspartner'],
+            $this->roleNamesOfAnUntranslatedPartnershipFollowedByATranslatedOne(),
+        );
+    }
+
+    /**
+     * A frontend preview of hidden records includes hidden content in the visibility of
+     * the context, and the Extbase query then returns hidden records. The pre-query
+     * follows it, so the hidden partnership 6 is returned in the preview, in German as
+     * its translation 16. Without the preview it is not, see
+     * {@see theDefaultLanguageReturnsEachPartnershipOnce()}.
+     */
+    #[Test]
+    public function aPreviewOfHiddenRecordsReturnsTheHiddenPartnership(): void
+    {
+        $this->importCSVDataSet(__DIR__ . '/Fixtures/PartnershipRepositoryFindByPid/partnershipsPerLanguage.csv');
+        $this->setUpFrontendRequest();
+        GeneralUtility::makeInstance(Context::class)->setAspect('visibility', new VisibilityAspect(false, true));
+
+        foreach ([0 => [6, 6], 1 => [6, 16]] as $languageId => [$expectedUid, $expectedLocalizedUid]) {
+            $this->setUpLanguageAspect($languageId);
+            $hidden = array_values(array_filter(
+                iterator_to_array($this->subject()->findByPid(2)),
+                static fn(Partnership $partnership): bool => (int)$partnership->getUid() === $expectedUid
+            ));
+            $this->assertCount(1, $hidden, sprintf('Hidden partnership missing in language %d.', $languageId));
+            $this->assertSame(
+                $expectedLocalizedUid,
+                (int)$hidden[0]->_getProperty(AbstractDomainObject::PROPERTY_LOCALIZED_UID),
+                sprintf('Unexpected localized uid in language %d.', $languageId)
+            );
+        }
+    }
+
+    /**
+     * Extbase applies the visibility of the context to a query only in a frontend
+     * request, and its configuration manager then reads the TypoScript of the request.
+     */
+    private function setUpFrontendRequest(): void
+    {
+        $frontendTypoScript = new FrontendTypoScript(new RootNode(), [], [], []);
+        $frontendTypoScript->setSetupTree(new RootNode());
+        $frontendTypoScript->setSetupArray([]);
+        $GLOBALS['TYPO3_REQUEST'] = (new ServerRequest('https://www.acme.com/'))
+            ->withAttribute('applicationType', SystemEnvironmentBuilder::REQUESTTYPE_FE)
+            ->withAttribute('frontend.typoscript', $frontendTypoScript);
+    }
+
+    /**
+     * `count()` runs its own statement, so it agrees with the iteration only when the query
+     * selects one row per partnership, in every language.
+     */
+    #[Test]
+    public function countAgreesWithTheIterationInEveryLanguage(): void
+    {
+        $this->importCSVDataSet(__DIR__ . '/Fixtures/PartnershipRepositoryFindByPid/partnershipsPerLanguage.csv');
+
+        foreach ([0 => 5, 1 => 6, 3 => 5] as $languageId => $expectedCount) {
+            $this->setUpLanguageAspect($languageId);
+            $result = $this->subject()->findByPid(2);
+            $this->assertSame($expectedCount, $result->count(), sprintf('Unexpected count() in language %d.', $languageId));
+            $this->assertCount($expectedCount, iterator_to_array($result), sprintf('Unexpected number of objects in language %d.', $languageId));
+        }
+    }
+
+    /**
+     * The language aspect a frontend request in that language sets, with the overlay type
+     * the repository replaces.
+     */
+    private function setUpLanguageAspect(int $languageId): void
+    {
+        GeneralUtility::makeInstance(Context::class)->setAspect(
+            'language',
+            new LanguageAspect($languageId, $languageId, LanguageAspect::OVERLAYS_ON)
+        );
     }
 
     /**

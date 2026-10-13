@@ -1,0 +1,31 @@
+"pages"
+,"uid","pid","doktype","sys_language_uid","l10n_parent","hidden","deleted","title","slug"
+,1,0,1,0,0,0,0,"Root","/"
+,2,1,1,0,0,0,0,"Page with partnerships","/page-with-partnerships"
+,4,1,254,0,0,0,0,"Storage folder","/storage-folder"
+,12,1,1,1,2,0,0,"Seite mit Partnerschaften","/seite-mit-partnerschaften"
+,20,1,40,0,0,0,0,"Alpha University","/alpha-university"
+,21,1,40,0,0,0,0,"Beta Institute","/beta-institute"
+,22,1,40,0,0,0,0,"Gamma Academy","/gamma-academy"
+,23,1,40,0,0,0,0,"Delta College","/delta-college"
+,24,1,40,0,0,0,0,"Epsilon School","/epsilon-school"
+,25,1,40,0,0,0,0,"Zeta Lab","/zeta-lab"
+,26,1,40,0,0,0,0,"Eta Foundation","/eta-foundation"
+"tx_academicpartners_domain_model_role"
+,"uid","pid","deleted","hidden","sys_language_uid","l10n_parent","sorting","name","description"
+,1,4,0,0,0,0,16,"Research partner","Joint research and publications."
+,2,4,0,0,1,1,16,"Forschungspartner","Gemeinsame Forschung."
+,3,4,0,0,0,0,32,"Funding partner","Financial support."
+"tx_academicpartners_domain_model_partnership"
+,"uid","pid","deleted","hidden","sys_language_uid","l10n_parent","sorting","page","partner","role"
+,1,4,0,0,0,0,16,2,20,1
+,2,4,0,0,0,0,32,2,21,1
+,3,4,0,0,0,0,90,2,22,1
+,4,4,0,0,1,0,56,2,23,1
+,5,4,0,0,-1,0,64,2,24,1
+,6,4,0,1,0,0,72,2,25,1
+,7,4,0,0,0,0,80,2,26,3
+,11,4,0,0,1,1,16,12,20,1
+,12,4,0,0,1,2,36,2,21,1
+,16,4,0,0,1,6,72,12,25,1
+,17,4,0,0,1,7,80,12,26,3
