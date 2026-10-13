@@ -1,0 +1,8 @@
+"pages"
+,"uid","pid","doktype","sys_language_uid","l10n_parent","hidden","deleted","starttime","endtime","sorting","title","slug"
+,1,0,1,0,0,0,0,0,0,16,"Root","/"
+,10,1,40,0,0,0,0,0,0,32,"Visible Partner","/visible-partner"
+,11,1,40,0,0,1,0,0,0,48,"Hidden Partner","/hidden-partner"
+,12,1,40,0,0,0,0,2145916800,0,64,"Future Partner","/future-partner"
+,13,1,40,0,0,0,0,0,946684800,80,"Expired Partner","/expired-partner"
+,14,1,40,0,0,0,1,0,0,96,"Deleted Partner","/deleted-partner"

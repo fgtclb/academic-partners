@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace FGTCLB\AcademicPartners\Tests\Functional\Backend\FormEngine;
 
 use FGTCLB\AcademicPartners\Tests\Functional\AbstractAcademicPartnersTestCase;
-use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use TYPO3\CMS\Backend\Form\FormDataCompiler;
 use TYPO3\CMS\Backend\Form\FormDataGroup\TcaDatabaseRecord;
@@ -26,23 +25,13 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * `TcaSelectItems::addData()`. The handler's own output is unordered before and after
  * this change, so a test calling it directly passes either way and proves nothing.
  *
- * The query behind the select declares no ordering on this branch, so the entries
- * arrived in whatever order the database returned. The fixture titles are therefore
- * anti-correlated with the record order, and for good measure with the page tree
- * `sorting` as well, so the orders differ in their first entry:
+ * The fixture titles are anti-correlated with both orders the select could otherwise
+ * follow, and the three orders differ in their first entry:
  *
  * - by `uid`:     Zeta, Oberlin, Öresund, Beta, Potsdam, Alpha
- * - by `sorting`: Zeta, Öresund, Beta, Potsdam, Alpha, Oberlin
+ * - by `sorting`: Zeta, Öresund, Beta, Potsdam, Alpha, Oberlin  (the page tree order,
+ *                 which `PartnerRepository::findAll()` asks for since ACE-491)
  * - by title:     Alpha, Beta, Oberlin, Öresund, Potsdam, Zeta
- *
- * **Hidden partner pages are offered on TYPO3 v13 and not on v12**, which is why the
- * complete order is asserted once per core version. That difference is core behaviour
- * and predates this change: `Typo3QuerySettings::__construct()` turns
- * `ignoreEnableFields` on for a backend request, but on v12 only when the Extbase
- * feature toggle `ignoreAllEnableFieldsInBe` is enabled - a toggle that is deprecated
- * there and off by default. TYPO3 v13 dropped the toggle and applies the backend
- * default unconditionally. `PartnerItems::itemsProcFunc()` builds its settings through
- * `GeneralUtility::makeInstance()`, so it inherits whichever default applies.
  */
 final class PartnerSelectOrderTest extends AbstractAcademicPartnersTestCase
 {
@@ -60,12 +49,11 @@ final class PartnerSelectOrderTest extends AbstractAcademicPartnersTestCase
     }
 
     /**
-     * TYPO3 v13 offers the hidden partner along with the others, so it takes its place
-     * in the alphabetical order rather than being absent from it.
+     * The hidden partner is offered along with the others on TYPO3 v12 and v13, so it
+     * takes its place in the alphabetical order rather than being absent from it.
      */
     #[Test]
-    #[Group('not-core-12')]
-    public function partnersAreOfferedInAlphabeticalOrderOnCore13(): void
+    public function partnersAreOfferedInAlphabeticalOrder(): void
     {
         $this->assertSame(
             [
@@ -81,32 +69,11 @@ final class PartnerSelectOrderTest extends AbstractAcademicPartnersTestCase
     }
 
     /**
-     * TYPO3 v12 does not offer the hidden partner, so the same fixture yields the same
-     * order with one entry fewer.
-     */
-    #[Test]
-    #[Group('not-core-13')]
-    public function partnersAreOfferedInAlphabeticalOrderOnCore12(): void
-    {
-        $this->assertSame(
-            [
-                'Alpha Academy',
-                'Oberlin Institute',
-                'Öresund Academy',
-                'Potsdam College',
-                'Zeta University',
-            ],
-            $this->offeredPartnerLabels(),
-        );
-    }
-
-    /**
      * The collator orders a diacritic by its base letter, which is the reason the order
      * is declared on the field rather than sorted in PHP: both `<=>` and
      * `asort(SORT_LOCALE_STRING)` - the two comparisons the sibling selects of this mono
      * repository use - place `Ö` after `Z`, because its UTF-8 encoding starts above the
-     * ASCII letters. The three titles involved are visible on both core versions, so
-     * this holds without a version split.
+     * ASCII letters.
      */
     #[Test]
     public function aTitleStartingWithADiacriticIsOrderedByItsBaseLetter(): void
@@ -136,8 +103,7 @@ final class PartnerSelectOrderTest extends AbstractAcademicPartnersTestCase
     /**
      * Deleted partner pages are not offered on either core version, and ordering the
      * select does not change that. The soft delete clause is applied by
-     * `Typo3DbQueryParser` independently of the enable fields, so unlike the hidden
-     * pages below it does not depend on the backend default.
+     * `Typo3DbQueryParser` independently of the enable fields.
      */
     #[Test]
     public function deletedPartnersAreNotOffered(): void
@@ -146,27 +112,21 @@ final class PartnerSelectOrderTest extends AbstractAcademicPartnersTestCase
     }
 
     /**
-     * Pins the core version difference from the other side, so that a change to it is
-     * reported here rather than only as a surprising order.
+     * Hidden partner pages are offered on TYPO3 v12 and v13, and the assertion above
+     * pins them in their alphabetical position rather than out of the list.
      *
-     * Both halves describe behaviour that is the same before and after this change:
-     * ordering the select does not change which partners it offers. Whether an editor
-     * should be offered hidden partners at all is a separate question, and
-     * `PartnerItems` carries an open `@todo` for it; this change's proposal states that
-     * nothing changes about which partners are offered.
+     * That is a decision of this extension (ACE-672): the select offers every partner
+     * page that is not deleted, and `PartnerItems::itemsProcFunc()` says so itself
+     * rather than relying on the backend default of `Typo3QuerySettings`, which v12
+     * applies only behind the deprecated Extbase feature toggle
+     * `ignoreAllEnableFieldsInBe`. `PartnerSelectVisibilityTest` covers partners
+     * outside their start or end time and a partnership whose partner is not visible,
+     * and `PartnerItemsTest` covers the handler without a backend request.
      */
     #[Test]
-    #[Group('not-core-12')]
-    public function hiddenPartnersAreOfferedOnCore13AsBefore(): void
+    public function hiddenPartnersAreOffered(): void
     {
         $this->assertContains('Beta Hidden Partner', $this->offeredPartnerLabels());
-    }
-
-    #[Test]
-    #[Group('not-core-13')]
-    public function hiddenPartnersAreNotOfferedOnCore12AsBefore(): void
-    {
-        $this->assertNotContains('Beta Hidden Partner', $this->offeredPartnerLabels());
     }
 
     /**
