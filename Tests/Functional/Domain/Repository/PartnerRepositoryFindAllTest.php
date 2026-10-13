@@ -55,8 +55,20 @@ final class PartnerRepositoryFindAllTest extends AbstractAcademicPartnersTestCas
         $this->assertSame([1, 3], $pids);
     }
 
+    /**
+     * Measures the repository default for a caller outside the backend: with no global
+     * request `Typo3QuerySettings` leaves `ignoreEnableFields` off, so a hidden partner
+     * is not returned.
+     *
+     * The partner select offers hidden partners nevertheless, because
+     * `PartnerItems::itemsProcFunc()` sets the flag on its own settings (ACE-672). That
+     * guarantee is tested where the select is built, in `PartnerItemsTest` and
+     * `PartnerSelectVisibilityTest`. This test turns red if the flag moves into
+     * `findAll()`, which would hand hidden partners to every other caller, a frontend
+     * one included.
+     */
     #[Test]
-    public function hiddenPartnersAreNotReturned(): void
+    public function hiddenPartnersAreNotReturnedOutsideABackendRequest(): void
     {
         $this->importCSVDataSet(__DIR__ . '/Fixtures/PartnerRepositoryFindAll/partners.csv');
 

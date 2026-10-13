@@ -108,28 +108,18 @@ final class PartnerSelectOrderTest extends AbstractAcademicPartnersTestCase
     }
 
     /**
-     * Hidden partner pages **are** offered, before this change as well as after it, and
-     * the assertion above pins them in their alphabetical position rather than out of
-     * the list.
+     * Hidden partner pages are offered, and the assertion above pins them in their
+     * alphabetical position rather than out of the list.
      *
-     * That is core behaviour and not a decision of this extension:
-     * `Typo3QuerySettings::__construct()` turns `ignoreEnableFields` on whenever the
-     * global request is a backend one, on the stated grounds that "an editor needs to
-     * see all records", and `PartnerItems::itemsProcFunc()` builds its settings through
-     * `GeneralUtility::makeInstance()`, so it inherits that default. FormEngine always
-     * runs in a backend request, so every editor sees hidden partners here.
-     *
-     * `PartnerRepositoryFindAllTest::hiddenPartnersAreNotReturned()` asserts the
-     * opposite and is right about what it measures: it sets no global request at all, so
-     * the constructor leaves the flag off. That condition does not occur in production
-     * for this query - its only caller is the item handler below a backend request.
-     *
-     * Whether an editor should be offered hidden partners is a separate question, and
-     * `PartnerItems` carries an open `@todo` for it. This change does not answer it: its
-     * proposal states that nothing changes about which partners are offered.
+     * That is a decision of this extension (ACE-672): the select offers every partner
+     * page that is not deleted, and `PartnerItems::itemsProcFunc()` says so itself
+     * rather than relying on the backend default of `Typo3QuerySettings`.
+     * `PartnerSelectVisibilityTest` covers partners outside their start or end time and
+     * a partnership whose partner is not visible, and `PartnerItemsTest` covers the
+     * handler without a backend request.
      */
     #[Test]
-    public function hiddenPartnersAreOfferedAsBefore(): void
+    public function hiddenPartnersAreOffered(): void
     {
         $this->assertContains('Beta Hidden Partner', $this->offeredPartnerLabels());
     }

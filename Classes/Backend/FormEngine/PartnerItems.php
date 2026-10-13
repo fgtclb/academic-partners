@@ -17,8 +17,13 @@ class PartnerItems
     {
         $querySettings = GeneralUtility::makeInstance(Typo3QuerySettings::class);
         $querySettings->setRespectStoragePage(false);
-        // @todo: Check how to handle hidden and deleted records in selection and existing relations
-        // @todo: Check how to handle publish property of partners in selection existing relations
+        // Offer every partner page that is not deleted, hidden ones and those outside
+        // their start or end time included. The record selects of the core apply no
+        // enable fields either. An editor can prepare a partnership before the partner
+        // page goes live, and a stored partner stays among the items, which a select
+        // without `foreign_table` needs to keep it on save. Set here because the
+        // backend default of `Typo3QuerySettings` depends on the global request.
+        $querySettings->setIgnoreEnableFields(true);
 
         $partnerRepository = GeneralUtility::makeInstance(PartnerRepository::class);
         $partnerRepository->setDefaultQuerySettings($querySettings);
