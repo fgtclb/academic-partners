@@ -132,6 +132,29 @@ final class PartnerTest extends UnitTestCase
     }
 
     /**
+     * A partner that was never saved has no uid, which Extbase keeps as `null`. Reading it
+     * must answer that instead of failing with a `TypeError`, as code creating a partner
+     * by hand, a command or a factory, would.
+     */
+    #[Test]
+    public function anUnsavedPartnerHasNoUid(): void
+    {
+        $this->assertNull((new Partner())->getUid());
+    }
+
+    /**
+     * Categories are related to a saved page, so an unsaved partner has none. No
+     * repository instance is prepared, so a lookup would fail the test.
+     */
+    #[Test]
+    public function anUnsavedPartnerHasNoCategories(): void
+    {
+        $attributes = (new Partner())->getAttributes();
+
+        $this->assertCount(0, $attributes);
+    }
+
+    /**
      * An already resolved collection is handed out untouched. Only one repository instance
      * is prepared above, so a second fetch would fail loudly rather than quietly costing a
      * query - and here none is prepared at all.
