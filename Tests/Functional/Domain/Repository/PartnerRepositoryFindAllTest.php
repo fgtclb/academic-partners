@@ -8,7 +8,7 @@ use FGTCLB\AcademicPartners\Domain\Model\Partner;
 use FGTCLB\AcademicPartners\Domain\Repository\PartnerRepository;
 use FGTCLB\AcademicPartners\Tests\Functional\AbstractAcademicPartnersTestCase;
 use PHPUnit\Framework\Attributes\Test;
-use TYPO3\CMS\Extbase\Persistence\Generic\QueryResult;
+use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
 /**
  * `PartnerRepository::findAll()` overrides the Extbase method of the same name and narrows
@@ -47,7 +47,7 @@ final class PartnerRepositoryFindAllTest extends AbstractAcademicPartnersTestCas
         $this->importCSVDataSet(__DIR__ . '/Fixtures/PartnerRepositoryFindAll/partners.csv');
 
         $pids = [];
-        foreach ($this->subject()->findAll() ?? [] as $partner) {
+        foreach ($this->subject()->findAll() as $partner) {
             $pids[] = (int)$partner->getPid();
         }
         sort($pids);
@@ -92,23 +92,6 @@ final class PartnerRepositoryFindAllTest extends AbstractAcademicPartnersTestCas
     }
 
     /**
-     * The signature says `?QueryResult` and `PartnerItems::itemsProcFunc()` guards against
-     * `null` accordingly, but the method returns `$query->execute()`, which is a result
-     * object even when it is empty. Pinning that down keeps the guard from being mistaken
-     * for a reachable branch, and would report a change of the contract.
-     */
-    #[Test]
-    public function anEmptyResultIsAQueryResultAndNotNull(): void
-    {
-        $this->importCSVDataSet(__DIR__ . '/Fixtures/PartnerRepositoryFindAll/noPartners.csv');
-
-        $result = $this->subject()->findAll();
-
-        $this->assertInstanceOf(QueryResult::class, $result);
-        $this->assertCount(0, $result);
-    }
-
-    /**
      * Partner records are pages, so `sorting` is the backend order the editor arranged -
      * the page tree order among siblings, a deterministic interleave across parents -
      * and the fixture contradicts creation order on purpose: partner 11 (`sorting` 64)
@@ -122,7 +105,7 @@ final class PartnerRepositoryFindAllTest extends AbstractAcademicPartnersTestCas
         $this->importCSVDataSet(__DIR__ . '/Fixtures/PartnerRepositoryFindAll/partners.csv');
 
         $uids = [];
-        foreach ($this->subject()->findAll() ?? [] as $partner) {
+        foreach ($this->subject()->findAll() as $partner) {
             $uids[] = (int)$partner->getUid();
         }
 
@@ -135,13 +118,13 @@ final class PartnerRepositoryFindAllTest extends AbstractAcademicPartnersTestCas
     }
 
     /**
-     * @param QueryResult<Partner>|null $result
+     * @param QueryResultInterface<int, Partner> $result
      * @return int[]
      */
-    private function resultUids(?QueryResult $result): array
+    private function resultUids(QueryResultInterface $result): array
     {
         $uids = [];
-        foreach ($result ?? [] as $partner) {
+        foreach ($result as $partner) {
             $uids[] = (int)$partner->getUid();
         }
         sort($uids);

@@ -27,16 +27,12 @@ class PartnerItems
 
         $partnerRepository = GeneralUtility::makeInstance(PartnerRepository::class);
         $partnerRepository->setDefaultQuerySettings($querySettings);
-        $partners = $partnerRepository->findAll();
-
-        if ($partners !== null) {
-            foreach ($partners as $partner) {
-                $parameters['items'][] = [
-                    'label' => $partner->getTitle(),
-                    'value' => $partner->getUid(),
-                    'icon' => 'tx-academicpartners-doktype-partner',
-                ];
-            }
+        foreach ($partnerRepository->findAll() as $partner) {
+            $parameters['items'][] = [
+                'label' => $partner->getTitle(),
+                'value' => $partner->getUid(),
+                'icon' => 'tx-academicpartners-doktype-partner',
+            ];
         }
     }
 }
