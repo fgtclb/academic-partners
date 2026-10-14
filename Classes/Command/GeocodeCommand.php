@@ -64,7 +64,15 @@ final class GeocodeCommand extends Command
             $this->logger->info('No partner is waiting for geocoding.');
             return Command::SUCCESS;
         }
-        $partnerLabel = sprintf('Partner %d "%s"', $partner->getUid(), $partner->getTitle());
+        // A partner read from the database always carries a uid. One without could not
+        // take the result, so it is refused before Nominatim is asked.
+        $partnerUid = $partner->getUid();
+        if ($partnerUid === null) {
+            $this->logger->error('Refusing to geocode a partner without a uid.');
+            $this->errorOutput($output)->writeln('<error>Refusing to geocode a partner without a uid.</error>');
+            return Command::FAILURE;
+        }
+        $partnerLabel = sprintf('Partner %d "%s"', $partnerUid, $partner->getTitle());
 
         if ($partner->getAddressStreet() === ''
             || $partner->getAddressStreetNumber() === ''
@@ -72,7 +80,7 @@ final class GeocodeCommand extends Command
             || $partner->getAddressZip() === ''
             || $partner->getAddressCountry() === ''
         ) {
-            return $this->reportResult($output, $partnerLabel, $partner->getUid(), [
+            return $this->reportResult($output, $partnerLabel, $partnerUid, [
                 'geocode_status' => 'failed',
                 'geocode_message' => 'There are not sufficient address details given.',
             ]);
@@ -139,7 +147,7 @@ final class GeocodeCommand extends Command
             $values['geocode_message'] = 'The address details were not sufficient for geolocalization.';
         }
 
-        return $this->reportResult($output, $partnerLabel, $partner->getUid(), $values);
+        return $this->reportResult($output, $partnerLabel, $partnerUid, $values);
     }
 
     /**
@@ -197,14 +205,8 @@ final class GeocodeCommand extends Command
      *
      * @param array<string, string|int> $values
      */
-    private function writeGeocodeResult(?int $partnerUid, array $values): bool
+    private function writeGeocodeResult(int $partnerUid, array $values): bool
     {
-        if ($partnerUid === null) {
-            $this->logger->error('Refusing to geocode a partner without a uid.');
-
-            return false;
-        }
-
         $written = false;
         $this->geocodeWriteContext->runAsLiveBackendUser(
             function (BackendUserAuthentication $backendUser) use ($partnerUid, $values, &$written): void {

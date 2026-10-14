@@ -58,9 +58,9 @@ class Partner extends AbstractEntity implements GetCategoryCollectionInterface
     }
 
     /**
-     * @return int<0, max>|null
+     * @return int<1, max>|null
      */
-    public function getUid(): int
+    public function getUid(): ?int
     {
         return $this->uid;
     }
@@ -233,10 +233,20 @@ class Partner extends AbstractEntity implements GetCategoryCollectionInterface
         return $this->showOnMap && $this->isDrawable();
     }
 
+    /**
+     * The categories of the partner page. A partner that was never saved has no page, and
+     * therefore no categories.
+     */
     public function getAttributes(): CategoryCollection
     {
-        return $this->attributes ??= GeneralUtility::makeInstance(CategoryRepository::class)
-            ->findByGroupAndPageId('partners', $this->getUid());
+        if ($this->attributes !== null) {
+            return $this->attributes;
+        }
+        if ($this->uid === null) {
+            return new CategoryCollection();
+        }
+        return $this->attributes = GeneralUtility::makeInstance(CategoryRepository::class)
+            ->findByGroupAndPageId('partners', $this->uid);
     }
 
     /**
