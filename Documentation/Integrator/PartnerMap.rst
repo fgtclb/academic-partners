@@ -124,8 +124,8 @@ way. What is different on a map is noted below.
 
     The order of the partners in the hidden list of the map, with the items of
     :confval:`Default sorting <partner-list-sorting>`. It does not change what
-    the map draws. A value without a direction stops the content element with a
-    PHP error, as in the list.
+    the map draws. A value that is not a field and a direction is ignored, as in
+    the list.
 
 ..  confval:: Default categories
     :name: partner-map-categories

@@ -172,10 +172,12 @@ Filter
     order, which this option does not.
 
     A content element saved before the option existed sorts by title, A to Z.
-    Only the items of the select are supported. A value without a direction,
-    an empty one for example, which the form never stores but an import or a
-    TypoScript value for a content element without the field can produce, stops
-    the content element with a PHP error.
+    Only the items of the select are supported. A value that is not a field and
+    a direction, an empty one or a field alone for example, which the form never
+    stores but an import or a TypoScript value for a content element without
+    the field can produce, is ignored, and the list sorts by title, A to Z. Of
+    a field and a direction, an unknown one is ignored on its own and the other
+    one still applies, so `uid desc` sorts by title, Z to A.
 
 ..  confval:: Default categories
     :name: partner-list-categories
