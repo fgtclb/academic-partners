@@ -51,9 +51,15 @@ filterable list and map views in the frontend.
         Install :guilabel:`academic_partners` via Composer, the Extension
         Manager or a TER upload.
 
+    ..  card:: :ref:`For integrators <integrator>`
+
+        The four content elements, what each of them shows, and every option
+        an editor sets on them.
+
     ..  card:: :ref:`Configuration <configuration>`
 
-        Configure the extension and its plugins for your installation.
+        The site sets, the site settings and the TypoScript of the extension,
+        and how to include them.
 
     ..  card:: :ref:`Styling <styling>`
 
@@ -62,8 +68,8 @@ filterable list and map views in the frontend.
 
     ..  card:: :ref:`For developers <developers>`
 
-        The events the partner list and map dispatch, and what a listener
-        may change with them.
+        The events the content elements dispatch, and what a listener may
+        change with them.
 
     ..  card:: :ref:`Known problems <known-problems>`
 
@@ -81,6 +87,7 @@ filterable list and map views in the frontend.
 
     Introduction/Index
     Installation/Index
+    Integrator/Index
     Configuration/Index
     Styling/Index
     Developers/Index

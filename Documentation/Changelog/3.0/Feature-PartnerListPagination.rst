@@ -21,7 +21,7 @@ navigation to the other pages below it. When
 around the current one, 5 by default, and marks the pages it leaves out with an
 ellipsis. Without it, the core pagination links every page. The number is a
 site setting of the set `fgtclb/academic-partners-list` and a constant of the
-static template, see :ref:`configuration-list-pagination`.
+static template, see :ref:`configuration-pagination-number-of-links`.
 
 *   Every page link carries the active filter and sorting, in the URL shape of
     :ref:`feature-1790226100`, and the page as

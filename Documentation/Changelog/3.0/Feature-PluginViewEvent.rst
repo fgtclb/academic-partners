@@ -24,6 +24,8 @@ The partner list and map dispatch it after their list event,
 The event, with an example listener, is described in the `changelog of
 academic_base
 <https://docs.typo3.org/p/fgtclb/academic-base/main/en-us/Changelog/3.0/Feature-ModifyPluginViewEvent.html>`__.
+What the content elements of this extension pass in is described in
+:ref:`developers-event-modify-plugin-view-event`.
 
 Impact
 ======

@@ -4,78 +4,57 @@
 For developers
 ==============
 
-The partner list and the partner map dispatch two PSR-14 events each. They are
-the supported way to change what a plugin queries and what it renders, and they
-replace the only alternative there used to be: subclassing
-:php:`PartnerController` and re-registering the plugin.
+The content elements of this extension dispatch PSR-14 events. They are the
+supported way to change what the partner list and the partner map query and
+what the four content elements render, and they replace the only alternative
+there used to be: subclassing :php:`PartnerController` and re-registering the
+plugin. The controller is final since version 3.0, see
+:ref:`breaking-1791043406`.
 
 Which classes of this extension are public API, and what that promises, is
 stated for all academic extensions on the `extension points page of
 academic_base <https://docs.typo3.org/p/fgtclb/academic-base/main/en-us/Developers/ExtensionPoints/Index.html>`__.
-Every plugin of this extension, the partnerships list and teaser included,
-also dispatches :php:`ModifyPluginViewEvent` of :guilabel:`academic_base` when it
-renders, after the list event where there is one; that page describes it.
 
 ..  _developers-partner-events:
 
-The two events
-==============
+Events
+======
 
 ..  list-table::
     :header-rows: 1
+    :widths: 25 30 30 15
 
     *   -   Event
         -   Dispatched
-        -   A listener may
-    *   -   :php:`\FGTCLB\AcademicPartners\Event\ModifyPartnerDemandEvent`
-        -   in :php:`listAction()` and :php:`mapAction()`, after the demand is
-            built from the content element settings and the request and before
-            the partners are queried
-        -   replace the demand
-    *   -   :php:`\FGTCLB\AcademicPartners\Event\ModifyPartnerListEvent`
-        -   in both actions, after the query and before the view variables are
+        -   What a listener can change
+        -   Owner
+    *   -   :ref:`ModifyPartnerDemandEvent <developers-event-modify-partner-demand-event>`
+        -   by the :guilabel:`Partner List` and the :guilabel:`Partner Map`,
+            after the demand is built from the content element and the request,
+            before the partners are queried
+        -   change or replace the demand
+        -   this extension
+    *   -   :ref:`ModifyPartnerListEvent <developers-event-modify-partner-list-event>`
+        -   by the same two, after the query and before the view variables are
             assigned
-        -   replace the partners, replace the applicable categories, assign
+        -   replace the partners and the categories of the filter, assign
             further view variables
+        -   this extension
+    *   -   :ref:`ModifyPluginViewEvent <developers-event-modify-plugin-view-event>`
+        -   by all four content elements, after they assigned their view
+            variables
+        -   assign further view variables
+        -   :guilabel:`academic_base`
 
-Both carry
+The two events of this extension carry
 :php:`\FGTCLB\AcademicBase\Domain\Model\Dto\PluginControllerActionContextInterface`
 through :php:`getPluginControllerActionContext()`: the request, the site and
 its language, the content object of the element, the settings of the content
 element and the plugin name.
 
-Neither event fires for a submission of the filter and sorting form: the plugin
-answers the POST with a redirect to a URL carrying the selection before the
-demand event, and both events fire on the request that follows, with the
-selection in the query string (or the route), not in the parsed body. See
-:ref:`feature-1790226100`.
-
-..  code-block:: php
-    :caption: EXT:my_extension/Classes/EventListener/RestrictPartnersToOneFolder.php
-
-    <?php
-
-    declare(strict_types=1);
-
-    namespace MyVendor\MyExtension\EventListener;
-
-    use FGTCLB\AcademicPartners\Event\ModifyPartnerDemandEvent;
-    use TYPO3\CMS\Core\Attribute\AsEventListener;
-
-    final class RestrictPartnersToOneFolder
-    {
-        #[AsEventListener(identifier: 'my-extension/restrict-partners-to-one-folder')]
-        public function __invoke(ModifyPartnerDemandEvent $event): void
-        {
-            // The pages the partner records sit *on*: `setPages()` becomes
-            // `pid IN (...)`, so this is one storage folder and not a page tree.
-            $event->getDemand()->setPages([42]);
-        }
-    }
-
-The plugin name is the name the plugin was **registered** with -
-:php:`List` for the list and :php:`Map` for the map - not the content element
-type. It is how one listener serves both and acts on one:
+The plugin name is the name the plugin was **registered** with, :php:`List` for
+the list and :php:`Map` for the map, not the content element type. It is how
+one listener serves both and acts on one:
 
 ..  code-block:: php
 
@@ -83,90 +62,21 @@ type. It is how one listener serves both and acts on one:
         return;
     }
 
-:php:`ModifyPartnerListEvent` carries the view as well, so a listener assigns
-values a project template renders:
+Neither event of this extension fires for a submission of the filter and
+sorting form: the plugin answers the POST with a redirect to a URL carrying the
+selection before the demand event, and both events fire on the request that
+follows, with the selection in the query string (or the route), not in the
+parsed body. See :ref:`feature-1790226100`.
 
-..  code-block:: php
+Nothing changes in an installation that has no listener: without one, the
+content elements query and render exactly what they did before.
 
-    $event->getView()->assign('partnerCount', count($event->getPartners()->toArray()));
+..  toctree::
+    :hidden:
+    :titlesonly:
 
-..  _developers-partner-events-rules:
-
-Rules worth knowing
-===================
-
-..  warning::
-
-    **The map still leaves out partners without coordinates.** A partner
-    without a coordinate would be drawn at 0/0 rather than be left out, so
-    :php:`mapAction()` restricts the demand to drawable partners *after* the
-    demand event. A listener that hands back a fresh demand - with the
-    restriction off again - therefore does not bring them onto the map. This is
-    deliberate and is covered by a test.
-
-    It is not the only thing a listener cannot undo - the page type is pinned
-    unconditionally, :php:`showHiddenRecords` reaches the :php:`disabled` flag
-    alone (start- and endtime, :php:`fe_group` and :php:`deleted` stay in
-    effect), and a :php:`uid` tiebreaker is always appended to the ordering.
-    Everything else is open: the demand *is* the query here, not a constraint
-    added to one, so a listener widens as easily as it narrows and nothing
-    guards it:
-    :php:`setShowHiddenRecords(true)` shows hidden partner pages to every
-    visitor, :php:`setPages([])` drops the storage restriction the editor chose
-    in the content element, and :php:`setSorting()` overrides the editor's
-    ordering for every element that renders - though only for a value that is
-    one of the :php:`SortingOptions` constants, since anything else is ignored
-    without a word. Two listeners that disagree are resolved by the order they
-    run in - the last one wins.
-
-**A replaced demand starts from the defaults.** :php:`setDemand()` is there for
-a listener that builds its own demand, and such a demand carries none of what
-the plugin put in the one it was handed: the :php:`showHiddenRecords` choice of
-the editor, and the two the visitor can set themselves through the filter form
-- the :php:`sorting` and the :php:`filterCollection` - so a replacement resets
-the ordering and the category filter under them. Mutate the demand where that
-is enough, and carry :php:`getPages()`, :php:`getShowHiddenRecords()`,
-:php:`getFilterCollection()` and :php:`getSorting()` over where it is not.
-
-**A replaced result is rendered as it is.** :php:`setPartners()` takes whatever
-query result a listener hands back; the ordering of the repository is not
-reapplied to it. A listener that builds its own result gives it its own
-ordering, or the list is in whatever order the database happens to return -
-which is not the same list twice on PostgreSQL.
-
-**The categories are not recomputed.** They are computed from the queried
-partners, once, before the list event. A listener that replaces the partners
-and wants the filter of the plugin to match them sets the categories too:
-
-..  code-block:: php
-
-    $event->setPartners($narrowedResult);
-    $event->setCategories(
-        $this->categoryRepository->findAllApplicable('partners', ...$narrowedResult->toArray()),
-    );
-
-:php:`findAllApplicable()` is what the controller itself calls: it keeps every
-category of the group and marks the ones no record carries as disabled options.
-:php:`findByGroupAndUidList()` returns a bare list instead, so a listener that
-reaches for that one drops the disabled options the filter otherwise shows.
-
-**A paginated list pages the result the list event hands back.** The event
-sees every partner the list found, not one page of them. With the
-:ref:`pagination <configuration-list-pagination>` enabled, the controller
-builds the paginator after the event, from the result the event hands back, and
-the paginator cuts a page by running that result's query again with a limit and
-an offset. A result a listener hands back is therefore paged by its query, not
-by the records it holds. :html:`{partners}` stays the whole result, the page is
-:html:`{paginator.paginatedItems}`.
-
-The page, and the filter and sorting the page links carry, are read from the
-demand the request asked for, **before** the demand event - as the filter
-redirect reads its URL. A listener that replaces the demand therefore keeps the
-page the visitor asked for, and a listener cannot choose the page. What a
-listener changes does not travel in the page links: it acts again on the
-request a link leads to.
-
-Nothing changes in an installation that has no listener: without one, both
-plugins query and render exactly what they did before.
+    Events/ModifyPartnerDemandEvent
+    Events/ModifyPartnerListEvent
+    Events/ModifyPluginViewEvent
 
 ..  index:: Frontend, PHP-API, ext:academic_partners

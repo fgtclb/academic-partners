@@ -21,7 +21,9 @@ further view variables.
 Both carry
 :php:`\FGTCLB\AcademicBase\Domain\Model\Dto\PluginControllerActionContextInterface`,
 so a listener knows the request, the site, the content element, its settings and
-whether the list or the map is rendering.
+whether the list or the map is rendering. Each event is described on a page
+of its own, see :ref:`developers-event-modify-partner-demand-event` and
+:ref:`developers-event-modify-partner-list-event`.
 
 ..  code-block:: php
     :caption: EXT:my_extension/Classes/EventListener/RestrictPartnersToOneFolder.php

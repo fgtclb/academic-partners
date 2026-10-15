@@ -178,7 +178,7 @@ The partner map
     in place of the map.
 *   `layout-fullWidth` is the only layout class there is, the
     :guilabel:`Content width` renders none. What full width means is decided by
-    the site stylesheet, see :ref:`configuration-map`.
+    the site stylesheet, see :confval:`Map width <partner-map-map-layout>`.
 
 ..  _styling-page:
 

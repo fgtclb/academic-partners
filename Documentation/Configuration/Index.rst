@@ -51,6 +51,9 @@ Every content element set depends on `fgtclb/academic-base-ctype-group`, the set
 of :guilabel:`EXT:academic_base` that labels the content element group all
 academic extensions sort their elements into.
 
+What each content element shows, and the options an editor sets on it, is
+described in :ref:`integrator`.
+
 ..  _configuration-hidden-by-default:
 
 The content elements are hidden by default
@@ -328,30 +331,15 @@ Edit the page record of the site root, tab :guilabel:`Resources`, field
 
 The setting is inherited by every page below the one it is set on.
 
-..  _configuration-list-pagination:
+..  _configuration-pagination-number-of-links:
 
-Pagination of the partner list
-==============================
+The page links of the partner list
+==================================
 
-The :guilabel:`Partner List` content element can split its partners into
-pages. Whether it does, and how many partners a page holds, is set on each
-content element, tab :guilabel:`Pagination`:
-
-..  list-table::
-    :header-rows: 1
-
-    *   -   Field
-        -   Default
-        -   Meaning
-    *   -   :guilabel:`Enable pagination`
-        -   off
-        -   Off, the list renders every partner the filter matches.
-    *   -   :guilabel:`Results per page`
-        -   10
-        -   The number of partners on one page.
-
-How many page numbers the navigation links at once is one value for the whole
-site:
+Whether the :guilabel:`Partner List` content element splits its partners into
+pages, and how many partners a page holds, is set on each content element, see
+:ref:`configuration-list-pagination`. How many page numbers the navigation
+links at once is one value for the whole site:
 
 ..  list-table::
     :header-rows: 1
@@ -369,9 +357,6 @@ The site setting is declared by the set `fgtclb/academic-partners-list`, so the
 site settings editor offers it to a site that depends on that set or on
 `fgtclb/academic-partners`. A site configured through static templates sets the
 constant instead.
-
-Every page link keeps the active filter and sorting, and a filter submission
-starts on page one. The :guilabel:`Partner Map` is never paginated.
 
 ..  _configuration-list-filter:
 
@@ -517,6 +502,13 @@ three are off by default.
           showReset: true
           showResultCount: true
 
+..  figure:: /Images/Screenshots/partner-list-active-filters.png
+    :alt: The filter form with the region North Rhine-Westphalia selected, below it a removable tag North Rhine-Westphalia, a link Reset all filters and the line with the number of partners found.
+    :class: with-border with-shadow
+
+    A filtered Partner List with one active filter tag, the reset link and the
+    number of partners found.
+
 The settings are site settings of the aggregate set `fgtclb/academic-partners` and constants of
 the same names, like the filter settings above.
 
@@ -618,39 +610,12 @@ attribution uses the default, because a tile server's terms usually require an
 attribution. Whether the tile server delivers tiles up to the maximum zoom,
 and what its attribution has to say, is up to the site.
 
-Which partners the map draws
-----------------------------
+Which partners the map draws, and how wide it is
+------------------------------------------------
 
-The map draws the partners the filter matches that have coordinates and whose
-page has :guilabel:`Show on map` switched on, the switch next to the coordinates
-of the partner page. The switch is on for a new partner. It is about the map
-only: the partner list lists a partner hidden from the map.
-
-The map reads the switch of the partner page in the language it is rendered in.
-The switch of a translation follows its default record, as the coordinates do,
-so switching a partner off in the default language takes it off the map in every
-language. An editor who detaches the switch of a translation sets it for that
-language on its own.
-
-The width of the map
---------------------
-
-Each :guilabel:`Partner Map` content element has a tab :guilabel:`Layout` with
-the field :guilabel:`Map width`:
-
-..  list-table::
-    :header-rows: 1
-
-    *   -   Option
-        -   Renders
-    *   -   :guilabel:`Content width`, the default
-        -   :html:`<div class="academic-partners-map">`, as before.
-    *   -   :guilabel:`Full width`
-        -   :html:`<div class="academic-partners-map layout-fullWidth">`
-
-The extension ships no style for the class. What full width means depends on the
-page layout of the site, so the theme of the site styles it. A content element
-saved before the field existed renders at content width.
+Which partners the map draws, and the option :guilabel:`Map width` of each
+content element, are described on the page of the content element, see
+:ref:`integrator-partner-map`.
 
 The files the map loads
 -----------------------
@@ -846,7 +811,7 @@ without it, such a header renders as an empty :html:`<header>` element.
 Load the script or bring your own
 =================================
 
-The :guilabel:`Partners Map` content element loads the module
+The :guilabel:`Partner Map` content element loads the module
 :js:`@fgtclb/academic-partners/frontend/map.js` on the page that carries it,
 together with the stylesheets of the map libraries the module imports, see
 :ref:`configuration-map`. A page template that renders the partial
@@ -906,7 +871,7 @@ the second read happens after the site settings and after
 the extension ships a default for back to that default. For this extension that
 is the :typoscript:`plugin.tx_academicpartners` constants block: the three Fluid
 root paths, the number of page links of the
-:ref:`pagination <configuration-list-pagination>`, the settings of
+:ref:`pagination <configuration-pagination-number-of-links>`, the settings of
 :ref:`the category filters <configuration-list-filter>` and of
 :ref:`the partner map <configuration-map>`, the
 :ref:`content element header <configuration-content-element-header>` switch
