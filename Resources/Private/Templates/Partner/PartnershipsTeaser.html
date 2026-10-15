@@ -35,6 +35,23 @@
                     </f:for>
                 </div>
             </f:for>
+
+            <f:if condition="{partnershipsWithoutRole}">
+                <div class="row">
+                    <f:for each="{partnershipsWithoutRole}" as="partnership">
+                        <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                            <f:render
+                                partial="Partnerships/Teaser/Item"
+                                arguments="{
+                                    partner: partnership.partner,
+                                    data: data,
+                                    settings: settings
+                                }"
+                            />
+                        </div>
+                    </f:for>
+                </div>
+            </f:if>
         </f:then>
         <f:else>
             <div class="row">

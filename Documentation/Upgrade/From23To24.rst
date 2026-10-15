@@ -307,8 +307,11 @@ file and take over the changes. The paths below are relative to
             :file:`Templates/Partner/PartnershipsTeaser.html`
         -   A partnership is grouped by
             :html:`{partnership.role.uid} == {role.uid}`, otherwise a
-            translated page loses partnerships.
-        -   :ref:`important-ace-430-academic-partners`
+            translated page loses partnerships. The partnerships without a
+            role are rendered after the role groups, from the new variable
+            :html:`{partnershipsWithoutRole}`.
+        -   :ref:`important-ace-430-academic-partners`,
+            :ref:`important-ace-917-academic-partners`
     *   -   :file:`Pages/AcademicPartner.html`
         -   The categories are read from
             :html:`{partner.attributes.allCategoriesByType}`. A copy taken only
@@ -373,6 +376,11 @@ Check the result
     when a visitor uses the rest of the form, see
     :ref:`important-hidden-partner-form-parts-keep-their-presets`. A sorting
     that was hidden only to keep the default categories can be shown again.
+*   A page whose partnerships partly have a role lists the partnerships
+    without a role after the role groups, and so the partnerships of a hidden
+    or deleted role. A role given to a partnership only to keep it visible can
+    be removed again. Hide a partnership to take it off the page, see
+    :ref:`important-ace-917-academic-partners`.
 *   Translated partnerships: the changelog entries
     :ref:`important-translated-partnerships-keep-their-role` and
     :ref:`important-1791547201` carry queries for translations that point at a

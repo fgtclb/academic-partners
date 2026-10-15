@@ -9,7 +9,8 @@ use FGTCLB\AcademicPartners\Domain\Model\Role;
 use TYPO3\CMS\Extbase\DomainObject\AbstractDomainObject;
 
 /**
- * Collects the roles the partnership list and teaser group their partnerships by.
+ * Collects the roles the partnership list and teaser group their partnerships by, and
+ * the partnerships that have no role and therefore belong to none of the groups.
  *
  * In a translated language a partnership that renders as its translation carries its
  * role in that language, and one that renders as its default language record carries
@@ -39,6 +40,25 @@ final class PartnershipRoles
             }
         }
         return $roles;
+    }
+
+    /**
+     * The partnerships without a role. The templates render them after the role groups,
+     * which only render the partnerships of a role (ACE-917). A hidden or deleted role
+     * does not resolve, so its partnerships are among them.
+     *
+     * @param iterable<Partnership> $partnerships
+     * @return list<Partnership> in the order of the given partnerships
+     */
+    public function withoutRole(iterable $partnerships): array
+    {
+        $withoutRole = [];
+        foreach ($partnerships as $partnership) {
+            if ($partnership->getRole() === null) {
+                $withoutRole[] = $partnership;
+            }
+        }
+        return $withoutRole;
     }
 
     private function languageOf(Role $role): int
