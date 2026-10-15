@@ -35,8 +35,9 @@ class PartnershipProcessor implements DataProcessorInterface
 
         $processedData['partnerships'] = $partnerships;
 
-        $roles = GeneralUtility::makeInstance(PartnershipRoles::class)->collect($partnerships);
-        $processedData['partnershipRoles'] = $roles;
+        $partnershipRoles = GeneralUtility::makeInstance(PartnershipRoles::class);
+        $processedData['partnershipRoles'] = $partnershipRoles->collect($partnerships);
+        $processedData['partnershipsWithoutRole'] = $partnershipRoles->withoutRole($partnerships);
 
         return $processedData;
     }

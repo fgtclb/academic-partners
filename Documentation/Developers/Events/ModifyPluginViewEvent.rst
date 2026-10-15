@@ -78,8 +78,8 @@ The variables a listener finds in the view:
     *   -   Partner Map
         -   the same, without the pagination
     *   -   Partners Linked, Partner Logo Teaser
-        -   :html:`{partnerships}`, :html:`{partnershipRoles}`, :html:`{data}`,
-            :html:`{record}`
+        -   :html:`{partnerships}`, :html:`{partnershipRoles}`,
+            :html:`{partnershipsWithoutRole}`, :html:`{data}`, :html:`{record}`
 
 Example
 =======

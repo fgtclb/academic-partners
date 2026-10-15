@@ -147,7 +147,36 @@ Both render the partners of the current page in an `ace-itemlist`, with the
 grid of the partner list. With roles, every role renders an `ace-itemlist` of
 its own, whose `row` starts with the heading of the role, a
 :html:`<header class="ace-header">` around an `ace-title`, before the grid
-columns. A partner is built up as above.
+columns. The partners without a role follow in one more `ace-itemlist`,
+without a heading. A partner is built up as above.
+
+..  code-block:: html
+
+    <div class="academic-partnerships-list">
+        <div class="ace-itemlist">
+            <div class="row">
+                <header class="ace-header"><h2 class="ace-title">Role name</h2></header>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                    <article class="ace-item">…</article>
+                </div>
+            </div>
+        </div>
+        <!-- one ace-itemlist per role, then the partners without a role -->
+        <div class="ace-itemlist">
+            <div class="row">
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                    <article class="ace-item">…</article>
+                </div>
+            </div>
+        </div>
+    </div>
+
+The templates receive the partnerships of the page as
+:html:`{partnerships}`, the roles as :html:`{partnershipRoles}` and the
+partnerships without a role as :html:`{partnershipsWithoutRole}`. An override
+of :file:`Templates/Partner/PartnershipsList.html` or
+:file:`Templates/Partner/PartnershipsTeaser.html` renders all three, see
+:ref:`important-ace-917-academic-partners`.
 
 ..  _styling-map:
 

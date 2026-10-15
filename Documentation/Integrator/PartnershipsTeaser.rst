@@ -21,10 +21,10 @@ Partner Logo Teaser
 
 The :guilabel:`Partner Logo Teaser` shows the same partners as
 :ref:`Partners Linked <integrator-partnerships-list>`: the partnerships of the
-page it is stored on, grouped by role, in the order the editor arranged them. It
-is meant for a strip of partner logos on the page of a project or a faculty, for
-example in a sidebar or above the footer, while the full list of the
-partnerships is shown elsewhere.
+page it is stored on, grouped by role, in the order the editor arranged them, and
+the partners without a role after the groups. It is meant for a strip of partner
+logos on the page of a project or a faculty, for example in a sidebar or above
+the footer, while the full list of the partnerships is shown elsewhere.
 
 The new content element wizard describes it as listing the logos of "selected
 partners". There is no selection in the content element: it shows the
@@ -57,8 +57,8 @@ teaser and nothing else, so :guilabel:`Partners Linked`, which renders
 
 Everything said about the partnerships on the page of
 :ref:`Partners Linked <integrator-partnerships-list>` applies here as well: where
-the partnerships come from, the grouping by role, and that a partnership
-without a role is left out on a page that uses roles.
+the partnerships come from, the grouping by role, and the partners without a
+role, or with a hidden or deleted role, after the role groups.
 
 ..  _integrator-partnerships-teaser-settings:
 

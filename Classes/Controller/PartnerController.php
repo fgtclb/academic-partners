@@ -172,13 +172,12 @@ final class PartnerController extends ActionController
         $contentElementData = $this->getCurrentContentObjectRenderer()?->data ?? [];
         $partnerships = $this->partnershipRepository->findByPid((int)($contentElementData['pid'] ?? 0));
 
-        $roles = $this->partnershipRoles->collect($partnerships);
-
         $this->view->assignMultiple([
             'data' => $contentElementData,
             'record' => $this->getCurrentContentRecord($this->getCurrentContentObjectRenderer()),
             'partnerships' => $partnerships,
-            'partnershipRoles' => $roles,
+            'partnershipRoles' => $this->partnershipRoles->collect($partnerships),
+            'partnershipsWithoutRole' => $this->partnershipRoles->withoutRole($partnerships),
         ]);
         $this->dispatchModifyPluginViewEvent($context, $this->view, $this->eventDispatcher);
 
@@ -195,13 +194,12 @@ final class PartnerController extends ActionController
         $contentElementData = $this->getCurrentContentObjectRenderer()?->data ?? [];
         $partnerships = $this->partnershipRepository->findByPid((int)($contentElementData['pid'] ?? 0));
 
-        $roles = $this->partnershipRoles->collect($partnerships);
-
         $this->view->assignMultiple([
             'data' => $contentElementData,
             'record' => $this->getCurrentContentRecord($this->getCurrentContentObjectRenderer()),
             'partnerships' => $partnerships,
-            'partnershipRoles' => $roles,
+            'partnershipRoles' => $this->partnershipRoles->collect($partnerships),
+            'partnershipsWithoutRole' => $this->partnershipRoles->withoutRole($partnerships),
         ]);
         $this->dispatchModifyPluginViewEvent($context, $this->view, $this->eventDispatcher);
 

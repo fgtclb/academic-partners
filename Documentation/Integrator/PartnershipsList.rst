@@ -54,6 +54,11 @@ partner page.
     one group per role, in the order in which the roles first occur among the
     partnerships. The name of the role is the heading of its group, and the
     partners of the role follow it.
+*   The partners of the partnerships without a role follow the role groups, in
+    one list without a heading, in the order of the partnerships. A page can
+    therefore give a role to some of its partnerships only. A partnership
+    whose role is hidden or deleted counts as one without a role. To take a
+    partnership off the page, hide the partnership, not its role.
 *   While no partnership has a role, the element renders the partners in one
     list without a heading.
 
@@ -64,14 +69,13 @@ partner page.
     Partners Linked groups the partners of the page by the role of the
     partnership.
 
-..  warning::
-
-    A partnership without a role is not rendered as soon as another
-    partnership of the page has a role. On a page that uses roles, give every
-    partnership one.
-
 The role headings take their level from the header layout of the content
-element, the names of the partners are one level further down.
+element, the names of the partners in a role group are one level further down.
+The names of the partners without a role keep the level of the role headings,
+as in the list without roles, so they do not read as part of the last group.
+Up to version 2.3 the partnerships without a role were left out as soon as one
+partnership of the page had a role, see
+:ref:`important-ace-917-academic-partners`.
 
 :ref:`styling-partnerships` describes the markup. The element is cached with the
 page. Saving the partnerships in the form of their page clears the cache of that
