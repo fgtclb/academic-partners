@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FGTCLB\AcademicPartners\Factory;
 
 use FGTCLB\AcademicPartners\Domain\Model\Dto\PartnerDemand;
+use FGTCLB\CategoryTypes\Collection\CategoryCollection;
 use FGTCLB\CategoryTypes\Collection\FilterCollection;
 use FGTCLB\CategoryTypes\Domain\Repository\CategoryRepository;
 use FGTCLB\CategoryTypes\Filter\CategoryFilterNormalizer;
@@ -29,41 +30,38 @@ class DemandFactory
         array $contentElementData
     ): PartnerDemand {
         $demand = GeneralUtility::makeInstance(PartnerDemand::class);
-        $categoryCollection = null;
 
-        // Intitialise demand from settings if there is no demand from form
-        if ($demandFromForm === null) {
+        // The content element presets every part of the form for a request without a demand,
+        // and a part it hides for every request: a hidden part submits nothing, and neither a
+        // submission nor a URL may change what the editor did not offer to change. Categories
+        // may only narrow a hidden filter, see resolveCategories() (ACE-916).
+        $hideSorting = (bool)($settings['hideSorting'] ?? false);
+        $hideFilter = (bool)($settings['hideFilter'] ?? false);
+
+        if ($demandFromForm === null || $hideSorting) {
             $this->applySortingFromSettings($demand, $settings);
-
-            if (isset($settings['categories'])
-                && (int)$settings['categories'] > 0
-            ) {
-                $categoryCollection = $this->categoryRepository->getByDatabaseFields('partners', (int)($contentElementData['uid'] ?? 0));
-            }
-        } else {
+        } elseif (isset($demandFromForm['sorting'])) {
             // Either use combined sorting or separate sorting field and direction
-            if (isset($demandFromForm['sorting'])) {
-                $demand->setSorting($demandFromForm['sorting']);
-            } else {
-                if (isset($demandFromForm['sortingField'])) {
-                    $demand->setSortingField($demandFromForm['sortingField']);
-                }
-                if (isset($demandFromForm['sortingDirection'])) {
-                    $demand->setSortingDirection($demandFromForm['sortingDirection']);
-                }
+            $demand->setSorting($demandFromForm['sorting']);
+        } else {
+            if (isset($demandFromForm['sortingField'])) {
+                $demand->setSortingField($demandFromForm['sortingField']);
             }
+            if (isset($demandFromForm['sortingDirection'])) {
+                $demand->setSortingDirection($demandFromForm['sortingDirection']);
+            }
+        }
 
-            if (isset($demandFromForm['filterCollection'])) {
-                $categoryCollection = $this->categoryRepository->findByGroupAndUidList(
-                    'partners',
-                    $this->categoryFilterNormalizer->toUidList($demandFromForm['filterCollection']),
-                );
-            }
+        $categoryCollection = $this->resolveCategories(
+            $demandFromForm,
+            $settings,
+            (int)($contentElementData['uid'] ?? 0),
+            $hideFilter,
+        );
 
-            $currentPage = $demandFromForm['currentPage'] ?? null;
-            if (MathUtility::canBeInterpretedAsInteger($currentPage)) {
-                $demand->setCurrentPage((int)$currentPage);
-            }
+        $currentPage = $demandFromForm['currentPage'] ?? null;
+        if (MathUtility::canBeInterpretedAsInteger($currentPage)) {
+            $demand->setCurrentPage((int)$currentPage);
         }
 
         if ($categoryCollection !== null) {
@@ -81,6 +79,46 @@ class DemandFactory
         }
 
         return $demand;
+    }
+
+    /**
+     * The categories the list is filtered by, `null` for none.
+     *
+     * A request without a demand gets the preset categories of the element. For a demand,
+     * {@see CategoryFilterNormalizer::toUidListKeepingPresets()} decides which presets stay:
+     * every one where the element hides the filter, so a submission or a link narrows the
+     * list but never leaves the presets, and those of the category types a form does not
+     * offer otherwise. A demand without a filter has none, unless the filter is hidden.
+     *
+     * @param ?array<string, mixed> $demandFromForm
+     * @param array<string, mixed> $settings
+     */
+    private function resolveCategories(
+        ?array $demandFromForm,
+        array $settings,
+        int $contentElementUid,
+        bool $hideFilter,
+    ): ?CategoryCollection {
+        $filter = $demandFromForm['filterCollection'] ?? null;
+        $presetCategories = null;
+        if (($demandFromForm === null || $this->categoryFilterNormalizer->keepsPresets($filter, $hideFilter))
+            && isset($settings['categories'])
+            && (int)$settings['categories'] > 0
+        ) {
+            $presetCategories = $this->categoryRepository->getByDatabaseFields('partners', $contentElementUid);
+        }
+        if ($demandFromForm === null || $filter === null) {
+            return $presetCategories;
+        }
+
+        return $this->categoryRepository->findByGroupAndUidList(
+            'partners',
+            $this->categoryFilterNormalizer->toUidListKeepingPresets(
+                $filter,
+                $presetCategories?->getAllCategoriesByType() ?? [],
+                $hideFilter,
+            ),
+        );
     }
 
     /**
@@ -108,8 +146,10 @@ class DemandFactory
      * the referrer and request hash fields of the form are therefore never part of it.
      *
      * The sorting is always included, even when it equals the default. Only a request
-     * without any demand argument applies the content element's preset categories, so a
-     * visitor who cleared a preset category would otherwise get it back. The categories
+     * without any demand argument applies the content element's preset categories,
+     * so a visitor who cleared a preset category would otherwise get it back. Presets the
+     * demand keeps, those of a hidden part of the form included, are in the demand already,
+     * so the URL carries them too. The categories
      * are one comma separated list, see {@see CategoryFilterNormalizer::toFilterArgument()},
      * and are left out when nothing is filtered.
      *

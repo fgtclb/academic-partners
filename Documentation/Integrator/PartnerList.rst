@@ -104,16 +104,12 @@ Filter
     partners found is still shown when the site switches it on.
 
     Use it for a list that shows a fixed selection, together with
-    :confval:`Default categories <partner-list-categories>`. It only hides the
-    selects: a link that carries a category filter in its URL still filters
-    the list.
-
-    With the filter hidden and the sorting shown, a visitor who changes the
-    sorting gets the list without the categories of
-    :confval:`Default categories <partner-list-categories>`. The form then
-    submits a sorting and no category, and the default categories apply only
-    to a request without any selection of the visitor. Hide the sorting as
-    well where the default categories have to stay.
+    :confval:`Default categories <partner-list-categories>`. With the filter
+    hidden, the list always shows the partners of the default categories,
+    also when the visitor changes the sorting. Categories in the URL of a link
+    narrow the list further and never replace a default category, so a link
+    can show fewer partners but not others. Without default categories, such a
+    link filters the list as before.
 
 ..  confval:: Hide sorting
     :name: partner-list-hide-sorting
@@ -122,8 +118,9 @@ Filter
 
     On, the form shows neither the select of the sorting field nor the one of
     the direction, and the list keeps the order of :confval:`Default sorting
-    <partner-list-sorting>`. With the category filter hidden as well, the
-    element renders no form at all.
+    <partner-list-sorting>`, also when the visitor filters it, and whatever
+    sorting the URL of a link carries. With the category filter hidden as
+    well, the element renders no form at all.
 
 ..  figure:: /Images/Screenshots/partner-list-without-form.png
     :alt: Partner cards with name, categories and logo, without any form above them.
@@ -195,9 +192,12 @@ Filter
     :guilabel:`academic_programs` and does not describe this list.
 
     The form shows the chosen categories as selected. A visitor who submits
-    the form replaces them with their own selection, and the reset link of
-    :ref:`configuration-active-filters` brings them back. To keep a list to a
-    fixed selection, hide the filter and the sorting, see
+    the form replaces the chosen categories of the category types the form
+    offers with their own selection, and the reset link of
+    :ref:`configuration-active-filters` brings them back. A chosen category of
+    a type the form does not offer, because :ref:`configuration-list-filter`
+    leaves it out, stays. To keep a list to a
+    fixed selection, hide the filter, see
     :confval:`Hide category filtering <partner-list-hide-filter>`.
 
 ..  confval:: Show hidden records
@@ -255,3 +255,18 @@ category options of the filter still come from every partner the list found,
 not from the page shown.
 
 The :guilabel:`Partner Map` is never paginated.
+
+..  _integrator-partner-list-two-lists:
+
+Two lists on one page
+=====================
+
+All :guilabel:`Partner List` elements of a page read the selection from the same
+URL arguments. A submission of the form is answered by the first of them on
+the page: it redirects to a URL that carries the selection as that element
+sees it, the presets it keeps included. For another :guilabel:`Partner List`
+element of the page, a sorting the first element hides replaces the one
+its visitor chose. The default categories of a category filter the first
+element hides, and its default categories of the category types its form does
+not offer, are added to the categories the visitor chose. Put lists whose
+forms hide or offer different parts on pages of their own.

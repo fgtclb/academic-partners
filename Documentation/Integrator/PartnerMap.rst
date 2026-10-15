@@ -105,8 +105,10 @@ way. What is different on a map is noted below.
     :Default: off
 
     On, the form shows no category selects, and neither active filter tags nor a
-    reset link. A link that carries a category filter in its URL still filters
-    the map. See :confval:`Hide category filtering <partner-list-hide-filter>`.
+    reset link. The map always draws the partners of :confval:`Default
+    categories <partner-map-categories>`, also when the visitor changes the
+    sorting, and categories in the URL of a link only narrow it further. See
+    :confval:`Hide category filtering <partner-list-hide-filter>`.
 
 ..  confval:: Hide sorting
     :name: partner-map-hide-sorting
@@ -136,10 +138,8 @@ way. What is different on a map is noted below.
     form. A partner is drawn only when its page carries every chosen category,
     and subcategories are not added. The description below the field in the
     backend says otherwise, see :confval:`Default categories
-    <partner-list-categories>`.
-
-    With the filter hidden and the sorting shown, changing the sorting drops
-    these categories, as in the list. On a map, hide the sorting as well.
+    <partner-list-categories>`. With the filter hidden, the map keeps them
+    whatever the visitor submits or a link carries.
 
 ..  confval:: Show hidden records
     :name: partner-map-show-hidden-records

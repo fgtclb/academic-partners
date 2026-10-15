@@ -415,6 +415,9 @@ Check the result
 *   The partner list, the map and the partnerships look as the site intends,
     with the speaking classes, and the map has a height.
 *   Editors that edit partner pages can still edit the description.
+*   A list or map keeps its default categories of the category types its filter
+    does not offer, see
+    :ref:`important-partner-list-keeps-default-categories-of-other-types`.
 *   Partnerships that lost their page or their role through a workspace
     publish in 2.x: the changelog entry
     :ref:`important-partnerships-keep-their-page-on-publish` carries the

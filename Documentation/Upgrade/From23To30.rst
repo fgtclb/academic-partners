@@ -611,6 +611,13 @@ Check the result
     switched off, in every language.
 *   A role form lists its partnerships in the order it showed before the
     update, and saving a role no longer changes the order on a partner page.
+*   A list or map that hides a part of its form keeps the preset of that part
+    when a visitor uses the rest of the form, see
+    :ref:`important-hidden-partner-form-parts-keep-their-presets`. A sorting
+    that was hidden only to keep the default categories can be shown again.
+*   A list or map keeps its default categories of the category types its filter
+    does not offer, see
+    :ref:`important-partner-list-keeps-default-categories-of-other-types`.
 *   Editors that edit partner pages can still edit the description.
 *   Translated partnerships: the changelog entries
     :ref:`important-translated-partnerships-keep-their-role` and
