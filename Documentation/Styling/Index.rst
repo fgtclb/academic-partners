@@ -233,10 +233,13 @@ Rules in the stylesheet of the site package, scoped by the outermost element:
         padding-left: 0;
     }
 
-The partner map of the development instances is styled by the partial
-`_academic-partners.scss
-<https://github.com/fgtclb/academic-extensions/blob/main/packages-dev/dev-site/Resources/Private/Scss/frontend/_academic-partners.scss>`__
-of the site package `academics_dev_site`, a complete example to copy from.
+The partner views and the map of the development instances are styled by the
+partial `_academic-partners.scss
+<https://github.com/fgtclb/academic-extensions/blob/main/packages-dev/dev-site/Resources/Private/Scss/frontend/_academic-partners.scss>`__,
+together with the shared rules of `_academic-base.scss
+<https://github.com/fgtclb/academic-extensions/blob/main/packages-dev/dev-site/Resources/Private/Scss/frontend/_academic-base.scss>`__,
+both of the site package `academics_dev_site`, a complete example to copy
+from.
 
 To change the markup itself, override the partials of the extension, the page
 partials as described in :ref:`partner-page-partials`.
