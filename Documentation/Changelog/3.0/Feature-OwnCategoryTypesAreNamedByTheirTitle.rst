@@ -34,12 +34,12 @@ It applies to
 
 *   the categories of the partner page,
     :file:`Partials/Partner/Page/Categories.html`;
-*   the categories of each card of the :guilabel:`Partners List`,
+*   the categories of each card of the :guilabel:`Partner List`,
     :file:`Partials/Partner/Item.html`, and of each item of the
-    :guilabel:`Partnerships List` and the :guilabel:`Partnerships Teaser`,
+    :guilabel:`Partners Linked` and the :guilabel:`Partner Logo Teaser`,
     :file:`Partials/Partnerships/List/Item.html` and
     :file:`Partials/Partnerships/Teaser/Item.html`;
-*   the filter selects of the :guilabel:`Partners List`,
+*   the filter selects of the :guilabel:`Partner List`,
     :file:`Partials/Partner/DemandCategories.html`.
 
 See :ref:`configuration-labels`.

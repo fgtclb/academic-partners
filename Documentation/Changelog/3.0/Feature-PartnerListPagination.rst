@@ -7,7 +7,7 @@ Feature: The partner list can be paginated
 Description
 ===========
 
-The :guilabel:`Partners List` content element rendered every matching partner
+The :guilabel:`Partner List` content element rendered every matching partner
 on one page. It now has a :guilabel:`Pagination` tab with two fields:
 
 *   :guilabel:`Enable pagination`, off by default. Off, the list renders every
@@ -35,7 +35,7 @@ static template, see :ref:`configuration-pagination-number-of-links`.
     found, not from the page shown.
 *   A list that fits on one page renders no navigation.
 
-The :guilabel:`Partners Map` is not paginated: it keeps drawing every partner
+The :guilabel:`Partner Map` is not paginated: it keeps drawing every partner
 the filter matches. It used to share the FlexForm data structure of the list;
 it now has one of its own, :file:`Configuration/FlexForms/MapSettings.xml`,
 with the same fields as before. The field and sheet names of both content
@@ -50,7 +50,7 @@ Impact
 *   The partial :file:`Partner/ItemList.html` renders one page of partners and
     the new partial :file:`Partner/Pagination.html`. The variables
     :html:`{paginator}`, :html:`{pagination}` and :html:`{demandArguments}` are
-    assigned only while the pagination is enabled; :html:`{partners}` is still
+    assigned only while the pagination is enabled. :html:`{partners}` is still
     every partner the list found. A project that overrides
     :file:`Partner/ItemList.html` renders every partner and no navigation, even
     with the pagination enabled, until it takes over the change. So does a

@@ -57,7 +57,7 @@ partners. **The map stays empty** until a script of the site draws it from
 them, see :ref:`configuration-javascript`.
 
 The partial takes the switch as the new argument :html:`assets`. The
-:guilabel:`Partners Map` content element passes it, and the data processor
+:guilabel:`Partner Map` content element passes it, and the data processor
 `partner-data` adds it to the page of the page type :guilabel:`Academic
 partner` as :html:`{mapAssets}`, next to :html:`{mapSettings}`:
 

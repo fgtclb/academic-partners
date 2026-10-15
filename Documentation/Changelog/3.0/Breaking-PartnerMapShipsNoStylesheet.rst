@@ -17,14 +17,12 @@ The map does not work without them, so the partial keeps registering them
 together with the map module, from
 :file:`Resources/Public/JavaScript/vendor/<library>/<version>/`.
 
-The removed file did three things, and they are the site's now:
+The removed file did two things, and they are the site's now:
 
 *   it gave the map element, :html:`<div id="map" class="ace-map">`, a height
-    of 500 pixels,
+    of 500 pixels, and
 *   it put the panes and the controls of the map behind the chrome of the site,
-    with :css:`z-index: 0`, and
-*   it kept the image rules of a theme off the tiles and the markers, with
-    :css:`width: auto !important`.
+    with :css:`z-index: 0`.
 
 The rules are kept as an example in the mono repository the extension is
 developed in: the stylesheet of its development instances,
@@ -39,15 +37,12 @@ Impact
 partial renders, and an element without a height of its own has none. A site
 whose stylesheet does not size the map shows no map at all.
 
-A theme rule such as :css:`img { max-width: 100% }` or
-:css:`img { width: 100% }` reaches the tiles and the markers again, and the map
-shows them distorted or with gaps. The controls of the map may cover a sticky
-header of the site.
+The controls of the map may cover a sticky header of the site.
 
 Affected Installations
 ======================
 
-Every installation that renders the :guilabel:`Partners Map` content element,
+Every installation that renders the :guilabel:`Partner Map` content element,
 or the partial :file:`Partner/Map.html` from a page template, and has no
 stylesheet of its own for the map. Installations whose template override
 registers :file:`Css/frontend/map.css` by path.
@@ -68,14 +63,6 @@ Migration
         .leaflet-container .leaflet-bottom,
         .leaflet-container .leaflet-pane {
             z-index: 0;
-        }
-
-        .leaflet-container .leaflet-marker-pane img,
-        .leaflet-container .leaflet-shadow-pane img,
-        .leaflet-container .leaflet-tile-pane img,
-        .leaflet-container img.leaflet-image-layer,
-        .leaflet-container .leaflet-tile {
-            width: auto !important;
         }
 
     The stylesheets of the libraries are registered by the partial and come

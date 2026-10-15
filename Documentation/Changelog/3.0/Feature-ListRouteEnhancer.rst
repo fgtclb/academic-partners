@@ -7,8 +7,8 @@ Feature: Route enhancers for the partner list and map
 Description
 ===========
 
-The extension ships route enhancers for the :guilabel:`Partners List` and the
-:guilabel:`Partners Map` in :file:`Configuration/Routes/List.yaml`. A site
+The extension ships route enhancers for the :guilabel:`Partner List` and the
+:guilabel:`Partner Map` in :file:`Configuration/Routes/List.yaml`. A site
 that imports the file gets readable list URLs in the language of the site:
 
 ..  code-block:: text

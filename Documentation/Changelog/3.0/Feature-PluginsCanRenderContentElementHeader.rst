@@ -7,9 +7,9 @@ Feature: The plugins can render the content element header
 Description
 ===========
 
-The header and the subheader an editor enters on a :guilabel:`Partners List`,
-:guilabel:`Partners Map`, :guilabel:`Partnerships List` or
-:guilabel:`Partnerships Teaser` content element are rendered by the content
+The header and the subheader an editor enters on a :guilabel:`Partner List`,
+:guilabel:`Partner Map`, :guilabel:`Partners Linked` or
+:guilabel:`Partner Logo Teaser` content element are rendered by the content
 element layout of the site, like those of any other content element. The layouts
 of :guilabel:`EXT:fluid_styled_content` and of the bootstrap package do that. A
 site package whose layout leaves the header out, because its element templates

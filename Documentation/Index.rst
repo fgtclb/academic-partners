@@ -51,6 +51,11 @@ filterable list and map views in the frontend.
         Install :guilabel:`academic_partners` via Composer, the Extension
         Manager or a TER upload.
 
+    ..  card:: :ref:`Upgrade <upgrade>`
+
+        The steps to upgrade :guilabel:`academic_partners` to a newer version,
+        in the order to take them.
+
     ..  card:: :ref:`For integrators <integrator>`
 
         The four content elements, what each of them shows, and every option
@@ -87,6 +92,7 @@ filterable list and map views in the frontend.
 
     Introduction/Index
     Installation/Index
+    Upgrade/Index
     Integrator/Index
     Configuration/Index
     Styling/Index

@@ -7,8 +7,8 @@ Feature: Active filter tags, a reset link and a result count
 Description
 ===========
 
-A visitor who filtered the :guilabel:`Partners List` or the
-:guilabel:`Partners Map` saw the selects and nothing else. Three
+A visitor who filtered the :guilabel:`Partner List` or the
+:guilabel:`Partner Map` saw the selects and nothing else. Three
 settings add what was missing, each off by default:
 
 *   :typoscript:`plugin.tx_academicpartners.filter.showActiveFilters` shows one tag per

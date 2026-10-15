@@ -7,7 +7,7 @@ Feature: The partner map is configurable per site
 Description
 ===========
 
-Everything about the map of the :guilabel:`Partners Map` content element was
+Everything about the map of the :guilabel:`Partner Map` content element was
 fixed in its JavaScript: the centre over Germany, the zoom, how far it zooms in,
 the padding around the partners, the tile server and the attribution. A map
 with a single partner zoomed in to street level, and a site outside Germany or
