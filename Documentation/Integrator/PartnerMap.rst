@@ -27,10 +27,9 @@ the partners it draws. Above the map the same form as in
 the :ref:`Partner List <integrator-partner-list>` lets the visitor filter the
 partners by category. The form works under the Content Security Policy of TYPO3
 as the one of the list does, see
-:ref:`integrator-partner-list-content-security-policy`. The tiles of the map
-are not covered: a site that enforces the policy adds the host of its tile
-server, :typoscript:`plugin.tx_academicpartners.map.tileUrl` in
-:ref:`configuration-map`, to `img-src` in its :file:`csp.yaml`.
+:ref:`integrator-partner-list-content-security-policy`, and the map allows the
+host of its tiles in that policy itself, see
+:ref:`integrator-partner-map-content-security-policy`.
 
 ..  figure:: /Images/Screenshots/partner-map-default.jpg
     :alt: An OpenStreetMap map with the markers of four partners.
@@ -77,6 +76,74 @@ Related chapters:
 *   :ref:`styling-map` describes the markup.
 *   :ref:`configuration-list-filter` and :ref:`configuration-active-filters`
     apply to the form of the map as well.
+
+..  _integrator-partner-map-content-security-policy:
+
+Content Security Policy
+=======================
+
+The map loads its tiles as images from the host of its tile URL,
+:typoscript:`plugin.tx_academicpartners.map.tileUrl` in
+:ref:`configuration-map`. The frontend policy of TYPO3 does not allow that host
+in `img-src`, so a browser would block every tile once a site enforces the
+policy, and the markers would stay on an empty map. The element therefore
+extends `img-src` of the policy of its page by the host of the tile URL the
+site configures, and only that page gets it:
+
+..  list-table::
+    :header-rows: 1
+
+    *   -   Tile URL
+        -   Added to `img-src`
+    *   -   `https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`, the default
+        -   `https://*.tile.openstreetmap.org`
+    *   -   `https://tiles.example.org:8443/{z}/{x}/{y}{r}.png`
+        -   `https://tiles.example.org:8443`
+    *   -   `//{s}.tiles.example.org/{z}/{x}/{y}.png`
+        -   `*.tiles.example.org`
+    *   -   `/tiles/{z}/{x}/{y}.png`
+        -   nothing, `'self'` covers it
+
+A label of the host with a placeholder becomes the wildcard `*.`, because a
+policy cannot name a placeholder, and the path of the URL does not matter. A
+placeholder in a lower label widens the wildcard to the labels to the right of
+it. A tile URL whose host the extension cannot read, a placeholder in the
+scheme or the port, a port outside 1 to 65535, a scheme other than `http` and
+`https`, or a wildcard that would cover a whole top level domain adds nothing,
+and the site adds the source in its :file:`csp.yaml` instead:
+
+..  code-block:: yaml
+    :caption: config/sites/<site>/csp.yaml
+
+    mutations:
+      - mode: extend
+        directive: 'img-src'
+        sources:
+          - 'https://*.tiles.example.org'
+
+The source is added while TYPO3 renders the page and is kept with the page in
+its cache, so it applies to a cached page as well. It applies on top of the
+policy of the site, also on a site whose :file:`csp.yaml` sets
+:yaml:`inheritDefault: false`. The content element registers it through a data
+processor of its rendering definition, which extends the one of
+:typoscript:`lib.contentElement`. A site that renders the element without the
+data processors of :typoscript:`lib.contentElement` gets the source only on
+pages that come from the page cache, and adds it to its :file:`csp.yaml`.
+
+Not covered:
+
+*   A page template that renders the partial :file:`Partner/Map.html` itself,
+    on a partner page for example, adds the host of its tiles to the
+    :file:`csp.yaml` of the site.
+*   A policy that the web server or a proxy sends needs the source itself.
+
+The stylesheets, the scripts and the marker images of the map are files of the
+extension. Leaflet positions its tiles and markers with styles it sets from
+its script, which a policy does not restrict, so the map needs no other source.
+
+..  versionchanged:: 2.4
+
+    The map allows the host of its tiles in `img-src`.
 
 ..  _integrator-partner-map-configuration:
 

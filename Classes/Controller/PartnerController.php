@@ -15,6 +15,7 @@ use FGTCLB\AcademicPartners\Domain\Repository\PartnershipRepository;
 use FGTCLB\AcademicPartners\Event\ModifyPartnerDemandEvent;
 use FGTCLB\AcademicPartners\Event\ModifyPartnerListEvent;
 use FGTCLB\AcademicPartners\Factory\DemandFactory;
+use FGTCLB\AcademicPartners\Security\MapTileSourceRegistration;
 use FGTCLB\AcademicPartners\Service\PartnershipRoles;
 use FGTCLB\CategoryTypes\Domain\Repository\CategoryRepository;
 use FGTCLB\CategoryTypes\Filter\FilterTypeResolver;
@@ -43,6 +44,7 @@ final class PartnerController extends ActionController
         private readonly FilterTypeResolver $filterTypeResolver,
         private readonly HiddenRecordsFetcher $hiddenRecordsFetcher,
         private readonly PartnershipRoles $partnershipRoles,
+        private readonly MapTileSourceRegistration $mapTileSourceRegistration,
     ) {}
 
     /**
@@ -158,6 +160,12 @@ final class PartnerController extends ActionController
             'visitorSelection' => $demand !== null,
         ]);
         $this->dispatchModifyPluginViewEvent($context, $this->view, $this->eventDispatcher);
+        // The host of the tiles for the policy of a page served from the cache. The content
+        // element registers it while the page is generated, see MapTileSourceProcessor. On
+        // that request this registration comes too late, and on a cached one it covers the
+        // tile URL the template renders, also where a site renders the element without the
+        // data processors of the content element.
+        $this->mapTileSourceRegistration->register((string)($this->settings['map']['tileUrl'] ?? ''));
 
         return $this->htmlResponse();
     }

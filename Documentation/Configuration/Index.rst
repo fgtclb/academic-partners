@@ -611,7 +611,9 @@ number that is not a number or lies outside its range. The centre is one value,
 so a latitude it cannot use discards the longitude as well. An empty tile URL or
 attribution uses the default, because a tile server's terms usually require an
 attribution. Whether the tile server delivers tiles up to the maximum zoom,
-and what its attribution has to say, is up to the site.
+and what its attribution has to say, is up to the site. The map allows the host
+of the tile URL in the Content Security Policy of its page, see
+:ref:`integrator-partner-map-content-security-policy`.
 
 Which partners the map draws, and how wide it is
 ------------------------------------------------

@@ -5,6 +5,7 @@ declare(strict_types=1);
 use FGTCLB\AcademicPartners\Controller\PartnerController;
 use FGTCLB\AcademicPartners\Hook\PartnerRoleLocalizationHook;
 use FGTCLB\AcademicPartners\Hook\PartnershipSortingHook;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 
 (static function (): void {
@@ -30,6 +31,17 @@ use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
             PartnerController::class => 'map',
         ],
         ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT,
+    );
+    // The map allows the host of its tiles in the Content Security Policy of its page. The
+    // map action is not cacheable and renders after TYPO3 has prepared the policy of a
+    // page it generates, so the content element around it registers the host, with the
+    // page and into its cache. Added like the rendering definition of the plugin above,
+    // and right after it, so it extends that definition wherever it exists.
+    ExtensionManagementUtility::addTypoScript(
+        'academic_partners',
+        'setup',
+        'tt_content.academicpartners_map.dataProcessing.1790226400 = academic-partners-map-tile-source',
+        'defaultContentRendering',
     );
 
     ExtensionUtility::configurePlugin(
