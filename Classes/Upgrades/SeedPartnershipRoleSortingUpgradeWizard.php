@@ -18,12 +18,12 @@ use TYPO3\CMS\Install\Updates\DatabaseUpdatedPrerequisite;
 use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
 /**
- * Seeds `role_sorting`, the sort column the role relation gained in 3.0.
+ * Seeds `role_sorting`, the sort column the role relation gained in 2.4.
  *
  * A partnership is an inline child of its partner page and of its role. Both
  * relations wrote the shared `sorting` column until now, so saving a role
  * renumbered its partnerships across the partner pages that own them. The role
- * relation orders by `role_sorting` from 3.0 on, and every partnership that
+ * relation orders by `role_sorting` from 2.4 on, and every partnership that
  * existed before the update carries `0` in it - which would leave the role form
  * showing its partnerships in whatever order the database happens to return.
  *
@@ -90,7 +90,7 @@ final readonly class SeedPartnershipRoleSortingUpgradeWizard implements UpgradeW
         return 'Partnerships are inline children of their partner page and of their role, and both'
             . ' relations wrote the same sort column until now, so saving a role could rearrange the'
             . ' partnerships of a partner page. The role relation has a sort column of its own from'
-            . ' 3.0 on. This wizard fills it with the order the role forms show today.';
+            . ' 2.4 on. This wizard fills it with the order the role forms show today.';
     }
 
     public function updateNecessary(): bool
