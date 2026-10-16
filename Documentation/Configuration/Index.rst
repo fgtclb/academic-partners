@@ -414,6 +414,57 @@ does not see it.
     The policy allows the handler, and the form renders the button. See
     :ref:`important-ace-924-academic-partners`.
 
+..  _configuration-map-tiles-content-security-policy:
+
+The tiles of the map
+--------------------
+
+The :guilabel:`Partners Map` loads its tiles as images from OpenStreetMap,
+`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`, a URL the map script
+holds as a fixed value. The frontend policy of TYPO3 does not allow that host
+in `img-src`, so a browser would block every tile once a site enforces the
+policy, and the markers would stay on an empty map. The element therefore
+extends `img-src` of the policy of its page by
+`https://*.tile.openstreetmap.org`, and only a page with the map gets it. The
+label `{s}` of the host becomes the wildcard, because a policy cannot name a
+placeholder.
+
+The source is added while TYPO3 renders the page and is kept with the page in
+its cache, so it applies to a cached page as well. It applies on top of the
+policy of the site, also on a site whose :file:`csp.yaml` sets
+:yaml:`inheritDefault: false`. On TYPO3 v13 the content element registers it
+through a data processor of its rendering definition, which extends the one of
+:typoscript:`lib.contentElement`. A site there that renders the element without
+the data processors of :typoscript:`lib.contentElement` gets the source only on
+pages that come from the page cache, and adds it to its :file:`csp.yaml` as
+shown below. On TYPO3 v12 the map adds it on every request.
+
+Not covered:
+
+*   A page template that draws a map with the map script of the extension
+    itself, outside the content element, adds the host of the tiles to the
+    :file:`csp.yaml` of the site:
+
+    ..  code-block:: yaml
+        :caption: config/sites/<site>/csp.yaml
+
+        mutations:
+          - mode: extend
+            directive: 'img-src'
+            sources:
+              - 'https://*.tile.openstreetmap.org'
+
+*   A policy that the web server or a proxy sends needs the source itself.
+
+The stylesheets, the scripts and the marker images of the map are files of the
+extension. Leaflet positions its tiles and markers with styles it sets from
+its script, which a policy does not restrict, so the map needs no other source.
+
+..  versionchanged:: 2.4
+
+    The map allows the host of its tiles in `img-src`. See
+    :ref:`important-ace-933-academic-partners`.
+
 ..  _one-mechanism-per-site:
 
 Do not combine both

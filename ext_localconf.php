@@ -44,6 +44,17 @@ use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
         ],
         ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT,
     );
+    // The map allows the host of its tiles in the Content Security Policy of its page. The
+    // map action is not cacheable, and TYPO3 v13 prepares the policy of a page it generates
+    // before that action renders, so the content element around it registers the host, with
+    // the page and into its cache. Added like the rendering definition of the plugin above,
+    // and right after it, so it extends that definition wherever it exists.
+    ExtensionManagementUtility::addTypoScript(
+        'academic_partners',
+        'setup',
+        'tt_content.academicpartners_map.dataProcessing.1790226400 = academic-partners-map-tile-source',
+        'defaultContentRendering',
+    );
 
     ExtensionUtility::configurePlugin(
         'AcademicPartners',

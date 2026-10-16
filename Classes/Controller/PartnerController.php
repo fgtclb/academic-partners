@@ -7,6 +7,7 @@ namespace FGTCLB\AcademicPartners\Controller;
 use FGTCLB\AcademicPartners\Domain\Repository\PartnerRepository;
 use FGTCLB\AcademicPartners\Domain\Repository\PartnershipRepository;
 use FGTCLB\AcademicPartners\Factory\DemandFactory;
+use FGTCLB\AcademicPartners\Security\MapTileSourceRegistration;
 use FGTCLB\AcademicPartners\Service\PartnershipRoles;
 use FGTCLB\CategoryTypes\Domain\Repository\CategoryRepository;
 use FGTCLB\CategoryTypes\Filter\FilterTypeResolver;
@@ -19,6 +20,8 @@ class PartnerController extends ActionController
     private FilterTypeResolver $filterTypeResolver;
 
     private PartnershipRoles $partnershipRoles;
+
+    private MapTileSourceRegistration $mapTileSourceRegistration;
 
     public function __construct(
         protected PartnerRepository $partnerRepository,
@@ -85,6 +88,13 @@ class PartnerController extends ActionController
             'categories' => $categories,
             'filterTypes' => $this->filterTypeResolver->resolveFromSettings($categories, $this->settings),
         ]);
+        // The host of the tiles for the policy of the page. TYPO3 v12 builds the policy after
+        // the whole page, so this covers every request there. TYPO3 v13 prepares it before
+        // this action runs on the request that generates the page, where the content element
+        // registers the host, see MapTileSourceProcessor, and this covers the requests served
+        // from the cache, also of a site that renders the element without the data
+        // processors of the content element.
+        $this->mapTileSourceRegistration->register(MapTileSourceRegistration::DEFAULT_TILE_URL);
 
         return $this->htmlResponse();
     }
@@ -142,6 +152,14 @@ class PartnerController extends ActionController
     final public function injectPartnershipRoles(PartnershipRoles $partnershipRoles): void
     {
         $this->partnershipRoles = $partnershipRoles;
+    }
+
+    /**
+     * Method injection for the same reason as {@see injectFilterTypeResolver()}.
+     */
+    final public function injectMapTileSourceRegistration(MapTileSourceRegistration $mapTileSourceRegistration): void
+    {
+        $this->mapTileSourceRegistration = $mapTileSourceRegistration;
     }
 
     private function getCurrentContentObjectRenderer(): ?ContentObjectRenderer
