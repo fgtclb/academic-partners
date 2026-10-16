@@ -25,7 +25,12 @@ merged into clusters while the map is zoomed out, and a marker opens a popup
 with the name of the partner, linked to its page. The map fits itself around
 the partners it draws. Above the map the same form as in
 the :ref:`Partner List <integrator-partner-list>` lets the visitor filter the
-partners by category.
+partners by category. The form works under the Content Security Policy of TYPO3
+as the one of the list does, see
+:ref:`integrator-partner-list-content-security-policy`. The tiles of the map
+are not covered: a site that enforces the policy adds the host of its tile
+server, :typoscript:`plugin.tx_academicpartners.map.tileUrl` in
+:ref:`configuration-map`, to `img-src` in its :file:`csp.yaml`.
 
 ..  figure:: /Images/Screenshots/partner-map-default.jpg
     :alt: An OpenStreetMap map with the markers of four partners.

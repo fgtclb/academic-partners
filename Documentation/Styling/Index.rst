@@ -76,6 +76,11 @@ The partner list
                             </details>
                         </div>
                     </div>
+                    <noscript>
+                        <div class="ace-actions">
+                            <button type="submit" class="ace-control ace-submit btn btn-primary">Show partners</button>
+                        </div>
+                    </noscript>
                 </div>
             </form>
             <ul class="ace-list ace-active-filters" aria-label="…">
@@ -102,6 +107,8 @@ The partner list
     category type. The filters beyond the visible ones of the content element
     are inside the :html:`<details class="ace-more">`, which is :html:`open`
     while one of them is set. The form submits itself when a select changes.
+    For a visitor without JavaScript it renders the button inside
+    :html:`<noscript>`, which a visitor with JavaScript does not see.
 *   The active filters, the reset link and the count are only rendered when the
     content element switches them on, see :ref:`configuration-active-filters`.
 *   A list without partners renders the message in a

@@ -41,6 +41,9 @@
       <trans-unit id="filter.reset">
         <source>Reset all filters</source>
       </trans-unit>
+      <trans-unit id="filter.submit">
+        <source>Show partners</source>
+      </trans-unit>
 
       <!-- Detail page labels -->
 

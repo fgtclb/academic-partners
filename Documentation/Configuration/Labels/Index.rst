@@ -97,6 +97,8 @@ or the code fills in, a category type or a field name for example.
         - :file:`Partials/Partner/ActiveFilters.html`
     *   - :xml:`filter.moreFilters`
         - :file:`Partials/Partner/DemandCategories.html`
+    *   - :xml:`filter.submit`
+        - :file:`Partials/Partner/SortingAndFilters.html`
     *   - :xml:`list.noPartnersFound`
         - :file:`Partials/Partner/ItemList.html`, :file:`Templates/Partner/Map.html`
     *   - :xml:`list.pagination.label`

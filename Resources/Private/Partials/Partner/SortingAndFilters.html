@@ -4,6 +4,14 @@
     data-namespace-typo3-fluid="true"
 >
 
+<f:comment>
+    A change of a select submits the form through its inline `onchange` handler. The
+    extension allows exactly that handler text in the Content Security Policy of TYPO3, see
+    `Configuration/ContentSecurityPolicies.php`, so an override of a partial that changes the
+    text needs the hash of its own text in the `csp.yaml` of the site. The button submits
+    the form for a visitor without JavaScript.
+</f:comment>
+
 <f:if condition="!{settings.hideSorting} || !{settings.hideFilter}">
     <f:form action="list" name="demand" object="{demand}" class="ace-form">
         <div class="ace-filters">
@@ -22,6 +30,14 @@
                     />
                 </f:if>
             </div>
+
+            <noscript>
+                <div class="ace-actions">
+                    <button type="submit" class="ace-control ace-submit btn btn-primary">
+                        {f:translate(key: 'filter.submit', extensionName: 'AcademicPartners')}
+                    </button>
+                </div>
+            </noscript>
         </div>
     </f:form>
 </f:if>

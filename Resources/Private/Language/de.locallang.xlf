@@ -52,6 +52,10 @@
         <source>Reset all filters</source>
         <target>Alle Filter zurücksetzen</target>
       </trans-unit>
+      <trans-unit id="filter.submit">
+        <source>Show partners</source>
+        <target>Partner anzeigen</target>
+      </trans-unit>
 
       <!-- Detail page labels -->
 

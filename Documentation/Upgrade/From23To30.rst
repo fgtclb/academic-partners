@@ -527,8 +527,10 @@ shipped file of 3.0 and take over the changes. The paths below are relative to
             :ref:`feature-1791035983`
     *   -   :file:`Partials/Partner/SortingAndFilters.html`
         -   Renders the new partials :file:`Partner/ActiveFilters.html` and
-            :file:`Partner/ResultCount.html`.
-        -   :ref:`feature-1790946474`
+            :file:`Partner/ResultCount.html`, and a submit button inside
+            :html:`<noscript>` for visitors without JavaScript.
+        -   :ref:`feature-1790946474`,
+            :ref:`important-ace-924-academic-partners`
     *   -   :file:`Partials/Partner/ItemList.html`
         -   Renders one page of partners and the new partial
             :file:`Partner/Pagination.html` while the pagination is enabled.

@@ -336,6 +336,10 @@ file and take over the changes. The paths below are relative to
             instead of :html:`academic_partners`. A copy that keeps the old
             name does not see the label overrides of the previous section.
         -   :ref:`important-label-overrides-use-the-documented-path`
+    *   -   :file:`Partials/Partner/SortingAndFilters.html`
+        -   Renders a submit button inside :html:`<noscript>` for visitors
+            without JavaScript.
+        -   :ref:`important-ace-924-academic-partners`
     *   -   :file:`Backend/Partials/PageLayout/Doktype40.html`
         -   Removed. It was never rendered. The page module shows the
             categories of a partner page through :guilabel:`category_types`

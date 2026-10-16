@@ -70,6 +70,8 @@ Related chapters:
     element layout renders no header.
 *   The :ref:`Partner Map <integrator-partner-map>` shows the same partners on
     a map, with the same form and the same options.
+*   :ref:`integrator-partner-list-content-security-policy` explains how the
+    form works under the Content Security Policy of TYPO3.
 
 ..  _integrator-partner-list-configuration:
 
@@ -272,3 +274,52 @@ its visitor chose. The default categories of a category filter the first
 element hides, and its default categories of the category types its form does
 not offer, are added to the categories the visitor chose. Put lists whose
 forms hide or offer different parts on pages of their own.
+
+..  _integrator-partner-list-content-security-policy:
+
+Content Security Policy
+=======================
+
+The selects of the form submit it when the visitor changes one of them, through
+the inline event handler :html:`onchange="this.form.submit()"`. A nonce does not
+cover an event handler attribute, so the frontend policy of TYPO3 blocks it
+once a site enforces that policy. The extension therefore allows exactly this
+handler text in its :file:`Configuration/ContentSecurityPolicies.php`, which
+TYPO3 loads on its own: the directive `script-src-attr` of the frontend policy
+gets `'unsafe-hashes'` and
+`'sha256-osjxnKEPL/pQJbFk1dKsF7PYFmTyMWGmVSiL9inhxJY='`. `script-src` is not
+changed. Every site that inherits the default frontend policy gets both
+sources. A site whose :file:`csp.yaml` sets :yaml:`inheritDefault: false`, and
+a site package whose copy of :file:`Partner/DemandSorting.html` or
+:file:`Partner/DemandCategories.html` uses another handler text, add the
+hash of that text in the :file:`csp.yaml` of the site:
+
+..  code-block:: yaml
+    :caption: config/sites/<site>/csp.yaml
+
+    mutations:
+      - mode: extend
+        directive: 'script-src-attr'
+        sources:
+          - "'unsafe-hashes'"
+          - "'sha256-osjxnKEPL/pQJbFk1dKsF7PYFmTyMWGmVSiL9inhxJY='"
+
+The hash is the base64 encoded SHA-256 of the handler text, without the quotes
+of the attribute. A policy the web server or a proxy sends is not covered and
+needs the same sources itself.
+
+A site whose policy allows inline scripts already, with `'unsafe-inline'` in
+`script-src`, or in `default-src` where it has no `script-src`, gets no
+`script-src-attr` from the extension: a listener of :guilabel:`academic_base`
+takes it out again, unless the site declares the directive itself. The browser
+then reads `script-src` for the handlers of the form, as for the site's own
+handlers. On a page whose `script-src` keeps a nonce, a browser ignores
+`'unsafe-inline'` and blocks both.
+
+For a visitor without JavaScript the form renders a submit button inside
+:html:`<noscript>`, labelled :xml:`filter.submit`. A visitor with JavaScript
+does not see it.
+
+..  versionchanged:: 2.4
+
+    The policy allows the handler, and the form renders the button.
