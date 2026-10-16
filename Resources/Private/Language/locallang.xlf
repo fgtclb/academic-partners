@@ -29,6 +29,9 @@
 			<trans-unit id="filter.moreFilters">
 				<source>More filters</source>
 			</trans-unit>
+			<trans-unit id="filter.submit">
+				<source>Show partners</source>
+			</trans-unit>
 
 			<!-- Detail page labels -->
 

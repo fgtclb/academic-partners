@@ -36,6 +36,10 @@
 				<source>More filters</source>
 				<target>Weitere Filter</target>
 			</trans-unit>
+			<trans-unit id="filter.submit">
+				<source>Show partners</source>
+				<target>Partner anzeigen</target>
+			</trans-unit>
 
 			<!-- Detail page labels -->
 
