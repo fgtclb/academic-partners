@@ -29,27 +29,27 @@ content element does then.
         -   Content element
         -   CType
         -   Shows
-    *   -   ..  image:: /Images/Icons/list.svg
+    *   -   ..  figure:: /Images/Icons/list.svg
                 :width: 32px
                 :alt: Icon of the Partner List content element
         -   :ref:`Partner List <integrator-partner-list>`
         -   ``academicpartners_list``
         -   The partners of one or more storage folders as cards, with a form
             to sort and filter them and an optional pagination.
-    *   -   ..  image:: /Images/Icons/map.svg
+    *   -   ..  figure:: /Images/Icons/map.svg
                 :width: 32px
                 :alt: Icon of the Partner Map content element
         -   :ref:`Partner Map <integrator-partner-map>`
         -   ``academicpartners_map``
         -   The same partners as markers on a map, with the same form.
-    *   -   ..  image:: /Images/Icons/partners.svg
+    *   -   ..  figure:: /Images/Icons/partners.svg
                 :width: 32px
                 :alt: Icon of the Partners Linked content element
         -   :ref:`Partners Linked <integrator-partnerships-list>`
         -   ``academicpartners_partnershipslist``
         -   The partners an editor linked to the page the content element is
             on, grouped by the role of the partnership.
-    *   -   ..  image:: /Images/Icons/partnerships-teaser.svg
+    *   -   ..  figure:: /Images/Icons/partnerships-teaser.svg
                 :width: 32px
                 :alt: Icon of the Partner Logo Teaser content element
         -   :ref:`Partner Logo Teaser <integrator-partnerships-teaser>`
