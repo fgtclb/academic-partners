@@ -376,6 +376,10 @@ Check the result
     when a visitor uses the rest of the form, see
     :ref:`important-hidden-partner-form-parts-keep-their-presets`. A sorting
     that was hidden only to keep the default categories can be shown again.
+*   A list or map with two default categories of one category type shows
+    only the partners that carry both, as before. The description of the
+    field says so now, see
+    :ref:`important-partner-default-categories-description`.
 *   A page whose partnerships partly have a role lists the partnerships
     without a role after the role groups, and so the partnerships of a hidden
     or deleted role. A role given to a partnership only to keep it visible can
