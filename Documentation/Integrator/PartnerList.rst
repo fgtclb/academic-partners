@@ -46,6 +46,10 @@ selects something else.
 The element is not cached: the list is built on every request, so the
 selection of the visitor takes effect at once. A selection is part of the URL
 and can be bookmarked or shared, see :ref:`feature-1790226100`.
+A sorting the form does not offer, in the URL or in a submission, is ignored,
+also a list of values where the form sends one. The default of the extension
+applies in its place where the element shows the sorting selects, the preset
+of the element where it hides them.
 
 The names of the partners are headings one level below the header of the
 content element, and one further level down when the content element has a

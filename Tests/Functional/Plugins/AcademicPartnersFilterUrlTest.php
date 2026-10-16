@@ -6,6 +6,7 @@ namespace FGTCLB\AcademicPartners\Tests\Functional\Plugins;
 
 use FGTCLB\AcademicPartners\Tests\Functional\AbstractAcademicPartnersTestCase;
 use FGTCLB\TestingHelper\FunctionalTestCase\FrontendPluginRenderingTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use SBUERK\TYPO3\Testing\SiteHandling\SiteBasedTestTrait;
 use TYPO3\CMS\Core\Cache\Backend\Typo3DatabaseBackend;
@@ -370,6 +371,51 @@ final class AcademicPartnersFilterUrlTest extends AbstractAcademicPartnersTestCa
 
         $this->assertStringContainsString('Alpha University', $content);
         $this->assertStringContainsString('Beta Institute', $content);
+    }
+
+    /**
+     * Every form and URL of the list carries a string per demand value. A crafted request
+     * may carry an array instead, `demand[sortingField][]=title` for example, and Extbase
+     * hands the demand argument over as it came. Such a value is ignored like an unknown
+     * option, so the list keeps its default instead of failing with a `TypeError`.
+     *
+     * @return \Generator<string, array{0: array<string, mixed>}>
+     */
+    public static function demandValueNotAStringDataProvider(): \Generator
+    {
+        yield 'sorting' => [['sorting' => ['title desc']]];
+        yield 'sorting field' => [['sortingField' => ['lastUpdated']]];
+        yield 'sorting direction' => [['sortingDirection' => ['desc']]];
+    }
+
+    /**
+     * @param array<string, mixed> $demand
+     */
+    #[DataProvider('demandValueNotAStringDataProvider')]
+    #[Test]
+    public function aUrlDemandValueThatIsNotAStringIsIgnored(array $demand): void
+    {
+        $content = $this->renderFrontendPage('https://www.acme.com/home?' . http_build_query([self::LIST_NAMESPACE => ['demand' => $demand]]));
+
+        $this->assertRenderedInOrder($content, 'Alpha University', 'Beta Institute');
+        $this->assertRenderedInOrder($content, 'Beta Institute', 'Delta Regional College');
+    }
+
+    /**
+     * @param array<string, mixed> $demand
+     */
+    #[DataProvider('demandValueNotAStringDataProvider')]
+    #[Test]
+    public function aSubmittedDemandValueThatIsNotAStringIsIgnored(array $demand): void
+    {
+        $response = $this->requestFrontendPage($this->frontendPostRequest('https://www.acme.com/home', [
+            self::LIST_NAMESPACE => ['demand' => $demand],
+        ]));
+
+        $this->assertSame(
+            ['sortingDirection' => 'asc', 'sortingField' => 'title'],
+            $this->demandArguments($this->assertSeeOtherWithCacheHash($response), self::LIST_NAMESPACE),
+        );
     }
 
     private function filteredListUrl(string $region): string
