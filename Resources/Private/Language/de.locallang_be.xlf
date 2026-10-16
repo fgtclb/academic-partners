@@ -90,8 +90,8 @@
         <target>Standardkategorien</target>
       </trans-unit>
       <trans-unit id="flexform.categories.description">
-        <source>Selected categories of the same type (e.g. ‘Degree’) are checked as alternatives (OR). If a category has subcategories (e.g. ‘Master’ with ‘Master of Arts’), these are automatically added to the list of alternatives. In addition, the pages found for each category type must also be able to be found in all other selected category types (AND).</source>
-        <target>Die ausgewählten Kategorien des gleichen Typs (z.B. „Abschluss“) werden als Alternativen (ODER) markiert. Wenn eine Kategorie Unterkategorien hat (z.B. „Master“ mit „Master of Arts“), werden diese automatisch zur Liste der Alternativen hinzugefügt. Darüber hinaus müssen die Seiten, die für jeden Kategorietyp gefunden wurden, auch in allen anderen ausgewählten Kategorietypen gefunden werden können (UND).</target>
+        <source>Only partners whose page carries every category selected here are shown, also when two of them are of the same category type. The subcategories of a selected category are not included.</source>
+        <target>Es werden nur Partner angezeigt, deren Seite jede hier ausgewählte Kategorie trägt, auch wenn zwei davon zum selben Kategorietyp gehören. Unterkategorien einer ausgewählten Kategorie werden nicht einbezogen.</target>
       </trans-unit>
       <trans-unit id="flexform.showHiddenRecords.label">
         <source>Show hidden records</source>

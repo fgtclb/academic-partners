@@ -191,9 +191,7 @@ Filter
 
     The list shows a partner only when its page carries **every** chosen
     category, also where two of them are of the same category type. The
-    subcategories of a chosen category are not added. The description below
-    the field in the backend says otherwise, it was taken over from
-    :guilabel:`academic_programs` and does not describe this list.
+    subcategories of a chosen category are not added.
 
     The form shows the chosen categories as selected. A visitor who submits
     the form replaces the chosen categories of the category types the form

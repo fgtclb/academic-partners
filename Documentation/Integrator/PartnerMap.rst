@@ -136,10 +136,9 @@ way. What is different on a map is noted below.
 
     Categories the map is filtered by until the visitor selects something in the
     form. A partner is drawn only when its page carries every chosen category,
-    and subcategories are not added. The description below the field in the
-    backend says otherwise, see :confval:`Default categories
-    <partner-list-categories>`. With the filter hidden, the map keeps them
-    whatever the visitor submits or a link carries.
+    and subcategories are not added, as in :confval:`Default categories
+    <partner-list-categories>` of the list. With the filter hidden, the map
+    keeps them whatever the visitor submits or a link carries.
 
 ..  confval:: Show hidden records
     :name: partner-map-show-hidden-records
