@@ -1,10 +1,10 @@
 # TYPO3 extension `Academic Partners` (READ-ONLY)
 
-|                  | URL                                                           |
-|------------------|---------------------------------------------------------------|
-| **Repository:**  | https://github.com/fgtclb/academic-partners                   |
-| **Read online:** | https://docs.typo3.org/p/fgtclb/academic-partners/main/en-us/ |
-| **TER:**         | https://extensions.typo3.org/extension/academic_partners/     |
+|                  | URL                                                          |
+|------------------|--------------------------------------------------------------|
+| **Repository:**  | https://github.com/fgtclb/academic-partners                  |
+| **Read online:** | https://docs.typo3.org/p/fgtclb/academic-partners/2.4/en-us/ |
+| **TER:**         | https://extensions.typo3.org/extension/academic_partners/    |
 
 
 ## Description
