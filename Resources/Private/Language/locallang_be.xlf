@@ -67,7 +67,7 @@
         <source>Partner Logo Teaser</source>
       </trans-unit>
       <trans-unit id="plugin.partner_partnershipsteaser.description">
-        <source>Lists logos of selected partners.</source>
+        <source>Shows the partners linked to the page as a teaser, a strip of logos for example.</source>
       </trans-unit>
 
       <!-- Flexform -->

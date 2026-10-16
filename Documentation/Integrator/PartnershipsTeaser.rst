@@ -24,11 +24,8 @@ The :guilabel:`Partner Logo Teaser` shows the same partners as
 page it is stored on, grouped by role, in the order the editor arranged them, and
 the partners without a role after the groups. It is meant for a strip of partner
 logos on the page of a project or a faculty, for example in a sidebar or above
-the footer, while the full list of the partnerships is shown elsewhere.
-
-The new content element wizard describes it as listing the logos of "selected
-partners". There is no selection in the content element: it shows the
-partnerships of its page, exactly as :guilabel:`Partners Linked` does.
+the footer, while the full list of the partnerships is shown elsewhere. There
+is no selection in the content element.
 
 What it renders
 ===============

@@ -79,8 +79,8 @@
         <target>Partner Logo Teaser</target>
       </trans-unit>
       <trans-unit id="plugin.partner_partnershipsteaser.description">
-        <source>Lists logos of selected partners.</source>
-        <target>Listet Logos von ausgewählten Partnern auf.</target>
+        <source>Shows the partners linked to the page as a teaser, a strip of logos for example.</source>
+        <target>Zeigt die mit der Seite verknüpften Partner als Teaser an, zum Beispiel als Logoleiste.</target>
       </trans-unit>
 
       <!-- Flexform -->

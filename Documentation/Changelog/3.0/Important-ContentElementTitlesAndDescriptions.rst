@@ -35,7 +35,7 @@ wizard.
     *   -   :typoscript:`academicpartners_partnershipsteaser`
         -   :guilabel:`Partnerships Teaser` (German :guilabel:`Partnerschaften als Teaser`)
         -   :guilabel:`Partner Logo Teaser` (German :guilabel:`Partner Logo Teaser`)
-        -   Lists logos of selected partners.
+        -   Shows the partners linked to the page as a teaser, a strip of logos for example.
 
 Impact
 ======
