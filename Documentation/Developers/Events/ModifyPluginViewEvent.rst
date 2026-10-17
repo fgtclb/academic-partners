@@ -9,8 +9,8 @@ ModifyPluginViewEvent
 dispatch it. It hands a listener the view of a plugin once the plugin has
 assigned its own variables, so a listener adds a variable to the templates
 without replacing the controller. The event itself, and the rules that apply to
-every plugin, are described on `its page in the manual of academic_base
-<https://docs.typo3.org/p/fgtclb/academic-base/main/en-us/Developers/Events/ModifyPluginViewEvent.html>`__.
+every plugin, are described on :ref:`its page in the manual of academic_base
+<fgtclb/academic-base:developers-event-modify-plugin-view-event>`.
 This page describes what the content elements of :guilabel:`academic_partners`
 pass in.
 

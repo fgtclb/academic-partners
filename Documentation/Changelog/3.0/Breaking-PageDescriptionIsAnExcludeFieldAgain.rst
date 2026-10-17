@@ -44,8 +44,8 @@ Migration
 =========
 
 Add the description of pages to :guilabel:`Allowed fields` of every editor
-group that edits it, or to its permission set, see the `permission sets of
+group that edits it, or to its permission set, see the :ref:`permission sets of
 academic_base
-<https://docs.typo3.org/p/fgtclb/academic-base/main/en-us/Integration/PermissionSets.html>`__.
+<fgtclb/academic-base:integration-permission-sets>`.
 
 ..  index:: Backend, TCA, ext:academic_partners
