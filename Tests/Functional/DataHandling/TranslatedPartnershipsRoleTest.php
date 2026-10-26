@@ -101,16 +101,48 @@ final class TranslatedPartnershipsRoleTest extends AbstractAcademicPartnersTestC
 
     /**
      * Rearranging the partnerships of the default language role still works, and still
-     * leaves the translations with the role they have.
+     * leaves the translations with the role they have. The form lists the default
+     * language partnerships only, so it submits those.
      */
     #[Test]
     public function rearrangingThePartnershipsOfTheDefaultLanguageRoleKeepsTheTranslatedPartnerships(): void
     {
-        $this->processDataMap([self::TABLE_ROLE => [1 => ['partnerships' => '2,1,3,4']]]);
+        $this->processDataMap([self::TABLE_ROLE => [1 => ['partnerships' => '2,1']]]);
 
         $this->assertSame([2, 1], array_column($this->fetchPartnerships(1, 0), 'uid'));
         $this->assertSame(self::TRANSLATED_PARTNERSHIPS, $this->fetchPartnerships(1));
         $this->assertSame([], $this->fetchPartnerships(2), 'A partnership was moved to the role translation.');
+    }
+
+    /**
+     * TYPO3 14.3.10 gives every inline child the language of its parent when the
+     * parent gets a new child (core #103970). The translated partnerships point at the
+     * default language role too, so while the list held every language, a
+     * partnership added here turned both translations into default language
+     * partnerships without a translation parent (ACE-943). TYPO3 13 aligns nothing,
+     * and the result is the same there.
+     */
+    #[Test]
+    public function addingAPartnershipToTheDefaultLanguageRoleKeepsTheTranslatedPartnerships(): void
+    {
+        $this->processDataMap([
+            self::TABLE_PARTNERSHIP => ['NEW1' => ['pid' => 10, 'page' => 10, 'partner' => 11]],
+            self::TABLE_ROLE => [1 => ['partnerships' => '1,2,NEW1']],
+        ]);
+
+        $this->assertCount(3, $this->fetchPartnerships(1, 0));
+        $this->assertSame(self::TRANSLATED_PARTNERSHIPS, $this->fetchPartnerships(1));
+    }
+
+    /**
+     * The list of the default language role holds the default language partnerships
+     * only: the `foreign_match_fields` that keeps the translations out of the
+     * language alignment of TYPO3 14.3.10.
+     */
+    #[Test]
+    public function thePartnershipsListOfTheRoleHoldsTheDefaultLanguagePartnershipsOnly(): void
+    {
+        $this->assertSame([1, 2], array_column($this->compileRoleForm(1)['partnerships']['children'], 'vanillaUid'));
     }
 
     /**
@@ -127,7 +159,7 @@ final class TranslatedPartnershipsRoleTest extends AbstractAcademicPartnersTestC
     }
 
     /**
-     * @param array<string, array<int, array<string, int|string>>> $dataMap
+     * @param array<string, array<int|string, array<string, int|string>>> $dataMap
      */
     private function processDataMap(array $dataMap): void
     {

@@ -124,6 +124,14 @@ return [
                 'type' => 'inline',
                 'foreign_table' => 'tx_academicpartners_domain_model_partnership',
                 'foreign_field' => 'role',
+                // Only default language partnerships are children of this relation. A
+                // translated partnership points at the default language record here, and
+                // TYPO3 14.3.10 gives every inline child the language of its parent:
+                // without the match, a new partnership added here turned every translated
+                // partnership of the record into a default language one (ACE-943).
+                'foreign_match_fields' => [
+                    'sys_language_uid' => 0,
+                ],
                 // A sort column of this relation's own: the partner page relation
                 // owns "sorting", the column the frontend renders partnerships in.
                 'foreign_sortby' => 'role_sorting',
