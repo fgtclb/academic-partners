@@ -3,7 +3,7 @@
 $EM_CONF[$_EXTKEY] = [
     'title' => 'TESTS: Academic Partners HTTP stub',
     'description' => 'Extension stubbing outgoing HTTP requests for tests',
-    'version' => '3.0.0',
+    'version' => '3.0.1',
     'category' => 'misc',
     'state' => 'beta',
     'author' => 'Stefan Bürk',
@@ -13,7 +13,7 @@ $EM_CONF[$_EXTKEY] = [
         'depends' => [
             'typo3' => '13.4.35-14.3.99',
             'core' => '13.4.35-14.3.99',
-            'academic_partners' => '3.0.0',
+            'academic_partners' => '3.0.1',
         ],
     ],
 ];
