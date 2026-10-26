@@ -73,7 +73,7 @@ paginated and has filter and sorting only.
     :guilabel:`category_types`, with the group :yaml:`partners`: the title of
     each category in the language of the page, followed by its uid. See
     `its documentation
-    <https://docs.typo3.org/p/fgtclb/category-types/main/en-us/Developers/Index.html>`__.
+    <https://docs.typo3.org/p/fgtclb/category-types/3.0/en-us/Developers/Index.html>`__.
 *   **The sorting** is two segments, field and direction:
 
     ..  list-table::
