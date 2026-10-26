@@ -3,7 +3,7 @@
 $EM_CONF[$_EXTKEY] = [
     'title' => 'FGTCLB: Academic Partners',
     'description' => 'Extension for showing academic partners in list and map view',
-    'version' => '3.0.1',
+    'version' => '3.1.0',
     'category' => 'misc',
     'state' => 'beta',
     'author' => 'FGTCLB',
@@ -17,8 +17,8 @@ $EM_CONF[$_EXTKEY] = [
             'extbase' => '13.4.35-14.3.99',
             'fluid' => '13.4.35-14.3.99',
             'install' => '13.4.35-14.3.99',
-            'academic_base' => '3.0.1',
-            'category_types' => '3.0.1',
+            'academic_base' => '3.1.0',
+            'category_types' => '3.1.0',
         ],
         'suggests' => [
             'page_backend_layout' => '2.0.0-2.9.99',
